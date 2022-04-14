@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+ 
+	<!-- Beans de inversiones Dias -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.DiasInversionBean" />
+	</dwr:configuration>
+
+	<bean id="diasInversionesDAOImpl" class="inversiones.dao.DiasInversionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="tasasInversionDAO" ref="tasasInversionDAOImpl" />		
+	</bean>
+
+	<bean id="diasInversionesServicioImpl" class="inversiones.servicio.DiasInversionServicio">
+		<dwr:remote javascript="diasInversionServicio">
+		 <dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="diasInversionDAO" ref="diasInversionesDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+	
+	<!-- Beans de Montos de Inversiones -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.MontoInversionBean" />
+	</dwr:configuration>
+
+	<bean id="montosInversionDAOImpl" class="inversiones.dao.MontosInversionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="tasasInversionDAO" ref="tasasInversionDAOImpl" />		
+	</bean>
+
+	<bean id="montoInversionServicioImpl" class="inversiones.servicio.MontoInversionServicio">
+		<dwr:remote javascript="montosInversionServicio">
+		  <dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="montosInversionDAO" ref="montosInversionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/catalogoMontosInversion.htm" class="inversiones.controlador.MontosInversionControlador">
+		<property name="formView" value="inversiones/montoInversionCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="montoInversionServicio" ref="montoInversionServicioImpl" />
+	</bean>
+
+	<bean name="/gridMontosInversion.htm" class="inversiones.controlador.MontoInversionGridControlador">
+		<property name="montoInversionServicio" ref="montoInversionServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de Tipos de inversiones -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.TipoInversionBean" />
+	</dwr:configuration>
+
+	<bean id="tipoInversionesDAOImpl" class="inversiones.dao.TipoInversionesDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		
+	</bean>
+
+	<bean id="tipoInversionesServicioImpl" class="inversiones.servicio.TipoInversionesServicio">
+		<dwr:remote javascript="tipoInversionesServicio">
+		<dwr:include method="consultaPrincipal" />
+		<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="tipoInversionesDAO" ref="tipoInversionesDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	
+	</bean>
+
+	<!-- Beans de Dias o Plazo de Inversiones -->
+	<bean name="/catalogoDiasInversion.htm" class="inversiones.controlador.DiasInversionControlador">
+		<property name="formView" value="inversiones/diasInversionCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="diasInverServicio" ref="diasInversionesServicioImpl" />
+	</bean>
+
+	<bean name="/gridDiasInversion.htm" class="inversiones.controlador.DiasInversionGridControlador">
+		<property name="diasInversionServicio" ref="diasInversionesServicioImpl" />
+	</bean>
+
+	<!-- Beans de Tipos de inversiones -->
+	<bean name="/catalogoTipoInversiones.htm" class="inversiones.controlador.TipoInversionesControlador">
+		<property name="formView" value="inversiones/tiposInversionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoInversionesServicio" ref="tipoInversionesServicioImpl" />
+	</bean>
+
+	<bean name="/listaTipoInversiones.htm"
+		class="inversiones.controlador.TipoInversionesListaControlador">
+		<property name="tipoInversionesServicio" ref="tipoInversionesServicioImpl" />
+	</bean>
+
+	<!-- Beans de Tasas de inversion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.TasasInversionBean" />
+	</dwr:configuration>
+
+	<bean id="tasasInversionDAOImpl" class="inversiones.dao.TasasInversionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tasasInversionServicioImpl" class="inversiones.servicio.TasasInversionServicio">
+		<dwr:remote javascript="tasasInversionServicio">
+		<dwr:include method="consultaPrincipal" />
+		</dwr:remote>
+		<property name="tasasInversionDAO" ref="tasasInversionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/catalogoTasaInversiones.htm" class="inversiones.controlador.TasasInversionControlador">
+		<property name="formView" value="inversiones/catalogoTasasInversionesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tasasInversionServicio" ref="tasasInversionServicioImpl" />
+	</bean>
+	
+	
+	<!-- Controlador para imprimir el reporte de la tasas anualizadas -->
+	<bean name="/reporteCatalogoTasaInversiones.htm" class="inversiones.reporte.TasasInversionRepControlador">
+		<property name="nombreReporte" value="inversiones/ReporteTasas.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="tasasInversionServicio" ref="tasasInversionServicioImpl" />
+	</bean>
+
+	<!-- Bean Inversion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.InversionBean" />
+	</dwr:configuration>
+	
+	
+	<bean id="inversionDAOImpl" class="inversiones.dao.InversionDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="operacionesCapitalNetoDAO" ref="operacionesCapitalNetoDAOImpl" />	
+		<property name="transactionTemplate">
+				<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+				</bean>
+		</property>
+	</bean>
+	
+	<bean id="inversionServicioImpl" class="inversiones.servicio.InversionServicio">
+		<dwr:remote javascript="inversionServicioScript">
+		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="inversionDAO" ref="inversionDAOImpl" />
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+		<property name="isotrxServicio" ref="isotrxServicioImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/aperturaInversiones.htm" class="inversiones.controlador.InversionControlador">
+		<property name="formView" value="inversiones/aperturaInversion" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+
+	<bean name="/cancelaInversiones.htm" class="inversiones.controlador.InversionControlador">
+		<property name="formView" value="inversiones/cancelaInversion" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+
+	<bean name="/generaReinversion.htm" class="inversiones.controlador.InversionControlador">
+		<property name="formView" value="inversiones/reinversiones" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+	
+	<bean name="/autorizaInversiones.htm" class="inversiones.controlador.InversionControlador">
+		<property name="formView" value="inversiones/autorizaInversion" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+
+	<bean name="/resumenCteInvGrid.htm" 
+			class="inversiones.controlador.ResumenCteInvGridControlador">
+		<property name="inversionServicio" ref="inversionServicioImpl" /> 
+	</bean>  
+    
+    
+	<!-- Beans de Subcuentas por Tipo de Producto  --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.SubCtaTiProInvBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiProInvDAOImpl" class="inversiones.dao.SubCtaTiProInvDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaTiProInvServicioImpl" class="inversiones.servicio.SubCtaTiProInvServicio">
+	      <dwr:remote javascript="subCtaTiProInvServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTiProInvDAO" ref="subCtaTiProInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Subcuentas por Tipo de Persona --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.SubCtaTiPerInvBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiPerInvDAOImpl" class="inversiones.dao.SubCtaTiPerInvDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaTiPerInvServicioImpl" class="inversiones.servicio.SubCtaTiPerInvServicio">
+	      <dwr:remote javascript="subCtaTiPerInvServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTiPerInvDAO" ref="subCtaTiPerInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Subcuentas por Tipo de Moneda--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.SubCtaMonedaInvBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaMonedaInvDAOImpl" class="inversiones.dao.SubCtaMonedaInvDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaMonedaInvServicioImpl" class="inversiones.servicio.SubCtaMonedaInvServicio">
+	      <dwr:remote javascript="subCtaMonedaInvServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaMonedaInvDAO" ref="subCtaMonedaInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+		
+	<!-- Beans de Subcuentas por Plazo--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.SubCtaPlazoInvBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaPlazoInvDAOImpl" class="inversiones.dao.SubCtaPlazoInvDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaPlazoInvServicioImpl" class="inversiones.servicio.SubCtaPlazoInvServicio">
+	      <dwr:remote javascript="subCtaPlazoInvServicio"> 
+	      <dwr:include method="consulta" />
+	      <dwr:include method="listaCombo" />
+	      </dwr:remote>
+	      <property name="subCtaPlazoInvDAO" ref="subCtaPlazoInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+		<!-- Beans de Cuentas de Mayor  --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.CuentasMayorInvBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasMayorInvDAOImpl" class="inversiones.dao.CuentasMayorInvDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentasMayorInvServicioImpl" class="inversiones.servicio.CuentasMayorInvServicio">
+	      <dwr:remote javascript="cuentasMayorInvServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="cuentasMayorInvDAO" ref="cuentasMayorInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Definicion de Beans de Guia Contable de Inversiones-->
+	<bean id="guiaContableInverServicioImpl" class="inversiones.servicio.GuiaContableInverServicio">
+	      <dwr:remote javascript="guiaContableInverServicio"/> 
+	      <property name="subCtaPlazoInvDAO" 	ref="subCtaPlazoInvDAOImpl"/>
+	      <property name="subCtaTiProInvDAO" 	ref="subCtaTiProInvDAOImpl"/>
+	      <property name="subCtaTiPerInvDAO" 	ref="subCtaTiPerInvDAOImpl"/>
+	      <property name="subCtaMonedaInvDAO" ref="subCtaMonedaInvDAOImpl"/>
+	      <property name="cuentasMayorInvDAO" ref="cuentasMayorInvDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Definicion de Controladores de Guia Contable de Inversiones-->
+	<bean name="/catalogoGuiaContaInver.htm" class="inversiones.controlador.GuiaContableInverControlador">
+	      <property name="formView" value="inversiones/guiaContaInverCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableInverServicio" ref="guiaContableInverServicioImpl" />
+	</bean>
+	
+ 	<!-- Beans de Conceptos de inversiones --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="inversiones.bean.ConceptosInverBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptosInverDAOImpl" class="inversiones.dao.ConceptosInverDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="conceptosInverServicioImpl" class="inversiones.servicio.ConceptosInverServicio">
+	      <dwr:remote javascript="conceptosInverServicio"> 
+	      <dwr:include method="listaCombo" />
+         </dwr:remote>
+	      <property name="conceptosInverDAO" ref="conceptosInverDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Beans del Reporte Historico de Tasas -->
+	<bean name="/RepHistoricoTasasInv.htm" class="inversiones.reporte.HistoricoTasasRepControlador">
+		<property name="formView" value="inversiones/repHistoricoTasasVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="inversiones/HistoricoTasas.prpt" />      
+		<property name="tasasInversionServicio" ref="tasasInversionServicioImpl" />
+	</bean>
+
+    
+    <!-- Controlador para reporte de inversiones de Aperturas del Dia -->
+    
+    <bean name="/RepAperturasDiaInv.htm" class="inversiones.controlador.AperturasControlador">
+       <property name="formView" value="inversiones/repAperturasDiaVista" /> 
+       <property name="successView" value="resultadoTransaccionReporteVista" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/AperturasDia.htm" class="inversiones.reporte.AperturasInvRepControlador">
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="inversiones/ReporteAperturasDia.prpt" />  
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+    
+    <!-- Controlador para reporte de cancelaciones del Dia -->
+    
+    <bean name="/RepCancelacionesDiaInv.htm" class="inversiones.controlador.CancelacionInvControlador">
+		 <property name="formView" value="inversiones/repCancelaDiaVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" /> 
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/CancelacionDia.htm" class="inversiones.reporte.CancelacionInvRepControlador">     
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteCancelacionDia.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+     <!-- Controlador para reporte de vencimientos del Dia -->
+    
+    <bean name="/RepVencimientosDiaInv.htm" class="inversiones.controlador.VencimientoInvControlador">
+		 <property name="formView" value="inversiones/repVencimientosDiaVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/VencimientosDia.htm" class="inversiones.reporte.VencimientoInvRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteVencimientoDia.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+
+ <!-- Controlador para reporte de renovaciones del mes -->
+    
+    <bean name="/ReporteRenovacionesMes.htm" class="inversiones.controlador.RenovacionesInvControlador">
+		 <property name="formView" value="inversiones/repRenovacionesVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/renovacionInv.htm" class="inversiones.reporte.RenovacionesRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteReinversionMes.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <!-- Controlador para reporte de inversiones vigentes -->
+    
+    <bean name="/RepInvVigentes.htm" class="inversiones.controlador.InversionesVigControlador">
+		 <property name="formView" value="inversiones/repInversionesVigVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/InversionesVig.htm" class="inversiones.reporte.InversionesVigRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteInversionesVig.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+
+<!-- Controlador para reporte de inversiones por cliente -->
+    
+    <bean name="/RepInvXCliente.htm" class="inversiones.controlador.InverClientesControlador">
+		 <property name="formView" value="inversiones/repInverClientesVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/InverClientes.htm" class="inversiones.reporte.InverClientesRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteInverClientes.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+	
+	<!-- Controlador para reporte de saldos y conciliaciones -->
+    
+    <bean name="/RepInvSaldosyConciliacion.htm" class="inversiones.controlador.SalConInverControlador">
+		 <property name="formView" value="inversiones/repSaldConcInverVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+    <bean name="/SaldConcInver.htm" class="inversiones.reporte.SalConInverRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="inversiones/ReporteSaldConcInver.prpt" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+
+    <!-- Controlador para reporte de reimpresion del Pagare de Inversiones -->
+    
+    <bean name="/RepreimpPagareInv.htm" class="inversiones.controlador.ReimpresionPagareInvControlador">
+       <property name="formView" value="inversiones/repReimpresionPagareInvVista" /> 
+       <property name="successView" value="resultadoTransaccionReporteVista" />    
+       <property name="inversionServicio" ref="inversionServicioImpl" />
+    </bean> 
+    
+	<!-- Controlador para imprimir el Pagare de Inversiones -->
+	
+	<bean name="/pagareInversionRep.htm" class="inversiones.reporte.PagareInverRepControlador">
+		<property name="nombreReporte" value="inversiones/PagareMediaCarta.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+	
+	<!-- Controlador para las Listas de las Inversiones -->
+	<bean name="/listaInversiones.htm" class="inversiones.controlador.InversionesListaControlador">
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+<!--  Pantalla de inversiones en garantia. -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.InvGarantiaBean" />
+	</dwr:configuration>
+	
+	
+	<bean id="invGarantiaDAOImpl" class="inversiones.dao.InvGarantiaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+				<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+				</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+	
+	<bean id="invGarantiaServicioImpl" class="inversiones.servicio.InvGarantiaServicio">
+		<dwr:remote javascript="invGarantiaServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="invGarantiaDAO" ref="invGarantiaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/invGarantia.htm" class="inversiones.controlador.InvGarantiaControlador">
+		<property name="formView" value="inversiones/invGarantia" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invGarantiaServicio" ref="invGarantiaServicioImpl" />
+	</bean>
+	
+	<bean name="/liberarInvGarantia.htm" class="inversiones.controlador.InvGarantiaControlador">
+		<property name="formView" value="inversiones/liberarInvGarantiaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invGarantiaServicio" ref="invGarantiaServicioImpl" />
+	</bean>
+	
+	<bean name="/listaInvGarantia.htm" class="inversiones.controlador.InvGarantiaListaControlador">
+		<property name="invGarantiaServicio" ref="invGarantiaServicioImpl" />
+	</bean>
+	
+	<!-- vencimiento Anticipado de Inversion -->
+	<bean name="/vencim_Anticipado.htm" class="inversiones.controlador.InversionControlador">
+		<property name="formView" value="inversiones/vencimAnticipado" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+	
+	<!-- Beans de beneficiarios de inversion-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.BeneficiariosInverBean" />
+	</dwr:configuration>
+	
+	<bean id="beneficiariosInverDAOImpl" class="inversiones.dao.BeneficiariosInverDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>			
+	</bean> 
+        
+	 <bean id="beneficiariosInverServicioImpl" class="inversiones.servicio.BeneficiariosInverServicio">
+		<dwr:remote javascript="beneficiariosInverServicio">
+		 <dwr:include method="consulta" /> 
+	   	</dwr:remote>		
+		<property name="beneficiariosInverDAO" ref="beneficiariosInverDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/beneficiariosInver.htm" class="inversiones.controlador.BeneficiariosInverControlador">
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="beneficiariosInverServicio" ref="beneficiariosInverServicioImpl" />
+	</bean>
+	
+	<!--  lista de beneficiarios en la pantalla de apertura de inversiones	-->
+	 <bean name="/listaBeneficiariosInver.htm" class="inversiones.controlador.BeneficiariosInverListaControlador">
+		<property name="beneficiariosInverServicio" ref="beneficiariosInverServicioImpl" />
+	</bean>
+		
+		<!-- Grid de Beneficiarios -->
+		<bean name="/gridBeneficiariosInver.htm" class="inversiones.controlador.BeneficiariosInverGridControlador">
+		<property name="beneficiariosInverServicio" ref="beneficiariosInverServicioImpl" />
+	</bean>
+	
+	<!--  Beans Pantalla Reporte de Retension ISR -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.RepRetensionISRBean" />
+	</dwr:configuration>	  
+	
+	<bean id="repRetensionISRDAOImpl" class="inversiones.dao.RepRetensionISRDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="repRetensionISRServicioImpl" class="inversiones.servicio.RepRetensionISRServicio">
+		<dwr:remote javascript="repRetensionISR">
+		<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="repRetensionISRDAO" ref="repRetensionISRDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+
+	<bean name="/repRetensionISR.htm" class="inversiones.controlador.RepRetensionISRControlador">
+	      <property name="formView" value="inversiones/repRetensionISRVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="repRetensionISR" ref="repRetensionISRServicioImpl" />	      
+	</bean>	
+		<!-- 	Fin de Beans Pantalla Reporte Retension de ISR -->
+		<!-- Bean para Reporte Retension ISR -->				 
+	<bean name="/reporteRetensionISR.htm" class="inversiones.reporte.ReporteRetensionISRControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="nombreReporte" value="inversiones/RetensionISR.prpt" />
+       	<property name="reporteRetensionISR" ref="repRetensionISRServicioImpl"/>
+       	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+		<!-- Fin para Reporte Retension ISR -->
+	
+	
+		<!-- Beans de Promotor Externo de Inversion-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.CatPromotoresExtInvBean" />
+	</dwr:configuration>
+	
+	<bean id="catPromotoresExtInvDAOImpl" class="inversiones.dao.CatPromotoresExtInvDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>			
+	</bean> 
+        
+	 <bean id="catPromotoresExtInvServicioImpl" class="inversiones.servicio.CatPromotoresExtInvServicio">
+		<dwr:remote javascript="catPromotoresExtInvServicio">
+		 <dwr:include method="consulta" /> 
+	   	</dwr:remote>		
+		<property name="catPromotoresExtInvDAO" ref="catPromotoresExtInvDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/catPromotoresExtInvVista.htm" class="inversiones.controlador.CatPromotoresExtInvControlador">
+		<property name="formView" value="inversiones/catPromotoresExtInvVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catPromotoresExtInvServicio" ref="catPromotoresExtInvServicioImpl" />
+	</bean>
+	
+	
+	<!--  lista de Promotor Externo de Inversion -->
+	 <bean name="/listaCatPromotoresExtInv.htm" class="inversiones.controlador.CatPromotoresExtInvListaControlador">
+		<property name="catPromotoresExtInvServicio" ref="catPromotoresExtInvServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans del reporte Excepcion de Inversiones-->
+	
+		<dwr:configuration>
+		<dwr:convert type="bean" class="inversiones.bean.RepExcepcionesInverBean" />
+	</dwr:configuration>
+		
+	<bean id="repExcepcionesInverDAOImpl" class="inversiones.dao.RepExcepcionesInverDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>			
+	</bean> 
+	
+	 <bean id="repExcepcionesInverServicioImpl" class="inversiones.servicio.RepExcepcionesInverServicio">
+		<dwr:remote javascript="repExcepcionesInverServicio">
+		 <dwr:include method="consulta" /> 
+	   	</dwr:remote>		
+		<property name="repExcepcionesInverDAO" ref="repExcepcionesInverDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+	
+	<bean name="/repExcepcionesInversionVista.htm" class="inversiones.controlador.RepExcepcionesInverControlador">
+		<property name="formView" value="inversiones/repExcepcionesInversionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repExcepcionesInverServicio" ref="repExcepcionesInverServicioImpl" />
+	</bean>
+	
+		 					 
+	<bean name="/repExcepcionesInversion.htm" class="inversiones.reporte.ReporteExcepcionesInverControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="nombreReporte" value="inversiones/ExcepcionesInversion.prpt" />
+       	<property name="repExcepcionesInverServicio" ref="repExcepcionesInverServicioImpl"/>
+	</bean>	
+	
+	<!-- Grid Relacionados Inversion (Requerimiento SEIDO) -->
+	<bean name="/relacionadoInversionReqSeidoGrid.htm" class="inversiones.controlador.BeneficiariosInverReqSeidoGridControlador">
+		<property name="beneficiariosInverServicio" ref="beneficiariosInverServicioImpl" />
+	</bean> 
+	<!-- Pantalla para consuolta de inversiones vencidas y vigentes -->
+	<bean name="/consultaInversionClienteVista.htm" class="inversiones.controlador.ConsultaInversionesCteControlador">
+		<property name="formView" value="inversiones/consultaInversionesCteVista" />
+	</bean> 
+	
+	<!-- Grid para consuolta de inversiones vencidas y vigentes -->
+	<bean name="/consultaInvCteVigVenGrid.htm" class="inversiones.controlador.ConsultaInversionCteGridControlador">
+		<property name="inversionServicio" ref="inversionServicioImpl" /> 
+	</bean>  
+</beans>

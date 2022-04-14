@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="consultaCuentasPorClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaCuentasPorClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="infocuenta" type="xs:string" minOccurs="0" maxOccurs="unbounded" />     
+                <xs:element name="codigoRespuesta" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>      
+                <xs:element name="mensajeRespuesta" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   	
+    
+    <xs:element name="altaCuentaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sucursalID" type="xs:string" />
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="clabe" type="xs:string" />
+                <xs:element name="monedaID" type="xs:string" />
+                <xs:element name="tipoCuentaID" type="xs:string" />
+                <xs:element name="fechaReg" type="xs:string" />
+                <xs:element name="etiqueta" type="xs:string" />
+                <xs:element name="edoCta" type="xs:string" />
+                <xs:element name="institucionID" type="xs:string" />
+                <xs:element name="esPrincipal" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="altaCuentaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />           						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos para consulta de saldo diponible por cliente--> 
+    <xs:element name="consultaDisponiblePorClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDisponiblePorClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="saldoDispon" type="xs:string" />     
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- alta de conocimiento de cta--> 
+    <xs:element name="altaConocimientoCtaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />
+                <xs:element name="depositoCred" type="xs:string" />
+                <xs:element name="retirosCargo" type="xs:string" />
+                <xs:element name="procRecursos" type="xs:string" />
+                <xs:element name="concentFondo" type="xs:string" />
+                
+                <xs:element name="admonGtosIng" type="xs:string" />
+                <xs:element name="pagoNomina" type="xs:string" />
+                <xs:element name="ctaInversion" type="xs:string" />
+                <xs:element name="pagoCreditos" type="xs:string" />
+                <xs:element name="otroUso" type="xs:string" />
+                
+                <xs:element name="defineUso" type="xs:string" />
+                <xs:element name="recursoProv" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="altaConocimientoCtaResponse">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- consulta de saldo disponible de cta--> 
+    <xs:element name="consultaDisponibleCtaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDisponibleCtaResponse">
+        <xs:complexType>
+            <xs:sequence> 
+                 <xs:element name="cuentaAhoID" type="xs:string" />
+                  <xs:element name="descripcion" type="xs:string" />
+                  <xs:element name="saldoDispon" type="xs:string" /> 
+                  <xs:element name="codigoRespuesta" type="xs:string" />      
+                  <xs:element name="mensajeRespuesta" type="xs:string" />       						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- consulta de cuenta de ahorro--> 
+    <xs:element name="consultaCuentaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaCuentaResponse">
+        <xs:complexType>
+            <xs:sequence> 
+            	  <xs:element name="clienteID" type="xs:string" />
+                  <xs:element name="nombreCompleto" type="xs:string" />
+                  <xs:element name="descripcion" type="xs:string" />
+                  <xs:element name="tipoCta" type="xs:string" />
+                     						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+   <!-- transferencias BE--> 
+    <xs:element name="transCuentasRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaOrigen" type="xs:string" />
+                <xs:element name="cuentaDestino" type="xs:string" />
+                <xs:element name="monto" type="xs:string" />
+                <xs:element name="referencia" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="transCuentasResponse">
+        <xs:complexType>
+            <xs:sequence> 
+                  <xs:element name="codigoRespuesta" type="xs:string" />      
+                  <xs:element name="mensajeRespuesta" type="xs:string" />       						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+        
+      <xs:element name="consultaSaldoAhorroBERequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />    
+                <xs:element name="clienteID" type="xs:string" /> 				 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="consultaSaldoAhorroBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />    
+                <xs:element name="clienteID" type="xs:string" /> 
+                <xs:element name="tipoCuenta" type="xs:string" />
+                <xs:element name="saldo" type="xs:string" />
+                <xs:element name="saldoDispon" type="xs:string" />
+                <xs:element name="saldoSBC" type="xs:string" />     
+                <xs:element name="saldoBloq" type="xs:string" />    
+                <xs:element name="monedaID" type="xs:string" /> 
+                <xs:element name="descriCorta" type="xs:string" />
+                <xs:element name="estatus" type="xs:string" />
+                <xs:element name="saldoIniMes" type="xs:string" />
+                <xs:element name="cargoMes" type="xs:string" />   
+                 <xs:element name="abonosMes" type="xs:string" />    
+                <xs:element name="saldoIniDia" type="xs:string" /> 
+                <xs:element name="cargosDia" type="xs:string" />
+                <xs:element name="abonosDia" type="xs:string" />
+                <xs:element name="var_SumPenAct" type="xs:string" />
+              	       						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+        
+      <xs:element name="consultaSaldoAhorroHisRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />    
+                <xs:element name="clienteID" type="xs:string" /> 
+                 <xs:element name="mes" type="xs:string" />    
+                <xs:element name="anio" type="xs:string" /> 				 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="consultaSaldoAhorroHisResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />    
+                <xs:element name="clienteID" type="xs:string" /> 
+                <xs:element name="tipoCuenta" type="xs:string" />
+                <xs:element name="saldo" type="xs:string" />
+                <xs:element name="saldoDispon" type="xs:string" />
+                <xs:element name="saldoSBC" type="xs:string" />     
+                <xs:element name="saldoBloq" type="xs:string" />    
+                <xs:element name="monedaID" type="xs:string" /> 
+                <xs:element name="descriCorta" type="xs:string" />
+                <xs:element name="estatus" type="xs:string" />
+                <xs:element name="saldoIniMes" type="xs:string" />
+                <xs:element name="cargoMes" type="xs:string" />   
+                 <xs:element name="abonosMes" type="xs:string" />    
+                <xs:element name="saldoIniDia" type="xs:string" /> 
+                <xs:element name="cargosDia" type="xs:string" />
+                <xs:element name="abonosDia" type="xs:string" />
+                <xs:element name="var_SumPenAct" type="xs:string" />
+           						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+        <xs:element name="consultaSaldoBloqueoBERequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cuentaAhoID" type="xs:string" />   
+                <xs:element name="mes" type="xs:string" />   
+                <xs:element name="anio" type="xs:string" />   
+                <xs:element name="tipoLis" type="xs:string" />   
+                          
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="consultaSaldoBloqueoBEResponse">
+        <xs:complexType>
+            <xs:sequence>            
+                <xs:element name="codigoRespuesta" type="xs:string" />       
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+                <xs:element name="listaSaldos" type="xs:string" /> 	       						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+      <xs:element name="consultaCargosPendientesBERequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />    
+                <xs:element name="cuentaAhoID" type="xs:string" /> 
+                <xs:element name="mes" type="xs:string" /> 
+                <xs:element name="anio" type="xs:string" />    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="consultaCargosPendientesBEResponse">
+        <xs:complexType>
+            <xs:sequence>   
+            	<xs:element name="listaCargos" type="xs:string" /> 	              
+                <xs:element name="codigoRespuesta" type="xs:string" />       
+                <xs:element name="mensajeRespuesta" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+     <xs:element name="consultaSaldoDetalleBERequest">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="cuentaAhoID" type="xs:string" /> 
+                <xs:element name="mes" type="xs:string" /> 
+                <xs:element name="anio" type="xs:string" />   
+                 <xs:element name="tipoLis" type="xs:string" />    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="consultaSaldoDetalleBEResponse">
+        <xs:complexType>
+            <xs:sequence>   
+            	<xs:element name="listaResult" type="xs:string" /> 	              
+                <xs:element name="codigoRespuesta" type="xs:string" />       
+                <xs:element name="mensajeRespuesta" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="listaCtaClienteRequest">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="clienteID" type="xs:string" />     
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="listaCtaClienteResponse">
+        <xs:complexType>
+            <xs:sequence>   
+            	<xs:element name="listaCta" type="xs:string" /> 	                     						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="listaCuentaAhoRequest">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="nombreCompleto" type="xs:string" /> 
+                <xs:element name="numLis" type="xs:string" />      
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+    
+     <xs:element name="listaCuentaAhoResponse">
+        <xs:complexType>
+            <xs:sequence>   
+            	<xs:element name="listaCuenta" type="xs:string" /> 	                     						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

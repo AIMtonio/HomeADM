@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="consultaClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numero" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numero" type="xs:string" />
+                <xs:element name="nombreCompleto" type="xs:string" /> 
+                <xs:element name="rfc" type="xs:string" />
+                <xs:element name="calificaCredito" type="xs:string" />                						 
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDirClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numero" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDirClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numero" type="xs:string" />
+                <xs:element name="direccionCompleta" type="xs:string" />                						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	 <!-- alta de conocimiento de cte--> 
+    <xs:element name="altaConocimientoCteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="nomGrupo" type="xs:string" />
+                <xs:element name="RFC" type="xs:string" />
+                <xs:element name="participacion" type="xs:string" />
+                <xs:element name="nacionalidad" type="xs:string" />
+                <xs:element name="razonSocial" type="xs:string" />
+                <xs:element name="giro" type="xs:string" />
+                <xs:element name="PEPs" type="xs:string" />
+                <xs:element name="funcionID" type="xs:string" />
+                <xs:element name="parentescoPEP" type="xs:string" />
+                
+                <xs:element name="nombFamiliar" type="xs:string" />
+                <xs:element name="aPaternoFam" type="xs:string" />
+                <xs:element name="aMaternoFam" type="xs:string" />
+                <xs:element name="noEmpleados" type="xs:string" />
+                <xs:element name="serv_Produc" type="xs:string" />
+                <xs:element name="cober_Geograf" type="xs:string" />
+                <xs:element name="estados_Presen" type="xs:string" />
+                <xs:element name="importeVta" type="xs:string" />
+                <xs:element name="activos" type="xs:string" />
+                <xs:element name="pasivos" type="xs:string" />
+                
+                <xs:element name="capital" type="xs:string" />
+                <xs:element name="importa" type="xs:string" />
+                <xs:element name="dolaresImport" type="xs:string" />
+                <xs:element name="paisesImport" type="xs:string" />
+                <xs:element name="paisesImport2" type="xs:string" />
+                <xs:element name="paisesImport3" type="xs:string" />
+                <xs:element name="exporta" type="xs:string" />
+                <xs:element name="dolaresExport" type="xs:string" />
+                <xs:element name="paisesExport" type="xs:string" />
+                <xs:element name="paisesExport2" type="xs:string" />
+                
+                <xs:element name="paisesExport3" type="xs:string" />
+                <xs:element name="nombRefCom" type="xs:string" />
+                <xs:element name="nombRefCom2" type="xs:string" />
+                <xs:element name="telRefCom" type="xs:string" />
+                <xs:element name="telRefCom2" type="xs:string" />
+                <xs:element name="bancoRef" type="xs:string" />
+                <xs:element name="bancoRef2" type="xs:string" />
+                <xs:element name="noCuentaRef" type="xs:string" />
+                <xs:element name="noCuentaRef2" type="xs:string" />
+                <xs:element name="NombreRef" type="xs:string" />
+                
+                <xs:element name="NombreRef2" type="xs:string" />
+                <xs:element name="domicilioRef" type="xs:string" />
+                <xs:element name="domicilioRef2" type="xs:string" />
+                <xs:element name="telefonoRef" type="xs:string" />
+                <xs:element name="telefonoRef2" type="xs:string" />
+                <xs:element name="pFuenteIng" type="xs:string" />
+                <xs:element name="ingAproxMes" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="altaConocimientoCteResponse">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modificaIdentificacionRequest">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="numEmpleado" type="xs:string" />      
+                <xs:element name="IdentificID" type="xs:string" />
+                <xs:element name="tipoIdentID" type="xs:string" />      
+                <xs:element name="oficial" type="xs:string" />
+                <xs:element name="folio" type="xs:string" />      
+                <xs:element name="fechaExpIden" type="xs:string" />
+                <xs:element name="fechaVenIden" type="xs:string" />  
+                        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modificaIdentificacionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tipoIdentiID" type="xs:string" />     
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" /> 					 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaInstitucionNominaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="institNominaID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaInstitucionNominaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombreInstit" type="xs:string" />           						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaEstatusEmpRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaEstatusEmpResponse">
+        <xs:complexType>
+            <xs:sequence>
+ 				 <xs:element name="nombreEmpleado" type="xs:string" />
+                 <xs:element name="estatusActual" type="xs:string" />
+				 <xs:element name="fechaInicialInca" type="xs:string" />
+                 <xs:element name="fechaFinInca" type="xs:string" />
+                 <xs:element name="fechaBaja" type="xs:string" />
+                 <xs:element name="motivoBaja" type="xs:string" />
+                 <xs:element name="codigoRespuesta" type="xs:string" /> 
+                 <xs:element name="mensajeRespuesta" type="xs:string" />          						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="actualizaEstatusEmpRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                 <xs:element name="institNominaID" type="xs:string" />
+                 <xs:element name="clienteID" type="xs:string" />
+                 <xs:element name="estatus" type="xs:string" />
+                 <xs:element name="fechaInicialInca" type="xs:string" />
+                 <xs:element name="fechaFinInca" type="xs:string" />
+                 <xs:element name="fechaBaja" type="xs:string" />
+                 <xs:element name="motivoBaja" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="actualizaEstatusEmpResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigoRespuesta" type="xs:string" /> 
+                 <xs:element name="mensajeRespuesta" type="xs:string" />          						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+	 <!-- Actualización direccion del cliente --> 
+    <xs:element name="actualizaDireccionClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="direccionID" type="xs:string" />
+                <xs:element name="tipoDireccionID" type="xs:string" />
+                <xs:element name="estadoID" type="xs:string" />
+                <xs:element name="municipioID" type="xs:string" />
+                
+                <xs:element name="localidadID" type="xs:string" />
+                <xs:element name="coloniaID" type="xs:string" />
+                <xs:element name="nombreColonia" type="xs:string" />
+                <xs:element name="calle" type="xs:string" />
+                <xs:element name="numeroCasa" type="xs:string" />
+                <xs:element name="numInterior" type="xs:string" />
+                
+                <xs:element name="piso" type="xs:string" />
+                <xs:element name="primEntreCalle" type="xs:string" />
+                <xs:element name="segEntreCalle" type="xs:string" />
+                <xs:element name="CP" type="xs:string" />
+                <xs:element name="latitud" type="xs:string" />
+                
+               	<xs:element name="longitud" type="xs:string" />
+                <xs:element name="lote" type="xs:string" />
+                <xs:element name="manzana" type="xs:string" />
+                <xs:element name="oficial" type="xs:string" />
+                <xs:element name="fiscal" type="xs:string" />
+                <xs:element name="descripcion" type="xs:string" />
+                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="actualizaDireccionClienteResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		 <xs:element name="direccionID" type="xs:string" />  
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+<!-- Lista Direccion del Cliente --> 
+ 	<xs:element name="listaDireccionClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" /> 
+                <xs:element name="numLis" type="xs:string" />  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="listaDireccionClienteResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		 <xs:element name="listaDireccion" type="xs:string" />         						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Consulta Direccion del Cliente --> 
+    <xs:element name="consultaDireccionClientesRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+                 <xs:element name="direccionID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaDireccionClientesResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		<xs:element name="clienteID" type="xs:string" />  
+                <xs:element name="direccionID" type="xs:string" />      
+                <xs:element name="tipoDireccionID" type="xs:string" /> 
+                <xs:element name="estadoID" type="xs:string" />      
+                <xs:element name="municipioID" type="xs:string" />  
+                
+                <xs:element name="localidadID" type="xs:string" />  
+                <xs:element name="coloniaID" type="xs:string" />      
+                <xs:element name="calle" type="xs:string" /> 
+                <xs:element name="numeroCasa" type="xs:string" />      
+                <xs:element name="numInterior" type="xs:string" /> 
+                
+                <xs:element name="piso" type="xs:string" />  
+                <xs:element name="primEntreCalle" type="xs:string" />      
+                <xs:element name="segEntreCalle" type="xs:string" /> 
+                <xs:element name="CP" type="xs:string" />      
+                <xs:element name="latitud" type="xs:string" /> 
+                
+                <xs:element name="longitud" type="xs:string" />  
+                <xs:element name="lote" type="xs:string" />      
+                <xs:element name="manzana" type="xs:string" /> 
+                <xs:element name="oficial" type="xs:string" />      
+                <xs:element name="fiscal" type="xs:string" /> 
+                <xs:element name="descripcion" type="xs:string" />         						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+    
+     <!-- Lista Empleados Nomina segun la Institución --> 
+ 	<xs:element name="listaEmpleadoNomRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombreCompleto" type="xs:string" />
+                <xs:element name="institNominaID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="listaEmpleadoNomResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		 <xs:element name="listaClientes" type="xs:string" />  
+                <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Forma RFC y Valida RFC --> 
+ 	<xs:element name="formaRFCRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="primerNombre" type="xs:string" />
+                <xs:element name="apellidoPaterno" type="xs:string" />
+                <xs:element name="apellidoMaterno" type="xs:string" />
+                <xs:element name="fechaNacimiento" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="formaRFCResponse">
+        <xs:complexType>
+            <xs:sequence> 
+                <xs:element name="RFC" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Consulta Clientes Pago de Nomina  --> 
+ 	<xs:element name="consultaClientesRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaClientesResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		<xs:element name="clienteID" type="xs:string" />  
+           		<xs:element name="nombreCompleto" type="xs:string" />  
+                <xs:element name="primerNombre" type="xs:string" />      
+                <xs:element name="segundoNombre" type="xs:string" />   
+                <xs:element name="apellidoPaterno" type="xs:string" />      
+                <xs:element name="apellidoMaterno" type="xs:string" />        	
+                <xs:element name="correo" type="xs:string" />      
+                <xs:element name="telefonoCelular" type="xs:string" />        	     						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Consulta Promotor de la Institucion o Negocio Afiliado  --> 
+ 	<xs:element name="consultaPromotorBERequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="negocioAfiliadoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaPromotorBEResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		<xs:element name="promotorID" type="xs:string" />  
+           		<xs:element name="nombrePromotor" type="xs:string" />  
+                <xs:element name="telefono" type="xs:string" />          						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+   <!-- Lista clientes todos los clientes para pantallas de banca en linea  --> 
+ 	<xs:element name="listaClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="nombre" type="xs:string" />
+                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="listaClienteResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		<xs:element name="listaCliente" type="xs:string" />    						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+     <!-- Lista clientes todos los clientes para pantallas de banca en linea  --> 
+ 	<xs:element name="listaClientesBERequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombre" type="xs:string" />
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="negocioAfiliadoID" type="xs:string" />
+                <xs:element name="numLis" type="xs:string" />
+                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="listaClientesBEResponse">
+        <xs:complexType>
+            <xs:sequence> 
+           		<xs:element name="listaClientes" type="xs:string" />    						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Definicion  REQUEST y RESPONSE y mapeo de datos consulta Nombre Completo de Cliente-->  
+   <xs:element name="consultaNomClienteBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="institNominaID" type="xs:string" />
+            <xs:element name="negocioAfiliadoID" type="xs:string" />
+            <xs:element name="numCon" type="xs:string" />
+               
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaNomClienteBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="nombreCompleto" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ <!-- Listado para el reporte de Nomina Cambios de Estatus Empleados -->
+    <xs:element name="listaReporteNomBitacoEstEmpRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tipoLista" type="xs:string" />
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="fechaInicio" type="xs:string" />
+                <xs:element name="fechaFin" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="listaReporteNomBitacoEstEmpResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="listaClientes" type="xs:string" />
+                 <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />                						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   
+    
+     <!-- Consulta de Negocio Afiliado -->
+    <xs:element name="consultaNegAfiliaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="negocioAfiliadoID" type="xs:string" />
+                </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaNegAfiliaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="razonSocial" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   
+    
+</xs:schema>

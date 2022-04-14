@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		 
+	
+	<bean id="sP_PDA_Ahorro_AbonoWSDAOImpl" class="operacionesPDA.dao.SP_PDA_Ahorro_AbonoWSDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDA_Ahorro_AbonoWSServicioImpl" class="operacionesPDA.servicio.SP_PDA_Ahorro_AbonoWSServicio">
+		<property name="sP_PDA_Ahorro_AbonoWSDAO" ref="sP_PDA_Ahorro_AbonoWSDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="sP_PDA_Creditos_PagoDAOImpl" class="operacionesPDA.dao.SP_PDA_Creditos_PagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDA_Creditos_PagoServicioImpl" class="operacionesPDA.servicio.SP_PDA_Creditos_PagoServicio">
+		<property name="sP_PDA_Creditos_PagoDAO" ref="sP_PDA_Creditos_PagoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+
+		<bean id="sp_PDA_CreditosDAOImpl" class="operacionesPDA.dao.SP_PDA_CreditosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_CreditosServicioImpl" class="operacionesPDA.servicio.SP_PDA_CreditosServicio">
+		<property name="sp_PDA_CreditosDAO" ref="sp_PDA_CreditosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+		<bean id="sP_PDA_Creditos_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Creditos_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDA_Creditos_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Creditos_Descarga3ReyesServicio">
+		<property name="sP_PDA_Creditos_Descarga3ReyesDAO" ref="sP_PDA_Creditos_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+		
+	<!-- Otros Catalogos Descarga -->
+	<bean id="sp_PDA_OtrosCat_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_OtrosCat_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_OtrosCat_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_OtrosCat_Descarga3ReyesServicio">
+		<property name="sp_PDA_OtrosCat_Descarga3ReyesDAO" ref="sp_PDA_OtrosCat_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	
+		<!-- Socios Alta -->
+	
+		<bean id="sp_PDA_Socio_Alta3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Socio_Alta3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Socio_Alta3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Socio_Alta3ReyesServicio">
+		<property name="sp_PDA_Socio_Alta3ReyesDAO" ref="sp_PDA_Socio_Alta3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+<!-- Ahorros Retiro -->
+	
+	<bean id="sp_PDA_Ahorros_Retiro3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Ahorros_Retiro3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Ahorro_Retiro3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Ahorros_Retiro3ReyesServicio">
+		<property name="sp_PDA_Ahorros_Retiro3ReyesDAO" ref="sp_PDA_Ahorros_Retiro3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!--Solicitud Creditos -->
+	
+
+	<bean id="sp_PDA_Creditos_Solicitud3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Creditos_Solicitud3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Creditos_Solicitud3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Creditos_Solicitud3ReyesServicio">
+		<property name="sp_PDA_Creditos_Solicitud3ReyesDAO" ref="sp_PDA_Creditos_Solicitud3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- Cuentas 3 Reyes Descarga -->
+	
+	
+	<bean id="sP_PDA_Cuentas_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Cuentas_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDA_Cuentas_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Cuentas_Descarga3ReyesServicio">
+		<property name="sP_PDA_Cuentas_Descarga3ReyesDAO" ref="sP_PDA_Cuentas_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	
+	<!-- Segmentos Promotores por Sucursal WS -->
+	
+	
+	<bean id="sp_PDA_Segmentos_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Segmentos_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Segmentos_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Segmentos_Descarga3ReyesServicio">
+		<property name="sp_PDA_Segmentos_Descarga3ReyesDAO" ref="sp_PDA_Segmentos_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	
+		
+	<!-- Cuentas de Ahorro por clientes que corresponden a un Promotores WS -->
+	
+	
+	<bean id="sp_PDA_Ahorro_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Ahorro_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Ahorros_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Ahorros_Descarga3ReyesServicio">
+		<property name="sp_PDA_Ahorro_Descarga3ReyesDAO" ref="sp_PDA_Ahorro_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	
+		<!-- Descarga de socios para 3 Reyes WS -->
+	
+	
+	<bean id="sp_PDA_Socios_Descarga3ReyesDAOImpl" class="operacionesPDA.dao.SP_PDA_Socios_Descarga3ReyesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		 <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sp_PDA_Socios_Descarga3ReyesServicioImpl" class="operacionesPDA.servicio.SP_PDA_Socios_Descarga3ReyesServicio">
+		<property name="sp_PDA_Socios_Descarga3ReyesDAO" ref="sp_PDA_Socios_Descarga3ReyesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	    <!-- ======= Sol Alta Clientes ======= -->
+    
+    <bean id="solAltaClienteDAOImpl" class="operacionesPDA.dao.SolAltaClienteDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+    <bean id="solAltaClienteServicioImpl" class="operacionesPDA.servicio.SolAltaClienteServicio">
+        <property name="solAltaClienteDAO" ref="solAltaClienteDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+    </bean>
+    <!-- ======= Fin Sol Alta Clientes ======= -->
+    
+	<!-- Alta Solicitud Creditos Sana Tus Finanzas-->
+
+	<bean id="altaSolicitudCreditoDAOImpl" class="operacionesPDA.dao.AltaSolicitudCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+	    <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="altaSolicitudCreditoServicioImpl" class="operacionesPDA.servicio.AltaSolicitudCreditoServicio">
+		<property name="altaSolicitudCreditoDAO" ref="altaSolicitudCreditoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!--  Fin Alta Solicitud Creditos Sana Tus Finanzas-->
+	
+	<!-- Pago de Creditos Sana Tus Finanzas-->
+
+	<bean id="pagoCreditoDAOImpl" class="operacionesPDA.dao.PagoCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+	    <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="pagoCreditoServicioImpl" class="operacionesPDA.servicio.PagoCreditoServico">
+		<property name="pagoCreditoDAO" ref="pagoCreditoDAOImpl"/>	
+	</bean>
+	<!--  Fin Pago de Creditos Sana Tus Finanzas-->
+	
+		<!-- WS SOFI-->
+
+	<bean id="sP_PDA_Ahorros_ConsultaSaldoDAOImpl" class="operacionesPDA.dao.SP_PDA_Ahorros_ConsultaSaldoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDA_Ahorros_ConsultaSaldoServicioImpl" class="operacionesPDA.servicio.SP_PDA_Ahorros_ConsultaSaldoServicio">
+		<property name="sP_PDA_Ahorros_ConsultaSaldoDAO" ref="sP_PDA_Ahorros_ConsultaSaldoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS SOFI -->
+    
+	
+</beans>

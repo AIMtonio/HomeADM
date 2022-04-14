@@ -1,0 +1,1499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		 
+	<!-- Definicion de Beans de Bitacora de Pagos de Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.BitacoraPagoNominaBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Bitacora de Pagos de Nomina  -->
+	<bean id="bitacoraPagoNominaDAOImpl" class="nomina.dao.BitacoraPagoNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="pagoNominaDAO" ref="pagoNominaDAOImpl"/>
+		<property name="cargaPagoErrorDAO" ref="cargaPagoErrorDAOImpl"/>
+		<property name="solCreDAO" ref="solicitudCreditoDAOImpl"/>
+		<property name="parametros" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="pldListasPersBloqDAO" ref="pldListasPersBloqDAOImpl"/>
+		<property name="seguimientoPersonaListaDAO" ref="seguimientoPersonaListaDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<!-- Definicion de Servicio de Bitacora de Pagos de Nomina  -->
+	<bean id="bitacoraPagoNominaServicioImpl" class="nomina.servicio.BitacoraPagoNominaServicio">
+		<dwr:remote javascript="bitacoraPagoNominaServicio">
+		    <dwr:include method="altaPagosNomina" />
+			<dwr:include method="consulta" />	
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="bitacoraPagoNominaDAO" ref="bitacoraPagoNominaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Definicion de Controlador de Bitacora de Pagos de Nomina -->
+	<bean name="/cargaArchivoPagCreditos.htm" class="nomina.controlador.BitacoraPagoNominaControlador">
+		<property name="formView" value="nomina/bitacoraPagoNominaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="bitacoraPagoNominaServicio" ref="bitacoraPagoNominaServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controlador para adjuntar archivos de Pagos de Nomina -->
+	<bean name="/bitacoraPagoFileUpload.htm" class="nomina.controlador.BitacoraPagoNominaControlador">
+	    <property name="formView" value="nomina/bitacoraPagoFileUploadVista" /> 
+	    <property name="successView" value="resultadoTransaccionArchivoPago"/> 
+		<property name="bitacoraPagoNominaServicio" ref="bitacoraPagoNominaServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador de Grid de Biracora de Pagos de Nomina -->
+	<bean name="/bitacoraArchivoPagoGrid.htm" class="nomina.controlador.BitacoraArchivoPagoGridControlador">
+		<property name="bitacoraPagoNominaServicio" ref="bitacoraPagoNominaServicioImpl" />  
+	</bean>
+	
+	<!-- Definicion de Beans de Pagos de Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.PagoNominaBean" />
+	</dwr:configuration>
+	
+	   <!-- Definicion de DAO de Pagos de Nomina -->
+     <bean id="pagoNominaDAOImpl" class="nomina.dao.PagoNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<!-- Definicion de Beans de Carga de error de Pagos de Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.CargaPagoErrorBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Carga de error de Pagos de Nomina -->
+     <bean id="cargaPagoErrorDAOImpl" class="nomina.dao.CargaPagoErrorDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+
+	<!-- Definicion de Servicio de Pagos de Nomina  -->
+	<bean id="pagoNominaServicioImpl" class="nomina.servicio.PagoNominaServicio">
+		<property name="pagoNominaDAO" ref="pagoNominaDAOImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  	<property name="polizaDAO" ref="polizaDAOImpl"/>
+	  	<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<dwr:remote javascript="pagoNominaServicio">
+	    	<dwr:include method="consulta" />
+	    	<dwr:include method="listaCombo" />
+		</dwr:remote> 
+	</bean>
+
+	<!-- Definicion de Controlador de Aplicación de Pagos de Credito de Nomina -->
+	<bean name="/aplicacionPagosCreditoNomina.htm" class="nomina.controlador.AplicacionPagosCredNomControlador">
+		<property name="formView" value="nomina/aplicacionPagosCredNomVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="pagoNominaServicio" ref="pagoNominaServicioImpl" /> 
+	</bean>
+	
+	<!-- bean para el Grid Aplicacion de Pagos de Credito Nómina-->
+	<bean name="/aplicacionPagossGrid.htm" class="nomina.controlador.AplicacionPagosGridControlador">
+		<property name="pagoNominaServicio" ref="pagoNominaServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controlador de Montos de Registros de Aplicacion de Pago -->
+	<bean name="/aplicaPagoVistaTotales.htm" class="nomina.controlador.AplicaPagoTotalesControlador">
+	</bean>
+	
+	<!-- Definicion de Controlador del Reporte de Aplicación de Pagos de Credito de Nomina -->
+	<bean name="/reportePagosAplicados.htm" class="nomina.reporte.ReportePagosAplicadosControlador">
+      	<property name="nombreReporte" value="nomina/PagosCreditoNomina.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="pagoNominaServicio" ref="pagoNominaServicioImpl" />
+	</bean> 
+	
+     <!-- Definicion de Beans de Registro de Institucion de Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.InstitucionNominaBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.EmpleadoNominaBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Registro de Institucion de Nomina   -->
+	<bean id="institucionNomDAOImpl" class="nomina.dao.InstitucionNominaDAO">
+	     <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<!-- Definicion de Servicio de Registro de Institucion de Nomina   -->
+	<bean id="institucionNomServicioImpl" class="nomina.servicio.InstitucionNominaServicio">
+		<dwr:remote javascript="institucionNomServicio">
+			<dwr:include method="consulta"/>
+			<dwr:include method="listarCombo"/>
+		</dwr:remote>
+		<property name="institucionNomDAO" ref="institucionNomDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Definicion de Controlador de Registro de Institucion de Nomina  -->
+	<bean name="/registroInstitucionNomina.htm" class="nomina.controlador.InstitucionNominaControlador">
+		<property name="formView" value="nomina/registroInstitucionNominaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="institucionNomServicio" ref="institucionNomServicioImpl" />
+	</bean>
+		<!-- Lista de Instituciones Nomina Controlador  -->
+	<bean name="/institucionesNomina.htm" class="nomina.controlador.InstitucionNominaListaControlador">
+		<property name="institucionNomServicio" ref="institucionNomServicioImpl" />
+	</bean>
+	
+<!-- Definicion de Beans de Actualización del Estatus de Empleado Nomina -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ActualizaEstatusEmpBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Actualización del Estatus de Empleado Nomina   -->
+	<bean id="actualizaEstatusEmpDAOImpl" class="nomina.dao.ActualizaEstatusEmpDAO">
+	     <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<!-- Definicion de Servicio de Actualización del Estatus de Empleado Nomina   -->
+	<bean id="actualizaEstatusEmpServicioImpl" class="nomina.servicio.ActualizaEstatusEmpServicio">
+		<dwr:remote javascript="actualizaEstatusEmpServicio">
+			<dwr:include method="consulta" />	
+		</dwr:remote>
+		<property name="actualizaEstatusEmpDAO" ref="actualizaEstatusEmpDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+		<!-- Definicion de Controlador de Actualización del Estatus de Empleado Nomina  -->
+	<bean name="/bajasIncapacidades.htm" class="nomina.controlador.ActualizaEstatusEmpControlador">
+		<property name="formView" value="nomina/actualizaEstatusEmpVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="actualizaEstatusEmpServicio" ref="actualizaEstatusEmpServicioImpl" />
+	</bean>
+	
+		<!-- Definicion de Controladores de Lista de Clientes por Institucion de Nomina -->
+	<bean name="/listaClientes.htm" class="nomina.controlador.ListaEmpleadosControlador">
+		<property name="actualizaEstatusEmpServicio" ref="actualizaEstatusEmpServicioImpl" />
+	</bean>
+
+	
+	<!-- Definicion de DAO de Estatus de Nomina -->
+     <bean id="nominaDAOImpl" class="nomina.dao.EstatusNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<!-- Definicion de DAO de Descuentos de Nomina -->
+     <bean id="descuentosNominaDAOImpl" class="nomina.dao.DescuentosNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Controladores del Reporte Cambios de estatus-->	
+	<bean name="/concambiosEmpleados.htm" class="nomina.controlador.ReportEstatusEmpNomControlador">
+      <property name="formView" value="nomina/reportEstEmpleadoNominaVista" /><!-- command del controlador mismo command que JSP -->
+      <property name="successView" value="resultadoTransaccionVista" /><!-- para mensajes de salida -->
+      <property name="nominaServicio" ref="nominaServicioImpl" /> <!-- WS -->
+	</bean>
+	
+	<!-- Definicion de Controladores del Reporte en Excel Cambios de Estatus de Nomina -->	
+	<bean name="/reporteCambioEstatus.htm" class="nomina.reporte.RepCambiosEstatusEmpNominaControlador">
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nominaServicio" ref="nominaServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controladores del Reporte Descuentos Nomina-->	
+	<bean name="/conDescuentos.htm" class="nomina.controlador.ReportDescuentosNominaControlador">
+      <property name="formView" value="nomina/descuentosNominaVista" /><!-- command del controlador mismo command que JSP -->
+      <property name="successView" value="resultadoTransaccionVista" /><!-- para mensajes de salida -->
+      <property name="nominaServicio" ref="nominaServicioImpl" /> <!-- WS -->
+	</bean>
+	
+	<!-- Definicion de Controladores del Reporte en Excel Descuentos Nomina Nomina -->	
+	<bean name="/reportDesNomina.htm" class="nomina.reporte.DescuentosNominaRepControlador">
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nominaServicio" ref="nominaServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Servicio ReporteEstatus de Pagos de Nomina  -->
+	<bean id="nominaServicioImpl" class="nomina.servicio.NominaServicio">
+		<dwr:remote javascript="nominaServicio">
+		 </dwr:remote>
+		<property name="nominaDAO" ref="nominaDAOImpl"/>	
+		<property name="descuentosNominaDAO" ref="descuentosNominaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Definicion de Controlador de Aplicación de Pagos de Credito de Nomina -->
+	<bean name="/reportePagosAplicadosVista.htm" class="nomina.controlador.PagosAplicadosReporteControlador">
+		<property name="formView" value="nomina/reportePagosAplicadosVista" /> 
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+	 	<property name="pagoNominaServicio" ref="pagoNominaServicioImpl" /> 
+	</bean>
+<!-- ****************** PARAMETROS NOMINA **************************************** -->	
+	  <!-- Definicion de Bean de Parametros Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ParametrosNominaBean" />
+	</dwr:configuration>
+	
+		<!-- Definicion de DAO de Parametros Nomina -->
+     <bean id="parametrosNominaDAOImpl" class="nomina.dao.ParametrosNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+     	<!-- Definicion de Servicio de Parametros Nomina-->
+	<bean id="parametrosNominaServicioImpl" class="nomina.servicio.ParametrosNominaServicio">
+		<dwr:remote javascript="parametrosNominaServicio">
+		       <dwr:include method="consulta" />
+		 </dwr:remote>
+		 <property name="parametrosNominaDAO" ref="parametrosNominaDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	<!-- Definicion de Controlador de Aplicación de Pagos de Credito de Nomina -->
+	<bean name="/parametrosNominaVista.htm" class="nomina.controlador.ParametrosNominaControlador">
+		<property name="formView" value="nomina/parametrosNominaVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="parametrosNominaServicio" ref="parametrosNominaServicioImpl" /> 
+	</bean>
+<!-- ***************************************************************************** -->
+
+<!-- ======================== CONVENIOS DE NOMINA ==================== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ConvenioNominaBean" />
+	</dwr:configuration>
+	
+	<bean id="conveniosNominaDAOImpl" class="nomina.dao.ConveniosNominaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="conveniosNominaServicioImpl" class="nomina.servicio.ConveniosNominaServicio">
+		<dwr:remote javascript="conveniosNominaServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="conveniosNominaDAO" ref="conveniosNominaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<bean name="/conveniosNominaVista.htm" class="nomina.controlador.ConveniosNominaControlador">
+		<property name="formView" value="nomina/registroInstitucionNominaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="conveniosNominaServicio" ref="conveniosNominaServicioImpl" />
+	</bean>
+<!-- ======================== FIN CONVENIOS DE NOMINA ==================== -->
+<!-- ======================== INICIO DE EMPLEADOS POR CONVENIO DE NÓMINA ================>-->
+
+<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.TipoEmpleadosConvenioBean" />
+	</dwr:configuration>
+	
+	<bean id="tipoEmpleadosConvenioDAOImpl" class="nomina.dao.TipoEmpleadosConvenioDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="tipoEmpleadosConvenioServicioImpl" class="nomina.servicio.TipoEmpleadosConvenioServicio">
+		<dwr:remote javascript="tipoEmpleadosConvenioServicio">
+		<dwr:include method="listaCombo" />
+		<dwr:include method="lista" />
+		<dwr:include method="consulta"/>
+		</dwr:remote>
+		<property name="tipoEmpleadosConvenioDAO" ref="tipoEmpleadosConvenioDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<bean name="/tiposEmpleadosConv.htm" class="nomina.controlador.TipoEmpleadosConvenioControlador">
+		<property name="formView" value="nomina/tipoEmpleadosConvenioVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoEmpleadosConvenioServicio" ref="tipoEmpleadosConvenioServicioImpl" />
+	</bean>
+
+		<!-- bean para el Grid de Tipos de Empleados por Convenio-->
+	<bean name="/tiposEmpleadosConvGrid.htm" class="nomina.controlador.TiposEmpleadosConvGridControlador">
+   		 <property name="tipoEmpleadosConvenioServicio" ref="tipoEmpleadosConvenioServicioImpl" />
+	</bean>
+	
+
+<!-- ======================== FIN DE EMPLEADOS POR CONVENIO DE NÓMINA ================>-->
+
+
+<!-- ======================== LISTA CONVENIOS DE NOMINA ==================== -->	
+	<bean name="/listaConveniosNomina.htm" class="nomina.controlador.ConveniosNominaListaControlador">
+		<property name="conveniosNominaServicio" ref="conveniosNominaServicioImpl" />
+	</bean>
+<!-- ======================== FIN LISTA CONVENIOS DE NOMINA ==================== -->	
+
+
+
+<!-- ======================== EMPLEADOS DE NOMINA 		==================== -->	
+	<bean id="nominaEmpleadosDAOImpl" class="nomina.dao.NominaEmpleadosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+
+	<bean id="nominaEmpleadosServicioImpl" class="nomina.servicio.NominaEmpleadosServicio">
+		<dwr:remote javascript="nominaEmpleadosServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nominaEmpleadosDAO" ref="nominaEmpleadosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	
+	<bean name="/relacionClientesEmpresaNominaVista.htm" class="nomina.controlador.NominaEmpleadosControlador">
+		<property name="formView" value="nomina/relacionClientesEmpresaNominaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	</bean>
+	
+	<!-- LISTA DE EMPLEADOS DE NOMINA -->
+	<bean name="/nominaEmpleadosListaVista.htm" class="nomina.controlador.NominaEmpleadosListaControlador">
+		<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	</bean>
+	
+	<!-- GRID DE EMPLEADOS DE NOMINA -->
+	<bean name="/relacionClientesEmpresaNominaGridVista.htm" class="nomina.controlador.NominaEmpleadosGridControlador">
+		<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	</bean>
+	
+<!-- ======================== FIN EMPLEADOS DE NOMINA 	==================== -->
+
+
+<!-- ======================== CATALOGO DE QUINQUENIO 	==================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.CatQuinqueniosBean" />
+	</dwr:configuration>
+	
+	<bean id="catQuinqueniosDAOImpl" class="nomina.dao.CatQuinqueniosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="catQuinqueniosServicioImpl" class="nomina.servicio.CatQuinqueniosServicio">
+		<dwr:remote javascript="catQuinqueniosServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="catQuinqueniosDAO" ref="catQuinqueniosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	
+<!-- ======================== FIN CATALOGO DE QUINQUENIO 	==================== -->
+
+<!-- ======================== INICIO DE CALENDARIO DE INGRESOS ================>-->
+
+<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.CalendarioIngresosBean" />
+	</dwr:configuration>
+	
+	<bean id="calendarioIngresosDAOImpl" class="nomina.dao.CalendarioIngresosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="calendarioIngresosServicioImpl" class="nomina.servicio.CalendarioIngresosServicio">
+		<dwr:remote javascript="calendarioIngresosServicio">
+		<dwr:include method="listaCombo" />
+		<dwr:include method="consulta" />
+		
+	
+		</dwr:remote>
+		<property name="calendarioIngresosDAO" ref="calendarioIngresosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<bean name="/calendarioIngresos.htm" class="nomina.controlador.CalendarioIngresosControlador">
+		<property name="formView" value="nomina/calendarioIngresosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="calendarioIngresosServicio" ref="calendarioIngresosServicioImpl" />
+	</bean>
+	
+		<!-- bean para el Grid del Calendario de Ingresos-->
+	<bean name="/calendarioIngresosGrid.htm" class="nomina.controlador.CalendarioIngresosGridControlador">
+   		 <property name="calendarioIngresosServicio" ref="calendarioIngresosServicioImpl" />
+	</bean>
+	
+
+<!-- ======================== FIN DE CALENDARIO DE INGRESOS ================>-->
+<!-- ======================== INICIO BITACORA DE NOMINA ==================== -->	
+	<bean name="/bitacoraCambiosInstitNomVista.htm" class="nomina.controlador.BitacoraCambiosInstitNomControlador">
+		<property name="formView" value="nomina/bitacoraCambiosInstitNomVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="bitacoraConveniosNominaServicio" ref="bitacoraConveniosNominaServicioImpl" />
+	</bean>
+	
+	<bean name="/bitacoraCambiosInstitNomGridVista.htm" class="nomina.controlador.BitacoraConveniosGridControlador">
+		<property name="bitacoraConveniosNominaServicio" ref="bitacoraConveniosNominaServicioImpl" />
+	</bean>
+	
+	<bean id="bitacoraConveniosNominaServicioImpl" class="nomina.servicio.BitacoraConveniosNominaServicio">
+		<dwr:remote javascript="bitacoraConveniosNominaServicio"> 
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="bitacoraConveniosNominaDAO" ref="bitacoraConveniosNominaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<bean id="bitacoraConveniosNominaDAOImpl" class="nomina.dao.BitacoraConveniosNominaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+	<bean name="/repBitacoraNomInst.htm" class="nomina.reporte.BitacoraCambiosInstitNomControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="bitacoraConveniosNominaServicio" ref="bitacoraConveniosNominaServicioImpl" />
+		<property name="nombreReporte" value="nomina/BitacoraCambiosInstitNom.prpt" />
+	</bean>
+	<bean name="/repBitacoraNomInstIndividual.htm" class="nomina.reporte.BitacoraCambiosInstitNomControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="bitacoraConveniosNominaServicio" ref="bitacoraConveniosNominaServicioImpl" />
+		<property name="nombreReporte" value="nomina/BitacoraCambiosInstitNomIndividual.prpt" />
+	</bean>
+<!-- ======================== INICIO CONDICIONES DE CONVENIOS =================================-->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.CondicionProductoNominaBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NominaCondicionCredBean" />
+	</dwr:configuration>
+	 
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomEsquemaTasaCredBean" />
+	</dwr:configuration>
+	
+	
+	
+	<bean id="condicionProductoNominaServicioImpl" class="nomina.servicio.CondicionProductoNominaServicio">
+		<dwr:remote javascript="condicionProductoServicio">
+		<dwr:include method="consulta" />
+		
+		</dwr:remote>
+		<property name="nominaCondicionCredDAO" ref="nominaCondicionCredDAOImpl" />
+		<property name="nomEsquemaTasaCredDAO" ref="nomEsquemaTasaCredDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<bean name="/condicionProductoNomina.htm" class="nomina.controlador.CondicionesProductoNominaControlador">
+		<property name="formView" value="nomina/condicionesProductoNominaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="condicionProductoNominaServicio" ref="condicionProductoNominaServicioImpl" />
+	</bean>
+	
+	<!-- ======================= SECCION DE CONDICION DE CONVENIO POR NOMINA ==================  -->
+	
+	 <!-- DAO de la clase que da la afiliacion y la baja de las cuentas clabe -->
+	 <bean id="nominaCondicionCredDAOImpl" class="nomina.dao.NominaCondicionCredDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		
+	</bean>
+	
+	<bean name="/condicionesProdNomCredGridVista.htm" class="nomina.controlador.CondicionesProdNomCredGridControlador">
+		<property name="condicionProductoNominaServicio" ref="condicionProductoNominaServicioImpl" />
+	</bean>
+	
+	<!-- ======================= SECCION  FIN DE CONDICION DE CONVENIO POR NOMINA ==================  -->
+	<!-- ======================= INICIO SECCION DE ESQUEMA TASAS POR CONDICION ==================  -->
+	
+	<bean id="nomEsquemaTasaCredDAOImpl" class="nomina.dao.NomEsquemaTasaCredDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean name="/nomEsquemaTasaCredGridVista.htm" class="nomina.controlador.NomEsquemaTasaCredGridControlador">
+		<property name="condicionProductoNominaServicio" ref="condicionProductoNominaServicioImpl" />
+	</bean>
+		
+<!-- ======================= FIN SECCION DE ESQUEMA TASAS POR CONDICION ==================  -->
+<!-- ============================== FIN CONDICIONES DE CONVENIOS ============================================= -->	
+
+
+
+<!-- ======================== INICIO PANTALLA ESQUEMA DE QUINQUENIOS ======================== -->	
+	<!-- Definicion de Bean de Esquema de Quinquenios  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.EsquemaQuinqueniosBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de DAO de Esquema de Quinquenios -->
+     <bean id="esquemaQuinqueniosDAOImpl" class="nomina.dao.EsquemaQuinqueniosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Servicio de Esquema de Quinquenios -->
+	<bean id="esquemaQuinqueniosServicioImpl" class="nomina.servicio.EsquemaQuinqueniosServicio">
+		<dwr:remote javascript="esquemaQuinqueniosServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		 </dwr:remote>
+		 <property name="esquemaQuinqueniosDAO" ref="esquemaQuinqueniosDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Definicion de Controlador de Esquema de Quinquenios -->
+	<bean name="/esquemaQuinquenios.htm" class="nomina.controlador.EsquemaQuinqueniosControlador">
+		<property name="formView" value="nomina/esquemaQuinqueniosVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="esquemaQuinqueniosServicio" ref="esquemaQuinqueniosServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador del Grid de Esquema de Quinquenios -->
+	<bean name="/esquemaQuinqueniosGrid.htm" class="nomina.controlador.EsquemaQuinqueniosGridControlador">
+	 	<property name="esquemaQuinqueniosServicio" ref="esquemaQuinqueniosServicioImpl" />  
+	</bean>
+	
+	
+<!-- ======================== FIN PANTALLA ESQUEMA DE QUINQUENIOS ======================== -->	
+
+
+
+<!-- ======================== PANTALLA REPORTE DE EMPLEADOS DE NOMINA ======================== -->
+
+	<bean name="/nominaEmpleadosRepVista.htm" class="nomina.controlador.NominaEmpleadosRepControlador">
+		<property name="formView" value="nomina/nominaEmpleadosRepVista" />   
+	   	<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	</bean>	
+		
+	<bean name="/reporteNomEmpleados.htm" class="nomina.reporte.RepNominaEmpleadosControlador">
+	   	<property name="nomReporte" value="nomina/ReporteNominaEmpleados.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	   	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+<!-- ======================== FIN PANTALLA REPORTE DE  EMPLEADOS DE NOMINA ======================== -->
+<!-- ********** PARAMETROS PARA PROCESO DE TIPO CLAVE PRESUPUESTAL *************** -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomTipoClavePresupBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomTipoClavePresupDAOImpl" class="nomina.dao.NomTipoClavePresupDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<bean id="nomTipoClavePresupServicioImpl" class="nomina.servicio.NomTipoClavePresupServicio">
+		<dwr:remote javascript="tipoClavePresupServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomTipoClavePresupDAO" ref="nomTipoClavePresupDAOImpl" />
+	</bean>
+
+	<bean name="/tipoClavePresup.htm" class="nomina.controlador.NomTipoClavePresupControlador">
+		<property name="formView" value="nomina/tipoClavePresupVista" />   
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nomTipoClavePresupServicio" ref="nomTipoClavePresupServicioImpl"/> 
+	</bean>
+
+	 <bean name="/tipoClavePresupListaVista.htm" class="nomina.controlador.NomTipoClavePresupListaControlador">
+         <property name="nomTipoClavePresupServicio" ref="nomTipoClavePresupServicioImpl"/> 
+	</bean>
+<!-- ***************************************************************************** -->
+
+<!-- ************* PARAMETROS PARA PROCESO DE CLAVE PRESUPUESTAL ***************** -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomClavePresupBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomClavePresupDAOImpl" class="nomina.dao.NomClavePresupDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="nomClasifClavePresupDAO" ref="nomClasifClavePresupDAOImpl" />
+	</bean>
+	
+	<bean id="nomClavePresupServicioImpl" class="nomina.servicio.NomClavePresupServicio">
+		<dwr:remote javascript="clavePresupServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomClavePresupDAO" ref="nomClavePresupDAOImpl" />
+	</bean>
+
+	<bean name="/clavePresupuestal.htm" class="nomina.controlador.NomClavePresupControlador">
+		<property name="formView" value="nomina/clavePresupuestalVista" />   
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nomClavePresupServicio" ref="nomClavePresupServicioImpl"/> 
+	</bean>
+
+	 <bean name="/clavePresupGridVista.htm" class="nomina.controlador.NomClavePresupGridControlador">
+         <property name="nomClavePresupServicio" ref="nomClavePresupServicioImpl"/> 
+         <property name="nomTipoClavePresupServicio" ref="nomTipoClavePresupServicioImpl"/> 
+	</bean>
+<!-- ***************************************************************************** -->
+
+
+<!-- ************* PARAMETROS PARA PROCESO DE CLASIFICACION CLAVE PRESUPUESTAL ***************** -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomClasifClavePresupBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomClasifClavePresupDAOImpl" class="nomina.dao.NomClasifClavePresupDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<bean id="nomClasifClavePresupServicioImpl" class="nomina.servicio.NomClasifClavePresupServicio">
+		<dwr:remote javascript="clasifClavePresupServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomClasifClavePresupDAO" ref="nomClasifClavePresupDAOImpl" />
+	</bean>
+
+	 <bean name="/clasifClavePresupListaVista.htm" class="nomina.controlador.NomClasifClavePresupListaControlador">
+         <property name="nomClasifClavePresupServicio" ref="nomClasifClavePresupServicioImpl"/> 
+	</bean>
+	
+	 <bean name="/clasifClavePresupGirdVista.htm" class="nomina.controlador.NomClasifClavePresupGridControlador">
+         <property name="nomClasifClavePresupServicio" ref="nomClasifClavePresupServicioImpl"/> 
+	</bean>
+<!-- ***************************************************************************** -->
+
+<!-- ************* PARAMETROS PARA PROCESO DE CLAVE PRESUPUESTAL ***************** -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomClavesConvenioBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomClavesConvenioDAOImpl" class="nomina.dao.NomClavesConvenioDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<bean id="nomClavesConvenioServicioImpl" class="nomina.servicio.NomClavesConvenioServicio">
+		<dwr:remote javascript="clavePresupConvenioServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomClavesConvenioDAO" ref="nomClavesConvenioDAOImpl" />
+	</bean>
+
+	<bean name="/clavePresupuestalPorConvenio.htm" class="nomina.controlador.NomClavesConvenioControlador">
+		<property name="formView" value="nomina/clavePresupuestalConvenioVista" />   
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nomClavesConvenioServicio" ref="nomClavesConvenioServicioImpl"/> 
+	</bean>
+
+	 <bean name="/clavePresupuestalesGridVista.htm" class="nomina.controlador.ClavesPresupuestalesGridControlador">
+         <property name="nomClavePresupServicio" ref="nomClavePresupServicioImpl"/> 
+	</bean>
+
+	 <bean name="/clavePresupConvGridVista.htm" class="nomina.controlador.NomClavesConvenioGridControlador">
+         <property name="nomClavesConvenioServicio" ref="nomClavesConvenioServicioImpl"/> 
+	</bean>
+<!-- ***************************************************************************** -->
+
+	<bean name="/crearFormulaClavePresupVista.htm" class="nomina.controlador.CrearFromulaClaveControlador">
+		<property name="formView" value="nomina/crearFormulaClavePresup"/>
+		<property name="successView" value="resultadoTransaccionFormulaVista"/>
+	</bean>
+
+	 <bean name="/crearFromulaClaveGridVista.htm" class="nomina.controlador.CrearFromulaClaveGridControlador">
+         <property name="nomClasifClavePresupServicio" ref="nomClasifClavePresupServicioImpl"/> 
+	</bean>
+
+<!-- ********** PARAMETROS PARA PROCESO DE ALTA DE  DATOS SOCIOECONOMICO CAPACIDAD DE PAGO *************** -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomCapacidadPagoSolBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomCapacidadPagoSolDAOImpl" class="nomina.dao.NomCapacidadPagoSolDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="nomDetCapacidadPagoSolDAO" ref="nomDetCapacidadPagoSolDAOImpl" />
+	</bean>
+	
+	<bean id="nomCapacidadPagoSolServicioImpl" class="nomina.servicio.NomCapacidadPagoSolServicio">
+		<dwr:remote javascript="nomCapacidadPagoSolServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomCapacidadPagoSolDAO" ref="nomCapacidadPagoSolDAOImpl" />
+	</bean>
+
+	<bean name="/datosSocioEconomicocapacidadPagoSol.htm" class="nomina.controlador.NomCapacidadPagoSolControlador">
+		<property name="formView" value="nomina/datosSocioEconomicocapacidadPagoSol" />   
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nomCapacidadPagoSolServicio" ref="nomCapacidadPagoSolServicioImpl"/> 
+	</bean>
+
+	 <bean name="/clasifClavePresupConvSolGridVista.htm" class="nomina.controlador.ClavesConvCapacidadPagoPorSolGridControlador">
+        <property name="nomClavesConvenioServicio" ref="nomClavesConvenioServicioImpl"/> 
+        <property name="nomCapacidadPagoSolServicio" ref="nomCapacidadPagoSolServicioImpl"/> 
+        <property name="nomDetCapacidadPagoSolServicio" ref="nomDetCapacidadPagoSolServicioImpl"/> 
+	</bean>
+	
+	 <bean name="/clavesConvCapacidadPagoConvGrid.htm" class="nomina.controlador.ClavesConvCapacidadPagoConvGridControlador">
+        <property name="nomClasifClavePresupServicio" ref="nomClasifClavePresupServicioImpl"/> 
+        <property name="nomDetCapacidadPagoSolServicio" ref="nomDetCapacidadPagoSolServicioImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.NomDetCapacidadPagoSolBean" />
+	</dwr:configuration>	  
+
+	<bean id="nomDetCapacidadPagoSolDAOImpl" class="nomina.dao.NomDetCapacidadPagoSolDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<bean id="nomDetCapacidadPagoSolServicioImpl" class="nomina.servicio.NomDetCapacidadPagoSolServicio">
+		<dwr:remote javascript="nomDetCapacidadPagoSolServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="nomDetCapacidadPagoSolDAO" ref="nomDetCapacidadPagoSolDAOImpl" />
+	</bean>
+<!-- ***************************************************************************** -->
+<!-- Bean de la afiliacion y baja de las cuentas clabe -->
+ 	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.AfiliacionBajaCtasClabeBean" />
+	</dwr:configuration>
+	 
+	 <!-- DAO de la clase que da la afiliacion y la baja de las cuentas clabe -->
+	 <bean id="afiliacionBajaCtasClabeDAOImpl" class="nomina.dao.AfiliacionBajaCtasClabeDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />	
+	
+	</bean>
+	
+	 <!-- Servicio de la pantalla de afiliacion o baja de las cuentas clabe -->
+	 <bean id="afiliacionBajaCtasClabeServicioImpl" class="nomina.servicio.AfiliacionBajaCtasClabeServicio">	
+		<dwr:remote javascript="afiliacionBajaCtasClabeServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="afiliacionBajaCtasClabeDAO" ref="afiliacionBajaCtasClabeDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	 
+	 
+	 <!-- Definicion del controlador de la afiliacion y baja de las cuentas clabe -->
+	 <bean name="/afiliacionBajaCtasClabe.htm" class="nomina.controlador.AfiliacionBajaCtasClabeControlador">
+	 	<property name="formView" value="nomina/afiliacionBajaCtasClabeVista"/>
+	 	<property name="successView" value="resultadoTransaccionVista" /> 
+	 	<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/>
+	 </bean>
+	 
+	 <!-- Controlador del grid de la pantalla de afiliacion y baja de las cuentas clabe -->
+	 <bean name="/afiliacionBajaCtasClaveGrid.htm" class="nomina.controlador.AfiliacionBajaCtasClabeGridControlador">
+	 	<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/>
+	 </bean>
+	 
+	 <!-- Controlador para las listas ocupadas dentro de la pantalla de afiliacion y baja de cuentas clabe -->
+	 <bean name="/afiliacionBajaCtasClabeLista.htm" class="nomina.controlador.AfiliacionBajaCtasClabeListaControlador">
+	 	<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/>
+	 </bean>
+	 
+	 
+	 <!-- Controlador para la lista de clientes de nomina y no nomina que tengan una cuenta para cobro de domiciliado -->
+	 
+	 <bean name="/afiliaClienteNominaLista.htm" class="nomina.controlador.AfiliaClienteNominaListaControlador">
+	 	<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/>
+	 </bean>
+	 <!-- Controlador para el reporte en Excel de la pantalla de Afiliaicon de Cuentas Clabes -->
+	 <bean name="/reporteAfiliacionCuentaClabe.htm" class ="nomina.reporte.RepAfiliacionBajaCtasClabeControlador">
+	 	<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/>
+	 </bean>
+	 
+	 <!-- Generacion de archivo de afiiacion/baja -->
+	<bean name="/expAfiliacionBajaCtaClabe.htm" class="nomina.reporte.ExpAfiliacionBajaCtasClabeControlador">
+		<property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl" /> 
+	</bean>
+	 <!-- ==================== FIN AFILIACION BAJA CUENTAS CLABE ============================-->
+
+<!-- ================ INICIO SECCIÓN APLICACIÓN PAGO INSTITUCIÓN =====================-->	
+	  <!-- Definicion de Bean de aplicacion de pagos de instituciones  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.AplicaPagoInstBean" />
+	</dwr:configuration>
+	
+		<!-- Definicion de DAO de aplicacion de pagos de instituciones -->
+     <bean id="aplicaPagoInstDAOImpl" class="nomina.dao.AplicaPagoInstDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+     <!-- Definicion de Servicio de aplicacion de pagos de instituciones-->
+	<bean id="aplicaPagoInstServicioImpl" class="nomina.servicio.AplicaPagoInstServicio">
+		<dwr:remote javascript="aplicaPagoInstServicio">
+		       <dwr:include method="consulta" />
+		 </dwr:remote>
+		 <property name="aplicaPagoInstDAO" ref="aplicaPagoInstDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Definicion de Controlador de Aplicación de Pagos instituciones -->
+	<bean name="/aplicaPagoInstVista.htm" class="nomina.controlador.AplicaPagoInstControlador">
+		<property name="formView" value="nomina/aplicaPagoInstVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="aplicaPagoInstServicio" ref="aplicaPagoInstServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador de Montos de Registros de Aplicacion de Pago -->
+	<bean name="/aplicaPagoInstVistaTotales.htm" class="nomina.controlador.AplicaPagoInstTotalesControlador">
+	</bean>
+	
+	
+	<!-- Lista de folios de aplicacion de pagos  -->
+	<bean name="/aplicacionPagosInsLista.htm" class="nomina.controlador.AplicacionPagosInsListaControlador">
+		<property name="aplicaPagoInstServicio" ref="aplicaPagoInstServicioImpl" />
+	</bean>
+	
+	<!-- bean para el Grid Aplicacion de Pagos Institución-->
+	<bean name="/aplicaPagosInstGrid.htm" class="nomina.controlador.AplicaPagoInstGridControlador">
+		<property name="aplicaPagoInstServicio" ref="aplicaPagoInstServicioImpl" />
+	</bean>
+	
+	<!-- bean para el Grid de creditos no aplicados -->
+	<bean name="/crediNoAplicadosGrid.htm" class="nomina.controlador.CredNoAplicadosGridControlador">
+		<property name="aplicaPagoInstServicio" ref="aplicaPagoInstServicioImpl" />
+	</bean>
+<!-- ======================= FIN SECCIÓN APLICACIÓN PAGO INSTITUCIÓN =============================-->
+
+<!-- ======================== INICIO PANTALLA PROCESAR AFILIACION/BAJAS CUENTA CLABE ==================== -->
+	<!-- Definicion de Bean para la pantalla Procesar Afiliacion/Bajas Cuenta Clabe  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ProcAfiliaBajaCtaClabeBean" />
+	</dwr:configuration>
+	
+	<!-- Definicion de DAO para la pantalla Procesar Afiliacion/Bajas Cuenta Clabe -->
+     <bean id="procAfiliaBajaCtaClabeDAOImpl" class="nomina.dao.ProcAfiliaBajaCtaClabeDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Servicio para la pantalla Procesar Afiliacion/Bajas Cuenta Clabe -->
+	<bean id="procAfiliaBajaCtaClabeServicioImpl" class="nomina.servicio.ProcAfiliaBajaCtaClabeServicio">
+		<dwr:remote javascript="procAfiliaBajaCtaClabeServicio">
+		       <dwr:include method="consulta" />
+		 </dwr:remote>
+		 <property name="procAfiliaBajaCtaClabeDAO" ref="procAfiliaBajaCtaClabeDAOImpl" /> 
+	</bean>	
+	
+	<!-- Definicion de Controlador para la pantalla Procesar Afiliacion/Bajas Cuenta Clabe -->
+	<bean name="/procAfiliaBajaCtaClabe.htm" class="nomina.controlador.ProcAfiliaBajaCtaClabeControlador">
+		<property name="formView" value="nomina/procAfiliaBajaCtaClabeVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="procAfiliaBajaCtaClabeServicio" ref="procAfiliaBajaCtaClabeServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador para adjuntar el archivo para Procesar Afiliacion/Bajas Cuenta Clabe -->
+	<bean name="/archivoAfiliacionCtaClabe.htm" class="nomina.controlador.ArchivoAfiliacionCtaClabeControlador">
+	 	<property name="commandClass" value="nomina.bean.ProcAfiliaBajaCtaClabeBean"/>
+		<property name="commandName"><value>procAfiliaBajaCtaClabeBean</value></property> 
+		<property name="formView" value="nomina/archivoAfiliacionCtaClabeVista" />
+		<property name="successView" value="nomina/resultadoTransaccionArchivoAfiliaVista"/>  
+		<property name="procAfiliaBajaCtaClabeServicio" ref="procAfiliaBajaCtaClabeServicioImpl" /> 
+	</bean>
+	
+	<!-- Contralor para el Grid de la Pantalla Procesar Afiliacion/Bajas Cuenta Clabe -->
+	<bean name="/procAfiliaBajaCtaClabeGrid.htm" class="nomina.controlador.ProcAfiliaBajaCtaClabeGridControlador">
+		<property name="procAfiliaBajaCtaClabeServicio" ref="procAfiliaBajaCtaClabeServicioImpl" /> 
+	</bean>
+	
+	<!-- ======================== FIN PANTALLA PROCESAR AFILIACION/BAJAS CUENTA CLABE ==================== -->
+	<!-- ======================= INICIO PANTALLA GENERA LAYOUT DOMICILIACION DE PAGOS ========================  -->	
+
+	<!-- Definicion de Bean para la Pantalla Genera Layout Domiciliacion de Pagos  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.GeneraDomiciliacionPagosBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de DAO para la Pantalla Genera Layout Domiciliacion de Pagos  -->
+    <bean id="generaDomiciliacionPagosDAOImpl" class="nomina.dao.GeneraDomiciliacionPagosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+
+	 <!-- Definicion de Servicio para la Pantalla Genera Layout Domiciliacion de Pagos  -->
+	<bean id="generaDomiciliacionPagosServicioImpl" class="nomina.servicio.GeneraDomiciliacionPagosServicio">
+		<dwr:remote javascript="generaDomiciliacionPagosServicio">
+		       <dwr:include method="consulta" />
+		       <dwr:include method="listaCombo" />	
+		       <dwr:include method="bajaDomiciliacionPagos" />
+		 </dwr:remote>
+		 <property name="generaDomiciliacionPagosDAO" ref="generaDomiciliacionPagosDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controlador para la Pantalla Genera Layout Domiciliacion de Pagos  -->
+	<bean name="/generaDomiciliacionPagos.htm" class="nomina.controlador.GeneraDomiciliacionPagosControlador">
+		<property name="formView" value="nomina/generaDomiciliacionPagosVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="generaDomiciliacionPagosServicio" ref="generaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+
+	<!-- Definicion del Controlador para el Grid de la Pantalla Genera Layout Domiciliacion de Pagos  -->
+	<bean name="/generaDomiciliacionPagosGrid.htm" class="nomina.controlador.GeneraDomiciliacionPagosGridControlador">
+		<property name="generaDomiciliacionPagosServicio" ref="generaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador Lista para la Pantalla Genera Layout Domiciliacion de Pagos -->
+	<bean name="/listaDomiciliacionPagos.htm" class="nomina.controlador.GeneraDomiciliacionPagosListaControlador">
+		<property name="generaDomiciliacionPagosServicio" ref="generaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador del Reporte de Aplicación de Pagos de Credito de Nomina -->
+	<bean name="/generaDomiciliacionPagosRep.htm" class="nomina.reporte.GeneraDomiciliacionPagosRepControlador">
+        <property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="generaDomiciliacionPagosServicio" ref="generaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	<!-- Definicio de controlador para generar el layout -->
+	<bean name="/expGeneraDomiciliacionPagos.htm" class="nomina.reporte.ExpGeneraDomiciliacionPagosControlador">
+		<property name="generaDomiciliacionPagosServicio" ref="generaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	
+	<!-- ======================= FIN PANTALLA GENERA LAYOUT DOMICILIACION DE PAGOS ========================  -->
+
+	<!-- ======================== INICIO PANTALLA PROCESA DOMICILIACION PAGOS ==================== -->
+	<!-- Definicion de Bean para la pantalla Procesa Domiciliacion Pagos  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ProcesaDomiciliacionPagosBean" />
+	</dwr:configuration>
+	
+	<!-- Definicion de DAO para la pantalla Procesa Domiciliacion Pagos -->
+     <bean id="procesaDomiciliacionPagosDAOImpl" class="nomina.dao.ProcesaDomiciliacionPagosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	    <property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Servicio para la pantalla Procesa Domiciliacion Pagos -->
+	<bean id="procesaDomiciliacionPagosServicioImpl" class="nomina.servicio.ProcesaDomiciliacionPagosServicio">
+		<dwr:remote javascript="procesaDomiciliacionPagosServicio">
+		       <dwr:include method="consulta" />
+		 </dwr:remote>
+		 <property name="procesaDomiciliacionPagosDAO" ref="procesaDomiciliacionPagosDAOImpl" /> 
+	</bean>	
+	
+	<!-- Definicion de Controlador para la pantalla Procesa Domiciliacion Pagos -->
+	<bean name="/procesaDomiciliacionPagos.htm" class="nomina.controlador.ProcesaDomiciliacionPagosControlador">
+		<property name="formView" value="nomina/procesaDomiciliacionPagosVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="procesaDomiciliacionPagosServicio" ref="procesaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador para adjuntar el archivo para Procesar Domiciliacion Pagos -->
+	<bean name="/archivoDomiciliacionPagos.htm" class="nomina.controlador.ArchivoDomiciliacionPagosControlador">
+	 	<property name="commandClass" value="nomina.bean.ProcesaDomiciliacionPagosBean"/>
+		<property name="commandName"><value>procesaDomiciliacionPagosBean</value></property> 
+		<property name="formView" value="nomina/archivoDomiciliacionPagosVista" />
+		<property name="successView" value="nomina/resultadoTransaccionArchivoDomiciliaVista"/>  
+		<property name="procesaDomiciliacionPagosServicio" ref="procesaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- Contralor para el Grid de la Pantalla Procesa Domiciliacion Pagos -->
+	<bean name="/procesaDomiciliacionPagosGrid.htm" class="nomina.controlador.ProcesaDomiciliacionPagosGridControlador">
+		<property name="procesaDomiciliacionPagosServicio" ref="procesaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de controlador para generar el layout -->
+	<bean name="/expProcesaDomiciliacionPagos.htm" class="nomina.reporte.ExpProcesaDomiciliacionPagosControlador">
+		<property name="procesaDomiciliacionPagosServicio" ref="procesaDomiciliacionPagosServicioImpl" /> 
+	</bean>
+	
+	<!-- ======================== FIN PANTALLA PROCESA DOMICILIACION PAGOS ==================== -->
+
+<!-- ======================== SECCION PARA EL REPORTE DE BITACORA PAGOS POR DOMICILIACION ================ -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.BitacoraDomiciPagosBean"/>
+	</dwr:configuration>
+	
+	<bean id="bitacoraDomiciPagosDAOImpl" class="nomina.dao.BitacoraDomiciPagosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+      	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<!-- Servicio de la bitacora de domiciliacion de pagos -->
+	 <bean id="bitacoraDomiciPagosServicioImpl" class="nomina.servicio.BitacoraDomiciPagosServicio">	
+		<dwr:remote javascript="bitacoraDomiciPagosServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="bitacoraDomiciPagosDAO" ref="bitacoraDomiciPagosDAOImpl"/>	
+	</bean>	
+	
+	
+	
+	<!-- Controlador para el reporte de bitacora de Domiciliacion Pantalla -->
+	 <bean name="/reporteBitacoraDomiciliacion.htm" class ="nomina.controlador.BitacoraDomiciPagosControlador">
+	 	<property name="formView" value="nomina/repBitacoraDomiciPagosVista"/>
+	 	<!--  <property name="afiliacionBajaCtasClabeServicio" ref="afiliacionBajaCtasClabeServicioImpl"/> -->
+	 </bean>
+	<!-- Controlador del los reportes para la pantalla de Bitacora de Domiciliacion -->
+	<bean name="/repBitacoraPagos.htm" class ="nomina.reporte.RepBitacoraDomiciPagosControlador">
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="nombreReporte" value="nomina/PagosDomiciliados.prpt"></property>
+	   <property name="bitacoraDomiciPagosServicio" ref="bitacoraDomiciPagosServicioImpl"/>   
+	</bean> 
+	<!--  =======================Fin SECCION PARA EL REPORTE DE PAGOS POR DOMICILIACION ============ -->
+	
+	<!--  =======================INICIO DE REVERSA DE PAGOS DE NOMINA ============ -->
+	
+	<!-- Definicion de Beans de Reversa de Pagos de Nomina  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ReversaPagoNominaBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Reversa de Pagos de Nomina -->
+     <bean id="reversaPagoNominaDAOImpl" class="nomina.dao.ReversaPagoNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+
+	<!-- Definicion de Servicio de Reversa de Pagos de Nomina  -->
+	<bean id="reversaPagoNominaServicioImpl" class="nomina.servicio.ReversaPagoNominaServicio">
+	 <dwr:remote javascript="reversaPagoNominaServicio">
+	     <dwr:include method="consulta" />
+	     <dwr:include method="lista" />
+	     <dwr:include method="listaPagos" />
+		 </dwr:remote> 
+		 
+	  <property name="reversaPagoNominaDAO" ref="reversaPagoNominaDAOImpl"/>
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+	  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>			
+		
+	</bean>
+
+	<!-- Definicion de Controlador dede Reversa de Pagos de Nomina -->
+	<bean name="/reversaPagosCreditoNomina.htm" class="nomina.controlador.ReversaPagosNominaControlador">
+		<property name="formView" value="nomina/reversaAplicacionPagosCredNominaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="reversaPagoNominaServicio" ref="reversaPagoNominaServicioImpl" /> 
+	</bean>
+	
+	<!-- bean para el Grid Aplicacion de Pagos de Credito Nómina-->
+	<bean name="/reversaPagossGrid.htm" class="nomina.controlador.ReversaPagosNominaGridControlador">
+		<property name="reversaPagoNominaServicio" ref="reversaPagoNominaServicioImpl" />
+	</bean>
+	
+	<bean name="/listaFolios.htm"  class="nomina.controlador.FolioListaControlador">
+	 	<property name="reversaPagoNominaServicio" ref="reversaPagoNominaServicioImpl" /> 
+	</bean>
+	
+		<!--  =======================FIN DE REVERSA DE PAGOS DE NOMINA ============ -->
+	<!-- ======================== INICIO PANTALLA ESQUEMA DE COMISIONES APERTURA NOMINA ======================== -->	
+	<!-- Definicion de Bean de Esquema de Comision Apertura  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.EsqComAperNominaBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de DAO de Esquema de Comision Apertura -->
+     <bean id="esqComAperNominaDAOImpl" class="nomina.dao.EsqComAperNominaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Servicio de Esquema de Comision Apertura -->
+	<bean id="esqComAperNominaServicioImpl" class="nomina.servicio.EsqComAperNominaServicio">
+		<dwr:remote javascript="esqComAperNominaServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		 </dwr:remote>
+		 <property name="esqComAperNominaDAO" ref="esqComAperNominaDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Definicion de Controlador de Esquema de Comision Apertura -->
+	<bean name="/esqComAperNomina.htm" class="nomina.controlador.EsqComAperNominaControlador">
+		<property name="formView" value="nomina/esqComAperNominaVista" /> 
+	    <property name="successView" value="resultadoTransaccionVista" />
+	 	<property name="esqComAperNominaServicio" ref="esqComAperNominaServicioImpl" /> 
+	</bean>
+	
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ComApertConvenioBean" />
+	</dwr:configuration>
+	
+	<bean id="comApertConvenioDAOImpl" class="nomina.dao.ComApertConvenioDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<!-- Definicion de Servicio de Esquema de Comision Apertura -->
+	<bean id="comApertConvenioServicioImpl" class="nomina.servicio.ComApertConvenioServicio">
+		<dwr:remote javascript="comApertConvenioServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />		
+		 </dwr:remote>
+		 <property name="comApertConvenioDAO" ref="comApertConvenioDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Definicion de Controlador del Grid de Esquema de Convenios -->
+	<bean name="/comApertConvenioGrid.htm" class="nomina.controlador.ComApertConvenioGridControlador">
+	 	<property name="comApertConvenioServicio" ref="comApertConvenioServicioImpl" />  
+	</bean>
+	
+	
+<!-- ======================== FIN PANTALLA ESQUEMA DE COMISIONES APERTURA NOMINA ======================== -->	
+	
+<!-- ======================== PANTALLA REPORTE DE Archivos de Instalacion ======================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.ArchivoInstalBean" />
+	</dwr:configuration>
+	
+	<bean id="archivoInstalDAOImpl" class="nomina.dao.ArchivoInstalDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="archivoInstalServicioImpl" class="nomina.servicio.ArchivoInstalServicio">
+		<dwr:remote javascript="archivoInstalServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+		<property name="archivoInstalDAO" ref="archivoInstalDAOImpl"></property>
+		<property name="calendarioIngresosServicio" ref="calendarioIngresosServicioImpl" />
+		<property name="detalleArchivoInstalServicio" ref="detalleArchivoInstalServicioImpl" />
+	</bean>
+
+	<bean name="/inciCredInstal.htm" class="nomina.controlador.InciCredInstalControlador">
+		<property name="formView" value="nomina/InciCredInstalVista" />   
+	   	<property name="successView" value="resultadoTransaccionVista" />
+	   	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" />
+	</bean>	
+
+	<bean name="/reporteArchivoInstalacion.htm" class="nomina.reporte.ArchivoInstalRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" />
+	</bean>
+		
+	<!-- 	reporteArchivoInstalacion.htm
+	<bean name="/reporteNomEmpleados.htm" class="nomina.reporte.RepNominaEmpleadosControlador">
+	   	<property name="nomReporte" value="nomina/ReporteNominaEmpleados.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="nominaEmpleadosServicio" ref="nominaEmpleadosServicioImpl" />
+	   	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	-->
+<!-- ======================== FIN PANTALLA REPORTE DE Archivos de Instalacio ======================== -->
+
+<!-- ======================== INICIO PANTALLA CARGA ARCHIVO INSTALACIÓN ======================== -->	
+	<bean name="/proceArchivoInstal.htm" class="nomina.controlador.ProceArchivoInstalControlador">
+		<property name="formView" value="nomina/proceArchivoInstalVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	   	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" />
+	</bean>
+<!-- ======================== FIN PANTALLA CARGA ARCHIVO INSTALACIÓN ======================== -->
+
+<!-- ======================== INICIO PANTALLA LISTA FOLIO INSTALACIÓN ======================== -->	
+	<bean name="/archivoInstalLista.htm" class="nomina.controlador.ArchivoInstalListaControlador">
+	   	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" />
+	</bean>
+<!-- ======================== FIN PANTALLA LISTA FOLIO INSTALACIÓN ======================== -->	
+
+<!-- ======================== INICIO PANTALLA CARGA AUXILIAR ARCHIVO INSTALACIÓN ========== -->	
+	<bean name="/archivoInstalCarga.htm" class="nomina.controlador.ArchivoInstalCargaControlador">
+		<property name="formView" value="nomina/archivoInstalCarga" />
+		<property name="successView" value="resultadoTransaccionArchivoVista" />
+	   	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+<!-- ======================== FIN PANTALLA CARGA AUXILIAR ARCHIVO INSTALACIÓN ========== -->	
+
+<!-- ======================== INICIO PANTALLA GRID CARGA ARCHIV INSTALACIÓN ========== -->	
+	<bean name="/archivoInstalGrid.htm" class="nomina.controlador.ArchivoInstaGridControlador">
+	 	<property name="archivoInstalServicio" ref="archivoInstalServicioImpl" /> 
+	</bean>
+<!-- ======================== FIN PANTALLA GRID CARGA ARCHIV INSTALACIÓN ========== -->	
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="nomina.bean.DetalleArchivoInstalBean" />
+	</dwr:configuration>
+	
+	<bean id="detalleArchivoInstalDAOImpl" class="nomina.dao.DetalleArchivoInstalDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="detalleArchivoInstalServicioImpl" class="nomina.servicio.DetalleArchivoInstalServicio">
+		<dwr:remote javascript="detalleArchivoInstalServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="detalleArchivoInstalDAO" ref="detalleArchivoInstalDAOImpl"></property>
+	</bean>
+
+</beans>

@@ -1,0 +1,135 @@
+#Credenciales {
+	top:10%;
+	padding-right:40px;
+	left:15%; 
+}
+#Credenciales2 {
+	top:10%;
+	padding-right:40px;
+	right:3%;
+}
+
+#Credenciales td.label {
+	font-size: 1em;
+	color:#999999;
+}
+
+#Credenciales td.etiqueta {
+	font-size: .85em;
+	font-weight: bold;
+	color:#999999;
+}
+
+#Credenciales2 td.etiqueta{
+	font-size: .85em;
+	font-weight: bold;
+	color:#999999;
+}
+
+#Credenciales2 td.label {
+	font-size: 1em;
+	color:#999999;
+}
+
+#CredencialesCaja td.label {
+	font-size: 1em;
+	color:#999999;
+}
+
+#CredencialesCaja td.etiqueta {
+	font-size: .85em;
+	font-weight: bold;
+	color:#999999;
+}
+
+#Credenciales input, select, textarea, fieldset{
+	border:solid 1px #e0e0e0;
+	font-size: .9em;	
+	font-family: tahoma, geneva, sans-serif;
+}
+
+#Credenciales2 input, select, textarea, fieldset{
+	border:solid 1px #e0e0e0;
+	font-size: .9em;	
+	font-family: tahoma, geneva, sans-serif;
+}
+
+#Contenedor {
+	position:absolute;
+	border:double #FFF;
+	padding-bottom:10px;
+	padding-right:10px;
+	top:76px;
+	left:210px;		
+}
+
+.divPrincipalMenu ul{
+	padding-left: 10px;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: top;
+	background: transparent;
+}
+
+.divPrincipalMenu li a, a:link, a:visited {
+	vertical-align: top;
+	text-decoration: none;
+	color: #0F67A1;
+}
+
+.divPrincipalMenu li li li a, a:link, a:visited {
+	vertical-align: top;
+	text-decoration: none;
+	color: #494949;
+}
+
+
+.divPrincipalMenu a:hover {
+	text-decoration: underline;
+}
+
+
+.divPrincipalMenu ul ul{
+	padding-left: 30px;
+}
+
+
+.divPrincipalMenu ol, ul, dl {
+	list-style: none;
+}
+
+.divPrincipalAplicacion {
+	text-align: left;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	overflow: hidden;
+	position: relative;
+	word-wrap: break-word;
+	width: 100%;
+	background: #FFF;
+	font: .9em/1.4em "Trebuchet MS", "MS Trebuchet", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif; 	
+}
+
+.divPrincipalMenu {
+	width: 200px;
+	border:solid 1px #a6c9e2;
+	-moz-border-radius:0.5em;
+	-webkit-border-radius:0.5em;
+	border-radius:0.5em;	
+	margin: 6px;
+	float: left;
+}
+
+.menuTree {
+	text-decoration: none;
+}
+#listaMenu .menuTree:before {
+	content: url(../images/cerrado.ico);
+}
+#listaMenu .expanded:before {
+	content: url(../images/abierto.ico);
+}
+.collapsed {
+	display: none;
+}

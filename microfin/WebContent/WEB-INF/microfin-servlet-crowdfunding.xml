@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Beans de fondeo de solicitudes  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.FondeoSolicitudBean" />
+	</dwr:configuration>
+
+		<bean id="fondeoSolicitudDAOImpl" class="crowdfunding.dao.FondeoSolicitudDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/gridFondeoSolicitud.htm"
+			class="crowdfunding.controlador.FondeoSolicitudListaControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+
+	<bean name="/crwFondeoGrid.htm"
+			class="crowdfunding.controlador.ConsulInverCRWGridControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+
+
+	<bean name="/originacionCat.htm"
+			class="crowdfunding.controlador.ConsulOriginacionGridControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+
+		<!-- Reporte de Inversion para pruebas con PDF -->
+	<bean name="/DetalleInversionRepPDF.htm" class="crowdfunding.controlador.DetalleInversionRepPDFControlador">
+		<property name="nombreReporte" value="crowdfunding/DetalleDeInversiones.prpt" />
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Beans de fondeo de solicitudes Kubo-->
+	<bean id="fondeoSolicitudServicioImpl" class="crowdfunding.servicio.FondeoSolicitudServicio">
+		<dwr:remote javascript="fondeoSolicitudServicio"/>
+		<property name="fondeoSolicitudDAO" ref="fondeoSolicitudDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- ==================== Guia Contable Crowdfunding ==================== -->
+	<!-- Controlador pantalla -->
+	<bean name="/catalogoGuiaContaInvCRW.htm" class="crowdfunding.controlador.GuiaContableCRWControlador">
+		<property name="formView" value="crowdfunding/guiaContableCRWCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="guiaContableCRWServicio" ref="guiaContableCRWServicioImpl" />
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="guiaContableCRWServicioImpl" class="crowdfunding.servicio.GuiaContableCRWServicio">
+		<dwr:remote javascript="guiaContableCRWServicio"/>
+		<property name="cuentasMayorCRWDAO" ref="cuentasMayorCRWDAOImpl"/>
+		<property name="subctaMonedaCRWDAO" ref="subctaMonedaCRWDAOImpl"/>
+		<property name="subctaPlazoCRWDAO" 	ref="subctaPlazoCRWDAOImpl"/>
+	</bean>
+
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.CuentasMayorCRWBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="cuentasMayorCRWDAOImpl" class="crowdfunding.dao.CuentasMayorCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="cuentasMayorCRWServicioImpl" class="crowdfunding.servicio.CuentasMayorCRWServicio">
+		<dwr:remote javascript="cuentasMayorCRWServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="cuentasMayorCRWDAO" ref="cuentasMayorCRWDAOImpl"/>
+	</bean>
+
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.SubctaMonedaCRWBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="subctaMonedaCRWDAOImpl" class="crowdfunding.dao.SubctaMonedaCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="subctaMonedaCRWServicioImpl" class="crowdfunding.servicio.SubctaMonedaCRWServicio">
+		<dwr:remote javascript="subctaMonedaCRWServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="subctaMonedaCRWDAO" ref="subctaMonedaCRWDAOImpl"/>
+	</bean>
+
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.ConceptosCRWBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="conceptosCRWDAOImpl" class="crowdfunding.dao.ConceptosCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="conceptosCRWServicioImpl" class="crowdfunding.servicio.ConceptosCRWServicio">
+		<dwr:remote javascript="conceptosCRWServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="conceptosCRWDAO" ref="conceptosCRWDAOImpl"/>
+	</bean>
+
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.SubctaPlazoCRWBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="subctaPlazoCRWDAOImpl" class="crowdfunding.dao.SubctaPlazoCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="subctaPlazoCRWServicioImpl" class="crowdfunding.servicio.SubctaPlazoCRWServicio">
+		<dwr:remote javascript="subctaPlazoCRWServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="subctaPlazoCRWDAO" ref="subctaPlazoCRWDAOImpl"/>
+	</bean>
+	<!-- ================== FIN Guia Contable Crowdfunding ================== -->
+
+	<!-- controlador de consulta originacion -->
+	<bean name="/consultaOriginacion.htm" class="crowdfunding.controlador.ConsultaOriginacionControlador">
+		<property name="formView" value="crowdfunding/originacionCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<!-- Beans de Amortizaciones Fondeo-->
+	<dwr:configuration>
+		  <dwr:convert type="bean" class="crowdfunding.bean.AmortizaFondeoCRWBean" />
+	</dwr:configuration>
+
+	<bean id="amortizaFondeoCRWDAOImpl" class="crowdfunding.dao.AmortizaFondeoCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <bean id="amortizaFondeoCRWServicioImpl" class="crowdfunding.servicio.AmortizaFondeoCRWServicio">
+		<dwr:remote javascript="amortiFondeoServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="amortizaFondeoCRWDAO" ref="amortizaFondeoCRWDAOImpl"/>
+	</bean>
+
+	<bean name="/calendarioInversionistasGrid.htm" class="crowdfunding.controlador.AmortizaFondeoCRWGridControlador">
+		<property name="amortizaFondeoCRWServicio" ref="amortizaFondeoCRWServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de fondeo kubo  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.CRWFondeoBean" />
+	</dwr:configuration>
+
+		<bean id="crwFondeoDAOImpl" class="crowdfunding.dao.CRWFondeoDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="crwFondeoServicioImpl" class="crowdfunding.servicio.CRWFondeoServicio">
+		<dwr:remote javascript="crwFondeoServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="crwFondeoDAO" ref="crwFondeoDAOImpl"/>
+	</bean>
+
+	<!-- Beans de tipos fondeadores  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.TiposFondeadoresBean" />
+	</dwr:configuration>
+
+	<bean id="tiposFondeadoresDAOImpl" class="crowdfunding.dao.TiposFondeadoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tiposFondeadoresServicioImpl" class="crowdfunding.servicio.TiposFondeadoresServicio">
+		<dwr:remote javascript="tiposFondeadoresServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="tiposFondeadoresDAO" ref="tiposFondeadoresDAOImpl"/>
+	</bean>
+
+	<!-- controlador de consulta originacion -->
+	<bean name="/tiposFondeadores.htm" class="crowdfunding.controlador.TiposFondeadoresControlador">
+		<property name="formView" value="crowdfunding/tiposFondeadoresCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposFondeadoresServicio" ref="tiposFondeadoresServicioImpl" />
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaFondeoCrwLista.htm" class="crowdfunding.controlador.TiposFondeadorListaControlador">
+		<property name="tiposFondeadoresServicio" ref="tiposFondeadoresServicioImpl" />
+	</bean>
+
+	<!-- Beans de movimientos fondeo kubo  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.CRWFondeoMovsBean" />
+	</dwr:configuration>
+
+		<bean id="crwFondeoMovsDAOImpl" class="crowdfunding.dao.CRWFondeoMovsDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="crwFondeoMovsServicioImpl" class="crowdfunding.servicio.CRWFondeoMovsServicio">
+			<dwr:remote javascript="fondeokuboMovsServicio">
+			<dwr:include method="consulta" />
+			</dwr:remote>
+		  <property name="crwFondeoMovsDAO" ref="crwFondeoMovsDAOImpl"/>
+	</bean>
+
+	<bean name="/crwFondeoMovsGrid.htm" class="crowdfunding.controlador.MovimCRWFondGridControlador">
+		<property name="crwFondeoMovsServicio" ref="crwFondeoMovsServicioImpl" />
+	</bean>
+
+	<!--  bean de lista de saldos y pagos de inversionista kubo-->
+	<bean name="/pagosYsaldosFondeoCRWGrid.htm" class="crowdfunding.controlador.SaldosYpagosCRWFonGridControlador">
+		<property name="crwFondeoServicio" ref="crwFondeoServicioImpl" />
+	</bean>
+
+	<!-- Beans de parametros kubo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="crowdfunding.bean.ParametrosCRWBean" />
+	</dwr:configuration>
+
+	<bean id="parametrosCRWDAOImpl" class="crowdfunding.dao.ParametrosCRWDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+			<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+
+	<bean id="parametrosCRWServicioImpl" class="crowdfunding.servicio.ParametrosCRWServicio">
+		<dwr:remote javascript="parametrosCRWServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosCRWDAO" ref="parametrosCRWDAOImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<bean name="/parametrosCRWVista.htm" class="crowdfunding.controlador.ParametrosCRWControlador">
+		<property name="formView" value="crowdfunding/parametrosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosCRWServicio" ref="parametrosCRWServicioImpl" />
+	</bean>
+
+	<!--
+	<bean name="/inversionistasKubo.htm" class="invkubo.controlador.InversionistasKuboGridControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+
+	Grid Resumen de Fondeos PLD Inusuales
+	<bean name="/inversionesKuboxCliente.htm" class="invkubo.controlador.InvKuboResumenInuControlador">
+		<property name="crwFondeoServicio" ref="crwFondeoServicioImpl" />
+	</bean>
+-->
+
+</beans>

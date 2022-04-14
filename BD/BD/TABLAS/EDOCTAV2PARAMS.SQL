@@ -1,0 +1,43 @@
+DELIMITER ;
+DROP TABLE IF EXISTS EDOCTAV2PARAMS;
+DELIMITER $$
+
+CREATE TABLE EDOCTAV2PARAMS (
+	MontoMinTimbrado		DECIMAL(16,2)	NOT NULL COMMENT 'Monto minimo para realizar el timbrado',
+	RutaExpArchivos			VARCHAR(250)	NOT NULL COMMENT 'Ruta donde se exportan los archivos XML y PDF',
+	RutaPRPTPlantilla		VARCHAR(250)	NOT NULL COMMENT 'Ruta en donde se encontrara el archivo PRPT para generar los PDF del estado de cuenta',
+	MesProceso				INT(11)			NOT NULL COMMENT 'Mes de proceso',
+	InstitucionID			INT(11)			NOT NULL COMMENT 'Corresponde al ID de la intitucion, este campo se llena con el proceso EDOCTAV2PARAMSPRO, no es necesario darle valor manualmente',
+	PrefijoEmpresa			VARCHAR(100) 	NOT NULL COMMENT 'Valor de Prefijo de la empresa llamado Desplegado de la tabla compania en la BD principal.',
+	CiudadUEAUID			INT(11)			NOT NULL COMMENT 'Identificador de la ciudad',
+	CiudadUEAU				VARCHAR(45)		NOT NULL COMMENT 'Nombre de la ciudad',
+	TelefonoUEAU			VARCHAR(45)		NOT NULL COMMENT 'Numero de telefono',
+	OtrasCiuUEAU			VARCHAR(45)		NOT NULL COMMENT 'Numero de OtrasCiuUEAU',
+	HorarioUEAU				VARCHAR(45)		NOT NULL COMMENT 'Descripcion de horario',
+	DireccionUEAU			VARCHAR(250)	NOT NULL COMMENT 'Direccion de UEAU',
+	CorreoUEAU				VARCHAR(45)		NOT NULL COMMENT 'Correo electronico UEAU',
+	RutaLogo				VARCHAR(250)	NOT NULL COMMENT 'Ruta de Alojamiento del Logo para mostrar',
+	ExtTelefonoPart			VARCHAR(6)		NOT NULL COMMENT 'Contiene la extension  de telefono particular',
+	ExtTelefono				VARCHAR(6)		NOT NULL COMMENT 'Contiene el número de extension de telefono de otra ciudad',
+	EnvioAutomatico			CHAR(1)			NOT NULL COMMENT 'Envio automatico por correo de estados de cuenta',
+	RemitenteID				INT(11)			NOT NULL COMMENT 'Identificador del remitente correspondiente a la tabla TARENVIOCORREOPARAM',
+	Asunto					VARCHAR(100)	NOT NULL COMMENT 'Asunto del correo electronico',
+	CuerpoTexto				TEXT			NOT NULL COMMENT 'Cuerpo del texto',
+	ProveedorTimbrado		CHAR(2)			NOT NULL COMMENT 'SW - SmarterWeb, FM - Facturacion Moderna, HS - Hub de Servicios',
+	URLWSHub				VARCHAR(200)	NOT NULL COMMENT 'URL del servicio web que se consumirá para timbrar los estados de cuenta en caso de que el campo ProveedorTimbrado tenga el valor HS',
+	CredencialesHub			VARCHAR(200)	NOT NULL COMMENT 'Credenciales para consumir el WS del Hub de Servicios. Se compone de la concatenacion del Usuario con el caracter : con el Password codificado en Base64',
+	TokenWS					TEXT			NOT NULL COMMENT 'Token para la autentificacion con los servicios de SmartWeb',
+	URLWSSmarterWeb			VARCHAR(200)	NOT NULL COMMENT 'URL del servicio web que se consumirá para timbrar los estados de cuenta en caso de que el campo ProveedorTimbrado tenga el valor SW',
+	ClienteInstitucion		INT(11)			NOT NULL COMMENT 'Identificador del cliente que representa la institucion dentro del SAFI',
+	FechaInicio				DATE			NOT NULL COMMENT 'Corresponde con la fecha de inicio del periodo a ejecutar de estado de cuenta. No es necesario llenar este valor manualmente, ya que se calculara en el proceso de extraccion',
+	FechaFin				DATE			NOT NULL COMMENT 'Corresponde con la fecha de fin del periodo a ejecutar de estado de cuenta. No es necesario llenar este valor manualmente, ya que se calculara en el proceso de extraccion',
+	FolioProceso			BIGINT(20)		NOT NULL COMMENT 'Se genera cuando se ejecuta el estado de cuenta',
+	EmpresaID 				INT(11) 		NOT NULL COMMENT 'Parametro de auditoria',
+	Usuario 				INT(11) 		NOT NULL COMMENT 'Parametro de auditoria',
+	FechaActual 			DATETIME 		NOT NULL COMMENT 'Parametro de auditoria',
+	DireccionIP 			VARCHAR(15) 	NOT NULL COMMENT 'Parametro de auditoria',
+	ProgramaID 				VARCHAR(50) 	NOT NULL COMMENT 'Parametro de auditoria',
+	Sucursal 				INT(11) 		NOT NULL COMMENT 'Parametro de auditoria',
+	NumTransaccion 			BIGINT(20)		NOT NULL COMMENT 'Parametro de auditoria',
+	PRIMARY KEY(MesProceso)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tab: Tabla de parametros de estado de cuenta'$$

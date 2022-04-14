@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<!-- Definicion de Beans Generales o de Sistema -->
+	
+	<!-- Definicion de Bean para el manejo de Locale -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location" value="file:/opt/SAFI/SAFI.properties" />
+    	 <property name="placeholderPrefix" value="${props:"/>	
+	</bean>
+	
+	<!-- Origenes de Datos -->
+	<bean id="applicationServerEnviromentProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="java.naming.factory.initial">org.apache.naming.java.javaURLContextFactory</prop>
+        		<prop key="java.naming.provider.url">localhost:8080</prop>
+	    </props>
+		</property> 
+	</bean>
+   
+    <bean id="dsJndiTemplate" class="org.springframework.jndi.JndiTemplate">
+		<property name="environment">
+			<props>
+				<prop key="java.naming.factory.initial">org.apache.naming.java.javaURLContextFactory</prop>
+			</props>
+		</property>
+	</bean>
+     
+	<bean id="conexionOrigenDatosBeanImpl" class="seguridad.bean.ConexionOrigenDatosBean" scope="singleton"/>
+	
+	<bean id="conexionOrigenDatosServicio" class="seguridad.servicio.ConexionOrigenDatosServicio"
+			init-method="creaConexionesBD" depends-on="conexionOrigenDatosBeanImpl">
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="jndiTemplate" ref="dsJndiTemplate" />
+	</bean>     
+     
+     
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:/comp/env/jdbc/principal"/>
+		<property name="jndiTemplate">
+			<ref local="dsJndiTemplate" />
+		</property>
+	</bean>
+	    	 
+	<!-- Configuracion para el Majeo de Transacciones -->
+	<bean id="transactionManager"
+			class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- Configuracion para Envio de Correo -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.efisys.com.mx" />
+		<property name="port" value="587" />
+		<property name="username" value="sistemasafi@efisys.com.mx" />
+		<property name="password" value="MiS@fi2017" />
+	</bean>
+	
+	<!-- Manejador y Mapeo de las Vistas -->
+	<bean id="viewResolver"
+			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value> 
+		</property>
+	</bean>
+	
+	<!-- Definicion de beans CommonsMultipartResolver y CosMultipartResolver (Para Subir Archivos) -->
+	<bean id="multipartResolver"
+	    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">	    
+	    <property name="maxUploadSize" value="5368709120"/>
+	</bean>
+
+	<!-- Definicion de Beans para Reporteador -->
+	<bean id="jFreeReportBoot" class="org.jfree.report.JFreeReportBoot" 
+		   factory-method="getInstance" init-method="start" />
+		   
+  	<bean id="reportGenerator" class="org.jfree.report.modules.parser.base.ReportGenerator"
+    	   factory-method="getInstance" />
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="general.bean.MensajeTransaccionArchivoBean" /> 
+	</dwr:configuration>
+	
+	<!-- Definicion de bean para internacionalizacion -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>	
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <property name="defaultLocale" value="${props:NombreCorto}"/>	    
+	</bean>
+</beans>

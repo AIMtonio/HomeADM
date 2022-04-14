@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+		 
+	<!-- Beans para pantalla de configuracion de servicios -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="psl.bean.PSLParamBrokerBean" />
+	</dwr:configuration>	
+	
+	<bean id="pslParamBrokerDAOImpl" class="psl.dao.PSLParamBrokerDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+	
+	<bean id="pslParamBrokerServicioImpl" class="psl.servicio.PSLParamBrokerServicio">
+		<dwr:remote javascript="pslParamBrokerServicio">
+			<dwr:include method="consulta" />
+		 	<dwr:include method="lista" />	
+		</dwr:remote>		
+		<property name="pslParamBrokerDAO" ref="pslParamBrokerDAOImpl"/>	
+		<property name="pslProdBrokerDAO" ref="pslProdBrokerDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/pslParamBroker.htm" class="psl.controlador.PSLParamBrokerControlador">
+		<property name="formView" value="psl/pslParamBrokerVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="pslParamBrokerServicio" ref="pslParamBrokerServicioImpl" />
+	</bean>
+	
+	<!-- Beans para pantalla de servicios en linea -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="psl.bean.PSLConfigServicioBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="psl.bean.PSLConfigProductoBean" />
+	</dwr:configuration>
+
+	<bean id="pslConfigProductoDAOImpl" class="psl.dao.PSLConfigProductoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="pslConfigServicioDAOImpl" class="psl.dao.PSLConfigServicioDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="pslConfigProductoDAO" ref="pslConfigProductoDAOImpl"/>
+	</bean>
+	
+	<bean id="pslHisProdBrokerDAOImpl" class="psl.dao.PSLHisProdBrokerDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="pslProdBrokerDAOImpl" class="psl.dao.PSLProdBrokerDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="pslHisProdBrokerDAO" ref="pslHisProdBrokerDAOImpl"/>
+		<property name="pslParamBrokerDAO" ref="pslParamBrokerDAOImpl"/>
+	</bean>
+	
+	<bean id="pslConfigServicioServicioImpl" class="psl.servicio.PSLConfigServicioServicio">
+		<dwr:remote javascript="pslConfigServicioServicio">
+			<dwr:include method="consulta" />
+		 	<dwr:include method="lista" />	
+		</dwr:remote>		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="pslConfigServicioDAO" ref="pslConfigServicioDAOImpl"/>
+		<property name="pslProdBrokerDAO" ref="pslProdBrokerDAOImpl"/>
+	</bean>
+	
+	<bean name="/pslConfigServicioGridVista.htm" class="psl.controlador.PSLConfigServicioGridControlador" >
+		<property name="pslConfigServicioServicio" ref="pslConfigServicioServicioImpl" /> 
+	</bean>
+	
+	<bean id="pslConfigProductoServicioImpl" class="psl.servicio.PSLConfigProductoServicio">
+		<dwr:remote javascript="pslConfigProductoServicio">
+			<dwr:include method="consulta" />
+		 	<dwr:include method="lista" />	
+		</dwr:remote>		
+		<property name="pslConfigProductoDAO" ref="pslConfigProductoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/pslConfigProductoGridVista.htm" class="psl.controlador.PSLConfigProductoGridControlador" >
+		<property name="pslConfigProductoServicio" ref="pslConfigProductoServicioImpl" /> 
+	</bean>
+	
+	<bean name="/pslConfigServicio.htm" class="psl.controlador.PSLConfigServicioControlador">
+		<property name="formView" value="psl/pslConfigServicioVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="pslConfigServicioServicio" ref="pslConfigServicioServicioImpl" />
+	</bean>
+	
+	<!-- Pantalla de Ventanilla seccion de cobros en linea -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="psl.bean.PSLCobroSLBean" />
+	</dwr:configuration>
+	
+	<bean id="pslRespPagoServDAOImpl" class="psl.dao.PSLRespPagoServDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="pslCobroSLDAOImpl" class="psl.dao.PSLCobroSLDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="pslParamBrokerDAO" ref="pslParamBrokerDAOImpl" />
+		<property name="pslRespPagoServDAO" ref="pslRespPagoServDAOImpl" />
+	</bean>
+		
+	<!-- Reporte de pago de servicios en linea -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="psl.bean.PSLReportePagoBean" />
+	</dwr:configuration>
+	
+	<bean name="/pslReportePagoVista.htm"  class="psl.controlador.PSLReportePagoControlador">
+		<property name="formView" value="psl/pslReportePagoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<bean name="/pslReportePago.htm"  class="psl.reporte.PSLReportePagoControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporte" value="psl/ReportePagoServicios.prpt" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="pslReportePagoServicio" ref="pslReportePagoServicioImpl"/>
+	</bean>
+	
+	<bean id="pslReportePagoServicioImpl" class="psl.servicio.PSLReportePagoServicio" >
+		<property name="pslReportePagoDAO" ref="pslReportePagoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="pslReportePagoDAOImpl" class="psl.dao.PSLReportePagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+</beans>

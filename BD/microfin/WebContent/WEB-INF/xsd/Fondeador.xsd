@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+    
+    
+     <xs:element name="listaCreditoFondeoBERequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="listaCreditoFondeoBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="listaCreditos" type="xs:string" />            						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="consultaCreditoFondeoBERequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="creditoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="consultaCreditoFondeoBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="creditoFondeoID"	type="xs:string" />   
+                <xs:element name="tasa" 			type="xs:string" />      
+                <xs:element name="moneda" 			type="xs:string" />     
+                <xs:element name="fecInicio" 		type="xs:string" />     
+                <xs:element name="fecVencimiento" 	type="xs:string" />     
+                <xs:element name="saldoCapVigente" 	type="xs:string" />     
+                <xs:element name="saldoCapAtrasad" 	type="xs:string" />     
+                <xs:element name="saldoInteresPro" 	type="xs:string" />     
+                <xs:element name="saldoInteresAtra" type="xs:string" />     
+                <xs:element name="saldoIVAInteres" 	type="xs:string" />     
+                <xs:element name="saldoMoratorios" 	type="xs:string" />     
+                <xs:element name="saldoIVAMora" 	type="xs:string" />     
+                <xs:element name="saldoComFaltaPa"	type="xs:string" />     
+                <xs:element name="saldoOtrasComis" 	type="xs:string" />     
+                <xs:element name="saldoIVAComisi" 	type="xs:string" />     
+                <xs:element name="saldoRetencion" 	type="xs:string" />     
+                <xs:element name="saldoIVAComFalP" 	type="xs:string" />                                                                                  						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="consultaAmortiFondeoBERequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="creditoFondeoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="consultaAmortiFondeoBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ListaAmortizaciones" type="xs:string" />            						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

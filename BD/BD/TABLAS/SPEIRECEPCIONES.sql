@@ -1,0 +1,71 @@
+-- ---------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- ---------------------------------------------------------------------------------
+-- SPEIRECEPCIONES
+DELIMITER ;
+DROP TABLE IF EXISTS `SPEIRECEPCIONES`;
+DELIMITER $$
+
+
+CREATE TABLE `SPEIRECEPCIONES` (
+  `FolioSpeiRecID` bigint(20) NOT NULL COMMENT 'Numero de Folio de Spei de recepcion.',
+  `TipoPagoID` int(2) NOT NULL COMMENT 'Tipo de pago spei',
+  `TipoCuentaOrd` int(2) NOT NULL COMMENT 'Tipo de cuenta ordenante',
+  `CuentaOrd` blob NOT NULL COMMENT 'Numero de CLABE, Numero de tarjeta o Numero de celular.',
+  `NombreOrd` blob NOT NULL COMMENT 'Nombre del ordenante',
+  `RFCOrd` blob NOT NULL COMMENT 'RFC del Ordenante',
+  `TipoOperacion` int(2) NOT NULL COMMENT 'Tipo de Operacion spei.',
+  `MontoTransferir` blob NOT NULL COMMENT 'Monto de la transferencia',
+  `IVAComision` decimal(16,2) NOT NULL COMMENT 'Iva Comision SPEI',
+  `InstiRemitenteID` int(5) NOT NULL COMMENT 'Institucion remitente u ordenante',
+  `InstiReceptoraID` int(5) NOT NULL COMMENT 'Institucion receptora',
+  `CuentaBeneficiario` blob NOT NULL COMMENT 'Cuenta del Beneficiario',
+  `NombreBeneficiario` blob NOT NULL COMMENT 'Nombre del Benefiaciario',
+  `RFCBeneficiario` blob NOT NULL COMMENT 'RFC del Beneficiario',
+  `TipoCuentaBen` int(2) NOT NULL COMMENT 'Tipo de Cuenta del beneficiario.',
+  `ConceptoPago` blob NOT NULL COMMENT 'Concepto de la transferencia',
+  `ClaveRastreo` varchar(30) NOT NULL COMMENT 'Clave de rastreo.',
+  `CuentaBenefiDos` varchar(20) NOT NULL COMMENT 'Cuenta del Beneficiario Dos',
+  `NombreBenefiDos` varchar(40) NOT NULL COMMENT 'Nombre del Benefiaciario Dos',
+  `RFCBenefiDos` varchar(18) NOT NULL COMMENT 'RFC del Beneficiario Dos',
+  `TipoCuentaBenDos` int(2) NOT NULL COMMENT 'Tipo de Cuenta Beneficiario dos',
+  `ConceptoPagoDos` varchar(40) NOT NULL COMMENT 'Concepto de la transferencia',
+  `ClaveRastreoDos` varchar(30) NOT NULL COMMENT 'Clave de rastreo dos.',
+  `ReferenciaCobranza` varchar(40) NOT NULL COMMENT 'Referencia de cobranza',
+  `ReferenciaNum` int(7) NOT NULL COMMENT 'Referencia Numerica',
+  `Estatus` char(1) NOT NULL COMMENT 'Estatus de recepcion:\nR)Registrada \nA)Abonada\nD)Devuelta\n',
+  `Prioridad` int(1) NOT NULL COMMENT 'Prioridad',
+  `FechaOperacion` date NOT NULL COMMENT 'Fecha de abono',
+  `FechaCaptura` datetime NOT NULL COMMENT 'Fecha de captura',
+  `ClavePago` varchar(10) NOT NULL COMMENT 'Clave de pago',
+  `AreaEmiteID` int(2) NOT NULL COMMENT 'Area que emite',
+  `EstatusRecep` int(3) NOT NULL COMMENT 'Estatus de recepcion',
+  `CausaDevol` int(2) NOT NULL COMMENT 'Causa devolucion',
+  `InfAdicional` varchar(100) NOT NULL COMMENT 'informacion adicional',
+  `RepOperacion` char(1) NOT NULL COMMENT 'Indica si ya fue reportada la operacion a banxico:\nS) Si, Ya se reporto si fue abonada o devuelta\nN) No, No se ha reportado',
+  `Firma` varchar(250) NOT NULL COMMENT 'Firma',
+  `Folio` bigint(20) NOT NULL COMMENT 'Folio emisor',
+  `FolioBanxico` bigint(20) NOT NULL COMMENT 'Folio banco de Mexico',
+  `FolioPaquete` bigint(20) NOT NULL COMMENT 'Folio del paquete',
+  `FolioServidor` bigint(20) NOT NULL COMMENT 'Folio del servidor',
+  `Topologia` char(1) NOT NULL COMMENT 'Topologia:\nT)Topologia T \nV)Topologia V',
+  `Empresa` VARCHAR(50) NOT NULL COMMENT 'Nombre de la empresa beneficiaria que esta configurada en STP',
+  `EmpresaID` int(11) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `Usuario` int(11) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `FechaActual` datetime DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `DireccionIP` varchar(20) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `ProgramaID` varchar(50) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `Sucursal` int(11) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `NumTransaccion` bigint(20) DEFAULT NULL COMMENT 'Campo de Auditoria',
+  PRIMARY KEY (`FolioSpeiRecID`),
+  KEY `fk_SPEIRECEPCIONES_1` (`TipoPagoID`),
+  KEY `fk_SPEIRECEPCIONES_2` (`InstiRemitenteID`),
+  KEY `fk_SPEIRECEPCIONES_3` (`InstiReceptoraID`),
+  KEY `fk_SPEIRECEPCIONES_4` (`AreaEmiteID`),
+  INDEX `ÌNDEX_SPEIRECEPCIONES_1` (FolioBanxico),
+  CONSTRAINT `fk_SPEIRECEPCIONES_1` FOREIGN KEY (`TipoPagoID`) REFERENCES `TIPOSPAGOSPEI` (`TipoPagoID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SPEIRECEPCIONES_2` FOREIGN KEY (`InstiRemitenteID`) REFERENCES `INSTITUCIONESSPEI` (`InstitucionID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SPEIRECEPCIONES_3` FOREIGN KEY (`InstiReceptoraID`) REFERENCES `INSTITUCIONESSPEI` (`InstitucionID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SPEIRECEPCIONES_4` FOREIGN KEY (`AreaEmiteID`) REFERENCES `AREASEMITESPEI` (`AreaEmiteID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla que almacena las recepciones de SPEI'$$

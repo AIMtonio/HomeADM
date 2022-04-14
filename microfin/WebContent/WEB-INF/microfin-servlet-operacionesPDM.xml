@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+
+	<!-- WS Consulta de Cuentas Destino-->
+	<bean id="sP_PDM_Ahorros_ConsultaCtaDestinoDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_ConsultaCtaDestinoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_ConsultaCtaDestinoServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_ConsultaCtaDestinoServicio">
+		<property name="sP_PDM_Ahorros_ConsultaCtaDestinoDAO" ref="sP_PDM_Ahorros_ConsultaCtaDestinoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS Consulta de Cuentas Destino-->
+	
+	<!-- WS Orden de Pago Spei-->
+	<bean id="sP_PDM_Ahorros_OrdenPagoSpeiDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_OrdenPagoSpeiDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_OrdenPagoSpeiServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_OrdenPagoSpeiServicio">
+		<property name="sP_PDM_Ahorros_OrdenPagoSpeiDAO" ref="sP_PDM_Ahorros_OrdenPagoSpeiDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS Orden de Pago Spei-->
+	
+	<!-- WS Consulta Estatus Spei-->
+	<bean id="sP_PDM_Ahorros_ConsultaEstatusSpeiDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_ConsultaEstatusSpeiDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_ConsultaEstatusSpeiServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_ConsultaEstatusSpeiServicio">
+		<property name="sP_PDM_Ahorros_ConsultaEstatusSpeiDAO" ref="sP_PDM_Ahorros_ConsultaEstatusSpeiDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS Consulta Estatus Spei-->
+	
+	<!-- WS Abono a Cuenta -->
+	<bean id="sP_PDM_Ahorros_AbonoCtaDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_AbonoCtaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_AbonoCtaServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_AbonoCtaServicio">
+		<property name="sP_PDM_Ahorros_AbonoCtaDAO" ref="sP_PDM_Ahorros_AbonoCtaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS Abono a Cuenta -->
+	
+	<!-- WS Retiro a Cuenta -->
+	<bean id="sP_PDM_Ahorros_RetiroCtaDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_RetiroCtaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_RetiroCtaServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_RetiroCtaServicio">
+		<property name="sP_PDM_Ahorros_RetiroCtaDAO" ref="sP_PDM_Ahorros_RetiroCtaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- WS Retiro a Cuenta -->
+	
+	<!-- WS Consulta de Saldo -->
+
+	<bean id="sP_PDM_Ahorros_ConsultaSaldoDAOImpl" class="operacionesPDM.dao.SP_PDM_Ahorros_ConsultaSaldoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="sP_PDM_Ahorros_ConsultaSaldoServicioImpl" class="operacionesPDM.servicio.SP_PDM_Ahorros_ConsultaSaldoServicio">
+		<property name="sP_PDM_Ahorros_ConsultaSaldoDAO" ref="sP_PDM_Ahorros_ConsultaSaldoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+	<!-- WS Consulta de Saldo -->
+    
+	
+</beans>

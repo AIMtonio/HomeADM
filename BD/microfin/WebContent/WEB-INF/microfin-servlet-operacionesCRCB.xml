@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+
+
+  <!-- ======= Alta Clientes ======= -->
+    
+    <bean id="altaClienteDAOImpl" class="operacionesCRCB.dao.AltaClienteDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+    <bean id="altaClienteServicioImpl" class="operacionesCRCB.servicio.AltaClienteServicio">
+        <property name="altaClienteDAO" ref="altaClienteDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+    </bean>
+    
+    <!-- ======= Actualiza Clientes ======= -->
+    
+	<bean id="actualizaClienteDAOImpl" class="operacionesCRCB.dao.ActualizaClienteDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+    <bean id="actualizaClienteServicioImpl" class="operacionesCRCB.servicio.ActualizaClienteServicio">
+        <property name="actualizaClienteDAO" ref="actualizaClienteDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+    </bean>
+    
+     <!-- ======= Consulta Movimientos Cuentas ======= --> 
+     
+     <bean id="conMovimientosCuentaDAOImpl" class="operacionesCRCB.dao.ConMovimientosCuentaDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+     <bean id="conMovimientosCuentaServicioImpl" class="operacionesCRCB.servicio.ConMovimientosCuentaServicio">
+        <property name="conMovimientosCuentaDAO" ref="conMovimientosCuentaDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+    </bean>
+    
+    <!-- ======= Alta Grupo ======= -->
+    
+    
+	<bean id="altaGrupoDAOImpl" class="operacionesCRCB.dao.AltaGrupoDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+    <bean id="altaGrupoServicioImpl" class="operacionesCRCB.servicio.AltaGrupoServicio">
+        <property name="altaGrupoDAO" ref="altaGrupoDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+    </bean>
+    
+     <!-- ======= Alta Credito ======= -->
+    
+    
+	<bean id="altaCreditoDAOImpl" class="operacionesCRCB.dao.AltaCreditoDAO">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+         <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+        <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+        <property name="transactionTemplate">
+            <bean class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>     
+    </bean> 
+    
+    <bean id="altaCreditoServicioImpl" class="operacionesCRCB.servicio.AltaCreditoServicio">
+        <property name="altaCreditoDAO" ref="altaCreditoDAOImpl"/>    
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+    </bean>
+    
+  <!-- Beans de Cuentas Destino -->  
+	<bean id="cuentasDestinoDAOImpl" class="operacionesCRCB.dao.CuentasDestinoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentasDestinoServicioImpl" class="operacionesCRCB.servicio.CuentasDestinoServicio">
+		<property name="cuentasDestinoDAO" ref="cuentasDestinoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Cargos/Abonos a Cuenta -->  
+	<bean id="cargoAbonoCuentaDAOImpl" class="operacionesCRCB.dao.CargoAbonoCuentaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cargoAbonoCuentaServicioImpl" class="operacionesCRCB.servicio.CargoAbonoCuentaServicio">
+		<property name="cargoAbonoCuentaDAO" ref="cargoAbonoCuentaDAOImpl"/>	
+		<property name="isotrxServicio" ref="isotrxServicioImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Alta de Inversiones -->  
+	<bean id="altaInversionesDAOImpl" class="operacionesCRCB.dao.AltaInversionesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="altaInversionesServicioImpl" class="operacionesCRCB.servicio.AltaInversionesServicio">
+		<property name="altaInversionesDAO" ref="altaInversionesDAOImpl"/>	
+		<property name="isotrxServicio" ref="isotrxServicioImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans Desembolso de Credito -->  
+	<bean id="desembolsoCreditoDAOImpl" class="operacionesCRCB.dao.DesembolsoCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="desembolsoCreditoServicioImpl" class="operacionesCRCB.servicio.DesembolsoCreditoServicio">
+		<property name="desembolsoCreditoDAO" ref="desembolsoCreditoDAOImpl"/>	
+		<property name="isotrxServicio" ref="isotrxServicioImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- Beans de Cuentas Autorizadas -->  
+	<bean id="cuentaAutorizadaDAOImpl" class="operacionesCRCB.dao.CuentaAutorizadaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentaAutorizadaServicioImpl" class="operacionesCRCB.servicio.CuentaAutorizadaServicio">
+		<property name="cuentaAutorizadaDAO" ref="cuentaAutorizadaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	
+	<!-- Beans de Actualizacion de Direccion -->  
+	<bean id="direccionesWSDAOImpl" class="operacionesCRCB.dao.DireccionesWSDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="direccionesWSServicioImpl" class="operacionesCRCB.servicio.DireccionesWSServicio">
+		<property name="direccionesWSDAO" ref="direccionesWSDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>
+	
+	
+	<!-- Beans de Consulta de Amortizaciones -->  
+	<bean id="amortizacionesCreditoDAOImpl" class="operacionesCRCB.dao.AmortizacionesCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="amortizacionesCreditoServicioImpl" class="operacionesCRCB.servicio.AmortizacionesCreditoServicio">
+		<property name="amortizacionesCreditoDAO" ref="amortizacionesCreditoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Alta de CEDES -->  
+	<bean id="altaCedesDAOImpl" class="operacionesCRCB.dao.AltaCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/> 
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="altaCedesServicioImpl" class="operacionesCRCB.servicio.AltaCedesServicio">
+		<property name="altaCedesDAO" ref="altaCedesDAOImpl"/>	
+		<property name="isotrxServicio" ref="isotrxServicioImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- Beans de Consulta de CEDES -->  
+	<bean id="consultaCedesDAOImpl" class="operacionesCRCB.dao.ConsultaCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+
+	<bean id="consultaCedesServicioImpl" class="operacionesCRCB.servicio.ConsultaCedesServicio">
+		<property name="consultaCedesDAO" ref="consultaCedesDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- ================================== ABONO POR BONIFICACION ================================== -->
+	<!-- DAO  -->
+	<bean id="abonoBonificacionDAOImpl" class="operacionesCRCB.dao.AbonoBonificacionDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- SERVICIO  -->
+	<bean id="abonoBonificacionServicioImpl" class="operacionesCRCB.servicio.AbonoBonificacionServicio">
+		<property name="abonoBonificacionDAO" ref="abonoBonificacionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- ==================== ROMPIMIENTO DE GRUPO =============================== -->
+	<!-- DAO  -->
+	<bean id="rompimientoGrupoWSDAOImpl" class="operacionesCRCB.dao.RompimientoGrupoWSDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="rompimientoGrupoServicio" ref="rompimientoGrupoServicioImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- SERVICIO  -->
+	<bean id="rompimientoGrupoWSServicioImpl" class="operacionesCRCB.servicio.RompimientoGrupoWSServicio">
+		<property name="rompimientoGrupoWSDAO" ref="rompimientoGrupoWSDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+  </beans>

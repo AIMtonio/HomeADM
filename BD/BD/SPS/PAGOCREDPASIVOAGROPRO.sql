@@ -1,0 +1,229 @@
+-- ---------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- ---------------------------------------------------------------------------------
+-- PAGOCREDPASIVOAGROPRO
+DELIMITER ;
+DROP PROCEDURE IF EXISTS `PAGOCREDPASIVOAGROPRO`;DELIMITER $$
+
+CREATE PROCEDURE `PAGOCREDPASIVOAGROPRO`(
+/* SP DE PROCESO QUE REALIZA EL PAGO DE CREDITO PASIVO AGRO */
+	Par_CreditoFonID		BIGINT(12),			-- ID del Crédito.
+	Par_MontoPagar			DECIMAL(14,2),		-- Monto a Pagar
+	Par_MonedaID			INT(11),			-- ID de la Moneda.
+	Par_TotalAdeudo			DECIMAL(14,2),		-- Total del adeudo del credito
+	Par_PagoExigible		DECIMAL(14,2),		-- Total del Exigible del credito
+
+	Par_AltaEncPoliza		CHAR(1),			-- Indica si se da de alta el Encabezado de la póliza. S. Si N. No
+	Par_LineaFondeoID   	INT(11),			-- Linea de Fondeo, corresponde con la tabla LINEAFONDEADOR
+	Par_InstitutFondID		INT(11),			-- id de institucion de fondeo corresponde con la tabla INSTITUTFONDEO
+	INOUT Par_MontoPago		DECIMAL(14,2),
+	INOUT Par_Poliza		BIGINT,
+
+	Par_Salida				CHAR(1),			-- Indica el tipo de Salida.
+	INOUT Par_NumErr		INT(11),
+	INOUT Par_ErrMen		VARCHAR(400),
+	INOUT Par_Consecutivo	BIGINT,
+
+	/* Parametros de Auditoria */
+	Par_EmpresaID			INT(11),
+	Aud_Usuario				INT(11),
+	Aud_FechaActual			DATETIME,
+	Aud_DireccionIP			VARCHAR(15),
+	Aud_ProgramaID			VARCHAR(50),
+	Aud_Sucursal			INT(11),
+	Aud_NumTransaccion		BIGINT(20)
+)
+TerminaStore: BEGIN
+	-- Declaracion de Variables
+	DECLARE Var_CreditoID			BIGINT(12);
+	DECLARE	Var_EstatusCre			CHAR(1);
+	DECLARE	Var_EstatusGarFIRA		CHAR(1);
+	DECLARE Var_PermitePrepago		CHAR(1);
+	DECLARE	Var_MonedaID   			INT(11);
+	DECLARE Var_Control				VARCHAR(100);
+	DECLARE Var_AltaPoliza			CHAR(1);
+	DECLARE Var_MontoPagado			DECIMAL(14,2);
+	DECLARE Var_Poliza 				BIGINT;
+	DECLARE Var_DiferenciaPago		DECIMAL(14,2);
+	DECLARE Var_LineaFondeoID		INT(11);			-- ID linea de fondeo
+	DECLARE Var_InstitutFondID		INT(11);			-- ID instituto de fondeo
+    DECLARE Var_InstitucionID		INT(11);			-- ID institucion de linea de fondeo anterior
+    DECLARE Var_NumCtaInstit		VARCHAR(20);		-- Numero de Cuenta Bancaria.
+	-- Declaracion de Constantes
+	DECLARE Cadena_Vacia    		CHAR(1);
+	DECLARE Constante_NO			CHAR(1);
+	DECLARE Constante_SI			CHAR(1);
+	DECLARE Fecha_Vacia     		DATE;
+	DECLARE Entero_Cero     		INT;
+	DECLARE Decimal_Cero    		DECIMAL(12, 2);
+	DECLARE Decimal_Cien    		DECIMAL(12, 2);
+	DECLARE Estatus_Inactivo		CHAR(1);
+	DECLARE Estatus_Aplicado		CHAR(1);
+
+	-- Asignacion de Constantes
+	SET Cadena_Vacia    	:= '';              	-- String Vacio
+	SET Constante_NO		:= 'N';              	-- Constante No
+	SET Constante_SI		:= 'S';              	-- Constante SI
+	SET Fecha_Vacia     	:= '1900-01-01';    	-- Fecha Vacia
+	SET Entero_Cero     	:= 0;               	-- Entero en Cero
+	SET Decimal_Cero    	:= 0.00;            	-- DECIMAL Cero
+	SET Decimal_Cien    	:= 100.00;          	-- DECIMAL en Cien
+	SET Estatus_Inactivo	:= 'I';					-- Estatus INactivo
+	SET Estatus_Aplicado	:= 'P';					-- Estatus INactivo
+
+	ManejoErrores:BEGIN
+	  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			SET Par_NumErr := 999;
+			SET Par_ErrMen := CONCAT('El SAFI ha tenido un problema al concretar la operacion. ',
+								'Disculpe las molestias que esto le ocasiona. Ref: SP-PAGOCREDPASIVOAGROPRO');
+		END;
+
+		SET Aud_FechaActual     := NOW();
+		SET Var_AltaPoliza		:= Constante_NO;
+		SET Var_Poliza 			:= Par_Poliza;
+
+		SELECT	lin.LineaFondeoID,		lin.InstitutFondID,  	lin.InstitucionID, 		lin.NumCtaInstit
+			INTO Var_LineaFondeoID,		Var_InstitutFondID,		Var_InstitucionID,		Var_NumCtaInstit
+		FROM LINEAFONDEADOR lin
+			WHERE lin.LineaFondeoID    = Par_LineaFondeoID
+				AND lin.InstitutFondID = Par_InstitutFondID;
+
+
+        IF(IFNULL(Par_CreditoFonID,Entero_Cero)=Entero_Cero)THEN
+			SET Par_NumErr := 1;
+			SET Par_ErrMen := 'El Credito esta Vacio.';
+			SET Var_Control:= 'creditoID';
+			LEAVE ManejoErrores;
+		END IF;
+
+		IF(IFNULL(Par_TotalAdeudo,Entero_Cero)=Entero_Cero)THEN
+			SET Par_NumErr := 2;
+			SET Par_ErrMen := 'El Credito Se Encuentra Pagado.';
+			SET Var_Control:= 'creditoID';
+			LEAVE ManejoErrores;
+		END IF;
+
+		IF(IFNULL(Par_MontoPagar,Entero_Cero)=Entero_Cero)THEN
+			SET Par_NumErr := 3;
+			SET Par_ErrMen := 'El Monto a Pagar debe ser mayor a 0.';
+			SET Var_Control:= 'creditoID';
+			LEAVE ManejoErrores;
+		END IF;
+
+		IF(IFNULL(Par_LineaFondeoID,Entero_Cero))= Entero_Cero THEN
+			SET	Par_NumErr 		:= 4;
+			SET	Par_ErrMen 		:= 'La Linea de Fondeo esta Vacia.';
+            SET Var_Control  	:= 'lineaFondeoID';
+			LEAVE ManejoErrores;
+		ELSE
+			IF(IFNULL(Var_LineaFondeoID,Entero_Cero))= Entero_Cero THEN
+				SET	Par_NumErr 		:= 5;
+				SET	Par_ErrMen 		:= 'La Linea de Fondeo No Existe.';
+				SET Var_Control  	:= 'lineaFondeoID';
+				LEAVE ManejoErrores;
+			END IF;
+		END IF;
+
+		IF(IFNULL(Par_InstitutFondID,Entero_Cero))= Entero_Cero THEN
+			SET	Par_NumErr 		:= 6;
+			SET	Par_ErrMen 		:= 'La Institucion de Fondeo esta Vacia.';
+            SET Var_Control  	:= 'institFondeoIDN';
+			LEAVE ManejoErrores;
+		ELSE
+            IF(IFNULL(Var_InstitutFondID,Entero_Cero))= Entero_Cero THEN
+				SET	Par_NumErr 		:= 7;
+				SET	Par_ErrMen 		:= 'La Institucion de Fondeo No Existe.';
+				SET Var_Control  	:= 'institFondeoIDN';
+				LEAVE ManejoErrores;
+			END IF;
+		END IF;
+
+		-- si el monto ingresado para el activo es menor o igual al pago exigible y
+		-- el pago exigible no esta pagado, entonces hace el abono a la cuota exigible
+		IF(Par_MontoPagar<=Par_PagoExigible) THEN
+			-- Procedimiento del Pago del Credito
+			CALL PAGOCREDITOFONPRO(
+				Par_CreditoFonID,		Par_MontoPagar,		Par_MonedaID,			Constante_NO,		Var_AltaPoliza,
+                Var_InstitucionID,		Var_NumCtaInstit,	Constante_NO,			Var_MontoPagado,	Var_Poliza,
+				Par_NumErr,				Par_ErrMen,			Par_Consecutivo,		Par_EmpresaID,		Aud_Usuario,
+                Aud_FechaActual,		Aud_DireccionIP,	Aud_ProgramaID,			Aud_Sucursal,		Aud_NumTransaccion);
+
+			IF(Par_NumErr != Entero_Cero)THEN
+				LEAVE ManejoErrores;
+			END IF;
+
+		ELSE-- SI el monto ingresado es MAYOR al pago exigible Y sea MENOR al total adeudo y
+			-- y el pago exigible se encuentra pagado, entonces hace el abono a la cuota exigible y/o prepago
+			IF((Par_MontoPagar>Par_PagoExigible)AND(Par_MontoPagar<Par_TotalAdeudo))THEN
+				-- Se calcula la diferencia para poder realizar el prepago
+				SET Var_DiferenciaPago := Par_MontoPagar-Par_PagoExigible;
+				SET Var_DiferenciaPago := IFNULL(Var_DiferenciaPago,Decimal_Cero);
+				-- Procedimiento del Pago del Credito "ordinario"
+				IF(Par_PagoExigible>Entero_Cero)THEN
+
+					CALL PAGOCREDITOFONPRO(
+						Par_CreditoFonID,		Par_PagoExigible,	Par_MonedaID,			Constante_NO,		Var_AltaPoliza,
+					    Var_InstitucionID,		Var_NumCtaInstit,	Constante_NO,			Var_MontoPagado,	Var_Poliza,
+						Par_NumErr,				Par_ErrMen,			Par_Consecutivo,		Par_EmpresaID,		Aud_Usuario,
+					    Aud_FechaActual,		Aud_DireccionIP,	Aud_ProgramaID,			Aud_Sucursal,		Aud_NumTransaccion);
+
+					IF(Par_NumErr != Entero_Cero)THEN
+						LEAVE ManejoErrores;
+					END IF;
+				END IF;
+
+				IF(Var_DiferenciaPago>Decimal_Cero) THEN-- si la diferencia es mayor a cero
+					-- Procedimiento del Pago del Credito "prepago" con la difrencia antes calculada
+					-- sp de prepago pasivo
+					CALL PREPAGOCREDPASPRO(
+						Par_CreditoFonID,		Var_DiferenciaPago,		Par_MonedaID,		Constante_NO,			Var_AltaPoliza,
+						Var_InstitucionID,		Var_NumCtaInstit,		Constante_NO,		Var_MontoPagado,		Var_Poliza,
+						Par_NumErr,				Par_ErrMen,				Par_Consecutivo,	Par_EmpresaID,			Aud_Usuario,
+						Aud_FechaActual,		Aud_DireccionIP,		Aud_ProgramaID,		Aud_Sucursal,			Aud_NumTransaccion);
+
+					IF(Par_NumErr != Entero_Cero)THEN
+						LEAVE ManejoErrores;
+					END IF;
+
+				END IF;
+			ELSE -- Si no, se comprueba que el monto a pagar sea igual al total del adeudo
+				IF(Par_MontoPagar=Par_TotalAdeudo)THEN
+				-- Procedimiento del Pago del Credito "finiquito"
+					CALL PAGOCREDITOFONPRO(
+						Par_CreditoFonID,		Par_MontoPagar,		Par_MonedaID,			Constante_SI,		Var_AltaPoliza,
+						Var_InstitucionID,		Var_NumCtaInstit,	Constante_NO,			Var_MontoPagado,	Var_Poliza,
+						Par_NumErr,				Par_ErrMen,			Par_Consecutivo,		Par_EmpresaID,		Aud_Usuario,
+						Aud_FechaActual,		Aud_DireccionIP,	Aud_ProgramaID,			Aud_Sucursal,		Aud_NumTransaccion);
+
+					IF(Par_NumErr != Entero_Cero)THEN
+						LEAVE ManejoErrores;
+					END IF;
+
+				ELSE
+					IF(Par_MontoPagar>Par_TotalAdeudo)THEN
+						SET Par_NumErr := 4;
+						SET Par_ErrMen := 'El Monto No debe ser Mayor al Monto del Adeudo Total.';
+						SET Var_Control:= 'montoPagar';
+						LEAVE ManejoErrores;
+					END IF;
+				END IF;-- Fin si es finiquito
+			END IF;-- Fin se paga exigible Mas prepago
+		END IF;--  Fin si monto a pagar es menor o igual que exigible
+
+		SET Par_NumErr		:= Entero_Cero;
+		SET Par_ErrMen		:= 'Pago Pasivo Aplicado Exitosamente';
+		SET Par_Consecutivo	:= Entero_Cero;
+		SET Var_Control		:= 'creditoID';
+
+END ManejoErrores;
+
+IF (Par_Salida = Constante_SI) THEN
+	SELECT  Par_NumErr 		AS NumErr,
+			Par_ErrMen 		AS ErrMen,
+			Var_Control 	AS Control,
+			Par_Consecutivo AS Consecutivo;
+END IF;
+
+END TerminaStore$$

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos -->
+    
+    <!-- DEfinicion de  REQUEST y RESPONSE y mapeo de datos  ALTA USUARIOS BANCA EN LINEA-->  
+    <xs:element name="altaUsuarioBERequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clave" type="xs:string" />
+                <xs:element name="perfil" type="xs:string" />
+                <xs:element name="clienteNominaID" type="xs:string" />
+                 <xs:element name="negocioAfiliadoID" type="xs:string" />
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="costoMensual" type="xs:string" />
+                <xs:element name="tipoTransaccion" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="altaUsuarioBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="clave" type="xs:string" /> 
+                <xs:element name="codigoRespuesta" type="xs:string" />    
+                <xs:element name="mensajeRespuesta" type="xs:string" />         						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <xs:element name="consultaUsuarioBERequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="consultaUsuarioBEResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigoRespuesta" type="xs:string" />    
+                <xs:element name="mensajeRespuesta" type="xs:string" /> 
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="nombreCompleto" type="xs:string" />
+                <xs:element name="RFC" type="xs:string" />
+                <xs:element name="usuarioBE" type="xs:string" />            						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>
+
+
+
+

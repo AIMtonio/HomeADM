@@ -1,0 +1,428 @@
+package originacion.bean;
+
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import general.bean.BaseBean;
+
+public class AsignaCartaLiqBean extends BaseBean{
+	
+	private String solicitudCreditoID;
+	private String clienteID;
+	private String estatusSolicitud;
+	private String nombreCliente;
+	private String asignacionCartaID;
+	private String casaComercialID;
+	private String nombreCasa;
+	private String monto;
+	private String montoAnterior;
+	private String fechaVigencia;
+	private String estatus;
+	private String detalleCartas;
+	private String consolidacionID;
+	private String creditoID;
+	private String cartaLiquidaID;
+	//Agregue aqui un comentario
+	private String esConsolidado;
+	private String montoConsolida;
+	private String tipoCredito;
+	private String relacionado;
+	
+	private byte[] recursoBlob;
+	private byte[] recursoBlobPago;
+	
+	private String recursoPath;
+	private String recursoPathPago;
+	private String rutaArchivos;
+
+
+	// Archivos
+	private MultipartFile file;
+	private String nombreCartaLiq;
+	private String nombreComproPago;
+	private String recurso;
+	private String recursoPago;
+	private String comentario;
+	private String extension;
+	
+	private String comentarioPago;
+	private String extensionPago;
+	private String tipoDocumentoID;
+	private String nombreReg;
+	private String registroAdjunto;
+	private String regID;
+	private String tipoArchivo;
+	private String archivoIDCarta;
+	private String archivoIDPago;
+	private String modificaArchCarta;
+	private String modificaArchPago;
+	private String rutaFinalPago;
+	private String rutaFinal;
+
+	private String rutaFiles;
+	
+	
+
+	public String getRutaFiles() {
+		return rutaFiles;
+	}
+
+	public void setRutaFiles(String rutaFiles) {
+		this.rutaFiles = rutaFiles;
+	}
+
+	public String getRecursoPathPago() {
+		return recursoPathPago;
+	}
+
+	public void setRecursoPathPago(String recursoPathPago) {
+		this.recursoPathPago = recursoPathPago;
+	}
+
+	public byte[] getRecursoBlobPago() {
+		return recursoBlobPago;
+	}
+
+	public void setRecursoBlobPago(byte[] recursoBlobPago) {
+		this.recursoBlobPago = recursoBlobPago;
+	}
+	
+	public String getEsConsolidado() {
+		return esConsolidado;
+	}
+
+	public void setEsConsolidado(String esConsolidado) {
+		this.esConsolidado = esConsolidado;
+	}
+
+	public String getMontoConsolida() {
+		return montoConsolida;
+	}
+
+	public void setMontoConsolida(String montoConsolida) {
+		this.montoConsolida = montoConsolida;
+	}
+
+	public String getTipoCredito() {
+		return tipoCredito;
+	}
+
+	public void setTipoCredito(String tipoCredito) {
+		this.tipoCredito = tipoCredito;
+	}
+
+	public String getRelacionado() {
+		return relacionado;
+	}
+
+	public void setRelacionado(String relacionado) {
+		this.relacionado = relacionado;
+	}
+
+	public String getRutaFinalPago() {
+		return rutaFinalPago;
+	}
+
+	public void setRutaFinalPago(String rutaFinalPago) {
+		this.rutaFinalPago = rutaFinalPago;
+	}
+
+	public String getRutaFinal() {
+		return rutaFinal;
+	}
+
+	public void setRutaFinal(String rutaFinal) {
+		this.rutaFinal = rutaFinal;
+	}
+
+	public String getSolicitudCreditoID() {
+		return solicitudCreditoID;
+	}
+
+	public void setSolicitudCreditoID(String solicitudCreditoID) {
+		this.solicitudCreditoID = solicitudCreditoID;
+	}
+	
+	public String getClienteID() {
+		return clienteID;
+	}
+
+	public void setClienteID(String clienteID) {
+		this.clienteID = clienteID;
+	}
+
+	public String getEstatusSolicitud() {
+		return estatusSolicitud;
+	}
+
+	public void setEstatusSolicitud(String estatusSolicitud) {
+		this.estatusSolicitud = estatusSolicitud;
+	}
+
+	public String getNombreCliente() {
+		return nombreCliente;
+	}
+
+	public void setNombreCliente(String nombreCliente) {
+		this.nombreCliente = nombreCliente;
+	}
+
+	public String getAsignacionCartaID() {
+		return asignacionCartaID;
+	}
+
+	public void setAsignacionCartaID(String asignacionCartaID) {
+		this.asignacionCartaID = asignacionCartaID;
+	}
+
+	public String getCasaComercialID() {
+		return casaComercialID;
+	}
+
+	public void setCasaComercialID(String casaComercialID) {
+		this.casaComercialID = casaComercialID;
+	}
+
+	public String getNombreCasa() {
+		return nombreCasa;
+	}
+
+	public void setNombreCasa(String nombreCasa) {
+		this.nombreCasa = nombreCasa;
+	}
+
+	public String getMonto() {
+		return monto;
+	}
+
+	public void setMonto(String monto) {
+		this.monto = monto;
+	}
+
+	public String getMontoAnterior() {
+		return montoAnterior;
+	}
+
+	public void setMontoAnterior(String montoAnterior) {
+		this.montoAnterior = montoAnterior;
+	}
+
+	public String getFechaVigencia() {
+		return fechaVigencia;
+	}
+
+	public void setFechaVigencia(String fechaVigencia) {
+		this.fechaVigencia = fechaVigencia;
+	}
+
+	public String getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
+	}
+
+	public String getDetalleCartas() {
+		return detalleCartas;
+	}
+
+	public void setDetalleCartas(String detalleCartas) {
+		this.detalleCartas = detalleCartas;
+	}
+
+	public String getNombreCartaLiq() {
+		return nombreCartaLiq;
+	}
+
+	public void setNombreCartaLiq(String nombreCartaLiq) {
+		this.nombreCartaLiq = nombreCartaLiq;
+	}
+
+	public String getNombreComproPago() {
+		return nombreComproPago;
+	}
+
+	public void setNombreComproPago(String nombreComproPago) {
+		this.nombreComproPago = nombreComproPago;
+	}
+
+	public String getRecurso() {
+		return recurso;
+	}
+
+	public void setRecurso(String tokensCampos) {
+		this.recurso = tokensCampos;
+	}
+
+	public String getRecursoPago() {
+		return recursoPago;
+	}
+
+	public void setRecursoPago(String recursoPago) {
+		this.recursoPago = recursoPago;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
+	public String getComentarioPago() {
+		return comentarioPago;
+	}
+
+	public void setComentarioPago(String comentarioPago) {
+		this.comentarioPago = comentarioPago;
+	}
+
+	public String getExtensionPago() {
+		return extensionPago;
+	}
+
+	public void setExtensionPago(String extensionPago) {
+		this.extensionPago = extensionPago;
+	}
+
+	public String getTipoDocumentoID() {
+		return tipoDocumentoID;
+	}
+
+	public void setTipoDocumentoID(String tipoDocumentoID) {
+		this.tipoDocumentoID = tipoDocumentoID;
+	}
+
+	public String getNombreReg() {
+		return nombreReg;
+	}
+
+	public void setNombreReg(String nombreReg) {
+		this.nombreReg = nombreReg;
+	}
+
+	public String getRegistroAdjunto() {
+		return registroAdjunto;
+	}
+
+	public void setRegistroAdjunto(String registroAdjunto) {
+		this.registroAdjunto = registroAdjunto;
+	}
+
+	public String getRegID() {
+		return regID;
+	}
+
+	public void setRegID(String regID) {
+		this.regID = regID;
+	}
+
+	public String getTipoArchivo() {
+		return tipoArchivo;
+	}
+
+	public void setTipoArchivo(String tipoArchivo) {
+		this.tipoArchivo = tipoArchivo;
+	}
+
+	public String getArchivoIDCarta() {
+		return archivoIDCarta;
+	}
+
+	public void setArchivoIDCarta(String archivoIDCarta) {
+		this.archivoIDCarta = archivoIDCarta;
+	}
+
+	public String getArchivoIDPago() {
+		return archivoIDPago;
+	}
+
+	public void setArchivoIDPago(String archivoIDPago) {
+		this.archivoIDPago = archivoIDPago;
+	}
+
+	public String getModificaArchCarta() {
+		return modificaArchCarta;
+	}
+
+	public void setModificaArchCarta(String modificaArchCarta) {
+		this.modificaArchCarta = modificaArchCarta;
+	}
+
+	public String getModificaArchPago() {
+		return modificaArchPago;
+	}
+
+	public void setModificaArchPago(String modificaArchPago) {
+		this.modificaArchPago = modificaArchPago;
+	}
+	
+	public String getConsolidacionID() {
+		return consolidacionID;
+	}
+
+	public void setConsolidacionID(String consolidacionID) {
+		this.consolidacionID = consolidacionID;
+	}
+
+	public String getCreditoID() {
+		return creditoID;
+	}
+
+	public void setCreditoID(String creditoID) {
+		this.creditoID = creditoID;
+	}
+
+	public String getCartaLiquidaID() {
+		return cartaLiquidaID;
+	}
+
+	public void setCartaLiquidaID(String cartaLiquidaID) {
+		this.cartaLiquidaID = cartaLiquidaID;
+	}
+
+	public byte[] getRecursoBlob() {
+		return recursoBlob;
+	}
+
+	public void setRecursoBlob(byte[] recursoBlob) {
+		this.recursoBlob = recursoBlob;
+	}
+
+	public String getRecursoPath() {
+		return recursoPath;
+	}
+
+	public void setRecursoPath(String recursoPath) {
+		this.recursoPath = recursoPath;
+	}
+
+	public String getRutaArchivos() {
+		return rutaArchivos;
+	}
+
+	public void setRutaArchivos(String rutaArchivos) {
+		this.rutaArchivos = rutaArchivos;
+	}
+	
+}

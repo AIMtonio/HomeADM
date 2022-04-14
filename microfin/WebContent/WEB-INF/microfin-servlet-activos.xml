@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<!-- ======================= INICIO BEANS PANTALLA TIPOS DE ACTIVOS  ========================= -->
+	<!-- Bean pantalla Tipos de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.TiposActivosBean" />
+	</dwr:configuration>
+		  
+	<!-- Bean combo clasificacion de Tipos de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.ClasifTiposActivosBean" />
+	</dwr:configuration>	  
+	
+	<!-- DAO pantalla Tipos de Activos -->
+	<bean id="tiposActivosDAOImpl" class="activos.dao.TiposActivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+        
+	<!-- Servicio pantalla Tipos de Activos -->
+	<bean id="tiposActivosServicioImpl" class="activos.servicio.TiposActivosServicio">	
+		<dwr:remote javascript="tiposActivosServicio">
+			<dwr:include method="listaCombo" />
+			<dwr:include method="consulta" />
+			<dwr:include method="listaComboTiposActivos" />
+		</dwr:remote>
+		<property name="tiposActivosDAO" ref="tiposActivosDAOImpl"/>			
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Tipos de Activos -->
+	<bean name="/tiposActivos.htm" class="activos.controlador.TiposActivosControlador">
+		<property name="formView" value="activos/tiposActivosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposActivosServicio" ref="tiposActivosServicioImpl" /> 	
+	</bean>
+			
+	<!-- Controlador lista Tipos de Activos -->
+	<bean name="/listaTiposActivos.htm"
+		  class="activos.controlador.TiposActivosListaControlador">
+		<property name="tiposActivosServicio" ref="tiposActivosServicioImpl" /> 
+	</bean>
+	<!-- ========================= FIN BEANS PANTALLA TIPOS DE ACTIVOS  ========================= -->
+	
+	<!-- ============================== INICIO ACTIVOS================================= -->
+	
+	<!-- Bean pantalla Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.ActivosBean" />
+	</dwr:configuration>	  	
+	
+	<!-- DAO pantalla Activos -->
+	<bean id="activosDAOImpl" class="activos.dao.ActivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+        
+	<!-- Servicio pantalla Activos -->
+	<bean id="activosServicioImpl" class="activos.servicio.ActivosServicio">	
+		<dwr:remote javascript="activosServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="activosDAO" ref="activosDAOImpl"/>			
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Controlador pantalla Activos -->
+	<bean name="/activosReg.htm" class="activos.controlador.ActivosControlador">
+		<property name="formView" value="activos/activosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="activosServicio" ref="activosServicioImpl" /> 	
+	</bean>
+			
+	<!-- Controlador lista Activos -->
+	<bean name="/listaActivos.htm"
+		  class="activos.controlador.ActivosListaControlador">
+		<property name="activosServicio" ref="activosServicioImpl" />
+	</bean>
+	
+	<!-- ==============================  FIN ACTIVOS================================= -->
+	
+	<!-- =================  INICIO BEANS PANTALLA GUIA CONTABLE ACTIVOS  ========================= -->	  
+	<!-- Bean Guia Contable Activos-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.CuentaMayorActivosBean" />
+	</dwr:configuration>	  
+	
+	<!-- DAO pantalla Guia Contable Activos -->
+	<bean id="guiaContableActivosDAOImpl" class="activos.dao.GuiaContableActivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+        
+	<!-- Servicio pantalla Guia Contable Activos -->
+	<bean id="guiaContableActivosServicioImpl" class="activos.servicio.GuiaContableActivosServicio">	
+		<dwr:remote javascript="guiaContableActivosServicio">
+			<dwr:include method="listaCombo" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="guiaContableActivosDAO" ref="guiaContableActivosDAOImpl"/>			
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Guia Contable Activos -->
+	<bean name="/guiaContableActivos.htm" class="activos.controlador.GuiaContableActivosControlador">
+		<property name="formView" value="activos/guiaContableActivosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="guiaContableActivosServicio" ref="guiaContableActivosServicioImpl" /> 	
+	</bean>
+	
+	<!-- ========================= FIN BEANS PANTALLA GUIA CONTABLE ACTIVOS  ========================= -->
+
+	<!--============== INICIO PANTALLA APLICACION DE DEPRECIACION Y AMORTIZACION DE ACTIVOS ================-->
+
+	<!-- Beans para la Pantalla Aplicacion de Depreciacion y Amortizacion de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.AplicacionDepreciacionBean" />
+	</dwr:configuration>
+
+	<!-- Dao para la Pantalla Aplicacion de Depreciacion y Amortizacion de Activos -->
+	<bean id="aplicacionDepreciacionDAOImpl" class="activos.dao.AplicacionDepreciacionDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean> 
+	
+	<!-- Servicio para la Pantalla Aplicacion de Depreciacion y Amortizacion de Activos -->
+	<bean id="aplicacionDepreciacionServicioImpl" class="activos.servicio.AplicacionDepreciacionServicio">		
+		<dwr:remote javascript="aplicacionDepreciacionServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="aplicacionDepreciacionDAO" ref="aplicacionDepreciacionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Controlador para la Pantalla Aplicacion de Depreciacion y Amortizacion de Activos -->	
+	<bean name="/apliDepAmor.htm" class="activos.controlador.AplicacionDepreciacionControlador">
+		<property name="formView" value="activos/aplicacionDepAmorVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="aplicacionDepreciacionServicio" ref="aplicacionDepreciacionServicioImpl" />
+	</bean>
+
+	<!-- Controlador Reporte Aplicacion de Depreciacion y Amortizacion de Activos -->
+	<bean name="/reporteApliDepAmor.htm" class="activos.reporte.AplicacionDepreciacionRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="aplicacionDepreciacionServicio" ref="aplicacionDepreciacionServicioImpl" />
+	</bean>
+
+	<!--============== FIN PANTALLA APLICACION DE DEPRECIACION Y AMORTIZACION DE ACTIVOS ================-->
+
+	<!--========================== INICIO PANTALLA CATALOGO DE ACTIVOS ===========================-->
+	<!-- Beans para la Pantalla Catalogo de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.RepCatalogoActivosBean" />
+	</dwr:configuration>
+
+	<!-- Dao para la Pantalla Catalogo de Activos -->
+	<bean id="repCatalogoActivosDAOImpl" class="activos.dao.RepCatalogoActivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+
+	<!-- Servicio para la Pantalla Catalogo de Activos -->
+	<bean id="repCatalogoActivosServicioImpl" class="activos.servicio.RepCatalogoActivosServicio">		
+		<dwr:remote javascript="repCatalogoActivosServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repCatalogoActivosDAO" ref="repCatalogoActivosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+
+	<!-- Controlador para la Pantalla Catalogo de Activos -->
+	<bean name="/repActivos.htm" class="activos.controlador.ReporteCatalogoActivosControlador">
+		<property name="formView" value="activos/repCatalogoActivosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- Controlador Reporte Catalogo de Activos -->
+	<bean name="/repCatalogoActivos.htm" class="activos.reporte.RepCatalogoActivosControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repCatalogoActivosServicio" ref="repCatalogoActivosServicioImpl" />
+	</bean>
+
+	<!--========================== FIN PANTALLA CATALOGO DE ACTIVOS ===========================-->
+
+	<!--============== INICIO PANTALLA DEPRECIACION Y AMORTIZACION DE ACTIVOS ================-->
+	<!-- Beans para la Pantalla Depreciacion y Amortizacion de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.RepDepAmortizaActivosBean" />
+	</dwr:configuration>
+
+	<!-- Dao para la Pantalla Depreciacion y Amortizacion de Activos -->
+	<bean id="repDepAmortizaActivosDAOImpl" class="activos.dao.RepDepAmortizaActivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean> 
+
+	<!-- Servicio para la Pantalla Depreciacion y Amortizacion de Activos -->
+	<bean id="repDepAmortizaActivosServicioImpl" class="activos.servicio.RepDepAmortizaActivosServicio">		
+		<dwr:remote javascript="repDepAmortizaActivosServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repDepAmortizaActivosDAO" ref="repDepAmortizaActivosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+
+	<!-- Controlador para la Pantalla Depreciacion y Amortizacion de Activos -->
+	<bean name="/repDepnAmort.htm" class="activos.controlador.ReporteDepAmortizaActivosControlador">
+		<property name="formView" value="activos/repDepAmortizaActivosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- Controlador Reporte Depreciacion y Amortizacion de Activos -->
+	<bean name="/reporteDepnAmort.htm" class="activos.reporte.RepDepAmortizaActivosControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repDepAmortizaActivosServicio" ref="repDepAmortizaActivosServicioImpl" />
+	</bean>
+
+	<!--============== FIN PANTALLA DEPRECIACION Y AMORTIZACION DE ACTIVOS ================-->
+	
+	<!--============== INICIO PANTALLA CARGA MASIVA DE ACTIVOS ================-->
+	
+	<!-- Definicion de Beans de Carga de Nomina Activos  -->	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="activos.bean.CargaMasivaActivosBean" />
+	</dwr:configuration>
+	
+	 <!-- Definicion de DAO de Carga de Nomina Activos  -->
+	<bean id="cargaArchivoMasivoActivoImpl" class="activos.dao.CargaArchivoMasivoActivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Definicion de Servicio de Carga de Nomina Activos  -->
+	<bean id="cargaArchivoMasivoActivoServicioImpl" class="activos.servicio.CargaArchivoMasivoActivoServicio">
+		<dwr:remote javascript="cargaArchivoMasivoActivoServicio">
+		</dwr:remote>
+		<property name="cargaArchivoMasivoActivoDAO" ref="cargaArchivoMasivoActivoImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+	</bean> 
+	
+	<!-- Definicion de Controlador de Carga Masiva de Activos -->
+	<bean name="/cargaArchivoMasivoActivos.htm" class="activos.controlador.CargaArchivoMasivoActivoControlador">
+		<property name="formView" value="activos/cargaMasivaActivosVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cargaArchivoMasivoActivoServicio" ref="cargaArchivoMasivoActivoServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controlador para adjuntar archivos de Activos -->
+	<bean name="/cargaActivosFileUpload.htm" class="activos.controlador.CargaArchivoMasivoActivoControlador">
+	    <property name="formView" value="activos/cargaActivosFileUploadVista" /> 
+	    <property name="successView" value="resultadoTransaccionArchivoActivos"/> 
+		<property name="cargaArchivoMasivoActivoServicio" ref="cargaArchivoMasivoActivoServicioImpl" /> 
+	</bean>
+	
+</beans>

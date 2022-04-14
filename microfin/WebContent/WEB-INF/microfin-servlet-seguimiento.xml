@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<!-- Beans de Seguimiento de Campo -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SeguimientoBean" />
+	</dwr:configuration>
+
+	<bean id="seguimientoDAOImpl" class="seguimiento.dao.SeguimientoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="seguimientoServicioImpl" class="seguimiento.servicio.SeguimientoServicio">
+		<dwr:remote javascript="seguimientoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="consultaCategoria" />
+			<dwr:include method="listaConsulta" />
+		</dwr:remote>
+		<property name="seguimientoDAO" ref="seguimientoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/seguimientoVista.htm" class="seguimiento.controlador.SeguimientoControlador">
+		<property name="formView" value="seguimiento/seguimientoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+	<bean name="/listaSeguimiento.htm" class="seguimiento.controlador.SeguimientoListaControlador">
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+	<bean name="/listaCategoriaSegto.htm"
+		class="seguimiento.controlador.CategoriaSegtoListaControlador">
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+	<!-- Vista del Reporte de Seguimiento Campo -->
+	<bean name="/reporteSegtoCampo.htm" class="seguimiento.controlador.RepSegtoCampoControlador">
+		<property name="formView" value="seguimiento/reporteSegtoCampoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+	<!-- Bean para pruebas de Autorizacion de Conexion a API de Google Coordinate -->
+	<!-- bean name="/reporteSegtoCampo.htm" class="seguimiento.controlador.RepSegtoCampoControlador"> 
+		<property name="formView" value="seguimiento/autorizacion" /> <property name="successView" 
+		value="resultadoTransaccionVista" /> <property name="seguimientoServicio" 
+		ref="seguimientoServicioImpl" /> </bean -->
+
+
+
+	<bean name="/segtoCampoRep.htm" class="seguimiento.reporte.SegtoCampoRepControlador">
+		<property name="nombreReporte" value="seguimiento/RepSeguimientoCampo.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+
+
+	<!-- Beans de Seguimiento Manual -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoManualBean" />
+	</dwr:configuration>
+
+	<bean id="segtoManualDAOImpl" class="seguimiento.dao.SegtoManualDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoManualServicioImpl" class="seguimiento.servicio.SegtoManualServicio">
+		<dwr:remote javascript="segtoManualServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="consultaCategoria" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="segtoManualDAO" ref="segtoManualDAOImpl" />
+	</bean>
+
+	<bean name="/altaManualSegto.htm" class="seguimiento.controlador.SegtoManualControlador">
+		<property name="formView" value="seguimiento/segtoManualVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoManualServicio" ref="segtoManualServicioImpl" />
+	</bean>
+
+	<bean name="/listaCalSegto.htm"
+		class="seguimiento.controlador.CalSeguimientoListaControlador">
+		<property name="segtoManualServicio" ref="segtoManualServicioImpl" />
+	</bean>
+
+	<!-- Captura Seguimiento de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean"
+			class="seguimiento.bean.ResultadoSegtoCobranzaBean" />
+	</dwr:configuration>
+
+	<bean id="resultadoSegtoCobranzaDAOImpl" class="seguimiento.dao.ResultadoSegtoCobranzaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="resultadoSegtoCobranzaServicioImpl" class="seguimiento.servicio.ResultadoSegtoCobranzaServicio">
+		<dwr:remote javascript="resultadoSegtoCobranzaServicio">
+			<dwr:include method="consultaPrincipal" />
+		</dwr:remote>
+		<property name="resultadoSegtoCobranzaDAO" ref="resultadoSegtoCobranzaDAOImpl" />
+	</bean>
+
+	<bean name="/capturaSegtoCobranza.htm" class="seguimiento.controlador.ResultadoSegtoCobranzaControlador"> 
+	<property name="formView" value="seguimiento/resultadoSegtoCobranzaVista" /> 
+	<property name="successView" value="resultadoTransaccionVista" /> 
+	<property name="resultadoSegtoCobranzaServicio" ref="resultadoSegtoCobranzaServicioImpl" /> 
+	</bean> 
+
+	<!-- Captura Formulario Seguimiento de Desar -->
+	<dwr:configuration>
+		<dwr:convert type="bean"
+			class="seguimiento.bean.ResultadoSegtoDesProyBean" />
+	</dwr:configuration>
+
+	<bean id="resultadoSegtoDesProyDAOImpl" class="seguimiento.dao.ResultadoSegtoDesProyDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="resultadoSegtoDesProyServicioImpl" class="seguimiento.servicio.ResultadoSegtoDesProyServicio">
+		<dwr:remote javascript="resultadoSegtoDesProyServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="resultadoSegtoDesProyDAO" ref="resultadoSegtoDesProyDAOImpl" />
+	</bean>
+
+	<!-- Definicion de bean para combos de Motivo de No Pago y Origen de Pago -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoOrigenPagoBean" />
+	</dwr:configuration>
+
+	<bean id="segtoOrigenPagoDAOImpl" class="seguimiento.dao.SegtoOrigenPagoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoOrigenPagoServicioImpl" class="seguimiento.servicio.SegtoOrigenPagoServicio">
+		<dwr:remote javascript="segtoOrigenPagoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="segtoOrigenPagoDAO" ref="segtoOrigenPagoDAOImpl" />
+	</bean>
+
+	<!-- Definicion de Motivo No Pago -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoMotNoPagoBean" />
+	</dwr:configuration>
+
+	<bean id="segtoMotNoPagoDAOImpl" class="seguimiento.dao.SegtoMotNoPagoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoMotNoPagoServicioImpl" class="seguimiento.servicio.SegtoMotNoPagoServicio">
+		<dwr:remote javascript="segtoMotNoPagoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="segtoMotNoPagoDAO" ref="segtoMotNoPagoDAOImpl" />
+	</bean>
+
+	<!-- Beans de Seguimientos Realizados -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoRealizadosBean" />
+	</dwr:configuration>
+
+	<bean id="segtoRealizadosDAOImpl" class="seguimiento.dao.SegtoRealizadosDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="segtoManualDAO" ref="segtoManualDAOImpl" />
+		<property name="resultadoSegtoCobranzaDAO" ref="resultadoSegtoCobranzaDAOImpl" />
+		<property name="resultadoSegtoDesProyDAO" ref="resultadoSegtoDesProyDAOImpl" />
+		<property name="segtoArchivoDAO" ref="segtoArchivoDAOImpl" />
+		
+	</bean>
+
+	<bean id="segtoRealizadosServicioImpl" class="seguimiento.servicio.SegtoRealizadosServicio">
+		<dwr:remote javascript="segtoRealizadosServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="segtoRealizadosDAO" ref="segtoRealizadosDAOImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+		<property name="usuarioDAO" ref="usuarioDAOImpl" />
+		<property name="segtoRecomendasDAO" ref="segtoRecomendasDAOImpl" />
+		<property name="segtoResultadosDAO" ref="segtoResultadosDAOImpl" />
+		<property name="taskExecutor" ref="taskExecutorImpl" />
+	</bean>
+
+	<bean name="/capturaSegtoRealizado.htm" class="seguimiento.controlador.SegtoRealizadosControlador">
+		<property name="formView" value="seguimiento/capturaSegtoRealizadoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoRealizadosServicio" ref="segtoRealizadosServicioImpl" />
+	</bean>
+
+	<bean name="/listaSegtoRealizado.htm"
+		class="seguimiento.controlador.SegtoRealizadosListaControlador">
+		<property name="segtoRealizadosServicio" ref="segtoRealizadosServicioImpl" />
+	</bean>
+
+	<bean name="/gridSegtoArchivo.htm" class="seguimiento.controlador.SegtoArchivoGridControlador">
+		<property name="segtoArchivoServicio" ref="segtoArchivoServicioImpl" /> 
+	</bean>
+	
+	<!-- Reporte de Archivos de Seguimiento en PDF --> 
+	<bean name="/segtoExpedientePDF.htm" class="seguimiento.reporte.SegtoExpedienteRepControlador">
+		<property name="nombreReporte" value="seguimiento/SegtoArchivoExpediente.prpt" />
+		<property name="segtoArchivoServicio" ref="segtoArchivoServicioImpl" /> 
+	</bean>
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoArchivoBean"/>
+	</dwr:configuration>
+
+	<bean id="segtoArchivoDAOImpl" class="seguimiento.dao.SegtoArchivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoArchivoServicioImpl" class="seguimiento.servicio.SegtoArchivoServicio">
+		<dwr:remote javascript="segtoArchivoServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="segtoArchivoDAO" ref="segtoArchivoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/seguimientoFileUploadVista.htm" class="seguimiento.controlador.SegtoFileUploadControlador">
+		<property name="commandClass" value="seguimiento.bean.SegtoArchivoBean" />
+		<property name="formView" value="seguimiento/segtoFileUploadVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoArchivoServicio" ref="segtoArchivoServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+
+	<!-- Controlador para ver archivos de Seguimiento  --> 
+	<bean name="/capturaSegtoVerArchivos.htm" class="seguimiento.controlador.CapturaSegtoVerArchivoControlador">
+    	<property name="segtoArchivoServicio" ref="segtoArchivoServicioImpl" /> 
+	</bean>
+	<!-- Beans de Seguimientos SegtoRecomendas -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoRecomendasBean" />
+	</dwr:configuration>
+
+	<bean id="segtoRecomendasDAOImpl" class="seguimiento.dao.SegtoRecomendasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoRecomendasServicioImpl" class="seguimiento.servicio.SegtoRecomendasServicio">
+		<dwr:remote javascript="segtoRecomendasServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="segtoRecomendasDAO" ref="segtoRecomendasDAOImpl" />
+	</bean>
+
+	<bean name="/catSegtoRecomendaVista.htm" class="seguimiento.controlador.CatSegtoRecomendaControlador">
+		<property name="formView" value="seguimiento/catSegtoRecomendaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoRecomendasServicio" ref="segtoRecomendasServicioImpl" />
+	</bean>
+
+	<bean name="/listaSegtoRecomendas.htm"
+		class="seguimiento.controlador.SegtoRecomendaListaControlador">
+		<property name="segtoRecomendasServicio" ref="segtoRecomendasServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de Seguimientos SegtoResultados -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.SegtoResultadosBean" />
+	</dwr:configuration>
+
+	<bean id="segtoResultadosDAOImpl" class="seguimiento.dao.SegtoResultadosDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="segtoResultadosServicioImpl" class="seguimiento.servicio.SegtoResultadosServicio">
+		<dwr:remote javascript="segtoResultadosServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="segtoResultadosDAO" ref="segtoResultadosDAOImpl" />
+	</bean>
+
+	<bean name="/catSegtoResultadosVista.htm" class="seguimiento.controlador.CatSegtoResultadosControlador">
+		<property name="formView" value="seguimiento/catSegtoResultadosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoResultadosServicio" ref="segtoResultadosServicioImpl" />
+	</bean>
+
+	<bean name="/listaSegtoResultados.htm"
+		class="seguimiento.controlador.SegtoResultadosListaControlador">
+		<property name="segtoResultadosServicio" ref="segtoResultadosServicioImpl" />
+	</bean>
+	
+	<!-- pantalla para el calendario de seguimiento -->
+	<bean name="/calSeguimiento.htm" class="seguimiento.controlador.CalSeguimientoControlador">
+		<property name="formView" value="seguimiento/calSeguimientoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="segtoManualServicio" ref="segtoManualServicioImpl" />
+	</bean>
+
+	<!-- Bean de Registro de Gestores -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.RegistroGestorBean" />
+	</dwr:configuration>
+
+	<!-- DAO de Registro de Gestores -->
+	<bean id="registroGestorDAOImpl" class="seguimiento.dao.RegistroGestorDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio de Registro de Gestores -->
+	<bean id="registroGestorServicioImpl" class="seguimiento.servicio.RegistroGestorServicio">
+		<dwr:remote javascript="registroGestorServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="consultaTipoGestor" />
+			<dwr:include method="listaConsulta" />
+		</dwr:remote>
+		<property name="registroGestorDAO" ref="registroGestorDAOImpl" />
+	</bean>
+
+	<!-- Controlador de Registro de Gestores -->
+	<bean name="/registroGestor.htm" class="seguimiento.controlador.RegistroGestorControlador">
+		<property name="formView" value="seguimiento/registroGestorVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="registroGestorServicio" ref="registroGestorServicioImpl" />
+	</bean>
+
+	<!-- Bean de Formularios de Seguimiento -->
+	<dwr:configuration>
+		<dwr:convert type="bean"
+			class="seguimiento.bean.FormatoSeguimientoBean" />
+	</dwr:configuration>
+
+	<!-- Servicio de Formularios de Seguimiento -->
+	<bean id="formatoSeguimientoServicioImpl" class="seguimiento.servicio.FormatoSeguimientoServicio">
+		<dwr:remote javascript="formatoSeguimientoServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="seguimientoDAO" ref="seguimientoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador de Formularios de Seguimiento -->
+	<bean name="/formatoSeguimiento.htm" class="seguimiento.controlador.FormatoSeguimientoControlador">
+		<property name="formView" value="seguimiento/formatoSeguimientoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="formatoSeguimientoServicio" ref="formatoSeguimientoServicioImpl" />
+	</bean>
+
+	<!-- Controlador del Reporte de Formularios de Seguimiento -->
+	<bean name="/formatoSeguimientoRep.htm" class="seguimiento.reporte.FormatoSeguimientoRepControlador">
+		<property name="nombreReporte" value="seguimiento/FormularioSeguimiento.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="formatoSeguimientoServicio" ref="formatoSeguimientoServicioImpl" />
+	</bean>
+
+
+	<!-- Controlador de la pantalla de Eficacia de Seguimiento -->
+	<bean name="/eficaciaSeguimiento.htm"
+		class="seguimiento.controlador.EficaciaSeguimientoControlador">
+		<property name="formView" value="seguimiento/eficaciaSeguimientoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+	<!-- Controlador del Reporte de Eficacia de Seguimiento -->
+	<bean name="/eficaciaSeguimientoRep.htm" class="seguimiento.reporte.EficaciaSeguimientoRepControlador">
+		<property name="nombreReporte" value="seguimiento/EficaciaSeguimiento.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="seguimientoServicio" ref="seguimientoServicioImpl" />
+	</bean>
+
+	<!-- Bean de Tipos de Gestoria -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="seguimiento.bean.CatTiposGestionBean" />
+	</dwr:configuration>
+
+	<bean id="catTiposGestionServicioImpl" class="seguimiento.servicio.CatTiposGestionServicio">
+		<dwr:remote javascript="catTiposGestionServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catTiposGestionDAO" ref="catTiposGestionDAOImpl" />
+	</bean>
+
+	<bean id="catTiposGestionDAOImpl" class="seguimiento.dao.CatTiposGestionDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/catTiposGestionVista.htm" class="seguimiento.controlador.CatTiposGestionControlador">
+		<property name="formView" value="seguimiento/catTiposGestionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catTiposGestionServicio" ref="catTiposGestionServicioImpl" />
+	</bean>
+
+	<bean name="/listaTipoGestion.htm" class="seguimiento.controlador.TipoGestionListaControlador">
+		<property name="catTiposGestionServicio" ref="catTiposGestionServicioImpl" />
+	</bean>
+	<!-- FIN Bean de Tipos de Gestoria -->
+
+	<!-- Bean de Categorias de Seguimiento -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean"
+			class="seguimiento.bean.CatSegtoCategoriasBean" />
+	</dwr:configuration>
+
+	<bean id="catSegtoCategoriasServicioImpl" class="seguimiento.servicio.CatSegtoCategoriasServicio">
+		<dwr:remote javascript="catSegtoCategoriasServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catSegtoCategoriasDAO" ref="catSegtoCategoriasDAOImpl" />
+	</bean>
+
+	<bean id="catSegtoCategoriasDAOImpl" class="seguimiento.dao.CatSegtoCategoriasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/catSegtoCategoriasVista.htm" class="seguimiento.controlador.CatSegtoCategoriasControlador">
+		<property name="formView" value="seguimiento/catSegtoCategoriasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catSegtoCategoriasServicio" ref="catSegtoCategoriasServicioImpl" />
+	</bean>
+
+	<bean name="/listaSegtoCategoria.htm"
+		class="seguimiento.controlador.CatSegtoCategoriaListaControlador">
+		<property name="catSegtoCategoriasServicio" ref="catSegtoCategoriasServicioImpl" />
+	</bean>
+	<!-- FIN Bean de Categorias de Seguimiento -->
+	
+	<!-- Controlador de Pantalla Consulta de Gestores -->
+	<bean name="/consultaGestores.htm" class="seguimiento.controlador.ConsultaGestoresControlador">
+		<property name="formView" value="seguimiento/consultaGestoresVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="registroGestorServicio" ref="registroGestorServicioImpl" />
+	</bean>
+
+</beans>

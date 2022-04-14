@@ -1,0 +1,70 @@
+-- ---------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- ---------------------------------------------------------------------------------
+-- PLDNIVELRIESGOXCLIENTE
+DELIMITER ;
+DROP TABLE IF EXISTS `PLDNIVELRIESGOXCLIENTE`;DELIMITER $$
+
+CREATE TABLE `PLDNIVELRIESGOXCLIENTE` (
+  `ClienteID` int(11) NOT NULL COMMENT 'Numero de Cliente',
+  `Fecha` date DEFAULT NULL COMMENT 'Fecha en la que se actualizo el Nivel de Riesgo',
+  `Hora` time DEFAULT NULL COMMENT 'Hora en la que se Actualizo el Nivel de Riesgo',
+  `FolioMatrizID` int(11) DEFAULT NULL COMMENT 'Folio de la Matriz Vigente',
+  `NivelRiesgoObt` char(1) DEFAULT NULL COMMENT 'Nivel de Riesgo Obtenido',
+  `TotalPonderado` decimal(16,2) DEFAULT NULL COMMENT 'Total Ponderado',
+  `Porc1TotalAntec` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc2Localidad` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc3ActividadEc` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc4TotalOriRe` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc5TotalDesRe` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc6TotalPerf` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Porc1TotalEBR` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Conceptos Principales',
+  `Con1FechaNacID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Porc1FechaNac` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ANTECEDENTES',
+  `Con1ListasNegFID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Porc1ListasNegF` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ANTECEDENTES',
+  `Con1FechaConsID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Porc1FechaCons` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ANTECEDENTES',
+  `Con1ListasNegMID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Porc1ListasNegM` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ANTECEDENTES',
+  `Con1ComercioExtID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Porc1ComercioExt` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ANTECEDENTES',
+  `Con2LocalidadID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla de PLDHISMATRIZRIESGOXCONC',
+  `Con3ActEconID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `Porc3ActEcon` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ACITIVDAD ECONOMICA',
+  `Con4OriRecID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `Porc4OriRec` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de ORIGEN DE LOS RECURSOS',
+  `Con5DestRecID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `Porc5DestRec` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de DESTINO DE LOS RECURSOS',
+  `Con6MontosFID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorcMontoFisica` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de MONTOS PERSONA FISICA',
+  `InstrumentoMFi` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Instrumentos PERSONA FISICA',
+  `Con6InstMoneFIDEfec` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoEfec` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona fisica PERFIL TRANSACCIONAL',
+  `Con6InstMoneFIDCheq` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoCheq` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona fisica PERFIL TRANSACCIONAL',
+  `Con6InstMoneFIDTrans` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoTrans` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona fisica PERFIL TRANSACCIONAL',
+  `Con6NumeroOpeFID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorcNumeroOperaFi` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de de numero de operaciones PERSONA fisica PERFIL TRANSACCIONAL',
+  `Con6MontosMID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorcMontosMoral` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Montos persona Moral PERFIL TRANSACCIONAL',
+  `InstrumentoMMo` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los Instrumentos PERSONA MORAL',
+  `Con6InstMoneMIDEfe` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoEfecMor` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona Moral PERFIL TRANSACCIONAL',
+  `Con6InstMoneMIDChe` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoCheqMor` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona Moral PERFIL TRANSACCIONAL',
+  `Con6InstMoneMIDTrans` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorInstrumentoTransMor` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de Instrumentos persona Moral PERFIL TRANSACCIONAL',
+  `Con6NumeroOpeMID` int(11) DEFAULT NULL COMMENT 'Corresponde a la tabla PLDHISMATRIZRIESGOXCONC',
+  `PorcNumeroOperaMo` decimal(16,2) DEFAULT NULL COMMENT 'Porcentaje Obtenido para los conceptos de numero de depositos persona MORAL PERFIL TRANSACCIONAL',
+  `EmpresaID` int(11) DEFAULT '1' COMMENT 'Campo de Auditoria',
+  `Usuario` int(11) DEFAULT '1' COMMENT 'Campo de Auditoria',
+  `FechaActual` datetime DEFAULT NULL COMMENT 'Campo de Auditoria',
+  `DireccionIP` varchar(15) DEFAULT '127.0.0.1' COMMENT 'Campo de Auditoria',
+  `ProgramaID` varchar(50) DEFAULT 'WORKBENCH' COMMENT 'Campo de Auditoria',
+  `Sucursal` int(11) DEFAULT '1' COMMENT 'Campo de Auditoria',
+  `NumTransaccion` bigint(20) DEFAULT '1' COMMENT 'Campo de Auditoria',
+  PRIMARY KEY (`ClienteID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla que guarda los ponderados obtenidos en la matriz de riesgo.'$$

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+    
+	<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaCorreoInstitucion-->  
+   	<xs:element name="consultaCorreoInstitRequest">    						 
+      <xs:complexType>
+       	<xs:sequence>
+           <xs:element name="institNominaID" type="xs:string" />
+       	</xs:sequence>
+      </xs:complexType>
+	</xs:element>
+ 
+ 	<xs:element name="consultaCorreoInstitResponse">    						 
+      <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="correoElectronico" type="xs:string" />
+      		<xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+     </xs:complexType>
+	</xs:element> 
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos RegistroPagosNomina-->  
+   	<xs:element name="registroPagosNominaRequest">    						 
+      <xs:complexType>
+        <xs:sequence>
+        	<xs:element name="folioCargaID" type="xs:string" />
+            <xs:element name="folioCargaIDBE" type="xs:string" />
+            <xs:element name="empresaNominaID" type="xs:string" />
+            <xs:element name="creditoID" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="montoPagos" type="xs:string" />
+        </xs:sequence>
+     </xs:complexType>
+	</xs:element>
+ 
+ 	<xs:element name="registroPagosNominaResponse">    						 
+     <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="folioNominaID" type="xs:string"/>
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+     </xs:complexType>
+	</xs:element> 
+	
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos RegistroCargaPagosNomina-->  
+   	<xs:element name="registroCargaPagoNominaRequest">    						 
+      <xs:complexType>
+        <xs:sequence>
+            <xs:element name="folioCargaIDBE" type="xs:string" />
+            <xs:element name="empresaNominaID" type="xs:string" />
+            <xs:element name="claveUsuarioBE" type="xs:string" />
+            
+            <xs:element name="numTotalPagos" type="xs:string" />
+            <xs:element name="numPagosExito" type="xs:string" />
+            <xs:element name="numPagosError" type="xs:string" />
+            <xs:element name="montoPagos" type="xs:string" />
+            <xs:element name="rutaArchivoPagoNom" type="xs:string" />
+        </xs:sequence>
+     </xs:complexType>
+	</xs:element>
+ 
+ 	<xs:element name="registroCargaPagoNominaResponse">    						 
+     <xs:complexType>
+        <xs:sequence>
+        	<xs:element name="folioCargaID" type="xs:string" />
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+     </xs:complexType>
+	</xs:element> 
+  
+</xs:schema>

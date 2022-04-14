@@ -1,0 +1,106 @@
+body{
+	font-family:"Trebuchet MS","Segoe UI",Trebuchet,"Bitstream Vera Sans","DejaVu Sans",
+		         Verdana,"Verdana Ref",sans serif;
+	color:#2a3333;
+	background-color:#fff;
+	font-size:.76em
+}
+
+label{
+	font-weight:normal
+}
+
+input, select, textarea, fieldset{
+	border:solid 1px #e0e0e0;
+	padding-top:4px;
+	padding-bottom:4px}
+
+input[type=text],input[type=password]{
+	padding-left:4px}
+
+.divHeader{
+	position:relative;
+	margin:.5em 0}
+
+#loginContainer{
+	position:absolute;
+	width:300px;
+	top:90px;
+	left:20px;
+}
+
+#loginContainer #formContainer{
+	background:#f3f3f3;
+	padding:15px;
+	-moz-border-radius:0.5em;
+	-webkit-border-radius:0.5em;
+	border-radius:0.5em
+}
+
+#imagenFondo{
+	position:absolute;
+	top:0px;
+	left:360px;
+	width:423px;
+	height:600px;
+	background-image:url(../images/fondo_login.jpg);
+}
+	
+#bodyLogin #bodyDivLogin{
+	font-family:"Lucida Grande",Verdana,Corbel,"Bitstream Vera Sans","DejaVu Sans",sans-serif;
+	margin:20px;
+	margin-top:0;
+	padding-top:20px;
+	border-top:1px dotted #a3a4a7
+}
+
+:focus{
+	outline:0
+}
+
+input:focus,select:focus,textarea:focus{
+	border-color:#9c9c9c;
+}
+
+.smallfont{
+	font-size:0.9em
+}
+
+.fr,.right{
+	float:right}
+
+a{
+	color:#008595;
+	text-decoration:none
+}
+
+a:hover{
+	text-decoration:underline
+}
+
+.btn_orange_regular{
+	vertical-align:middle;
+	border:solid 1px #056672;
+	padding:3px 5px 3px 5px !important;
+	color:#fff !important;
+	margin:3px 1px !important;
+	background:url(../images/buttonBlueBg.gif) left top repeat-x;
+	white-space:nowrap;
+	cursor:pointer
+}
+
+.btn_orange_regular:hover{
+	text-decoration:none !important;
+	background:url(../images/buttonBlueBgHover.gif) left top repeat-x;
+	border:solid 1px #0099bb;
+}
+
+input.btn_orange_regular{
+	padding:3px 6px !important;
+	font-size:1.2em;
+	font-weight:normal
+}
+
+.loginView input[type="text"],.loginView input[type="password"]{
+	width:100%
+}

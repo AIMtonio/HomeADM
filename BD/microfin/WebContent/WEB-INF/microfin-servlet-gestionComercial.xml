@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+
+	<!-- Agenda  -->
+	<!-- 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.AgendaBean" />
+	</dwr:configuration>
+	
+	<bean id="agendaDAOImpl" class="gestionComecial.dao.AgendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+        
+   <bean id="agendaServicioImpl" class="gestionComecial.servicio.AgendaServicio">
+      		<dwr:remote javascript="agendaServicio"> 
+	      	</dwr:remote>
+		<property name="agendaDAO" ref="agendaDAOImpl"/>	
+	</bean>-->
+        
+        <!-- Definicion de Controladores de Carga de Archivo Movimientos-->
+	<bean name="/agenda.htm" class="gestionComecial.controlador.AgendaControlador">
+		<property name="formView" value="gestionComercial/Agenda" />
+		<!-- <property name="successView" value="resultadoTransaccionVista"/> 
+		<property name="agendaServicio" ref="agendaServicioImpl" /> -->  
+	</bean>
+	
+	<!-- Fin de Agenda -->
+	
+	
+	
+	<!-- Beans de Puestos  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.PuestosBean" />
+	</dwr:configuration>
+
+		<bean id="puestosDAOImpl" class="gestionComecial.dao.PuestosDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="puestosServicioImpl" class="gestionComecial.servicio.PuestosServicio">
+			<dwr:remote javascript="puestosServicio">
+				<dwr:include method="consulta" />
+				<dwr:include method="lista" />
+				<dwr:include method="listaConsulta" />
+			</dwr:remote>
+	      <property name="puestosDAO" ref="puestosDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador Puestos --> 
+	
+	<bean name="/listaPuestos.htm"
+		  class="gestionComecial.controlador.PuestosListaControlador">
+		<property name="puestosServicio" ref="puestosServicioImpl" />
+	</bean>
+	
+	<bean name="/catalogoPuestos.htm" class="gestionComecial.controlador.PuestosControlador">
+		<property name="formView" value="gestionComercial/puestosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="puestosServicio" ref="puestosServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans de empleados  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.EmpleadosBean" />
+	</dwr:configuration>
+
+		<bean id="empleadosDAOImpl" class="gestionComecial.dao.EmpleadosDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="empleadosServicioImpl" class="gestionComecial.servicio.EmpleadosServicio">
+			<dwr:remote javascript="empleadosServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="empleadosDAO" ref="empleadosDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador Empleados --> 
+	
+	<bean name="/listaEmpleados.htm"
+		  class="gestionComecial.controlador.EmpleadosListaControlador">
+		<property name="empleadosServicio" ref="empleadosServicioImpl" />
+	</bean>
+	
+		<bean name="/listaEmpleadosNombre.htm"
+		  class="gestionComecial.controlador.EmpleadosNombreListaControlador">
+		<property name="empleadosServicio" ref="empleadosServicioImpl" />
+	</bean>
+	
+	<bean name="/catalogoEmpleados.htm" class="gestionComecial.controlador.EmpleadosControlador">
+		<property name="formView" value="gestionComercial/empleadosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="empleadosServicio" ref="empleadosServicioImpl" />
+	</bean>
+	
+	
+	
+		<!-- Beans de organigrama  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.OrganigramaBean" />
+	</dwr:configuration>
+
+		<bean id="organigramaDAOImpl" class="gestionComecial.dao.OrganigramaDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="organigramaServicioImpl" class="gestionComecial.servicio.OrganigramaServicio">
+			<dwr:remote javascript="organigramaServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="organigramaDAO" ref="organigramaDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador Organigrama -->
+	
+		<bean name="/listaOrganigrama.htm"
+		  class="gestionComecial.controlador.OrganigramaGridControlador">
+		<property name="organigramaServicio" ref="organigramaServicioImpl" />
+	</bean> 
+
+	
+	<bean name="/catalogoOrganigrama.htm" class="gestionComecial.controlador.OrganigramaControlador">
+		<property name="formView" value="gestionComercial/organigramaCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="organigramaServicio" ref="organigramaServicioImpl" />
+	</bean>
+	
+	
+			<!-- Beans de areas  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.AreasBean" />
+	</dwr:configuration>
+
+		<bean id="areasDAOImpl" class="gestionComecial.dao.AreasDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="areasServicioImpl" class="gestionComecial.servicio.AreasServicio">
+			<dwr:remote javascript="areasServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="areasDAO" ref="areasDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador Areas -->
+	
+		<bean name="/listaAreas.htm"
+		  class="gestionComecial.controlador.AreasListaControlador">
+		<property name="areasServicio" ref="areasServicioImpl" />
+	</bean> 
+
+	
+		
+					<!-- Beans de categorias  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="gestionComecial.bean.CategoriasBean" />
+	</dwr:configuration>
+
+		<bean id="categoriasDAOImpl" class="gestionComecial.dao.CategoriasDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="categoriasServicioImpl" class="gestionComecial.servicio.CategoriasServicio">
+			<dwr:remote javascript="categoriasServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="categoriasDAO" ref="categoriasDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador Categorias -->
+	
+		<bean name="/listaCategorias.htm"
+		  class="gestionComecial.controlador.CategoriasListaControlador">
+		<property name="categoriasServicio" ref="categoriasServicioImpl" />
+	</bean> 
+		
+		
+</beans>

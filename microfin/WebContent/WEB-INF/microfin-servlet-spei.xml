@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Beans de Atorizacion de spei -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.AutorizaSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="autorizaSpeiDAOImpl" class="spei.dao.AutorizaSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="autorizaSpeiServicioImpl" class="spei.servicio.AutorizaSpeiServicio">
+		<dwr:remote javascript="autorizaSpeiServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="autorizaSpeiDAO" ref="autorizaSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/autorizacionSpei.htm" class="spei.controlador.AutorizaSpeiControlador">
+		<property name="formView" value="spei/autorizaSpeiCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="autorizaSpeiServicio" ref="autorizaSpeiServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Controlador del Grid -->
+	<bean name="/gridAutorizaSpei.htm" class="spei.controlador.AutorizaSpeiGridControlador">
+		<property name="autorizaSpeiServicio" ref="autorizaSpeiServicioImpl" />
+	</bean>
+
+
+
+	<!-- Beans de Parametros spei -->
+
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.ParametrosSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="parametrosSpeiDAOImpl" class="spei.dao.ParametrosSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="parametrosSpeiServicioImpl" class="spei.servicio.ParametrosSpeiServicio">
+		<dwr:remote javascript="parametrosSpeiServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="parametrosSpeiDAO" ref="parametrosSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/parametrosSpei.htm" class="spei.controlador.ParametrosSpeiControlador">
+		<property name="formView" value="spei/parametrosSpeiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosSpeiServicio" ref="parametrosSpeiServicioImpl" />
+	</bean>
+
+	<bean name="/listaParametrosSpei.htm" class="spei.controlador.ParametrosSpeiListaControlador">
+		<property name="parametrosSpeiServicio" ref="parametrosSpeiServicioImpl" />
+	</bean>
+	<!-- LISTA -->
+
+	<bean name="/listaremitentes.htm" class="spei.controlador.ParametrosSpeiRemitentesListaControlador">
+		<property name="parametrosSpeiServicio" ref="parametrosSpeiServicioImpl" />
+	</bean>
+
+	<!-- Beans de la pantalla Cierre de Dia SPEI -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.CierreDiaSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="cierreDiaSpeiDAOImpl" class="spei.dao.CierreDiaSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cierreDiaSpeiServicioImpl" class="spei.servicio.CierreDiaSpeiServicio">
+		<dwr:remote javascript="cierreDiaSpeiServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="cierreDiaSpeiDAO" ref="cierreDiaSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/cierreDiaSpei.htm" class="spei.controlador.CierreDiaSpeiControlador">
+		<property name="formView" value="spei/cierreDiaSpeiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cierreDiaSpeiServicio" ref="cierreDiaSpeiServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de la pantalla Consulta SPEI -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.ConsultaSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="consultaSpeiDAOImpl" class="spei.dao.ConsultaSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="consultaSpeiServicioImpl" class="spei.servicio.ConsultaSpeiServicio">
+		<dwr:remote javascript="consultaSpeiServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="consultaSpeiDAO" ref="consultaSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/consultaSPEI.htm" class="spei.controlador.ConsultaSpeiControlador">
+		<property name="formView" value="spei/consultaSpeiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="consultaSpeiServicio" ref="consultaSpeiServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Controlador del Grid -->
+
+	<bean name="/gridConsultaSpei.htm" class="spei.controlador.ConsultaSpeiGridControlador">
+		<property name="consultaSpeiServicio" ref="consultaSpeiServicioImpl"/>
+	</bean>
+
+	<bean name="/gridConsultaSpeiRecepcion.htm" class="spei.controlador.ConsultaSpeiRecepGridControlador">
+		<property name="consultaSpeiServicio" ref="consultaSpeiServicioImpl"/>
+	</bean>
+
+	<bean name="/gridConsultaSpeiSaldo.htm" class="spei.controlador.ConsultaSpeiSaldoGridControlador">
+		<property name="consultaSpeiServicio" ref="consultaSpeiServicioImpl"/>
+	</bean>
+
+
+	<!-- BEAN PARA PANTALLA PAGO DE REMESAS SPEI -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.PagoRemesaSPEIBean" />
+	</dwr:configuration>
+
+
+	<bean id="pagoRemesaSPEIDAOImpl" class="spei.dao.PagoRemesaSPEIDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="service1SoapProxy" ref="service1SoapProxyImpl" />
+		<property name="parametrosSpeiDAO" ref="parametrosSpeiDAOImpl" />
+	</bean>
+
+
+	<bean id="pagoRemesaSPEIServicioImpl" class="spei.servicio.PagoRemesaSPEIServicio">
+		<dwr:remote javascript="pagoRemesaSPEIServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="pagoRemesaSPEIDAO" ref="pagoRemesaSPEIDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+
+	<bean name="/pagoRemesaSPEI.htm" class="spei.controlador.PagoRemesaSPEIControlador">
+		<property name="formView" value="spei/pagoRemesaSPEIVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="pagoRemesaSPEIServicio" ref="pagoRemesaSPEIServicioImpl" />
+	</bean>
+
+	<bean name="/pagoRemesasListaVista.htm"
+			class="spei.controlador.PagoRemesasListaControlador">
+		<property name="pagoRemesaSPEIServicio" ref="pagoRemesaSPEIServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Controlador del Grid -->
+	<bean name="/gridPagoRemesaSPEI.htm" class="spei.controlador.PagoRemesaSPEIGridControlador">
+		<property name="pagoRemesaSPEIServicio" ref="pagoRemesaSPEIServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Controlador pantalla Autorizacion envio spei -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.AutorizaEnvioSpeiBean" />
+	</dwr:configuration>
+
+
+	<bean id="autorizaEnvioSpeiDAOImpl" class="spei.dao.AutorizaEnvioSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="autorizaEnvioSpeiServicioImpl" class="spei.servicio.AutorizaEnvioSpeiServicio">
+		<dwr:remote javascript="autorizaEnvioSpeiServicio">
+		</dwr:remote>
+		<property name="autorizaEnvioSpeiDAO" ref="autorizaEnvioSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/autorizaEnvioSpei.htm" class="spei.controlador.AutorizaEnvioSpeiControlador">
+		<property name="formView" value="spei/autorizaEnvioSpeiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="autorizaEnvioSpeiServicio" ref="autorizaEnvioSpeiServicioImpl" />
+	</bean>
+
+
+
+<bean name="/gridAutorizaEnvio.htm" class="spei.controlador.AutorizaEnvioSpeiGridControlador">
+		<property name="autorizaEnvioSpeiServicio" ref="autorizaEnvioSpeiServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de la pantalla Cierre de Dia SPEI -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.DescargaRemesasBean" />
+	</dwr:configuration>
+
+	<bean id="descargaRemesasDAOImpl" class="spei.dao.DescargaRemesasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="service1SoapProxy" ref="service1SoapProxyImpl" />
+	</bean>
+
+	<bean id="descargaRemesasServicioImpl" class="spei.servicio.DescargaRemesasServicio">
+		<dwr:remote javascript="descargaRemesasServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="descargaRemesasDAO" ref="descargaRemesasDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/descargaRemesas.htm" class="spei.controlador.DescargaRemesasControlador">
+		<property name="formView" value="spei/descargaRemesasCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="descargaRemesasServicio" ref="descargaRemesasServicioImpl" />
+	</bean>
+
+	<bean name="/listaDescargaRemesa.htm"
+			class="spei.controlador.DescargaRemesasListaControlador">
+	<property name="descargaRemesasServicio" ref="descargaRemesasServicioImpl" />
+	</bean>
+
+
+		<!-- Definicion del Controlador del Grid -->
+	<bean name="/gridSolDescargas.htm" class="spei.controlador.DescargaRemesasGridControlador">
+	<property name="descargaRemesasServicio" ref="descargaRemesasServicioImpl" />
+	</bean>
+
+
+
+	<!-- REPORTE DE PAGO DE REMESAS SPEI -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.RepPagoRemesaSPEIBean" />
+	</dwr:configuration>
+
+	<bean id="repPagoRemesaSPEIDAOImpl" class="spei.dao.RepPagoRemesaSPEIDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="repPagoRemesaSPEIServicioImpl" class="spei.servicio.RepPagoRemesaSPEIServicio">
+		<dwr:remote javascript="repPagoRemesaSPEIServicio">
+
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="repPagoRemesaSPEIDAO" ref="repPagoRemesaSPEIDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/repPagoRemesas.htm" class="spei.controlador.RepPagoRemesaSPEIControlador">
+		<property name="formView" value="spei/repPagoRemesaSPEIVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repPagoRemesaSPEIServicio" ref="repPagoRemesaSPEIServicioImpl" />
+	</bean>
+
+ 	<bean name="/reportePagoRemesasResumen.htm" class="spei.reporte.PagoRemesaSPEIRepControlador">
+      	<property name="nombreReporte" value="spei/RepPagoRemesaResumen.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+      	<property name="repPagoRemesaSPEIServicio" ref="repPagoRemesaSPEIServicioImpl" />
+	</bean>
+
+
+		<bean name="/reportePagoRemesasDetallado.htm" class="spei.reporte.PagoRemesaSPEIRepControlador">
+      	<property name="nombreReporte" value="spei/RepPagoRemesaDetallado.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+    	<property name="repPagoRemesaSPEIServicio" ref="repPagoRemesaSPEIServicioImpl" />
+	</bean>
+
+		<!-- Beans de la pantalla Guía Contable SPEI IE -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="spei.bean.GuiaContableSpeiIEBean" />
+	</dwr:configuration>
+
+	<bean id="guiaContableSpeiIEDAOImpl" class="spei.dao.GuiaContableSpeiIEDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	 </bean>
+
+	<bean id="guiaContableSpeiIEServicioImpl" class="spei.servicio.GuiaContableSpeiIEServicio">
+	     <dwr:remote javascript="guiaContableSpeiIEServicio">
+	      <dwr:include method="consulta"/>
+		  </dwr:remote>
+ 		<property name="guiaContableSpeiIEDAO" ref="guiaContableSpeiIEDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/guiaContableSPEIIE.htm" class="spei.controlador.GuiaContableSpeiIEControlador">
+		<property name="formView" value="spei/guiaContableSpeiIEVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="guiaContableSpeiIEServicio" ref="guiaContableSpeiIEServicioImpl" />
+	</bean>
+
+	<!-- Beans de la pantalla Pagos de Remesas de Traspasos SPEI -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="spei.bean.PagoRemesasTraspasosSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="pagoRemesasTraspasosSpeiDAOImpl" class="spei.dao.PagoRemesasTraspasosSpeiDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	 </bean>
+
+	<bean id="pagoRemesasTraspasosSpeiServicioImpl" class="spei.servicio.PagoRemesasTraspasosSpeiServicio">
+	     <dwr:remote javascript="pagoRemesasTraspasosSpeiServicio">
+	      <dwr:include method="consulta"/>
+	      <dwr:include method="lista"/>
+		  </dwr:remote>
+ 		<property name="pagoRemesasTraspasosSpeiDAO" ref="pagoRemesasTraspasosSpeiDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/pagoRemesasTraspasosSPEI.htm" class="spei.controlador.PagoRemesasTraspasosSpeiControlador">
+		<property name="formView" value="spei/pagoRemesasTraspasosSpeiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="pagoRemesasTraspasosSpeiServicio" ref="pagoRemesasTraspasosSpeiServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Controlador del Grid de Pago de Remesas de Traspasos-->
+	<bean name="/gridPagoRemesasTraspasosSPEI.htm" class="spei.controlador.PagoRemesasTraspasosSpeiGridControlador">
+		<property name="pagoRemesasTraspasosSpeiServicio" ref="pagoRemesasTraspasosSpeiServicioImpl" />
+	</bean>
+
+	<!-- Definiciones para la vista de la Generacion del Reporte de SPEI Envios-->
+	<!-- Bean RepSpeiEnvios -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="spei.bean.RepSpeiEnviosBean" />
+	</dwr:configuration>
+
+	<!-- DAO RepSpeiEnvios -->
+	<bean id="repSpeiEnviosDAOImpl" class="spei.dao.RepSpeiEnviosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio RepSpeiEnvios -->
+	<bean id="repSpeiEnviosServicioImpl" class="spei.servicio.RepSpeiEnviosServicio">
+		<dwr:remote javascript="repSpeiEnviosServicio">
+		</dwr:remote>
+		<property name="repSpeiEnviosDAO" ref="repSpeiEnviosDAOImpl" />
+	</bean>
+
+	<!-- Pantalla RepSpeiEnvios -->
+	<bean name="/repSpeiEnvios.htm" class="spei.controlador.RepSpeiEnviosControlador">
+		<property name="formView" value="spei/repSpeiEnviosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repSpeiEnviosServicio" ref="repSpeiEnviosServicioImpl" />
+	</bean>
+
+	<!-- Reporte SpeiEnvios -->
+	<bean name="/reporteSpeiEnvios.htm" class="spei.reporte.ReporteSpeiEnviosRepControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="repSpeiEnviosServicio" ref="repSpeiEnviosServicioImpl"/>
+	</bean>
+
+	<!-- REPORTE DE RECEPCIONES SPEI -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.RepRecepcionesSpeiiBean" />
+	</dwr:configuration>
+
+	<bean id="repRecepcionesSpeiiDAOImpl" class="spei.dao.RepRecepcionesSpeiiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="repRecepcionesSpeiiServicioImpl" class="spei.servicio.RepRecepcionesSpeiiServicio">
+		<dwr:remote javascript="repRecepcionesSpeiiServicio">
+
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="repRecepcionesSpeiiDAO" ref="repRecepcionesSpeiiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Pantalla Reporte Spei Recepciones -->
+	<bean name="/repRecepcionesSpei.htm" class="spei.controlador.RepRecepcionesSpeiiControlador">
+		<property name="formView" value="spei/RepRecepcionesSpeiiVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repRecepcionesSpeiiServicio" ref="repRecepcionesSpeiiServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Spei Recepciones -->
+	<bean name="/reporteRecepcionesSpei.htm" class="spei.reporte.RecepcionesSpeiControlador">
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repRecepcionesSpeiiServicio" ref="repRecepcionesSpeiiServicioImpl" />
+	</bean>
+
+	<!-- =============================== BITACORA RECEPCIONES ============================== -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="spei.bean.SpeiRecepcionesPenBitBean" />
+	</dwr:configuration>
+
+	<bean id="speiRecepcionesPenBitDAOImpl" class="spei.dao.SpeiRecepcionesPenBitDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	 </bean>
+
+	 <bean id="speiRecepcionesPenBitServicioImpl" class="spei.servicio.SpeiRecepcionesPenBitServicio">
+		<dwr:remote javascript="speiRecepcionesPenBitServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="speiRecepcionesPenBitDAO" ref="speiRecepcionesPenBitDAOImpl" />
+	</bean>
+
+	<bean name="/bitacoraRecepcionesSPEI.htm" class="spei.controlador.BitacoraRecepcionesSPEIControlador">
+		<property name="formView" value="spei/RepBitacoraRecepcionesSPEIVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repRecepcionesSpeiiServicio" ref="repRecepcionesSpeiiServicioImpl" />
+	</bean>
+
+	<bean name="/speiRecepcionesPenBitGrid.htm" class="spei.controlador.SpeiRecepcionesPenBitGridControlador">
+		<property name="speiRecepcionesPenBitServicio" ref="speiRecepcionesPenBitServicioImpl" />
+	</bean>
+	<!-- ================================== ORIGENES SPEI ================================== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.OrigenesSpeiBean" />
+	</dwr:configuration>
+
+	<bean id="origenesSpeiDAOImpl" class="spei.dao.OrigenesSpeiDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="origenesSpeiServicioImpl" class="spei.servicio.OrigenesSpeiServicio">
+		<dwr:remote javascript="origenesSpeiServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="origenesSpeiDAO" ref="origenesSpeiDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- ================================ FIN ORIGENES SPEI ================================ -->
+
+
+	<!-- ================================ PARAMETROS PAGOS DE CREDITO "CTA. CLABE SPEI" ================================ -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.ParamPagoCreditoBean" />
+	</dwr:configuration>
+
+	<bean id="paramPagoCreditoDAODAOImpl" class="spei.dao.ParamPagoCreditoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="paramPagoCreditoServicioImpl" class="spei.servicio.ParamPagoCreditoServicio">
+		<dwr:remote javascript="paramPagoCreditoSpei">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="paramPagoCreditoDAO" ref="paramPagoCreditoDAODAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/paramPagoCredSpei.htm" class="spei.controlador.ParamPagoCreditoControlador">
+		<property name="formView" value="spei/paramPagoCreditoSpei" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="paramPagoCreditoServicio" ref="paramPagoCreditoServicioImpl" />
+	</bean>
+
+	<!-- INICIO Incorporate -->
+	<bean id="service1SoapProxyImpl" class="spei.servicioweb.Service1SoapProxy">
+	</bean>
+	<!-- FIN Incorporate -->
+	<!-- ================================== Autotiza cuentas clabe Persona Moral===============================  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="spei.bean.CuentaClabePMoralBean"></dwr:convert>
+	</dwr:configuration>
+
+	<bean id="cuentaClabePMoralDAOImpl" class="spei.dao.CuentaClabePMoralDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="cuentaClabePMoralServicioImpl" class="spei.servicio.CuentaClabePMoralServicio">
+		<dwr:remote javascript="cuentaClabePMoralServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="cuentaClabePMoralDAO" ref="cuentaClabePMoralDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+</beans>

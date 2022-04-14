@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+    
+   <xs:include schemaLocation="Clientes.xsd"></xs:include>
+   <xs:include schemaLocation="Creditos.xsd"></xs:include>
+   <xs:include schemaLocation="Cuentas.xsd"></xs:include>
+   <xs:include schemaLocation="Tarjetas.xsd"></xs:include>
+   <xs:include schemaLocation="BancaEnLinea.xsd"></xs:include>
+   <xs:include schemaLocation="OperacionesPDA.xsd"></xs:include>
+   <xs:include schemaLocation="OperacionesPDM.xsd"></xs:include>
+   <xs:include schemaLocation="Fondeador.xsd"></xs:include>
+   <xs:include schemaLocation="EnvioSMS.xsd"></xs:include>
+   <xs:include schemaLocation="Ventanilla.xsd"></xs:include>
+   <xs:include schemaLocation="Soporte.xsd"></xs:include>
+   <xs:include schemaLocation="Nomina.xsd"></xs:include>
+   <xs:include schemaLocation="PDA.xsd"></xs:include>
+   <xs:include schemaLocation="OperacionesVBC.xsd"></xs:include>
+   <xs:include schemaLocation="OperacionesCRCB.xsd"></xs:include>
+   
+</xs:schema>

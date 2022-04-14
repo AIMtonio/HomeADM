@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos -->
+    
+    <!-- DEfinicion de  REQUEST y RESPONSE y mapeo de datos Fecha del Sistema-->  
+    <xs:element name="parametrosSistemaSafiRequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+            <xs:element name="empresaID" type="xs:string" /> 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="parametrosSistemaSafiResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="fechaSistema" type="xs:string" />        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>
+
+
+
+

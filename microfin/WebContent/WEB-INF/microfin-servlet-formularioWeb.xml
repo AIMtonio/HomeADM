@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+	
+	<!-- BEAN DE PARAMETROS -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="formularioWeb.bean.FWProductosCreditoBean" />
+	</dwr:configuration>
+	
+	<!-- CONTROLADORES DE PRODUCTOS DE CREDITOS -->
+	<bean name="/productosCreditoFW.htm" class="formularioWeb.controlador.FWProductosCreditosControlador">
+		<property name="formView" value="formularioWeb/FWProductosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="fwProductosCreditosServicio" ref="FWProductosCreditosServicioImpl" />
+	</bean>
+	
+	<!-- SERVICIO DE PRODUCTOS DE CREDITOS -->
+	<bean id="FWProductosCreditosServicioImpl" class="formularioWeb.servicio.FWProductosCreditosServicio">
+		<dwr:remote javascript="fwProductosCreditosServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="fwProductosDAO" ref="FWProductosDAOImpl" />
+	</bean>
+	
+	<!-- DAO DE PRODUCTOS DE CREDITOS -->
+	<bean id="FWProductosDAOImpl" class="formularioWeb.dao.FWProductosDAO ">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- SERVICIO CONTROLADOR DE LISTA DE PRODUCTOS DE CREDITOS -->
+	<bean name="/listaFWProductosCredito.htm" class="formularioWeb.controlador.FWProductosCreditoListaControlador">
+		<property name="fwProductosCreditosServicio" ref="FWProductosCreditosServicioImpl" />
+	</bean>
+	
+</beans>

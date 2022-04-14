@@ -1,0 +1,63 @@
+-- Creacion de la tabla CONSTANCIARETCTEREL
+
+DELIMITER ;
+
+DROP TABLE IF EXISTS CONSTANCIARETCTEREL;
+
+DELIMITER $$
+
+CREATE TABLE `CONSTANCIARETCTEREL` (
+  `ConstanciaRetID` 		BIGINT(12) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Numero Consecutivo Constancia de Retencion',
+  `Anio` 					INT(11) 			NOT NULL COMMENT 'Anio proceso',
+  `AnioMes` 				INT(11) 			NOT NULL COMMENT 'Anio y mes de proceso',
+  `SucursalID` 				INT(11) 			NOT NULL COMMENT 'Numero de Sucursal del Cliente',
+  `NombreSucursalCte` 		VARCHAR(60) 		NOT NULL COMMENT 'Nombre de Sucursal del Cliente',
+  `ClienteID` 				INT(11) 			NOT NULL COMMENT 'Numero de Cliente',
+  `Tipo` 					CHAR(2) 			NOT NULL COMMENT 'Tipo Relacionados Fiscales\nA = Aportante\nC = Cliente\nR = Relacionado\nAC = Aportante Cliente',
+  `CteRelacionadoID` 		INT(11) 			NOT NULL COMMENT 'Numero del Cliente relacionado o 0 si el relacionado no es Cliente',
+  `PrimerNombre` 			VARCHAR(50) 		DEFAULT NULL COMMENT 'Primer Nombre del Cliente',
+  `SegundoNombre` 			VARCHAR(50) 		DEFAULT NULL COMMENT 'Segundo Nombre del Cliente',
+  `TercerNombre` 			VARCHAR(50) 		DEFAULT NULL COMMENT 'Tercer Nombre del Cliente',
+  `ApellidoPaterno` 		VARCHAR(50) 		DEFAULT NULL COMMENT 'Apellido Paterno del Cliente',
+  `ApellidoMaterno` 		VARCHAR(50) 		DEFAULT NULL COMMENT 'Apellido Materno del Cliente',
+  `NombreCompleto` 			VARCHAR(200) 		DEFAULT NULL COMMENT 'Nombre Completo del Cliente',
+  `RazonSocial` 			VARCHAR(150) 		DEFAULT NULL COMMENT 'Razon Social',
+  `TipoPersona` 			CHAR(1) 			DEFAULT NULL COMMENT 'Tipo de Personalidad del Cliente\nM = Persona Moral\nA = Persona Fisica Con Actividad Empresarial\nF = Persona Fisica Sin Actividad Empresarial',
+  `RFC` 					VARCHAR(13) 		DEFAULT NULL COMMENT 'Registro Federal de Contribuyentes',
+  `CURP` 					CHAR(18) 			DEFAULT NULL COMMENT 'CURP del Cliente',
+  `DireccionCompleta`		VARCHAR(500) 		DEFAULT NULL COMMENT 'Direccion Completa del Cliente',
+  `NombreInstitucion` 		VARCHAR(250) 		DEFAULT NULL COMMENT 'Nombre de la Institucion',
+  `DireccionInstitucion` 	VARCHAR(250) 		DEFAULT NULL COMMENT 'Direccion de la Institucion',
+  `FechaGeneracion` 		DATE 				DEFAULT NULL COMMENT 'Fecha de Generacion',
+  `RegHacienda` 			CHAR(1) 			DEFAULT NULL COMMENT 'Especifica si el cliente esta registrado en Hacienda\nS.- Si\nN.- No',
+  `Nacion` 					CHAR(1) 			DEFAULT NULL COMMENT 'Nacionalidad N = Nacional, E = Extranjero',
+  `PaisResidencia` 			INT(5) 				DEFAULT NULL COMMENT 'Pais de Residencia, corresponde de la tabla PAISES',
+  `CadenaCFDI` 				VARCHAR(5000) 		DEFAULT NULL COMMENT 'Cadena para archivo de timbrado CFDI',
+  `CFDIFechaEmision` 		DATE 				DEFAULT NULL COMMENT 'Fecha de Emision del CFDI',
+  `CFDIVersion` 			VARCHAR(10) 		DEFAULT NULL COMMENT 'Tag Version del CFDI',
+  `CFDINoCertSAT` 			VARCHAR(45) 		DEFAULT NULL COMMENT 'No Certificado del SAT',
+  `CFDIUUID` 				VARCHAR(50) 		DEFAULT NULL COMMENT 'UUID del CFDI',
+  `CFDIFechaTimbrado` 		VARCHAR(50) 		DEFAULT NULL COMMENT 'Fecha de Timbrado ',
+  `CFDISelloCFD` 			VARCHAR(1000) 		DEFAULT NULL COMMENT 'Sello CFD del CFDI',
+  `CFDISelloSAT` 			VARCHAR(1000) 		DEFAULT NULL COMMENT 'Sello del SAT',
+  `CFDICadenaOrig` 			VARCHAR(2000) 		DEFAULT NULL COMMENT 'Cadena Original',
+  `CFDIFechaCertifica` 		VARCHAR(45) 		DEFAULT NULL COMMENT 'Fecha de Certificacion',
+  `CFDINoCertEmisor` 		VARCHAR(80) 		DEFAULT NULL COMMENT 'Numero Certificacion Emisor',
+  `Estatus` 				INT(11) 			DEFAULT '1' COMMENT 'Estatus Timbrado\n1.- No Procesado\n2.- Exitoso\n3.- Erroneo',
+  `ParticipaFiscal` 		DECIMAL(14,2) 		DEFAULT NULL COMMENT 'Indica el % que corresponde a la participacion fiscal del relacionado puede ser un valor a dos decimales en un rango del 0 al 100',
+  `MontoTotOperacion` 		DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Total de Operacion en el anio fiscal (Inversiones,Cuentas,Cedes,Aportaciones)',
+  `MontoTotGrav` 			DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Total Interes Gravado en el anio fiscal (Inversiones,Cuentas,Cedes,Aportaciones)',
+  `MontoTotExent` 			DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Total Interes Exento en el anio fiscal (Inversiones,Cuentas,Cedes,Aportaciones)',
+  `MontoTotRet` 			DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Total Retenciones en el anio fiscal (Inversiones,Cuentas,Cedes,Aportaciones)',
+  `MontoIntReal` 			DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Total Interes Real en el anio fiscal (Inversiones,Cuentas,Cedes,Aportaciones)',
+  `MontoCapital` 			DECIMAL(18,2) 		DEFAULT NULL COMMENT 'Monto Capital (Inversion/CEDE/APORTACIONES) o Saldo promedio de la cuenta de ahorro en el anio fiscal\n',
+  `EstatusGenera` 			CHAR(1) 			NOT NULL COMMENT 'Indica el estatus de la generacion de la Constancia de Retencion\nP = Pendiente\nG = Generada',
+  `EmpresaID` 				INT(11) 			DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `Usuario` 				INT(11) 			DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `FechaActual` 			DATETIME 			DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `DireccionIP` 			VARCHAR(15) 		DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `ProgramaID` 				VARCHAR(50) 		DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `Sucursal` 				INT(11) 			DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  `NumTransaccion` 			BIGINT(20) 			DEFAULT NULL COMMENT 'Parametro de Auditoria',
+  PRIMARY KEY (`ConstanciaRetID`,`Anio`,`SucursalID`,`ClienteID`)
+) ENGINE=INNODB DEFAULT CHARSET=LATIN1 COMMENT='Tab: Registro de Clientes Relacionados para la Constancia de Retencion.'$$

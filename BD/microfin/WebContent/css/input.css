@@ -1,0 +1,111 @@
+@media all { 
+/*___________BOTONES______________*/
+	input[class=inputCompleto] {
+    background: url(../images/input2.png) no-repeat;border: none;float: left;}
+	input[class=inputNumerico]{width : 100px; padding : 1px; font : 100% Tahoma, Verdana, Arial, sans-serif; background-color : #fff; border : 1px solid #CCCCCC; color : #333; text-align:right; }
+	input[class=inputNumerico]{width : 100px; padding : 1px; font : 100% Tahoma, Verdana, Arial, sans-serif; font-size:12px; background-color : #fff; border : 1px solid #CCCCCC; color : #333; text-align:left; }
+	input[class=inputNumericoPequeno]{width : 5%; padding : 1px; font : 100% Tahoma, Verdana, Arial, sans-serif; font-size:11px; background-color : #fff; border : 1px solid #CCCCCC; color : #333; text-align:left; }	
+	input[class=inputNumericoDeshabilitado]{width : 100px; padding : 1px; font : 100% Tahoma, Verdana, Arial, sans-serif; background-color : #fff; border : 1px solid #CCCCCC; color : #333;background-color:#E6E6E6; text-align:right;} 
+	input[class=inputFecha2]{font-family:Arial, Helvetica, sans-serif; font-size:11px; width:60px; border-color:#CCCCCC;} 
+	input[class=inputFechaDeshabilitado]{width : 80px; padding : 1px; font : 100% Tahoma, Verdana, Arial, sans-serif; background-color : #fff; border : 1px solid #CCCCCC; color:#333;background-color:#E6E6E6; text-align:left;}
+	input[class=inputRadio]{width:15px; padding:1px; }
+	input[class=botonAfecta]{ width : auto;  padding : 0 .3em; background : url(../images/input_submit_background.jpg) repeat-x ; border-bottom : 2px double #CCCCCC; border-right : 2px double #CCCCCC; border-left: none; border-top: none ; font : 92% Tahoma, Verdana, Arial, sans-serif; color : #555555; cursor: pointer; padding-left:10px; padding-right:10px; font-weight:bold;} 
+	input[class=botonAfecta]:hover { width : auto; padding : 0 .3em; background : url(../images/input_submit_background_blue.jpg) repeat-x ; border-bottom : 2px double #CCCCCC; border-right : 2px double #CCCCCC; border-left: none; border-top: none ; font : 92% Tahoma, Verdana, Arial, sans-serif; color:#FFFFFF; cursor: pointer; padding-left:10px; padding-right:10px; font-weight:bold; } 
+	input[class=botonGeneralLargo]{ width : auto; padding : 0 .3em; background : url(../images/input_submit_background.jpg) repeat-x ; border-bottom : 2px double #CCCCCC; border-right : 2px double #CCCCCC; border-left: none; border-top: none ; font : 92% Tahoma, Verdana, Arial, sans-serif; color : #555555; cursor: pointer; padding-left:10px; padding-right:10px; font-weight:bold; width:100px} 
+	input[class=botonGeneralXLargo]{ width : auto; padding : 0 .3em; background : url(../images/input_submit_background.jpg) repeat-x ; border-bottom : 2px double #CCCCCC; border-right : 2px double #CCCCCC; border-left: none; border-top: none ; font : 92% Tahoma, Verdana, Arial, sans-serif; color : #555555; cursor: pointer; padding-left:10px; padding-right:10px; font-weight:bold; width:200px} 
+	select[class=inputCombo]{font-size:1em; font : 90%/160% Tahoma, Verdana, Arial, sans-serif;}
+	input[class=green_color_button] { width : auto; padding : 0 .3em; background : url(../images/input_submit_background_green.jpg) repeat-x ; border-bottom : 2px double #43C603; border-right : 2px double #43C603; border-left: none; border-top: none ; font : 92% Tahoma, Verdana, Arial, sans-serif; color : #555555; cursor: pointer; padding-left:10px; padding-right:10px; font-weight:bold; }
+
+	.botonGral {
+		vertical-align:middle;
+		font-family: tahoma, geneva, sans-serif;
+		font-size:1.5em;
+		font-weight:normal	
+		border:solid 1px #056672;
+		padding:3px 5px 3px 5px !important;
+		color:#fff !important;
+		margin:3px 1px !important;
+		background:url(../images/buttonBlueBg.gif) left top repeat-x;
+		white-space:nowrap;
+		cursor:pointer;
+	}
+	
+	.botonGral:hover {
+		text-decoration:none !important;
+		background:url(../images/buttonBlueBgHover.gif) left top repeat-x;
+		border:solid 1px #0099bb;
+	}
+
+	.submit {
+		vertical-align:middle;
+		font-family: tahoma, geneva, sans-serif;
+		font-size:1.5em;
+		font-weight:normal	
+		border:solid 1px #056672;
+		padding:3px 5px 3px 5px !important;
+		color:#fff !important;
+		margin:3px 1px !important;
+		background:url(../images/buttonBlueBg.gif) left top repeat-x;
+		white-space:nowrap;
+		cursor:pointer;
+	}
+	
+	.submit:hover {
+		text-decoration:none !important;
+		background:url(../images/buttonBlueBgHover.gif) left top repeat-x;
+		border:solid 1px #0099bb;
+	}
+	.botonDeshabilitado {
+		vertical-align:middle;
+		font-family: tahoma, geneva, sans-serif;
+		font-size:1.5em;
+		font-weight:normal	
+		border:solid 1px #056672;
+		padding:3px 5px 3px 5px !important;
+		color:#FFFFFF !important;
+		background-color: #B3B3B3;	
+		margin:3px 1px !important;	
+		white-space:nowrap;
+		cursor:pointer;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+	}
+	
+}
+
+.huella{
+	padding: 3px;
+    border: 1px solid #616161;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
+.huella-img{
+	width: 25px;
+}
+
+.huella-on{
+	background: #2fa205;
+    border: 1px solid #237704;
+}
+
+.huella-off{
+	background: #960d0d;
+    border: 1px solid #61010e;
+}
+
+.timerSrvHuella{
+	width: 50px;
+    background: #2a5176;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 2px;
+    box-shadow: 1px 1px 5px #cbd0d6;
+    margin: 0 auto;
+    margin-top: 10px;
+}

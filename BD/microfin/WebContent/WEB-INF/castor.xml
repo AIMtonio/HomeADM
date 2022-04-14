@@ -1,0 +1,6254 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<description>Serializador de objetos Proyecto SAFI.</description>
+
+	<class name="cliente.BeanWS.Request.ConsultaClienteRequest">
+		<map-to xml="consultaClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numero" type="string">
+			<bind-xml name="numero" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaClienteResponse">
+		<map-to xml="consultaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numero" type="string">
+			<bind-xml name="numero" />
+		</field>
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="rfc" type="string">
+			<bind-xml name="rfc" />
+		</field>
+		<field name="calificaCredito" type="string">
+			<bind-xml name="calificaCredito" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ConsultaDireccionClienteRequest">
+		<map-to xml="consultaDirClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numero" type="string">
+			<bind-xml name="numero" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaDireccionClienteResponse">
+		<map-to xml="consultaDirClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numero" type="string">
+			<bind-xml name="numero" />
+		</field>
+		<field name="direccionCompleta" type="string">
+			<bind-xml name="direccionCompleta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.AltaProspectoRequest">
+		<map-to xml="altaProspectoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoIDExt" type="string">
+			<bind-xml name="prospectoIDExt" />
+		</field>
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="segundoNombre" type="string">
+			<bind-xml name="segundoNombre" />
+		</field>
+		<field name="tercerNombre" type="string">
+			<bind-xml name="tercerNombre" />
+		</field>
+		<field name="apellidoPaterno" type="string">
+			<bind-xml name="apellidoPaterno" />
+		</field>
+
+		<field name="apellidoMaterno" type="string">
+			<bind-xml name="apellidoMaterno" />
+		</field>
+		<field name="telefono" type="string">
+			<bind-xml name="telefono" />
+		</field>
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numExterior" type="string">
+			<bind-xml name="numExterior" />
+		</field>
+		<field name="numInterior" type="string">
+			<bind-xml name="numInterior" />
+		</field>
+
+		<field name="manzana" type="string">
+			<bind-xml name="manzana" />
+		</field>
+		<field name="lote" type="string">
+			<bind-xml name="lote" />
+		</field>
+		<field name="colonia" type="string">
+			<bind-xml name="colonia" />
+		</field>
+		<field name="municipioID" type="string">
+			<bind-xml name="municipioID" />
+		</field>
+		<field name="estadoID" type="string">
+			<bind-xml name="estadoID" />
+		</field>
+
+		<field name="CP" type="string">
+			<bind-xml name="CP" />
+		</field>
+		<field name="tipoPersona" type="string">
+			<bind-xml name="tipoPersona" />
+		</field>
+		<field name="razonSocial" type="string">
+			<bind-xml name="razonSocial" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="latitud" type="string">
+			<bind-xml name="latitud" />
+		</field>
+		<field name="longitud" type="string">
+			<bind-xml name="longitud" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.AltaProspectoResponse">
+		<map-to xml="altaProspectoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.ConsultaCuentasPorClienteRequest">
+		<map-to xml="consultaCuentasPorClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ConsultaCuentasPorClienteResponse">
+		<map-to xml="consultaCuentasPorClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="infocuenta" type="string">
+			<bind-xml name="infocuenta" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.AltaCuentaRequest">
+		<map-to xml="altaCuentaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="sucursalID" type="string">
+			<bind-xml name="sucursalID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="clabe" type="string">
+			<bind-xml name="clabe" />
+		</field>
+		<field name="monedaID" type="string">
+			<bind-xml name="monedaID" />
+		</field>
+		<field name="tipoCuentaID" type="string">
+			<bind-xml name="tipoCuentaID" />
+		</field>
+
+		<field name="fechaReg" type="string">
+			<bind-xml name="fechaReg" />
+		</field>
+		<field name="etiqueta" type="string">
+			<bind-xml name="etiqueta" />
+		</field>
+		<field name="edoCta" type="string">
+			<bind-xml name="edoCta" />
+		</field>
+		<field name="institucionID" type="string">
+			<bind-xml name="institucionID" />
+		</field>
+		<field name="esPrincipal" type="string">
+			<bind-xml name="esPrincipal" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.AltaCuentaResponse">
+		<map-to xml="altaCuentaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.ConsultaDisponiblePorClienteRequest">
+		<map-to xml="consultaDisponiblePorClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ConsultaDisponiblePorClienteResponse">
+		<map-to xml="consultaDisponiblePorClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="saldoDispon" type="string">
+			<bind-xml name="saldoDispon" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaActividadCreditoRequest">
+		<map-to xml="consultaActividadCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaActividadCreditoResponse">
+		<map-to xml="consultaActividadCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="activosTotal" type="string">
+			<bind-xml name="activosTotal" />
+		</field>
+		<field name="totalPrestado" type="string">
+			<bind-xml name="totalPrestado" />
+		</field>
+		<field name="saldoActual" type="string">
+			<bind-xml name="saldoActual" />
+		</field>
+		<field name="pesosenMora" type="string">
+			<bind-xml name="pesosenMora" />
+		</field>
+		<field name="moraMayor" type="string">
+			<bind-xml name="moraMayor" />
+		</field>
+		<field name="quebrantos" type="string">
+			<bind-xml name="quebrantos" />
+		</field>
+		<field name="pagosPuntuales" type="string">
+			<bind-xml name="pagosPuntuales" />
+		</field>
+		<field name="pagosRealizados" type="string">
+			<bind-xml name="pagosRealizados" />
+		</field>
+		<field name="moraMenorTreintaDias" type="string">
+			<bind-xml name="moraMenorTreintaDias" />
+		</field>
+		<field name="moraMayorTreintaDias" type="string">
+			<bind-xml name="moraMayorTreintaDias" />
+		</field>
+
+
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaDetallePagosRequest">
+		<map-to xml="consultaDetallePagosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaDetallePagosResponse">
+		<map-to xml="consultaDetallePagosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="infoDetallePagos" type="string">
+			<bind-xml name="infoDetallePagos" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.AltaConocimientoCtaRequest">
+		<map-to xml="altaConocimientoCtaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="depositoCred" type="string">
+			<bind-xml name="depositoCred" />
+		</field>
+		<field name="retirosCargo" type="string">
+			<bind-xml name="retirosCargo" />
+		</field>
+		<field name="procRecursos" type="string">
+			<bind-xml name="procRecursos" />
+		</field>
+		<field name="concentFondo" type="string">
+			<bind-xml name="concentFondo" />
+		</field>
+
+		<field name="admonGtosIng" type="string">
+			<bind-xml name="admonGtosIng" />
+		</field>
+		<field name="pagoNomina" type="string">
+			<bind-xml name="pagoNomina" />
+		</field>
+		<field name="ctaInversion" type="string">
+			<bind-xml name="ctaInversion" />
+		</field>
+		<field name="pagoCreditos" type="string">
+			<bind-xml name="pagoCreditos" />
+		</field>
+		<field name="otroUso" type="string">
+			<bind-xml name="otroUso" />
+		</field>
+
+		<field name="defineUso" type="string">
+			<bind-xml name="defineUso" />
+		</field>
+		<field name="recursoProv" type="string">
+			<bind-xml name="recursoProv" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.AltaConocimientoCtaResponse">
+		<map-to xml="altaConocimientoCtaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.AltaConocimientoCteRequest">
+		<map-to xml="altaConocimientoCteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nomGrupo" type="string">
+			<bind-xml name="nomGrupo" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="participacion" type="string">
+			<bind-xml name="participacion" />
+		</field>
+		<field name="nacionalidad" type="string">
+			<bind-xml name="nacionalidad" />
+		</field>
+		<field name="razonSocial" type="string">
+			<bind-xml name="razonSocial" />
+		</field>
+		<field name="giro" type="string">
+			<bind-xml name="giro" />
+		</field>
+		<field name="PEPs" type="string">
+			<bind-xml name="PEPs" />
+		</field>
+		<field name="funcionID" type="string">
+			<bind-xml name="funcionID" />
+		</field>
+		<field name="parentescoPEP" type="string">
+			<bind-xml name="parentescoPEP" />
+		</field>
+
+		<field name="nombFamiliar" type="string">
+			<bind-xml name="nombFamiliar" />
+		</field>
+		<field name="aPaternoFam" type="string">
+			<bind-xml name="aPaternoFam" />
+		</field>
+		<field name="aMaternoFam" type="string">
+			<bind-xml name="aMaternoFam" />
+		</field>
+		<field name="noEmpleados" type="string">
+			<bind-xml name="noEmpleados" />
+		</field>
+		<field name="serv_Produc" type="string">
+			<bind-xml name="serv_Produc" />
+		</field>
+		<field name="cober_Geograf" type="string">
+			<bind-xml name="cober_Geograf" />
+		</field>
+		<field name="estados_Presen" type="string">
+			<bind-xml name="estados_Presen" />
+		</field>
+		<field name="importeVta" type="string">
+			<bind-xml name="importeVta" />
+		</field>
+		<field name="activos" type="string">
+			<bind-xml name="activos" />
+		</field>
+		<field name="pasivos" type="string">
+			<bind-xml name="pasivos" />
+		</field>
+
+		<field name="capital" type="string">
+			<bind-xml name="capital" />
+		</field>
+		<field name="importa" type="string">
+			<bind-xml name="importa" />
+		</field>
+		<field name="dolaresImport" type="string">
+			<bind-xml name="dolaresImport" />
+		</field>
+		<field name="paisesImport" type="string">
+			<bind-xml name="paisesImport" />
+		</field>
+		<field name="paisesImport2" type="string">
+			<bind-xml name="paisesImport2" />
+		</field>
+		<field name="paisesImport3" type="string">
+			<bind-xml name="paisesImport3" />
+		</field>
+		<field name="exporta" type="string">
+			<bind-xml name="exporta" />
+		</field>
+		<field name="dolaresExport" type="string">
+			<bind-xml name="dolaresExport" />
+		</field>
+		<field name="paisesExport" type="string">
+			<bind-xml name="paisesExport" />
+		</field>
+		<field name="paisesExport2" type="string">
+			<bind-xml name="paisesExport2" />
+		</field>
+
+		<field name="paisesExport3" type="string">
+			<bind-xml name="paisesExport3" />
+		</field>
+		<field name="nombRefCom" type="string">
+			<bind-xml name="nombRefCom" />
+		</field>
+		<field name="nombRefCom2" type="string">
+			<bind-xml name="nombRefCom2" />
+		</field>
+		<field name="telRefCom" type="string">
+			<bind-xml name="telRefCom" />
+		</field>
+		<field name="telRefCom2" type="string">
+			<bind-xml name="telRefCom2" />
+		</field>
+		<field name="bancoRef" type="string">
+			<bind-xml name="bancoRef" />
+		</field>
+		<field name="bancoRef2" type="string">
+			<bind-xml name="bancoRef2" />
+		</field>
+		<field name="noCuentaRef" type="string">
+			<bind-xml name="noCuentaRef" />
+		</field>
+		<field name="noCuentaRef2" type="string">
+			<bind-xml name="noCuentaRef2" />
+		</field>
+		<field name="NombreRef" type="string">
+			<bind-xml name="NombreRef" />
+		</field>
+
+		<field name="NombreRef2" type="string">
+			<bind-xml name="NombreRef2" />
+		</field>
+		<field name="domicilioRef" type="string">
+			<bind-xml name="domicilioRef" />
+		</field>
+		<field name="domicilioRef2" type="string">
+			<bind-xml name="domicilioRef2" />
+		</field>
+		<field name="telefonoRef" type="string">
+			<bind-xml name="telefonoRef" />
+		</field>
+		<field name="telefonoRef2" type="string">
+			<bind-xml name="telefonoRef2" />
+		</field>
+		<field name="pFuenteIng" type="string">
+			<bind-xml name="pFuenteIng" />
+		</field>
+		<field name="ingAproxMes" type="string">
+			<bind-xml name="ingAproxMes" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.AltaConocimientoCteResponse">
+		<map-to xml="altaConocimientoCteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+
+	<class name="tarjetas.beanWS.request.OperacionesTarjetaRequest">
+		<map-to xml="operacionesTarjetaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="tipoOperacion" type="string">
+			<bind-xml name="tipoOperacion" />
+		</field>
+		<field name="numeroTarjeta" type="string">
+			<bind-xml name="numeroTarjeta" />
+		</field>
+		<field name="origenInstrumento" type="string">
+			<bind-xml name="origenInstrumento" />
+		</field>
+		<field name="montoTransaccion" type="string">
+			<bind-xml name="montoTransaccion" />
+		</field>
+		<field name="fechaHoraOperacion" type="string">
+			<bind-xml name="fechaHoraOperacion" />
+		</field>
+
+		<field name="numeroTransaccion" type="string">
+			<bind-xml name="numeroTransaccion" />
+		</field>
+		<field name="giroNegocio" type="string">
+			<bind-xml name="giroNegocio" />
+		</field>
+		<field name="puntoEntrada" type="string">
+			<bind-xml name="puntoEntrada" />
+		</field>
+		<field name="idTerminal" type="string">
+			<bind-xml name="idTerminal" />
+		</field>
+		<field name="nombreUbicacionTerminal" type="string">
+			<bind-xml name="nombreUbicacionTerminal" />
+		</field>
+
+		<field name="nip" type="string">
+			<bind-xml name="nip" />
+		</field>
+		<field name="codigoMonedaoperacion" type="string">
+			<bind-xml name="codigoMonedaoperacion" />
+		</field>
+		<field name="montosAdicionales" type="string">
+			<bind-xml name="montosAdicionales" />
+		</field>
+		<field name="montoSurcharge" type="string">
+			<bind-xml name="montoSurcharge" />
+		</field>
+		<field name="montoLoyaltyfee" type="string">
+			<bind-xml name="montoLoyaltyfee" />
+		</field>
+	</class>
+
+	<class name="tarjetas.beanWS.response.OperacionesTarjetaResponse">
+		<map-to xml="operacionesTarjetaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numeroTransaccion" type="string">
+			<bind-xml name="numeroTransaccion" />
+		</field>
+		<field name="saldoActualizado" type="string">
+			<bind-xml name="saldoActualizado" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.request.AltaUsuarioBERequest">
+		<map-to xml="altaUsuarioBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clave" type="string">
+			<bind-xml name="clave" />
+		</field>
+		<field name="perfil" type="string">
+			<bind-xml name="perfil" />
+		</field>
+		<field name="clienteNominaID" type="string">
+			<bind-xml name="clienteNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="costoMensual" type="string">
+			<bind-xml name="costoMensual" />
+		</field>
+		<field name="tipoTransaccion" type="string">
+			<bind-xml name="tipoTransaccion" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.response.AltaUsuarioBEResponse">
+		<map-to xml="altaUsuarioBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clave" type="string">
+			<bind-xml name="clave" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+
+		<!-- <field name="consecutivoResp" type="string"> <bind-xml name="consecutivoResp" 
+			/> </field> -->
+
+	</class>
+	<class name="cliente.BeanWS.Request.ListaReporteNomBitacoEstEmpRequest">
+		<map-to xml="listaReporteNomBitacoEstEmpRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="tipoLista" type="string">
+			<bind-xml name="tipoLista" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+		<field name="fechaFin" type="string">
+			<bind-xml name="fechaFin" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ListaReporteNomBitacoEstEmpResponse">
+		<map-to xml="listaReporteNomBitacoEstEmpResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaClientes" type="string">
+			<bind-xml name="listaClientes" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ActualizaDireccionClienteRequest">
+		<map-to xml="actualizaDireccionClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="direccionID" type="string">
+			<bind-xml name="direccionID" />
+		</field>
+		<field name="tipoDireccionID" type="string">
+			<bind-xml name="tipoDireccionID" />
+		</field>
+		<field name="estadoID" type="string">
+			<bind-xml name="estadoID" />
+		</field>
+		<field name="municipioID" type="string">
+			<bind-xml name="municipioID" />
+		</field>
+
+		<field name="localidadID" type="string">
+			<bind-xml name="localidadID" />
+		</field>
+		<field name="coloniaID" type="string">
+			<bind-xml name="coloniaID" />
+		</field>
+		<field name="nombreColonia" type="string">
+			<bind-xml name="nombreColonia" />
+		</field>
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numeroCasa" type="string">
+			<bind-xml name="numeroCasa" />
+		</field>
+		<field name="numInterior" type="string">
+			<bind-xml name="numInterior" />
+		</field>
+
+		<field name="piso" type="string">
+			<bind-xml name="piso" />
+		</field>
+		<field name="primEntreCalle" type="string">
+			<bind-xml name="primEntreCalle" />
+		</field>
+		<field name="segEntreCalle" type="string">
+			<bind-xml name="segEntreCalle" />
+		</field>
+		<field name="CP" type="string">
+			<bind-xml name="CP" />
+		</field>
+		<field name="latitud" type="string">
+			<bind-xml name="latitud" />
+		</field>
+
+		<field name="longitud" type="string">
+			<bind-xml name="longitud" />
+		</field>
+		<field name="lote" type="string">
+			<bind-xml name="lote" />
+		</field>
+		<field name="manzana" type="string">
+			<bind-xml name="manzana" />
+		</field>
+		<field name="oficial" type="string">
+			<bind-xml name="oficial" />
+		</field>
+		<field name="fiscal" type="string">
+			<bind-xml name="fiscal" />
+		</field>
+		<field name="descripcion" type="string">
+			<bind-xml name="descripcion" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ActualizaDireccionClienteResponse">
+		<map-to xml="actualizaDireccionClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="direccionID" type="string">
+			<bind-xml name="direccionID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaProspectoRequest">
+		<map-to xml="consultaProspectoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<!-- <field name="negocioAfiliadoID" type="string"> <bind-xml name="negocioAfiliadoID" 
+			/> </field> <field name="numeroConsulta" type="string"> <bind-xml name="numeroConsulta" 
+			/> </field> -->
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaProspectoResponse">
+		<map-to xml="consultaProspectoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="segundoNombre" type="string">
+			<bind-xml name="segundoNombre" />
+		</field>
+		<field name="tercerNombre" type="string">
+			<bind-xml name="tercerNombre" />
+		</field>
+		<field name="apellidoPaterno" type="string">
+			<bind-xml name="apellidoPaterno" />
+		</field>
+
+		<field name="apellidoMaterno" type="string">
+			<bind-xml name="apellidoMaterno" />
+		</field>
+		<field name="tipoPersona" type="string">
+			<bind-xml name="tipoPersona" />
+		</field>
+		<field name="fechaNacimiento" type="string">
+			<bind-xml name="fechaNacimiento" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="sexo" type="string">
+			<bind-xml name="sexo" />
+		</field>
+
+		<field name="estadoCivil" type="string">
+			<bind-xml name="estadoCivil" />
+		</field>
+		<field name="telefono" type="string">
+			<bind-xml name="telefono" />
+		</field>
+		<field name="razonSocial" type="string">
+			<bind-xml name="razonSocial" />
+		</field>
+		<field name="estadoID" type="string">
+			<bind-xml name="estadoID" />
+		</field>
+		<field name="municipioID" type="string">
+			<bind-xml name="municipioID" />
+		</field>
+
+		<field name="localidadID" type="string">
+			<bind-xml name="localidadID" />
+		</field>
+		<field name="coloniaID" type="string">
+			<bind-xml name="coloniaID" />
+		</field>
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numExterior" type="string">
+			<bind-xml name="numExterior" />
+		</field>
+		<field name="numInterior" type="string">
+			<bind-xml name="numInterior" />
+		</field>
+
+		<field name="CP" type="string">
+			<bind-xml name="CP" />
+		</field>
+		<field name="manzana" type="string">
+			<bind-xml name="manzana" />
+		</field>
+		<field name="lote" type="string">
+			<bind-xml name="lote" />
+		</field>
+		<field name="latitud" type="string">
+			<bind-xml name="latitud" />
+		</field>
+		<field name="longitud" type="string">
+			<bind-xml name="longitud" />
+		</field>
+
+
+		<field name="tipoDireccionID" type="string">
+			<bind-xml name="tipoDireccionID" />
+		</field>
+		<field name="calificaProspecto" type="string">
+			<bind-xml name="calificaProspecto" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ListaProspectoRequest">
+		<map-to xml="listaProspectoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="tipoLis" type="string">
+			<bind-xml name="tipoLis" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ListaProspectoResponse">
+		<map-to xml="listaProspectoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaProspecto" type="string">
+			<bind-xml name="listaProspecto" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.request.ConsultaUsuarioBERequest">
+		<map-to xml="consultaUsuarioBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.response.ConsultaUsuarioBEResponse">
+		<map-to xml="consultaUsuarioBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="usuarioBE" type="string">
+			<bind-xml name="usuarioBE" />
+		</field>
+	</class>
+	<class name="credito.beanWS.request.ListaSolicitudCreditoRequest">
+		<map-to xml="listaSolicitudCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="tipoCon" type="string">
+			<bind-xml name="tipoCon" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ListaSolicitudCreditoResponse">
+		<map-to xml="listaSolicitudCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaSolCre" type="string">
+			<bind-xml name="listaSolCre" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ModificaIdentificacionRequest">
+		<map-to xml="modificaIdentificacionRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="numEmpleado" type="string">
+			<bind-xml name="numEmpleado" />
+		</field>
+		<field name="IdentificID" type="string">
+			<bind-xml name="IdentificID" />
+		</field>
+		<field name="tipoIdentID" type="string">
+			<bind-xml name="tipoIdentID" />
+		</field>
+		<field name="oficial" type="string">
+			<bind-xml name="oficial" />
+		</field>
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="fechaExpIden" type="string">
+			<bind-xml name="fechaExpIden" />
+		</field>
+		<field name="fechaVenIden" type="string">
+			<bind-xml name="fechaVenIden" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ModificaIdentificacionResponse">
+		<map-to xml="modificaIdentificacionResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="tipoIdentiID" type="string">
+			<bind-xml name="tipoIdentiID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+
+	<!--Operaciones PDA -->
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Server_FechaHoraRequest">
+		<map-to xml="FechaServerRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Server_FechaHoraResponse">
+		<map-to xml="FechaServerResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="FechaHora" type="string">
+			<bind-xml name="FechaHora" />
+		</field>
+	</class>
+
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Segmentos_DescargaRequest">
+		<map-to xml="DescargarSegmentosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Id_Sucursal" type="string">
+			<bind-xml name="Id_Sucursal" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Segmentos_DescargaResponse">
+		<map-to xml="DescargarSegmentosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="segmentos" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Segmento" node="element" />
+		</field>
+	</class>
+
+
+	<class
+		name="operacionesPDA.beanWS.request.SP_PDA_Sucursales_DescargaRequest">
+		<map-to xml="DescargarSucursalesRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Sucursales_DescargaResponse">
+		<map-to xml="DescargarSucursalesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xsd" />
+		<field name="sucursales" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Sucursal" node="element" />
+		</field>
+	</class>
+
+
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Cuentas_DescargaRequest">
+		<map-to xml="DescargarCuentasRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Cuentas_DescargaResponse">
+		<map-to xml="DescargarCuentasResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentas" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Cuenta" node="element" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Usuario_ValidarRequest">
+		<map-to xml="ValidarUsuarioRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+		<field name="Id_Sucursal" type="string">
+			<bind-xml name="Id_Sucursal" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Usuario_ValidarResponse">
+		<map-to xml="ValidarUsuarioResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.request.SP_SMSAP_Usuarios_DescargaRequest">
+		<map-to xml="DescargarUsuariosSMSAPRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_SMSAP_Usuarios_DescargaResponse">
+		<map-to xml="DescargarUsuariosSMSAPResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="usuarios" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Usuario" node="element" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_SMSAP_Usuario_ValidarRequest">
+		<map-to xml="ValidarUsuarioSMSAPRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_SMSAP_Usuario_ValidarResponse">
+		<map-to xml="ValidarUsuarioSMSAPResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Socios_DescargaRequest">
+		<map-to xml="DescargarSociosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Id_Segmento" type="string">
+			<bind-xml name="Id_Segmento" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Socios_DescargaResponse">
+		<map-to xml="DescargarSociosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="socios" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="socio" node="element" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Ahorros_DescargaRequest">
+		<map-to xml="DescargarAhorrosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Id_Segmento" type="string">
+			<bind-xml name="Id_Segmento" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Ahorros_DescargaResponse">
+		<map-to xml="DescargarAhorrosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="ahorros" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="ahorro" node="element" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Ahorros_AbonoRequest">
+		<map-to xml="AhorroAbonoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+		<field name="Num_Cta" type="string">
+			<bind-xml name="Num_Cta" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Ahorros_AbonoResponse">
+		<map-to xml="AhorroAbonoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisp" />
+		</field>
+		<field name="SaldoTot" type="string">
+			<bind-xml name="SaldoTot" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Creditos_DescargaRequest">
+		<map-to xml="DescargarCreditosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Id_Segmento" type="string">
+			<bind-xml name="Id_Segmento" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Creditos_DescargaResponse">
+		<map-to xml="DescargarCreditosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditos" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Credito" node="element" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Creditos_PagoRequest">
+		<map-to xml="CreditoPagoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Num_Cta" type="string">
+			<bind-xml name="Num_Cta" />
+		</field>
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SP_PDA_Creditos_PagoResponse">
+		<map-to xml="CreditoPagoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="CapitalPagado" type="string">
+			<bind-xml name="CapitalPagado" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="IntMorPagado" type="string">
+			<bind-xml name="IntMorPagado" />
+		</field>
+		<field name="IntOrdPagado" type="string">
+			<bind-xml name="IntOrdPagado" />
+		</field>
+		<field name="IvaIntMorPagado" type="string">
+			<bind-xml name="IvaIntMorPagado" />
+		</field>
+		<field name="IvaIntOrdPagado" type="string">
+			<bind-xml name="IvaIntOrdPagado" />
+		</field>
+		<field name="Saldo" type="string">
+			<bind-xml name="Saldo" />
+		</field>
+	</class>
+
+	<!--Otros Catalogos Descarga -->
+
+	<class
+		name="operacionesPDA.beanWS.request.SP_PDA_OtrosCat_Descarga3ReyesRequest">
+		<map-to xml="DescargarCatalogoGenericoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="SP_Name" type="string">
+			<bind-xml name="SP_Name" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_OtrosCat_Descarga3ReyesResponse">
+		<map-to xml="DescargarCatalogoGenericoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="otrosCat" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Generico" node="element" />
+		</field>
+	</class>
+
+
+	<!--Socios Alta -->
+
+	<class name="operacionesPDA.beanWS.request.SP_PDA_Socio_Alta3ReyesRequest">
+		<map-to xml="SocioAltaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Nombre" type="string">
+			<bind-xml name="Nombre" />
+		</field>
+		<field name="ApPaterno" type="string">
+			<bind-xml name="ApPaterno" />
+		</field>
+		<field name="ApMaterno" type="string">
+			<bind-xml name="ApMaterno" />
+		</field>
+		<field name="FecNacimiento" type="string">
+			<bind-xml name="FecNacimiento" />
+		</field>
+		<field name="Rfc" type="string">
+			<bind-xml name="Rfc" />
+		</field>
+		<field name="Curp" type="string">
+			<bind-xml name="Curp" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Parametros" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Parametros" node="element" />
+			<field name="ParametroComponente" collection="arraylist"
+				type="java.util.ArrayList" required="true">
+				<bind-xml name="ParametroComponente" node="element" />
+			</field>
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Socios_Alta3ReyesResponse">
+		<map-to xml="SocioAltaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="NumSocio" type="string">
+			<bind-xml name="NumSocio" />
+		</field>
+	</class>
+
+
+	<!-- Ahorros Retiro WS -->
+
+	<class
+		name="operacionesPDA.beanWS.request.SP_PDA_Ahorros_Retiro3ReyesRequest">
+		<map-to xml="AhorroRetiroRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+		<field name="Num_Cta" type="string">
+			<bind-xml name="Num_Cta" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Ahorros_Retiro3ReyesResponse">
+		<map-to xml="AhorroRetiroResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="SaldoTot" type="string">
+			<bind-xml name="SaldoTot" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisp" />
+		</field>
+	</class>
+
+	<!--Creditos Solicitud -->
+
+	<class
+		name="operacionesPDA.beanWS.request.SP_PDA_Creditos_Solicitud3ReyesRequest">
+		<map-to xml="CreditoSolicitudRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Parametros" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Parametros" node="element" />
+			<field name="ParametroComponente" collection="arraylist"
+				type="java.util.ArrayList" required="true">
+				<bind-xml name="ParametroComponente" node="element" />
+			</field>
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Creditos_Solicitud3ReyesResponse">
+		<map-to xml="CreditoSolicitudResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="FolioSol" type="string">
+			<bind-xml name="FolioSol" />
+		</field>
+	</class>
+
+
+	<!--Termina Operaciones PDA -->
+
+
+	<class name="credito.beanWS.request.RegistroProspectoRequest">
+		<map-to xml="registroProspectoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="segundoNombre" type="string">
+			<bind-xml name="segundoNombre" />
+		</field>
+		<field name="tercerNombre" type="string">
+			<bind-xml name="tercerNombre" />
+		</field>
+		<field name="apellidoPaterno" type="string">
+			<bind-xml name="apellidoPaterno" />
+		</field>
+
+		<field name="apellidoMaterno" type="string">
+			<bind-xml name="apellidoMaterno" />
+		</field>
+		<field name="tipoPersona" type="string">
+			<bind-xml name="tipoPersona" />
+		</field>
+		<field name="fechaNacimiento" type="string">
+			<bind-xml name="fechaNacimiento" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="sexo" type="string">
+			<bind-xml name="sexo" />
+		</field>
+
+		<field name="estadoCivil" type="string">
+			<bind-xml name="estadoCivil" />
+		</field>
+		<field name="telefono" type="string">
+			<bind-xml name="telefono" />
+		</field>
+		<field name="razonSocial" type="string">
+			<bind-xml name="razonSocial" />
+		</field>
+		<field name="estadoID" type="string">
+			<bind-xml name="estadoID" />
+		</field>
+		<field name="municipioID" type="string">
+			<bind-xml name="municipioID" />
+		</field>
+
+		<field name="localidadID" type="string">
+			<bind-xml name="localidadID" />
+		</field>
+		<field name="coloniaID" type="string">
+			<bind-xml name="coloniaID" />
+		</field>
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numExterior" type="string">
+			<bind-xml name="numExterior" />
+		</field>
+		<field name="numInterior" type="string">
+			<bind-xml name="numInterior" />
+		</field>
+
+		<field name="CP" type="string">
+			<bind-xml name="CP" />
+		</field>
+		<field name="manzana" type="string">
+			<bind-xml name="manzana" />
+		</field>
+		<field name="lote" type="string">
+			<bind-xml name="lote" />
+		</field>
+		<field name="latitud" type="string">
+			<bind-xml name="latitud" />
+		</field>
+		<field name="longitud" type="string">
+			<bind-xml name="longitud" />
+		</field>
+
+		<field name="tipoDireccionID" type="string">
+			<bind-xml name="tipoDireccionID" />
+		</field>
+		<field name="institucionNominaID" type="string">
+			<bind-xml name="institucionNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.RegistroProspectoResponse">
+		<map-to xml="registroProspectoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+		<!-- <field name="controlRespuesta" type="string"> <bind-xml name="controlRespuesta" 
+			/> </field> <field name="consecutivoResp" type="string"> <bind-xml name="consecutivoResp" 
+			/> </field> -->
+	</class>
+
+
+	<class name="credito.beanWS.request.ConsultaProdCreditoRequest">
+		<map-to xml="consultaProdCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="producCreditoID" type="string">
+			<bind-xml name="producCreditoID" />
+		</field>
+		<field name="perfilID" type="string">
+			<bind-xml name="perfilID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaProdCreditoResponse">
+		<map-to xml="consultaProdCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="descripcion" type="string">
+			<bind-xml name="descripcion" />
+		</field>
+		<field name="formaCobroComAper" type="string">
+			<bind-xml name="formaCobroComAper" />
+		</field>
+		<field name="montoComision" type="string">
+			<bind-xml name="montoComision" />
+		</field>
+		<field name="porcentajeGarLiquida" type="string">
+			<bind-xml name="porcentajeGarLiquida" />
+		</field>
+		<field name="factorMora" type="string">
+			<bind-xml name="factorMora" />
+		</field>
+		<field name="destinoCredito" type="string">
+			<bind-xml name="destinoCredito" />
+		</field>
+		<field name="clasificacionDestino" type="string">
+			<bind-xml name="clasificacionDestino" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ListaProdCreditoRequest">
+		<map-to xml="listaProdCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="perfilID" type="string">
+			<bind-xml name="perfilID" />
+		</field>
+		<field name="numeroLista" type="string">
+			<bind-xml name="numeroLista" />
+		</field>
+	</class>
+	<class name="credito.beanWS.response.ListaProdCreditoResponse">
+		<map-to xml="listaProdCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaProductosCredito" type="string">
+			<bind-xml name="listaProductosCredito" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.ConsultaDisponibleCtaRequest">
+		<map-to xml="consultaDisponibleCtaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+	</class>
+	<class name="cuentas.beanWS.response.ConsultaDisponibleCtaResponse">
+		<map-to xml="consultaDisponibleCtaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="descripcion" type="string">
+			<bind-xml name="descripcion" />
+		</field>
+		<field name="saldoDispon" type="string">
+			<bind-xml name="saldoDispon" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.ConsultaCuentaRequest">
+		<map-to xml="consultaCuentaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ConsultaCuentaResponse">
+		<map-to xml="consultaCuentaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="descripcion" type="string">
+			<bind-xml name="descripcion" />
+		</field>
+		<field name="tipoCta" type="string">
+			<bind-xml name="tipoCta" />
+		</field>
+
+	</class>
+
+	<!-- Transferencia entre cuentas -->
+	<class name="cuentas.beanWS.request.TransCuentasRequest">
+		<map-to xml="transCuentasRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaOrigen" type="string">
+			<bind-xml name="cuentaOrigen" />
+		</field>
+		<field name="cuentaDestino" type="string">
+			<bind-xml name="cuentaDestino" />
+		</field>
+		<field name="monto" type="string">
+			<bind-xml name="monto" />
+		</field>
+		<field name="referencia" type="string">
+			<bind-xml name="referencia" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.TransCuentasResponse">
+		<map-to xml="transCuentasResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Consulta Instituciones nomina -->
+	<class name="cliente.BeanWS.Request.ConsultaInstitucionNominaRequest">
+		<map-to xml="consultaInstitucionNominaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+	</class>
+	<class name="cliente.BeanWS.Response.ConsultaInstitucionNominaResponse">
+		<map-to xml="consultaInstitucionNominaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreInstit" type="string">
+			<bind-xml name="nombreInstit" />
+		</field>
+	</class>
+	<class name="cliente.BeanWS.Request.ConsultaEstatusEmpRequest">
+		<map-to xml="consultaEstatusEmpRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+	<class name="cliente.BeanWS.Response.ConsultaEstatusEmpResponse">
+		<map-to xml="consultaEstatusEmpResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreEmpleado" type="string">
+			<bind-xml name="nombreEmpleado" />
+		</field>
+		<field name="estatusActual" type="string">
+			<bind-xml name="estatusActual" />
+		</field>
+		<field name="fechaInicialInca" type="string">
+			<bind-xml name="fechaInicialInca" />
+		</field>
+		<field name="fechaFinInca" type="string">
+			<bind-xml name="fechaFinInca" />
+		</field>
+		<field name="fechaBaja" type="string">
+			<bind-xml name="fechaBaja" />
+		</field>
+		<field name="motivoBaja" type="string">
+			<bind-xml name="motivoBaja" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ActualizaEstatusEmpRequest">
+		<map-to xml="actualizaEstatusEmpRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="fechaInicialInca" type="string">
+			<bind-xml name="fechaInicialInca" />
+		</field>
+		<field name="fechaFinInca" type="string">
+			<bind-xml name="fechaFinInca" />
+		</field>
+		<field name="fechaBaja" type="string">
+			<bind-xml name="fechaBaja" />
+		</field>
+		<field name="motivoBaja" type="string">
+			<bind-xml name="motivoBaja" />
+		</field>
+	</class>
+	<class name="cliente.BeanWS.Response.ActualizaEstatusEmpResponse">
+		<map-to xml="actualizaEstatusEmpResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ListaDireccionClienteRequest">
+		<map-to xml="listaDireccionClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="numLis" type="string">
+			<bind-xml name="numLis" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ListaDireccionClienteResponse">
+		<map-to xml="listaDireccionClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaDireccion" type="string">
+			<bind-xml name="listaDireccion" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ConsultaDireccionClientesRequest">
+		<map-to xml="consultaDireccionClientesRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="direccionID" type="string">
+			<bind-xml name="direccionID" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaDireccionClientesResponse">
+		<map-to xml="consultaDireccionClientesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="direccionID" type="string">
+			<bind-xml name="direccionID" />
+		</field>
+		<field name="tipoDireccionID" type="string">
+			<bind-xml name="tipoDireccionID" />
+		</field>
+		<field name="estadoID" type="string">
+			<bind-xml name="estadoID" />
+		</field>
+		<field name="municipioID" type="string">
+			<bind-xml name="municipioID" />
+		</field>
+		<field name="localidadID" type="string">
+			<bind-xml name="localidadID" />
+		</field>
+		<field name="coloniaID" type="string">
+			<bind-xml name="coloniaID" />
+		</field>
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numeroCasa" type="string">
+			<bind-xml name="numeroCasa" />
+		</field>
+		<field name="numInterior" type="string">
+			<bind-xml name="numInterior" />
+		</field>
+		<field name="piso" type="string">
+			<bind-xml name="piso" />
+		</field>
+		<field name="primEntreCalle" type="string">
+			<bind-xml name="primEntreCalle" />
+		</field>
+		<field name="segEntreCalle" type="string">
+			<bind-xml name="segEntreCalle" />
+		</field>
+		<field name="CP" type="string">
+			<bind-xml name="CP" />
+		</field>
+		<field name="latitud" type="string">
+			<bind-xml name="latitud" />
+		</field>
+		<field name="longitud" type="string">
+			<bind-xml name="longitud" />
+		</field>
+		<field name="lote" type="string">
+			<bind-xml name="lote" />
+		</field>
+		<field name="manzana" type="string">
+			<bind-xml name="manzana" />
+		</field>
+		<field name="oficial" type="string">
+			<bind-xml name="oficial" />
+		</field>
+		<field name="fiscal" type="string">
+			<bind-xml name="fiscal" />
+		</field>
+		<field name="descripcion" type="string">
+			<bind-xml name="descripcion" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ListaClienteRequest">
+		<map-to xml="listaClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nombre" type="string">
+			<bind-xml name="nombre" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ListaClienteResponse">
+		<map-to xml="listaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaCliente" type="string">
+			<bind-xml name="listaCliente" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ListaEmpleadoNomRequest">
+		<map-to xml="listaEmpleadoNomRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ListaEmpleadoNomResponse">
+		<map-to xml="listaEmpleadoNomResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaClientes" type="string">
+			<bind-xml name="listaClientes" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.FormaRFCRequest">
+		<map-to xml="formaRFCRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="apellidoPaterno" type="string">
+			<bind-xml name="apellidoPaterno" />
+		</field>
+		<field name="apellidoMaterno" type="string">
+			<bind-xml name="apellidoMaterno" />
+		</field>
+		<field name="fechaNacimiento" type="string">
+			<bind-xml name="fechaNacimiento" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.FormaRFCResponse">
+		<map-to xml="formaRFCResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaDescuentosNominaRequest">
+		<map-to xml="consultaDescuentosNominaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaDescuentosNominaResponse">
+		<map-to xml="consultaDescuentosNominaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaDescuentosNomina" type="string">
+			<bind-xml name="listaDescuentosNomina" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Request.ConsultaClientesRequest">
+		<map-to xml="consultaClientesRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaClientesResponse">
+		<map-to xml="consultaClientesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="segundoNombre" type="string">
+			<bind-xml name="segundoNombre" />
+		</field>
+		<field name="apellidoPaterno" type="string">
+			<bind-xml name="apellidoPaterno" />
+		</field>
+		<field name="apellidoMaterno" type="string">
+			<bind-xml name="apellidoMaterno" />
+		</field>
+		<field name="correo" type="string">
+			<bind-xml name="correo" />
+		</field>
+		<field name="telefonoCelular" type="string">
+			<bind-xml name="telefonoCelular" />
+		</field>
+	</class>
+
+	<!--Consulta saldo de credito de un cliente -->
+	<class name="credito.beanWS.request.ConsultaCreditoBERequest">
+		<map-to xml="consultaCreditoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaCreditoBEResponse">
+		<map-to xml="consultaCreditoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+
+		<field name="cuentaID" type="string">
+			<bind-xml name="cuentaID" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="productoCreditoID" type="string">
+			<bind-xml name="productoCreditoID" />
+		</field>
+		<field name="descripcionCredito" type="string">
+			<bind-xml name="descripcionCredito" />
+		</field>
+		<field name="tipoMoneda" type="string">
+			<bind-xml name="tipoMoneda" />
+		</field>
+
+		<field name="valorCat" type="string">
+			<bind-xml name="valorCat" />
+		</field>
+		<field name="tasaFija" type="string">
+			<bind-xml name="tasaFija" />
+		</field>
+		<field name="diasFaltaPago" type="string">
+			<bind-xml name="diasFaltaPago" />
+		</field>
+		<field name="totalDeuda" type="string">
+			<bind-xml name="totalDeuda" />
+		</field>
+		<field name="montoExigible" type="string">
+			<bind-xml name="montoExigible" />
+		</field>
+
+		<field name="proxFechaPag" type="string">
+			<bind-xml name="proxFechaPag" />
+		</field>
+		<field name="saldoCapVigente" type="string">
+			<bind-xml name="saldoCapVigente" />
+		</field>
+		<field name="saldoCapAtrasa" type="string">
+			<bind-xml name="saldoCapAtrasa" />
+		</field>
+		<field name="saldoInteresesAtr" type="string">
+			<bind-xml name="saldoInteresesAtr" />
+		</field>
+		<field name="saldoInteresVig" type="string">
+			<bind-xml name="saldoInteresVig" />
+		</field>
+
+		<field name="saldoIVAIntVig" type="string">
+			<bind-xml name="saldoIVAIntVig" />
+		</field>
+		<field name="saldoMoratorios" type="string">
+			<bind-xml name="saldoMoratorios" />
+		</field>
+		<field name="saldoIVAAtrasa" type="string">
+			<bind-xml name="saldoIVAAtrasa" />
+		</field>
+		<field name="saldoComFaltaPago" type="string">
+			<bind-xml name="saldoComFaltaPago" />
+		</field>
+		<field name="saldoOtrasComis" type="string">
+			<bind-xml name="saldoOtrasComis" />
+		</field>
+
+		<field name="saldoIVAMorato" type="string">
+			<bind-xml name="saldoIVAMorato" />
+		</field>
+		<field name="saldoIVAComFaltaPago" type="string">
+			<bind-xml name="saldoIVAComFaltaPago" />
+		</field>
+		<field name="saldoIVAComisi" type="string">
+			<bind-xml name="saldoIVAComisi" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaCreditoRequest">
+		<map-to xml="consultaCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaCreditoResponse">
+		<map-to xml="consultaCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="nombreCliente" type="string">
+			<bind-xml name="nombreCliente" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+
+
+	<!--Registro de Pagos Nomina -->
+	<class name="nomina.beanWS.request.RegistroPagosNominaRequest">
+		<map-to xml="registroPagosNominaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="folioCargaID" type="string">
+			<bind-xml name="folioCargaID" />
+		</field>
+		<field name="folioCargaIDBE" type="string">
+			<bind-xml name="folioCargaIDBE" />
+		</field>
+		<field name="empresaNominaID" type="string">
+			<bind-xml name="empresaNominaID" />
+		</field>
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="montoPagos" type="string">
+			<bind-xml name="montoPagos" />
+		</field>
+	</class>
+
+	<class name="nomina.beanWS.response.RegistroPagosNominaResponse">
+		<map-to xml="registroPagosNominaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="folioNominaID" type="string">
+			<bind-xml name="folioNominaID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Consulta el Correo de una institucion de nómina -->
+	<class name="nomina.beanWS.request.ConsultaCorreoInstitRequest">
+		<map-to xml="consultaCorreoInstitRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+	</class>
+
+	<class name="nomina.beanWS.response.ConsultaCorreoInstitResponse">
+		<map-to xml="consultaCorreoInstitResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="correoElectronico" type="string">
+			<bind-xml name="correoElectronico" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaPagosAplicadosRequest">
+		<map-to xml="consultaPagosAplicadosRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+		<field name="fechaFin" type="string">
+			<bind-xml name="fechaFin" />
+		</field>
+		<field name="tipoCon" type="string">
+			<bind-xml name="tipoCon" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaPagosAplicadosResponse">
+		<map-to xml="consultaPagosAplicadosResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaPagosAplicados" type="string">
+			<bind-xml name="listaPagosAplicados" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+
+	<class name="bancaEnLinea.beanWS.request.ConsultaSaldoAhorroBERequest">
+		<map-to xml="consultaSaldoAhorroBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.response.ConsultaSaldoAhorroBEResponse">
+		<map-to xml="consultaSaldoAhorroBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="tipoCuenta" type="string">
+			<bind-xml name="tipoCuenta" />
+		</field>
+		<field name="saldo" type="string">
+			<bind-xml name="saldo" />
+		</field>
+		<field name="saldoDispon" type="string">
+			<bind-xml name="saldoDispon" />
+		</field>
+		<field name="saldoSBC" type="string">
+			<bind-xml name="saldoSBC" />
+		</field>
+		<field name="saldoBloq" type="string">
+			<bind-xml name="saldoBloq" />
+		</field>
+		<field name="monedaID" type="string">
+			<bind-xml name="monedaID" />
+		</field>
+		<field name="descriCorta" type="string">
+			<bind-xml name="descriCorta" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="saldoIniMes" type="string">
+			<bind-xml name="saldoIniMes" />
+		</field>
+		<field name="cargoMes" type="string">
+			<bind-xml name="cargoMes" />
+		</field>
+		<field name="abonosMes" type="string">
+			<bind-xml name="abonosMes" />
+		</field>
+		<field name="saldoIniDia" type="string">
+			<bind-xml name="saldoIniDia" />
+		</field>
+		<field name="cargosDia" type="string">
+			<bind-xml name="cargosDia" />
+		</field>
+		<field name="abonosDia" type="string">
+			<bind-xml name="abonosDia" />
+		</field>
+		<field name="var_SumPenAct" type="string">
+			<bind-xml name="var_SumPenAct" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.request.ConsultaSaldoAhorroHisRequest">
+		<map-to xml="consultaSaldoAhorroHisRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="mes" type="string">
+			<bind-xml name="mes" />
+		</field>
+		<field name="anio" type="string">
+			<bind-xml name="anio" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ConsultaSaldoAhorroHisResponse">
+		<map-to xml="consultaSaldoAhorroHisResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="tipoCuenta" type="string">
+			<bind-xml name="tipoCuenta" />
+		</field>
+		<field name="saldo" type="string">
+			<bind-xml name="saldo" />
+		</field>
+		<field name="saldoDispon" type="string">
+			<bind-xml name="saldoDispon" />
+		</field>
+		<field name="saldoSBC" type="string">
+			<bind-xml name="saldoSBC" />
+		</field>
+		<field name="saldoBloq" type="string">
+			<bind-xml name="saldoBloq" />
+		</field>
+		<field name="monedaID" type="string">
+			<bind-xml name="monedaID" />
+		</field>
+		<field name="descriCorta" type="string">
+			<bind-xml name="descriCorta" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="saldoIniMes" type="string">
+			<bind-xml name="saldoIniMes" />
+		</field>
+		<field name="cargoMes" type="string">
+			<bind-xml name="cargoMes" />
+		</field>
+		<field name="abonosMes" type="string">
+			<bind-xml name="abonosMes" />
+		</field>
+		<field name="saldoIniDia" type="string">
+			<bind-xml name="saldoIniDia" />
+		</field>
+		<field name="cargosDia" type="string">
+			<bind-xml name="cargosDia" />
+		</field>
+		<field name="abonosDia" type="string">
+			<bind-xml name="abonosDia" />
+		</field>
+		<field name="var_SumPenAct" type="string">
+			<bind-xml name="var_SumPenAct" />
+		</field>
+
+	</class>
+
+	<class name="bancaEnLinea.beanWS.request.ConsultaSaldoBloqueoBERequest">
+		<map-to xml="consultaSaldoBloqueoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="mes" type="string">
+			<bind-xml name="mes" />
+		</field>
+		<field name="anio" type="string">
+			<bind-xml name="anio" />
+		</field>
+		<field name="tipoLis" type="string">
+			<bind-xml name="tipoLis" />
+		</field>
+
+
+	</class>
+
+	<class name="bancaEnLinea.beanWS.response.ConsultaSaldoBloqueoBEResponse">
+		<map-to xml="consultaSaldoBloqueoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+		<field name="listaSaldos" type="string">
+			<bind-xml name="listaSaldos" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.request.ConsultaCargosPendientesBERequest">
+		<map-to xml="consultaCargosPendientesBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="mes" type="string">
+			<bind-xml name="mes" />
+		</field>
+		<field name="anio" type="string">
+			<bind-xml name="anio" />
+		</field>
+	</class>
+
+	<class
+		name="bancaEnLinea.beanWS.response.ConsultaCargosPendientesBEResponse">
+		<map-to xml="consultaCargosPendientesBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="listaCargos" type="string">
+			<bind-xml name="listaCargos" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="bancaEnLinea.beanWS.request.ConsultaSaldoDetalleBERequest">
+		<map-to xml="consultaSaldoDetalleBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cuentaAhoID" type="string">
+			<bind-xml name="cuentaAhoID" />
+		</field>
+		<field name="mes" type="string">
+			<bind-xml name="mes" />
+		</field>
+		<field name="anio" type="string">
+			<bind-xml name="anio" />
+		</field>
+		<field name="tipoLis" type="string">
+			<bind-xml name="tipoLis" />
+		</field>
+
+	</class>
+
+	<class name="bancaEnLinea.beanWS.response.ConsultaSaldoDetalleBEResponse">
+		<map-to xml="consultaSaldoDetalleBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaResult" type="string">
+			<bind-xml name="listaResult" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!--Lista Credito Fondeo -->
+	<class name="fondeador.beanWS.request.ListaCreditoFondeoBERequest">
+		<map-to xml="listaCreditoFondeoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="fondeador.beanWS.response.ListaCreditoFondeoBEResponse">
+		<map-to xml="listaCreditoFondeoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="listaCreditos" type="string">
+			<bind-xml name="listaCreditos" />
+		</field>
+	</class>
+
+
+	<class name="fondeador.beanWS.request.ConsultaCreditoFondeoBERequest">
+		<map-to xml="consultaCreditoFondeoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+	</class>
+	<class name="fondeador.beanWS.response.ConsultaCreditoFondeoBEResponse">
+		<map-to xml="consultaCreditoFondeoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="creditoFondeoID" type="string">
+			<bind-xml name="creditoFondeoID" />
+		</field>
+		<field name="tasa" type="string">
+			<bind-xml name="tasa" />
+		</field>
+		<field name="moneda" type="string">
+			<bind-xml name="moneda" />
+		</field>
+		<field name="fecInicio" type="string">
+			<bind-xml name="fecInicio" />
+		</field>
+		<field name="fecVencimiento" type="string">
+			<bind-xml name="fecVencimiento" />
+		</field>
+		<field name="saldoCapVigente" type="string">
+			<bind-xml name="saldoCapVigente" />
+		</field>
+		<field name="saldoCapAtrasad" type="string">
+			<bind-xml name="saldoCapAtrasad" />
+		</field>
+		<field name="saldoInteresPro" type="string">
+			<bind-xml name="saldoInteresPro" />
+		</field>
+		<field name="saldoInteresAtra" type="string">
+			<bind-xml name="saldoInteresAtra" />
+		</field>
+		<field name="saldoIVAInteres" type="string">
+			<bind-xml name="saldoIVAInteres" />
+		</field>
+		<field name="saldoMoratorios" type="string">
+			<bind-xml name="saldoMoratorios" />
+		</field>
+		<field name="saldoIVAMora" type="string">
+			<bind-xml name="saldoIVAMora" />
+		</field>
+		<field name="saldoComFaltaPa" type="string">
+			<bind-xml name="saldoComFaltaPa" />
+		</field>
+		<field name="saldoOtrasComis" type="string">
+			<bind-xml name="saldoOtrasComis" />
+		</field>
+		<field name="saldoIVAComisi" type="string">
+			<bind-xml name="saldoIVAComisi" />
+		</field>
+		<field name="saldoRetencion" type="string">
+			<bind-xml name="saldoRetencion" />
+		</field>
+		<field name="saldoIVAComFalP" type="string">
+			<bind-xml name="saldoIVAComFalP" />
+		</field>
+		<!-- <field name="institFondeoID" type="string"> <bind-xml name="institFondeoID" 
+			/> </field> <field name="lineaFondeoID" type="string"> <bind-xml name="lineaFondeoID" 
+			/> </field> -->
+	</class>
+
+
+	<!-- Registro de una Solicitud de Credito para Banca en Linea -->
+	<class name="originacion.beanWS.request.RegistroSolCreditoBERequest">
+		<map-to xml="registroSolCreditoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="solicitudCreditoID" type="string">
+			<bind-xml name="solicitudCreditoID" />
+		</field>
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="produCredID" type="string">
+			<bind-xml name="produCredID" />
+		</field>
+		<field name="fechaReg" type="string">
+			<bind-xml name="fechaReg" />
+		</field>
+		<field name="promotor" type="string">
+			<bind-xml name="promotor" />
+		</field>
+		<field name="destinoCre" type="string">
+			<bind-xml name="destinoCre" />
+		</field>
+		<field name="proyecto" type="string">
+			<bind-xml name="proyecto" />
+		</field>
+		<field name="sucursalID" type="string">
+			<bind-xml name="sucursalID" />
+		</field>
+
+		<field name="montoSolic" type="string">
+			<bind-xml name="montoSolic" />
+		</field>
+		<field name="plazoID" type="string">
+			<bind-xml name="plazoID" />
+		</field>
+		<field name="factorMora" type="string">
+			<bind-xml name="factorMora" />
+		</field>
+		<field name="formaComApertura" type="string">
+			<bind-xml name="formaComApertura" />
+		</field>
+		<field name="comApertura" type="string">
+			<bind-xml name="comApertura" />
+		</field>
+		<field name="IVAComAper" type="string">
+			<bind-xml name="IVAComAper" />
+		</field>
+		<field name="tasaFija" type="string">
+			<bind-xml name="tasaFija" />
+		</field>
+		<field name="frecuencia" type="string">
+			<bind-xml name="frecuencia" />
+		</field>
+		<field name="periodicidad" type="string">
+			<bind-xml name="periodicidad" />
+		</field>
+		<field name="numAmorti" type="string">
+			<bind-xml name="numAmorti" />
+		</field>
+
+		<field name="numTransacSim" type="string">
+			<bind-xml name="numTransacSim" />
+		</field>
+		<field name="CAT" type="string">
+			<bind-xml name="CAT" />
+		</field>
+		<field name="cuentaClabe" type="string">
+			<bind-xml name="cuentaClabe" />
+		</field>
+		<field name="montoCuota" type="string">
+			<bind-xml name="montoCuota" />
+		</field>
+		<field name="fechaVencim" type="string">
+			<bind-xml name="fechaVencim" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+		<field name="clasiDestinCred" type="string">
+			<bind-xml name="clasiDestinCred" />
+		</field>
+		<field name="institucionNominaID" type="string">
+			<bind-xml name="institucionNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="numCreditos" type="string">
+			<bind-xml name="numCreditos" />
+		</field>
+	</class>
+
+	<class name="originacion.beanWS.response.RegistroSolCreditoBEResponse">
+		<map-to xml="registroSolCreditoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="solicitudCreditoID" type="string">
+			<bind-xml name="solicitudCreditoID" />
+		</field>
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="proNombreCompleto" type="string">
+			<bind-xml name="proNombreCompleto" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="cliNombreCompleto" type="string">
+			<bind-xml name="cliNombreCompleto" />
+		</field>
+		<field name="produCredID" type="string">
+			<bind-xml name="produCredID" />
+		</field>
+		<field name="descripcionProducto" type="string">
+			<bind-xml name="descripcionProducto" />
+		</field>
+		<field name="fechaReg" type="string">
+			<bind-xml name="fechaReg" />
+		</field>
+		<field name="estatus" type="string">
+			<bind-xml name="estatus" />
+		</field>
+		<field name="proyecto" type="string">
+			<bind-xml name="proyecto" />
+		</field>
+
+		<field name="montoSolic" type="string">
+			<bind-xml name="montoSolic" />
+		</field>
+		<field name="plazoID" type="string">
+			<bind-xml name="plazoID" />
+		</field>
+		<field name="formaComApertura" type="string">
+			<bind-xml name="formaComApertura" />
+		</field>
+		<field name="comApertura" type="string">
+			<bind-xml name="comApertura" />
+		</field>
+
+		<field name="frecuencia" type="string">
+			<bind-xml name="frecuencia" />
+		</field>
+		<field name="numAmorti" type="string">
+			<bind-xml name="numAmorti" />
+		</field>
+		<field name="CAT" type="string">
+			<bind-xml name="CAT" />
+		</field>
+		<field name="cuentaClabe" type="string">
+			<bind-xml name="cuentaClabe" />
+		</field>
+		<field name="fechaVencim" type="string">
+			<bind-xml name="fechaVencim" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Simulador Credito para Banca En Linea -->
+	<class name="credito.beanWS.request.SimuladorCreditoRequest">
+		<map-to xml="simuladorCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="monto" type="string">
+			<bind-xml name="monto" />
+		</field>
+		<field name="tasa" type="string">
+			<bind-xml name="tasa" />
+		</field>
+		<field name="frecuencia" type="string">
+			<bind-xml name="frecuencia" />
+		</field>
+		<field name="periodicidad" type="string">
+			<bind-xml name="periodicidad" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+
+		<field name="numeroCuotas" type="string">
+			<bind-xml name="numeroCuotas" />
+		</field>
+		<field name="productoCreditoID" type="string">
+			<bind-xml name="productoCreditoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="comisionApertura" type="string">
+			<bind-xml name="comisionApertura" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.SimuladorCreditoResponse">
+		<map-to xml="simuladorCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaSimuladorCredito" type="string">
+			<bind-xml name="listaSimuladorCredito" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<!--Consulta el ciclo del cliente -->
+	<class name="originacion.beanWS.request.ConsultaCicloClienteRequest">
+		<map-to xml="consultaCicloClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+	</class>
+
+	<class name="originacion.beanWS.response.ConsultaCicloClienteResponse">
+		<map-to xml="consultaCicloClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="cicloCliente" type="string">
+			<bind-xml name="cicloCliente" />
+		</field>
+	</class>
+
+	<!--Consulta la Tasa Fija -->
+	<class name="credito.beanWS.request.ConsultaTasaFijaRequest">
+		<map-to xml="consultaTasaFijaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="sucursalID" type="string">
+			<bind-xml name="sucursalID" />
+		</field>
+		<field name="prodCreID" type="string">
+			<bind-xml name="prodCreID" />
+		</field>
+		<field name="numCreditos" type="string">
+			<bind-xml name="numCreditos" />
+		</field>
+		<field name="monto" type="string">
+			<bind-xml name="monto" />
+		</field>
+		<field name="calificacion" type="string">
+			<bind-xml name="calificacion" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaTasaFijaResponse">
+		<map-to xml="consultaTasaFijaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="tasaFija" type="string">
+			<bind-xml name="tasaFija" />
+		</field>
+	</class>
+
+	<class name="sms.beanWS.request.EnviaSMSCampaniaRequest">
+		<map-to xml="enviaSMSCampaniaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="telefonoDestino" type="string">
+			<bind-xml name="telefonoDestino" />
+		</field>
+		<field name="mensajeDestino" type="string">
+			<bind-xml name="mensajeDestino" />
+		</field>
+		<field name="campaniaID" type="string">
+			<bind-xml name="campaniaID" />
+		</field>
+		<field name="datosCliente" type="string">
+			<bind-xml name="datosCliente" />
+		</field>
+		<field name="sistemaID" type="string">
+			<bind-xml name="sistemaID" />
+		</field>
+	</class>
+
+	<class name="sms.beanWS.response.EnviaSMSCampaniaResponse">
+		<map-to xml="enviaSMSCampaniaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="ventanilla.beanWS.request.ConsultaListaServRequest">
+		<map-to xml="consultaListaServRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="tipoLista" type="string">
+			<bind-xml name="tipoLista" />
+		</field>
+	</class>
+
+	<class name="ventanilla.beanWS.response.ConsultaListaServResponse">
+		<map-to xml="consultaListaServResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaServicio" type="string">
+			<bind-xml name="listaServicio" />
+		</field>
+	</class>
+
+	<class name="ventanilla.beanWS.request.ConsultaMontoServRequest">
+		<map-to xml="consultaMontoServRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="catalogoServID" type="string">
+			<bind-xml name="catalogoServID" />
+		</field>
+	</class>
+	<class name="ventanilla.beanWS.response.ConsultaMontoServResponse">
+		<map-to xml="consultaMontoServResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="montoComision" type="string">
+			<bind-xml name="montoComision" />
+		</field>
+		<field name="montoServicio" type="string">
+			<bind-xml name="montoServicio" />
+		</field>
+		<field name="origen" type="string">
+			<bind-xml name="origen" />
+		</field>
+	</class>
+
+	<class name="ventanilla.beanWS.request.PagoServicioRequest">
+		<map-to xml="pagoServicioRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="catalogoServID" type="string">
+			<bind-xml name="catalogoServID" />
+		</field>
+		<field name="sucursalID" type="string">
+			<bind-xml name="sucursalID" />
+		</field>
+		<field name="referencia" type="string">
+			<bind-xml name="referencia" />
+		</field>
+		<field name="segundaRefe" type="string">
+			<bind-xml name="segundaRefe" />
+		</field>
+		<field name="montoServicio" type="string">
+			<bind-xml name="montoServicio" />
+		</field>
+		<field name="ivaServicio" type="string">
+			<bind-xml name="ivaServicio" />
+		</field>
+		<field name="comision" type="string">
+			<bind-xml name="comision" />
+		</field>
+		<field name="ivaComision" type="string">
+			<bind-xml name="ivaComision" />
+		</field>
+		<field name="total" type="string">
+			<bind-xml name="total" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="cuentasAhoID" type="string">
+			<bind-xml name="cuentasAhoID" />
+		</field>
+	</class>
+
+	<class name="ventanilla.beanWS.response.PagoServicioResponse">
+		<map-to xml="pagoServicioResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+		<field name="consecutivo" type="string">
+			<bind-xml name="consecutivo" />
+		</field>
+	</class>
+
+	<!-- </mapping> -->
+
+	<!-- Lista clientes de acuerdo el perfil IN o NA para pantalla de banca 
+		en linea -->
+	<class name="cliente.BeanWS.Request.ListaClientesBERequest">
+		<map-to xml="listaClientesBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombre" type="string">
+			<bind-xml name="nombre" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="numLis" type="string">
+			<bind-xml name="numLis" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ListaClientesBEResponse">
+		<map-to xml="listaClientesBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaClientes" type="string">
+			<bind-xml name="listaClientes" />
+		</field>
+	</class>
+
+	<!-- Consulta Solo el Nombre de Prospecto -->
+	<class name="credito.beanWS.request.ConNombreComProspectoBERequest">
+		<map-to xml="conNombreComProspectoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="numCon" type="string">
+			<bind-xml name="numCon" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConNombreComProspectoBEResponse">
+		<map-to xml="conNombreComProspectoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="calificaProspecto" type="string">
+			<bind-xml name="calificaProspecto" />
+		</field>
+	</class>
+
+	<!-- Consulta Solo el Nombre de Cliente -->
+	<class name="cliente.BeanWS.Request.ConsultaNomClienteBERequest">
+		<map-to xml="consultaNomClienteBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+		<field name="numCon" type="string">
+			<bind-xml name="numCon" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaNomClienteBEResponse">
+		<map-to xml="consultaNomClienteBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+	</class>
+	<!-- Para consultar los parametros del sistema -->
+	<class name="soporte.beanWS.request.ParametrosSistemaSafiRequest">
+		<map-to xml="parametrosSistemaSafiRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="empresaID" type="string">
+			<bind-xml name="empresaID" />
+		</field>
+	</class>
+
+	<class name="soporte.beanWS.response.ParametrosSistemaSafiResponse">
+		<map-to xml="parametrosSistemaSafiResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="fechaSistema" type="string">
+			<bind-xml name="fechaSistema" />
+		</field>
+	</class>
+
+	<!-- Lista ctas de clienta -->
+	<class name="cuentas.beanWS.request.ListaCtaClienteRequest">
+		<map-to xml="listaCtaClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ListaCtaClienteResponse">
+		<map-to xml="listaCtaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaCta" type="string">
+			<bind-xml name="listaCta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ListaCreditosBERequest">
+		<map-to xml="listaCreditosBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ListaCreditosBEResponse">
+		<map-to xml="listaCreditosBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="listaCreditos" type="string">
+			<bind-xml name="listaCreditos" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<!-- Consulta el Promotor de una institucion o negocio afiliado -->
+	<class name="cliente.BeanWS.Request.ConsultaPromotorBERequest">
+		<map-to xml="consultaPromotorBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="institNominaID" type="string">
+			<bind-xml name="institNominaID" />
+		</field>
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaPromotorBEResponse">
+		<map-to xml="consultaPromotorBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="promotorID" type="string">
+			<bind-xml name="promotorID" />
+		</field>
+		<field name="nombrePromotor" type="string">
+			<bind-xml name="nombrePromotor" />
+		</field>
+		<field name="telefono" type="string">
+			<bind-xml name="telefono" />
+		</field>
+	</class>
+
+	<!-- Lista Cuenta de Ahorro de Clientes -->
+	<class name="cuentas.beanWS.request.ListaCuentaAhoRequest">
+		<map-to xml="listaCuentaAhoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreCompleto" type="string">
+			<bind-xml name="nombreCompleto" />
+		</field>
+		<field name="numLis" type="string">
+			<bind-xml name="numLis" />
+		</field>
+	</class>
+	<!--Registro de la Carga de Pagos Nomina -->
+	<class name="nomina.beanWS.request.RegistroCargaPagoNominaRequest">
+		<map-to xml="registroCargaPagoNominaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="folioCargaIDBE" type="string">
+			<bind-xml name="folioCargaIDBE" />
+		</field>
+		<field name="empresaNominaID" type="string">
+			<bind-xml name="empresaNominaID" />
+		</field>
+		<field name="claveUsuarioBE" type="string">
+			<bind-xml name="claveUsuarioBE" />
+		</field>
+		<field name="numTotalPagos" type="string">
+			<bind-xml name="numTotalPagos" />
+		</field>
+		<field name="numPagosExito" type="string">
+			<bind-xml name="numPagosExito" />
+		</field>
+		<field name="numPagosError" type="string">
+			<bind-xml name="numPagosError" />
+		</field>
+		<field name="montoPagos" type="string">
+			<bind-xml name="montoPagos" />
+		</field>
+		<field name="rutaArchivoPagoNom" type="string">
+			<bind-xml name="rutaArchivoPagoNom" />
+		</field>
+	</class>
+
+	<class name="cuentas.beanWS.response.ListaCuentaAhoResponse">
+		<map-to xml="listaCuentaAhoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaCuenta" type="string">
+			<bind-xml name="listaCuenta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.ConsultaAmortiCreditoBERequest">
+		<map-to xml="consultaAmortiCreditoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaAmortiCreditoBEResponse">
+		<map-to xml="consultaAmortiCreditoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaAmort" type="string">
+			<bind-xml name="listaAmort" />
+		</field>
+
+	</class>
+	<class name="fondeador.beanWS.request.ConsultaAmortiFondeoBERequest">
+		<map-to xml="consultaAmortiFondeoBERequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoFondeoID" type="string">
+			<bind-xml name="creditoFondeoID" />
+		</field>
+	</class>
+
+	<class name="fondeador.beanWS.response.ConsultaAmortiFondeoBEResponse">
+		<map-to xml="consultaAmortiFondeoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="listaAmortizaciones" type="string">
+			<bind-xml name="listaAmortizaciones" />
+		</field>
+
+	</class>
+	<class name="cliente.BeanWS.Request.ConsultaNegAfiliaRequest">
+		<map-to xml="consultaNegAfiliaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="negocioAfiliadoID" type="string">
+			<bind-xml name="negocioAfiliadoID" />
+		</field>
+	</class>
+
+	<class name="cliente.BeanWS.Response.ConsultaNegAfiliaResponse">
+		<map-to xml="consultaAmortiFondeoBEResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="razonSocial" type="string">
+			<bind-xml name="razonSocial" />
+		</field>
+
+	</class>
+
+	<class name="nomina.beanWS.response.RegistroCargaPagoNominaResponse">
+		<map-to xml="registroCargaPagoNominaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="folioCargaID" type="string">
+			<bind-xml name="folioCargaID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.request.SimuladorCuotaCreditoRequest">
+		<map-to xml="simuladorCuotaCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="montoSolici" type="string">
+			<bind-xml name="montoSolici" />
+		</field>
+		<field name="frecuencia" type="string">
+			<bind-xml name="frecuencia" />
+		</field>
+		<field name="plazo" type="string">
+			<bind-xml name="plazo" />
+		</field>
+		<field name="tasaAnualizada" type="string">
+			<bind-xml name="tasaAnualizada" />
+		</field>
+		<field name="fechaInicio" type="string">
+			<bind-xml name="fechaInicio" />
+		</field>
+		<field name="ajustarFecVen" type="string">
+			<bind-xml name="ajustarFecVen" />
+		</field>
+		<field name="comisionApertura" type="string">
+			<bind-xml name="comisionApertura" />
+		</field>
+		<field name="formaCobroComAp" type="string">
+			<bind-xml name="formaCobroComAp" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.SimuladorCuotaCreditoResponse">
+		<map-to xml="simuladorCuotaCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="montoCuota" type="string">
+			<bind-xml name="montoCuota" />
+		</field>
+		<field name="numeroCuotas" type="string">
+			<bind-xml name="numeroCuotas" />
+		</field>
+		<field name="totalPagar" type="string">
+			<bind-xml name="totalPagar" />
+		</field>
+		<field name="cat" type="string">
+			<bind-xml name="cat" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<!-- Alta de Clientes Sana Tus Finanzas -->
+	<class name="operacionesPDA.beanWS.request.SolAltaClienteRequest">
+		<map-to xml="SolAltaClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+
+		<field name="primerNombre" type="string">
+			<bind-xml name="primerNombre" />
+		</field>
+		<field name="segundoNombre" type="string">
+			<bind-xml name="segundoNombre" />
+		</field>
+		<field name="tercerNombre" type="string">
+			<bind-xml name="tercerNombre" />
+		</field>
+		<field name="apPaterno" type="string">
+			<bind-xml name="apPaterno" />
+		</field>
+		<field name="apMaterno" type="string">
+			<bind-xml name="apMaterno" />
+		</field>
+
+		<field name="fecNacimiento" type="string">
+			<bind-xml name="fecNacimiento" />
+		</field>
+		<field name="titulo" type="string">
+			<bind-xml name="titulo" />
+		</field>
+		<field name="RFC" type="string">
+			<bind-xml name="RFC" />
+		</field>
+		<field name="CURP" type="string">
+			<bind-xml name="CURP" />
+		</field>
+		<field name="estadoCivil" type="string">
+			<bind-xml name="estadoCivil" />
+		</field>
+
+		<field name="sucursal" type="string">
+			<bind-xml name="sucursal" />
+		</field>
+		<field name="mail" type="string">
+			<bind-xml name="mail" />
+		</field>
+		<field name="paisNacimiento" type="string">
+			<bind-xml name="paisNacimiento" />
+		</field>
+		<field name="estadoNacimiento" type="string">
+			<bind-xml name="estadoNacimiento" />
+		</field>
+		<field name="nacionalidad" type="string">
+			<bind-xml name="nacionalidad" />
+		</field>
+
+		<field name="paisResidencia" type="string">
+			<bind-xml name="paisResidencia" />
+		</field>
+		<field name="sexo" type="string">
+			<bind-xml name="sexo" />
+		</field>
+		<field name="telefono" type="string">
+			<bind-xml name="telefono" />
+		</field>
+		<field name="sectorGeneral" type="string">
+			<bind-xml name="sectorGeneral" />
+		</field>
+		<field name="actividadBMX" type="string">
+			<bind-xml name="actividadBMX" />
+		</field>
+
+		<field name="actividadFR" type="string">
+			<bind-xml name="actividadFR" />
+		</field>
+		<field name="promotorInicial" type="string">
+			<bind-xml name="promotorInicial" />
+		</field>
+		<field name="promotorActual" type="string">
+			<bind-xml name="promotorActual" />
+		</field>
+		<field name="numero" type="string">
+			<bind-xml name="numero" />
+		</field>
+		<field name="tipoDireccion" type="string">
+			<bind-xml name="tipoDireccion" />
+		</field>
+
+		<field name="estado" type="string">
+			<bind-xml name="estado" />
+		</field>
+		<field name="municipio" type="string">
+			<bind-xml name="municipio" />
+		</field>
+		<field name="codigoPostal" type="string">
+			<bind-xml name="codigoPostal" />
+		</field>
+		<field name="localidad" type="string">
+			<bind-xml name="localidad" />
+		</field>
+		<field name="colonia" type="string">
+			<bind-xml name="colonia" />
+		</field>
+
+		<field name="calle" type="string">
+			<bind-xml name="calle" />
+		</field>
+		<field name="numeroDireccion" type="string">
+			<bind-xml name="numeroDireccion" />
+		</field>
+		<field name="oficial" type="string">
+			<bind-xml name="oficial" />
+		</field>
+		<field name="numIdentificacion" type="string">
+			<bind-xml name="numIdentificacion" />
+		</field>
+		<field name="tipoIdentificacion" type="string">
+			<bind-xml name="tipoIdentificacion" />
+		</field>
+
+		<field name="esOficial" type="string">
+			<bind-xml name="esOficial" />
+		</field>
+		<field name="fechaExpedicion" type="string">
+			<bind-xml name="fechaExpedicion" />
+		</field>
+		<field name="fechaVencimiento" type="string">
+			<bind-xml name="fechaVencimiento" />
+		</field>
+		<field name="primerNombreConyuge" type="string">
+			<bind-xml name="primerNombreConyuge" />
+		</field>
+		<field name="segundoNombreConyuge" type="string">
+			<bind-xml name="segundoNombreConyuge" />
+		</field>
+
+		<field name="tercerNombreConyuge" type="string">
+			<bind-xml name="tercerNombreConyuge" />
+		</field>
+		<field name="apPaternoConyuge" type="string">
+			<bind-xml name="apPaternoConyuge" />
+		</field>
+		<field name="apMaternoConyuge" type="string">
+			<bind-xml name="apMaternoConyuge" />
+		</field>
+		<field name="nacionalidadConyuge" type="string">
+			<bind-xml name="nacionalidadConyuge" />
+		</field>
+		<field name="paisNacimientoConyuge" type="string">
+			<bind-xml name="paisNacimientoConyuge" />
+		</field>
+
+		<field name="estadoNacConyuge" type="string">
+			<bind-xml name="estadoNacConyuge" />
+		</field>
+		<field name="fechaNacConyuge" type="string">
+			<bind-xml name="fechaNacConyuge" />
+		</field>
+		<field name="RFCConyuge" type="string">
+			<bind-xml name="RFCConyuge" />
+		</field>
+		<field name="tipoIdentiConyuge" type="string">
+			<bind-xml name="tipoIdentiConyuge" />
+		</field>
+		<field name="folioIdentiConyuge" type="string">
+			<bind-xml name="folioIdentiConyuge" />
+		</field>
+
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.SolAltaClienteResponse">
+		<map-to xml="SolAltaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN Alta de Clientes Sana Tus Finanzas -->
+
+	<!-- sana tus finanzas alta de solicitud de credito -->
+	<class name="operacionesPDA.beanWS.request.AltaSolicitudCreditoRequest">
+		<map-to xml="altaSolicitudCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="productoCreditoID" type="string">
+			<bind-xml name="productoCreditoID" />
+		</field>
+		<field name="montoSolici" type="string">
+			<bind-xml name="montoSolici" />
+		</field>
+		<field name="periodicidad" type="string">
+			<bind-xml name="periodicidad" />
+		</field>
+		<field name="plazo" type="string">
+			<bind-xml name="plazo" />
+		</field>
+		<field name="destinoCredito" type="string">
+			<bind-xml name="destinoCredito" />
+		</field>
+		<field name="proyecto" type="string">
+			<bind-xml name="proyecto" />
+		</field>
+		<field name="tipoDispersion" type="string">
+			<bind-xml name="tipoDispersion" />
+		</field>
+		<field name="cuentaCLABE" type="string">
+			<bind-xml name="cuentaCLABE" />
+		</field>
+		<field name="tipoPagoCapital" type="string">
+			<bind-xml name="tipoPagoCapital" />
+		</field>
+		<field name="tipoCredito" type="string">
+			<bind-xml name="tipoCredito" />
+		</field>
+		<field name="numeroCredito" type="string">
+			<bind-xml name="numeroCredito" />
+		</field>
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.AltaSolicitudCreditoResponse">
+		<map-to xml="altaSolicitudCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="solicitudCreditoID" type="string">
+			<bind-xml name="solicitudCreditoID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN sana tus finanzas alta de solicitud de credito -->
+
+	<!-- Consulta de Saldos de Crédito Sana Tus Finanzas -->
+	<class name="operacionesPDA.beanWS.request.ConsultaSaldoCreditoRequest">
+		<map-to xml="ConsultaSaldoCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.ConsultaSaldoCreditoResponse">
+		<map-to xml="ConsultaSaldoCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="saldoTotal" type="string">
+			<bind-xml name="saldoTotal" />
+		</field>
+		<field name="saldoExigibleDia" type="string">
+			<bind-xml name="saldoExigibleDia" />
+		</field>
+		<field name="proyeccion" type="string">
+			<bind-xml name="proyeccion" />
+		</field>
+		<field name="saldoFinalPlazo" type="string">
+			<bind-xml name="saldoFinalPlazo" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN Consulta de Saldos de Crédito Sana Tus Finanzas -->
+
+	<!-- Pago de Crédito Sana Tus Finanzas -->
+	<class name="operacionesPDA.beanWS.request.PagoCreditoRequest">
+		<map-to xml="PagoCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+		<field name="monto" type="string">
+			<bind-xml name="monto" />
+		</field>
+		<field name="montoGL" type="string">
+			<bind-xml name="montoGL" />
+		</field>
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.PagoCreditoResponse">
+		<map-to xml="PagoCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="creditoID" type="string">
+			<bind-xml name="creditoID" />
+		</field>
+		<field name="numTransaccion" type="string">
+			<bind-xml name="numTransaccion" />
+		</field>
+		<field name="saldoExigible" type="string">
+			<bind-xml name="saldoExigible" />
+		</field>
+		<field name="saldoTotalActual" type="string">
+			<bind-xml name="saldoTotalActual" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+
+	<!-- FIN Pago de Crédito Sana Tus Finanzas -->
+
+	<!-- Alta de Grupo Sana Tus Finanzas -->
+	<class name="operacionesPDA.beanWS.request.AltaGrupoRequest">
+		<map-to xml="AltaGrupoWSRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="nombreGrupo" type="string">
+			<bind-xml name="nombreGrupo" />
+		</field>
+
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.beanWS.response.AltaGrupoResponse">
+		<map-to xml="AltaGrupoWSResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="grupoID" type="string">
+			<bind-xml name="grupoID" />
+		</field>
+
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN Alta de Grupo Sana Tus Finanzas -->
+
+	<!-- Consulta Del WS DE ConsultaSaldo -->
+	<class
+		name="operacionesPDA.beanWS.request.SP_PDA_Ahorros_ConsultaSaldoRequest">
+		<map-to xml="ConsultaSaldoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CuentaAltaID" type="string">
+			<bind-xml name="CuentaID" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDA.beanWS.response.SP_PDA_Ahorros_ConsultaSaldoResponse">
+		<map-to xml="ConsultaSaldoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="DescripTipoCuenta" type="string">
+			<bind-xml name="Etiqueta" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisponible" />
+		</field>
+		<field name="Celular" type="string">
+			<bind-xml name="Celular" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Fin del WS de ConsultaSaldo -->
+
+	<!-- sana tus finanzas alta de solicitud de credito grupal-->
+	<class name="operacionesPDA.beanWS.request.AltaSolicitudGrupalRequest">
+		<map-to xml="AltaSolicitudGrupalWSRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="integrantes" collection="arraylist" type="java.util.ArrayList" required="true">
+			<bind-xml name="integrantes" node="element" />
+			<field name="datosIntegrante" type="operacionesPDA.bean.DatosIntegrantesBean" required="true">
+				<bind-xml name="datosIntegrante" node="element" />
+			</field>
+		</field>
+		<field name="grupoID" type="string">
+			<bind-xml name="grupoID" />
+		</field>
+		<field name="productoCreditoID" type="string">
+			<bind-xml name="productoCreditoID" />
+		</field>
+		<field name="periodicidad" type="string">
+			<bind-xml name="periodicidad" />
+		</field>
+		<field name="plazo" type="string">
+			<bind-xml name="plazo" />
+		</field>
+		<field name="tipoDispersion" type="string">
+			<bind-xml name="tipoDispersion" />
+		</field>
+		<field name="cuentaCLABE" type="string">
+			<bind-xml name="cuentaCLABE" />
+		</field>
+		<field name="tipoPagoCapital" type="string">
+			<bind-xml name="tipoPagoCapital" />
+		</field>
+		<field name="folio" type="string">
+			<bind-xml name="folio" />
+		</field>
+		<field name="claveUsuario" type="string">
+			<bind-xml name="claveUsuario" />
+		</field>
+		<field name="dispositivo" type="string">
+			<bind-xml name="dispositivo" />
+		</field>
+	</class>
+
+	<class name="operacionesPDA.bean.DatosIntegrantesBean">
+		<map-to xml="integrante" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="prospectoID" type="string">
+			<bind-xml name="prospectoID" />
+		</field>
+		<field name="clienteID" type="string">
+			<bind-xml name="clienteID" />
+		</field>
+		<field name="destinoCredito" type="string">
+			<bind-xml name="destinoCredito" />
+		</field>
+		<field name="proyecto" type="string">
+			<bind-xml name="proyecto" />
+		</field>
+		<field name="montoSolici" type="string">
+			<bind-xml name="montoSolici" />
+		</field>
+		<field name="tipoIntegrante" type="string">
+			<bind-xml name="tipoIntegrante" />
+		</field>
+	</class>
+	
+	<class name="operacionesPDA.beanWS.response.AltaSolicitudGrupalResponse">
+		<map-to xml="AltaSolicitudGrupalWSResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN sana tus finanzas alta de solicitud de credito grupal -->
+	
+	
+	<!-- Operaciones PDM -->
+	<!-- Consulta Del WS DE ConsultaCtaDestino PADEMOBILE -->
+	<class
+		name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_ConsultaCtaDestinoRequest">
+		<map-to xml="ConsultaCtaDestinoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="IdUsuario" type="string">
+			<bind-xml name="IdUsuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>		
+	</class>
+
+	<class
+		name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_ConsultaCtaDestinoResponse">
+		<map-to xml="ConsultaCtaDestinoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>				
+		<field name="conCtaDestino" collection="arraylist" type="operacionesPDM.bean.CuentasDestinoBean" required="false">				
+			<bind-xml name="conCtaDestino" node="element" />						
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>			
+	</class>
+	
+	<class name="operacionesPDM.bean.CuentasDestinoBean">
+		<map-to xml="conCtaDestino" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="idCtaDestino" type="string">
+			<bind-xml name="IdCuentaDestino" />
+		</field>
+		<field name="alias" type="string">
+			<bind-xml name="Alias" />
+		</field>
+		<field name="benificiario" type="string">
+			<bind-xml name="Benificiario" />
+		</field>
+		<field name="RFCBenificiario" type="string">
+			<bind-xml name="RFCBenificiario" />
+		</field>
+		<field name="tipoCuenta" type="string">
+			<bind-xml name="TipoCuenta" />
+		</field>
+		<field name="cuentaDestino" type="string">
+			<bind-xml name="CuentaDestino" />
+		</field>
+		<field name="nombreInstitucion" type="string">
+			<bind-xml name="NombreInstitucion" />
+		</field>
+		<field name="idInstitucion" type="string">
+			<bind-xml name="IdInstitucion" />
+		</field>
+	</class>	
+	<!-- Fin de Consulta Cuentas Destino -->	
+	
+	<!-- Orden de Pago Spei -->	
+	<class
+		name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_OrdenPagoSpeiRequest">
+		<map-to xml="OrdenPagoSpeiRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="CuentaID" type="string">
+			<bind-xml name="CuentaID" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="ConceptoPago" type="string">
+			<bind-xml name="ConceptoPago" />
+		</field>
+		<field name="IdInstitucion" type="string">
+			<bind-xml name="IdInstitucion" />
+		</field>
+		<field name="TipoCuenta" type="string">
+			<bind-xml name="TipoCuenta" />
+		</field>		
+		<field name="CuentaBeneficiario" type="string">
+			<bind-xml name="CuentaBeneficiario" />
+		</field>	
+		<field name="NombreBeneficiario" type="string">
+			<bind-xml name="NombreBeneficiario" />
+		</field>
+		<field name="ReferenciaNumerica" type="string">
+			<bind-xml name="ReferenciaNumerica" />
+		</field>		
+		<field name="RFCBeneficiario" type="string">
+			<bind-xml name="RFCBeneficiario" />
+		</field>
+		<field name="IvaXpagar" type="string">
+			<bind-xml name="IvaXpagar" />
+		</field>
+		<field name="IdUsuario" type="string">
+			<bind-xml name="IdUsuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>		
+	</class>	
+	
+	<class
+		name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_OrdenPagoSpeiResponse">
+		<map-to xml="OrdenPagoSpeiResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="FolioSpei" type="string">
+			<bind-xml name="FolioSpei" />
+		</field>
+		<field name="ClaveRastreo" type="string">
+			<bind-xml name="ClaveRastreo" />
+		</field>		
+		<field name="FechaOperacion" type="string">
+			<bind-xml name="FechaOperacion" />
+		</field>	
+		<field name="CodigoRespuesta" type="int">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>		
+	</class>	
+	<!-- Fin Orden de Pago Spei-->
+	
+	<!-- Consulta Estatus Spei WS -->
+	<class
+		name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_ConsultaEstatusSpeiRequest">
+		<map-to xml="ConsultaEstatusSpeiRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="FechaInicial" type="string">
+			<bind-xml name="FechaInicial" />
+		</field>
+		<field name="FechaFinal" type="string">
+			<bind-xml name="FechaFinal" />
+		</field>	
+		<field name="IdUsuario" type="string">
+			<bind-xml name="IdUsuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>		
+	</class>
+	
+	<class
+		name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_ConsultaEstatusSpeiResponse">
+		<map-to xml="ConsultaEstatusSpeiResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>				
+		<field name="conEstatusSpei" collection="arraylist" type="operacionesPDM.bean.ConsultaEstatusSepiBean" required="false">				
+			<bind-xml name="conEstatusSpei" node="element" />						
+		</field>
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>			
+	</class>
+	
+	<class name="operacionesPDM.bean.ConsultaEstatusSepiBean">
+		<map-to xml="conEstatusSpei" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CuentaOrdenante" type="string">
+			<bind-xml name="CuentaOrdenante" />
+		</field>
+		<field name="ClaveRastreo" type="string">
+			<bind-xml name="ClaveRastreo" />
+		</field>
+		<field name="FechaEnvio" type="string">
+			<bind-xml name="FechaEnvio" />
+		</field>			        
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="NombreBeneficiario" type="string">
+			<bind-xml name="NombreBeneficiario" />
+		</field>
+		<field name="BancoDestino" type="string">
+			<bind-xml name="BancoDestino" />
+		</field>
+		<field name="Estatus" type="string">
+			<bind-xml name="Estatus" />
+		</field>
+	</class>
+	<!-- Fin Consulta Estatus Spei WS -->
+	
+	<!-- Inicio Abono a Cuneta WS -->
+	<class name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_AbonoCtaRequest">
+		<map-to xml="AbonoCtaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+		<field name="Num_Cta" type="string">
+			<bind-xml name="Num_Cta" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>		
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>		
+	</class>
+
+	<class name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_AbonoCtaResponse">
+		<map-to xml="AbonoCtaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>	
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisp" />
+		</field>
+		<field name="SaldoTot" type="string">
+			<bind-xml name="SaldoTot" />
+		</field>
+		<field name="CodigoResp" type="int">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>		
+	</class>	
+	<!-- Fin Abono a Cuneta WS -->	
+	
+	<!-- Inicio Retiro a Cuenta WS -->
+	<class
+		name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_RetiroCtaRequest">
+		<map-to xml="RetiroCtaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Num_Socio" type="string">
+			<bind-xml name="Num_Socio" />
+		</field>
+		<field name="Num_Cta" type="string">
+			<bind-xml name="Num_Cta" />
+		</field>
+		<field name="Monto" type="string">
+			<bind-xml name="Monto" />
+		</field>
+		<field name="Fecha_Mov" type="string">
+			<bind-xml name="Fecha_Mov" />
+		</field>
+		<field name="Folio_Pda" type="string">
+			<bind-xml name="Folio_Pda" />
+		</field>
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_RetiroCtaResponse">
+		<map-to xml="RetiroCtaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>		
+		<field name="AutFecha" type="string">
+			<bind-xml name="AutFecha" />
+		</field>
+		<field name="FolioAut" type="string">
+			<bind-xml name="FolioAut" />
+		</field>
+		<field name="SaldoTot" type="string">
+			<bind-xml name="SaldoTot" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisp" />
+		</field>
+		<field name="CodigoResp" type="int">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>
+	</class>
+	<!-- Fin Retiro a Cuenta WS -->
+	
+	<!-- Inicio Validacion Usuario WS -->
+	<class name="operacionesPDM.beanWS.request.SP_PDM_Usuario_ValidarRequest">
+		<map-to xml="ValidarUsuarioPDMRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Id_Usuario" type="string">
+			<bind-xml name="Id_Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>		
+		<field name="Id_Sucursal" type="string">
+			<bind-xml name="Id_Sucursal" />
+		</field>
+		<field name="Dispositivo" type="string">
+			<bind-xml name="Dispositivo" />
+		</field>		
+	</class>
+
+	<class name="operacionesPDM.beanWS.response.SP_PDM_Usuario_ValidarResponse">
+		<map-to xml="ValidarUsuarioPDMResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="EsValido" type="string">
+			<bind-xml name="EsValido" />
+		</field>
+		<field name="CodigoResp" type="string">
+			<bind-xml name="CodigoResp" />
+		</field>
+		<field name="CodigoDesc" type="string">
+			<bind-xml name="CodigoDesc" />
+		</field>				
+	</class>
+	<!-- Fin Validacion Usuario WS -->
+	
+	<!-- Inicio Consulta Fecha Servidor WS -->
+	<class name="operacionesPDM.beanWS.request.SP_PDM_Server_FechaHoraRequest">
+		<map-to xml="FechaHoraServerRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+	</class>
+
+	<class name="operacionesPDM.beanWS.response.SP_PDM_Server_FechaHoraResponse">
+		<map-to xml="FechaHoraServerResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="FechaHora" type="string">
+			<bind-xml name="FechaHora" />
+		</field>
+	</class>
+	<!-- Fin Consulta Fecha Servidor WS -->
+	
+	<!-- Consulta Del WS DE ConsultaSaldo -->
+	<class
+		name="operacionesPDM.beanWS.request.SP_PDM_Ahorros_ConsultaSaldoRequest">
+		<map-to xml="ConsultaSaldoCtaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CuentaID" type="string">
+			<bind-xml name="CuentaID" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesPDM.beanWS.response.SP_PDM_Ahorros_ConsultaSaldoResponse">
+		<map-to xml="ConsultaSaldoCtaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="DescripTipoCuenta" type="string">
+			<bind-xml name="Etiqueta" />
+		</field>
+		<field name="SaldoDisp" type="string">
+			<bind-xml name="SaldoDisponible" />
+		</field>
+		<field name="Celular" type="string">
+			<bind-xml name="Celular" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Fin del WS de ConsultaSaldo -->
+	<!-- Operaciones PDM -->
+	
+	<!-- INICIO Consulta de Producto de Credito para ZAFY -->
+	<class name="credito.beanWS.request.ConsultaProdCredRequest">
+		<map-to xml="consultaProdCredRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="producCreditoID" type="string">
+			<bind-xml name="producCreditoID" />
+		</field>
+		<field name="empresaID" type="string">
+			<bind-xml name="empresaID" />
+		</field>
+		<field name="sucursalID" type="string">
+			<bind-xml name="sucursalID" />
+		</field>
+	</class>
+
+	<class name="credito.beanWS.response.ConsultaProdCredResponse">
+		<map-to xml="consultaProdCredResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="producCreditoID" type="string">
+			<bind-xml name="producCreditoID" />
+		</field>
+		<field name="tasaFija" type="string">
+			<bind-xml name="tasaFija" />
+		</field>
+		<field name="tipoComXapert" type="string">
+			<bind-xml name="tipoComXapert" />
+		</field>
+		<field name="montoComXapert" type="string">
+			<bind-xml name="montoComXapert" />
+		</field>
+		<field name="montoInferior" type="string">
+			<bind-xml name="montoInferior" />
+		</field>
+		<field name="montoSuperior" type="string">
+			<bind-xml name="montoSuperior" />
+		</field>
+		<field name="frecuencias" type="string">
+			<bind-xml name="frecuencias" />
+		</field>
+		<field name="plazoID" type="string">
+			<bind-xml name="plazoID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- FIN Consulta de Producto de Credito para ZAFY -->
+	
+	
+	<!-- Operaciones VBC -->
+	<class name="operacionesVBC.beanWS.request.VbcSimuladorCreditoRequest">
+		<map-to xml="VbcSimuladorCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Monto" type="string">			<bind-xml name="Monto" /></field>
+		<field name="Tasa" type="string">			<bind-xml name="Tasa" /></field>
+		<field name="Frecuencia" type="string">		<bind-xml name="Frecuencia" /></field>
+		<field name="Periodicidad" type="string">	<bind-xml name="Periodicidad" /></field>
+		<field name="FechaInicio" type="string">	<bind-xml name="FechaInicio" /></field>
+		<field name="NumeroCuotas" type="string">	<bind-xml name="NumeroCuotas" /></field>
+		<field name="ProductoCreditoID" type="string"><bind-xml name="ProductoCreditoID" /></field>
+		<field name="ClienteID" type="string">		<bind-xml name="ClienteID" /></field>
+		<field name="ComisionApertura" type="string"><bind-xml name="ComisionApertura" /></field>
+		<field name="Usuario" type="string">		<bind-xml name="Usuario" /></field>
+		<field name="Clave" type="string">			<bind-xml name="Clave" /></field>
+	</class>
+	<class name="operacionesVBC.beanWS.response.VbcSimuladorCreditoResponse">
+		<map-to xml="VbcSimuladorCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		<bind-xml name="CodigoRespuesta" /></field>
+		<field name="MensajeRespuesta" type="string">		<bind-xml name="MensajeRespuesta" /></field>
+		<field name="amortiSimulador" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="DetalleSimulador" node="element" />
+		</field>
+	</class>
+	
+	<!-- Genera CURP -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcGeneraCurpRequest">
+		<map-to xml="VbcGeneraCurpRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="PrimerNombre" type="string">
+			<bind-xml name="PrimerNombre" />
+		</field>
+		<field name="SegundoNombre" type="string">
+			<bind-xml name="SegundoNombre" />
+		</field>
+		<field name="TercerNombre" type="string">
+			<bind-xml name="TercerNombre" />
+		</field>
+		<field name="ApellidoPaterno" type="string">
+			<bind-xml name="ApellidoPaterno" />
+		</field>
+		<field name="ApellidoMaterno" type="string">
+			<bind-xml name="ApellidoMaterno" />
+		</field>
+		<field name="Genero" type="string">
+			<bind-xml name="Genero" />
+		</field>
+		<field name="FechaNacimiento" type="string">
+			<bind-xml name="FechaNacimiento" />
+		</field>
+		<field name="Nacionalidad" type="string">
+			<bind-xml name="Nacionalidad" />
+		</field>
+		<field name="Estado" type="string">
+			<bind-xml name="Estado" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcGeneraCurpResponse">
+		<map-to xml="VbcGeneraCurpResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Curp" type="string">
+			<bind-xml name="Curp" />
+		</field>				
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Fin Genera CURP -->
+	
+	<!-- Genera RFC -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcGeneraRFCRequest">
+		<map-to xml="VbcGeneraRFCRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Nombre" type="string">
+			<bind-xml name="Nombre" />
+		</field>
+		<field name="ApellidoPaterno" type="string">
+			<bind-xml name="ApellidoPaterno" />
+		</field>
+		<field name="ApellidoMaterno" type="string">
+			<bind-xml name="ApellidoMaterno" />
+		</field>
+		<field name="FechaNacimiento" type="string">
+			<bind-xml name="FechaNacimiento" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcGeneraRFCResponse">
+		<map-to xml="VbcGeneraRFCResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="Rfc" type="string">
+			<bind-xml name="Rfc" />
+		</field>				
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	<!-- Fin Gen	era RFC -->
+	
+	<!--Consulta Catalogos  -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcConsultaCatalogoRequest">
+		<map-to xml="ConsultaCatalogoGenericoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="NomCatalogo" type="string">
+			<bind-xml name="NomCatalogo" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcConsultaCatalogoResponse">
+		<map-to xml="ConsultaCatalogoGenericoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="otrosCat" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="Catalogo" node="element" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	
+	<!-- Alta Cliente WS VBC -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaClienteRequest">
+		<map-to xml="VbcAltaClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+		<field name="OperacionID" type="string">
+			<bind-xml name="OperacionID" />
+		</field>
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="PrimerNombre" type="string">
+			<bind-xml name="PrimerNombre" />
+		</field>
+		<field name="SegundoNombre" type="string">
+			<bind-xml name="SegundoNombre" />
+		</field>
+		<field name="TercerNombre" type="string">
+			<bind-xml name="TercerNombre" />
+		</field>
+		<field name="ApPaterno" type="string">
+			<bind-xml name="ApPaterno" />
+		</field>
+		<field name="ApMaterno" type="string">
+			<bind-xml name="ApMaterno" />
+		</field>
+		<field name="FechaNacimiento" type="string">
+			<bind-xml name="FechaNacimiento" />
+		</field>
+		<field name="Curp" type="string">
+			<bind-xml name="Curp" />
+		</field>
+		<field name="EstadoID" type="string">
+			<bind-xml name="EstadoID" />
+		</field>
+		<field name="Sexo" type="string">
+			<bind-xml name="Sexo" />
+		</field>
+		<field name="Telefono" type="string">
+			<bind-xml name="Telefono" />
+		</field>
+		<field name="Clasificacion" type="string">
+			<bind-xml name="Clasificacion" />
+		</field>
+		<field name="TelefonoCelular" type="string">
+			<bind-xml name="TelefonoCelular" />
+		</field>
+		<field name="Correo" type="string">
+			<bind-xml name="Correo" />
+		</field>
+		<field name="Rfc" type="string">
+			<bind-xml name="Rfc" />
+		</field>
+		<field name="OcupacionID" type="string">
+			<bind-xml name="OcupacionID" />
+		</field>
+		<field name="LugardeTrabajo" type="string">
+			<bind-xml name="LugardeTrabajo" />
+		</field>
+		<field name="Puesto" type="string">
+			<bind-xml name="Puesto" />
+		</field>
+		<field name="TelTrabajo" type="string">
+			<bind-xml name="TelTrabajo" />
+		</field>
+		<field name="NoEmpleado" type="string">
+			<bind-xml name="NoEmpleado" />
+		</field>
+		<field name="AntiguedadTra" type="string">
+			<bind-xml name="AntiguedadTra" />
+		</field>
+		<field name="ExtTelefonoTrab" type="string">
+			<bind-xml name="ExtTelefonoTrab" />
+		</field>
+		<field name="TipoEmpleado" type="string">
+			<bind-xml name="TipoEmpleado" />
+		</field>
+		<field name="TipoPuesto" type="string">
+			<bind-xml name="TipoPuesto" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaClienteResponse">
+		<map-to xml="VbcAltaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>				
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	
+	
+	<!-- Alta Direccion del Cliente WS VBC -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaDirecClienteRequest">
+		<map-to xml="VbcAltaDirecClienteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="OperacionID" type="string">
+			<bind-xml name="OperacionID" />
+		</field>
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="DireccionID" type="string">
+			<bind-xml name="DireccionID" />
+		</field>
+		<field name="EstadoID" type="string">
+			<bind-xml name="EstadoID" />
+		</field>
+		<field name="MunicipioID" type="string">
+			<bind-xml name="MunicipioID" />
+		</field>
+		<field name="LocalidadID" type="string">
+			<bind-xml name="LocalidadID" />
+		</field>
+		<field name="ColoniaID" type="string">
+			<bind-xml name="ColoniaID" />
+		</field>
+		<field name="Calle" type="string">
+			<bind-xml name="Calle" />
+		</field>
+		<field name="NumeroCasa" type="string">
+			<bind-xml name="NumeroCasa" />
+		</field>
+		<field name="Cp" type="string">
+			<bind-xml name="Cp" />
+		</field>
+		<field name="Oficial" type="string">
+			<bind-xml name="Oficial" />
+		</field>
+		<field name="Fiscal" type="string">
+			<bind-xml name="Fiscal" />
+		</field>
+		<field name="NumInterior" type="string">
+			<bind-xml name="NumInterior" />
+		</field>
+		<field name="Lote" type="string">
+			<bind-xml name="Lote" />
+		</field>
+		<field name="Manzana" type="string">
+			<bind-xml name="Manzana" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>		
+	</class>
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaDirecClienteResponse">
+		<map-to xml="VbcAltaDirecClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="DireccionID" type="string">
+			<bind-xml name="DireccionID" />
+		</field>				
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	
+	<!-- Alta Identificacion WS -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaIdentificaCteRequest">
+		<map-to xml="VbcAltaIdentificaCteRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="OperacionID" type="string">
+			<bind-xml name="OperacionID" />
+		</field>
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="IdentificaID" type="string">
+			<bind-xml name="IdentificaID" />
+		</field>
+		<field name="TipoIdentiID" type="string">
+			<bind-xml name="TipoIdentiID" />
+		</field>
+		<field name="NumIdentifica" type="string">
+			<bind-xml name="NumIdentifica" />
+		</field>
+		<field name="FecExIden" type="string">
+			<bind-xml name="FecExIden" />
+		</field>
+		<field name="FecVenIden" type="string">
+			<bind-xml name="FecVenIden" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaIdentificaCteResponse">
+		<map-to xml="VbcAltaIdentificaCteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="IdentificaID" type="string">
+			<bind-xml name="IdentificaID" />
+		</field>				
+		<field name="codigoRespuesta" type="string">
+			<bind-xml name="codigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+			<bind-xml name="mensajeRespuesta" />
+		</field>
+	</class>
+	
+		
+	<!-- Alta REFERENCIA WS -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaReferenciaRequest">
+		<map-to xml="VbcAltaReferenciaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="OperacionID" type="string">
+			<bind-xml name="OperacionID" />
+		</field>
+		<field name="ReferenciaID" type="string">
+			<bind-xml name="ReferenciaID" />
+		</field>
+		<field name="SolicitudCreditoID" type="string">
+			<bind-xml name="SolicitudCreditoID" />
+		</field>
+		<field name="Consecutivo" type="string">
+			<bind-xml name="Consecutivo" />
+		</field>
+		<field name="PrimerNombre" type="string">
+			<bind-xml name="PrimerNombre" />
+		</field>
+		
+		<field name="SegundoNombre" type="string">
+			<bind-xml name="SegundoNombre" />
+		</field>
+		<field name="TercerNombre" type="string">
+			<bind-xml name="TercerNombre" />
+		</field>
+		<field name="ApellidoPaterno" type="string">
+			<bind-xml name="ApellidoPaterno" />
+		</field>
+		<field name="ApellidoMaterno" type="string">
+			<bind-xml name="ApellidoMaterno" />
+		</field>
+		<field name="Telefono" type="string">
+			<bind-xml name="Telefono" />
+		</field>
+		
+		<field name="ExtTelefonoPart" type="string">
+			<bind-xml name="ExtTelefonoPart" />
+		</field>
+		<field name="TipoRelacionID" type="string">
+			<bind-xml name="TipoRelacionID" />
+		</field>
+		<field name="EstadoID" type="string">
+			<bind-xml name="EstadoID" />
+		</field>
+		<field name="MunicipioID" type="string">
+			<bind-xml name="MunicipioID" />
+		</field>
+		<field name="LocalidadID" type="string">
+			<bind-xml name="LocalidadID" />
+		</field>
+		
+		<field name="ColoniaID" type="string">
+			<bind-xml name="ColoniaID" />
+		</field>
+		<field name="Calle" type="string">
+			<bind-xml name="Calle" />
+		</field>
+		<field name="NumeroCasa" type="string">
+			<bind-xml name="NumeroCasa" />
+		</field>
+		<field name="NumInterior" type="string">
+			<bind-xml name="NumInterior" />
+		</field>
+		<field name="Piso" type="string">
+			<bind-xml name="Piso" />
+		</field>
+		
+		<field name="Cp" type="string">
+			<bind-xml name="Cp" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaReferenciaResponse">
+		<map-to xml="VbcAltaReferenciaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	
+	<!-- Alta SOLICITUD DE CREDITO WS -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaSolicitudCreditoRequest">
+		<map-to xml="VbcAltaSolicitudCreditoRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="OperacionID" type="string">
+			<bind-xml name="OperacionID" />
+		</field>
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="SolicitudCreditoID" type="string">
+			<bind-xml name="SolicitudCreditoID" />
+		</field>
+		<field name="ProductoCreditoID" type="string">
+			<bind-xml name="ProductoCreditoID" />
+		</field>
+		<field name="FechaRegistro" type="string">
+			<bind-xml name="FechaRegistro" />
+		</field>
+		
+		<field name="InstitucionNominaID" type="string">
+			<bind-xml name="InstitucionNominaID" />
+		</field>
+		<field name="FolioCtrl" type="string">
+			<bind-xml name="FolioCtrl" />
+		</field>
+		<field name="MontoSolici" type="string">
+			<bind-xml name="MontoSolici" />
+		</field>
+		<field name="TasaActiva" type="string">
+			<bind-xml name="TasaActiva" />
+		</field>
+		<field name="Periodicidad" type="string">
+			<bind-xml name="Periodicidad" />
+		</field>
+		
+		<field name="PlazoID" type="string">
+			<bind-xml name="PlazoID" />
+		</field>
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaSolicitudCreditoResponse">
+		<map-to xml="VbcAltaSolicitudCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+		<field name="SolicitudCreditoID" type="string">
+			<bind-xml name="SolicitudCreditoID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	
+	<!-- Alta AVALES WS -->
+	<class
+		name="operacionesVBC.beanWS.request.VbcAltaAvalRequest">
+		<map-to xml="VbcAltaAvalRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		<field name="AvalID" type="string">
+			<bind-xml name="AvalID" />
+		</field>
+		<field name="TipoPersona" type="string">
+			<bind-xml name="TipoPersona" />
+		</field>
+		<field name="PrimerNombre" type="string">
+			<bind-xml name="PrimerNombre" />
+		</field>
+		<field name="SegundoNombre" type="string">
+			<bind-xml name="SegundoNombre" />
+		</field>
+		<field name="TercerNombre" type="string">
+			<bind-xml name="TercerNombre" />
+		</field>
+		
+		<field name="ApellidoPaterno" type="string">
+			<bind-xml name="ApellidoPaterno" />
+		</field>
+		<field name="ApellidoMaterno" type="string">
+			<bind-xml name="ApellidoMaterno" />
+		</field>
+		<field name="FechaNac" type="string">
+			<bind-xml name="FechaNac" />
+		</field>
+		<field name="Rfc" type="string">
+			<bind-xml name="Rfc" />
+		</field>
+		<field name="Telefono" type="string">
+			<bind-xml name="Telefono" />
+		</field>
+		
+		<field name="TelefonoCel" type="string">
+			<bind-xml name="TelefonoCel" />
+		</field>
+		<field name="Calle" type="string">
+			<bind-xml name="Calle" />
+		</field>
+		<field name="NumExterior" type="string">
+			<bind-xml name="NumExterior" />
+		</field>
+		<field name="NumInterior" type="string">
+			<bind-xml name="NumInterior" />
+		</field>
+		<field name="MunicipioID" type="string">
+			<bind-xml name="MunicipioID" />
+		</field>
+		
+		<field name="EstadoID" type="string">
+			<bind-xml name="EstadoID" />
+		</field>
+		<field name="Cp" type="string">
+			<bind-xml name="Cp" />
+		</field>
+		<field name="LocalidadID" type="string">
+			<bind-xml name="LocalidadID" />
+		</field>
+		<field name="ColoniaID" type="string">
+			<bind-xml name="ColoniaID" />
+		</field>
+		<field name="Sexo" type="string">
+			<bind-xml name="Sexo" />
+		</field>
+		
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesVBC.beanWS.response.VbcAltaAvalResponse">
+		<map-to xml="VbcAltaAvalResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+		<field name="AvalID" type="string">
+			<bind-xml name="AvalID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	
+	
+	<!-- ASIGNAR AVALES WS -->
+	<class name="operacionesVBC.beanWS.request.VbcAsignaAvalRequest">
+		<map-to xml="VbcAsignaAvalRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		<field name="SolicitudCreditoID" type="string">
+			<bind-xml name="SolicitudCreditoID" />
+		</field>
+		<field name="AvalID" type="string">
+			<bind-xml name="AvalID" />
+		</field>
+		<field name="ClienteID" type="string">
+			<bind-xml name="ClienteID" />
+		</field>
+		<field name="FechaRegistro" type="string">
+			<bind-xml name="FechaRegistro" />
+		</field>
+		
+		<field name="Usuario" type="string">
+			<bind-xml name="Usuario" />
+		</field>
+		<field name="Clave" type="string">
+			<bind-xml name="Clave" />
+		</field>
+	</class>
+	
+	<class name="operacionesVBC.beanWS.response.VbcAsignaAvalResponse">
+		<map-to xml="VbcAsignaAvalResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+		<field name="CodigoRespuesta" type="string">
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	
+	<class name="operacionesVBC.beanWS.request.VbcConsultaAmortizaRequest">
+		<map-to xml="VbcConsultaAmortizaRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CreditoID" type="string">		<bind-xml name="CreditoID" /></field>
+		<field name="Usuario" type="string">		<bind-xml name="Usuario" /></field>
+		<field name="Clave" type="string">			<bind-xml name="Clave" /></field>
+	</class>
+	
+	<class name="operacionesVBC.beanWS.response.VbcConsultaAmortizaResponse">
+		<map-to xml="VbcConsultaAmortizaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		<bind-xml name="CodigoRespuesta" /></field>
+		<field name="MensajeRespuesta" type="string">		<bind-xml name="MensajeRespuesta" /></field>
+		<field name="amortizaciones" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="DetalleAmotizaciones" node="element" />
+		</field>
+	</class>
+	
+	<class name="operacionesVBC.beanWS.request.VbcConsultaAmorPagRequest">
+		<map-to xml="VbcConsultaAmorPagRequest" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CreditoID" type="string">		<bind-xml name="CreditoID" /></field>
+		<field name="Usuario" type="string">		<bind-xml name="Usuario" /></field>
+		<field name="Clave" type="string">			<bind-xml name="Clave" /></field>
+	</class>
+	<class name="operacionesVBC.beanWS.response.VbcConsultaAmorPagResponse">
+		<map-to xml="VbcConsultaAmorPagResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		<bind-xml name="CodigoRespuesta" /></field>
+		<field name="MensajeRespuesta" type="string">		<bind-xml name="MensajeRespuesta" /></field>
+		<field name="amortiPagos" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="DetallePagos" node="element" />
+		</field>
+	</class>
+	
+		
+	
+	<!-- Fin Operaciones VBC -->
+	
+	
+	
+	<!--  Operaciones CRCB -->
+	
+	<!-- Alta Cliente -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaClienteRequest">
+		<map-to xml="AltaClienteRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="PrimerNombre" type="string">
+      		  <bind-xml name="PrimerNombre" />
+		</field>
+		<field name="SegundoNombre" type="string">
+		      <bind-xml name="SegundoNombre" />
+		</field>
+		<field name="TercerNombre" type="string">
+		      <bind-xml name="TercerNombre" />
+		</field>
+		<field name="ApellidoPaterno" type="string">
+		      <bind-xml name="ApellidoPaterno" />
+		</field>
+		<field name="ApellidoMaterno" type="string">
+		      <bind-xml name="ApellidoMaterno" />
+		</field>
+		<field name="FechaNacimiento" type="string">
+		      <bind-xml name="FechaNacimiento" />
+		</field>
+		<field name="CURP" type="string">
+		      <bind-xml name="CURP" />
+		</field>
+		<field name="EstadoNacimientoID" type="string">
+		      <bind-xml name="EstadoNacimientoID" />
+		</field>
+		<field name="Sexo" type="string">
+		      <bind-xml name="Sexo" />
+		</field>
+		<field name="Telefono" type="string">
+		      <bind-xml name="Telefono" />
+		</field>
+		<field name="TelefonoCelular" type="string">
+		      <bind-xml name="TelefonoCelular" />
+		</field>
+		<field name="Correo" type="string">
+		      <bind-xml name="Correo" />
+		</field>
+		<field name="RFC" type="string">
+		      <bind-xml name="RFC" />
+		</field>
+		<field name="OcupacionID" type="string">
+		      <bind-xml name="OcupacionID" />
+		</field>
+		<field name="LugardeTrabajo" type="string">
+		      <bind-xml name="LugardeTrabajo" />
+		</field>
+		<field name="Puesto" type="string">
+		      <bind-xml name="Puesto" />
+		</field>
+		<field name="TelTrabajo" type="string">
+		      <bind-xml name="TelTrabajo" />
+		</field>
+		<field name="NoEmpleado" type="string">
+		      <bind-xml name="NoEmpleado" />
+		</field>
+		<field name="AntiguedadTra" type="string">
+		      <bind-xml name="AntiguedadTra" />
+		</field>
+		<field name="ExtTelefonoTrab" type="string">
+		      <bind-xml name="ExtTelefonoTrab" />
+		</field>
+		<field name="TipoEmpleado" type="string">
+		      <bind-xml name="TipoEmpleado" />
+		</field>
+		<field name="TipoPuesto" type="string">
+		      <bind-xml name="TipoPuesto" />
+		</field>
+		<field name="SucursalOrigen" type="string">
+		      <bind-xml name="SucursalOrigen" />
+		</field>
+		<field name="TipoPersona" type="string">
+		      <bind-xml name="TipoPersona" />
+		</field>
+		<field name="PaisNacionalidad" type="string">
+			<bind-xml name="PaisNacionalidad"/>
+		</field>
+		<field name="IngresosMensuales" type="string">
+			<bind-xml name="IngresosMensuales"/>
+		</field>
+		<field name="TamanioAcreditado" type="string">
+			<bind-xml name="TamanioAcreditado"/>
+		</field>
+		<field name="NiveldeRiesgo" type="string">
+			<bind-xml name="NiveldeRiesgo"/>
+		</field>
+		<field name="Titulo" type="string">
+		      <bind-xml name="Titulo" />
+		</field>
+		<field name="PaisResidencia" type="string">
+		      <bind-xml name="PaisResidencia" />
+		</field>
+		<field name="SectorGeneral" type="string">
+		      <bind-xml name="SectorGeneral" />
+		</field>
+		<field name="ActividadBancoMX" type="string">
+		      <bind-xml name="ActividadBancoMX" />
+		</field>
+		<field name="EstadoCivil" type="string">
+		      <bind-xml name="EstadoCivil" />
+		</field>
+		<field name="LugarNacimiento" type="string">
+		      <bind-xml name="LugarNacimiento" />
+		</field>
+		<field name="PromotorInicial" type="string">
+		      <bind-xml name="PromotorInicial" />
+		</field>
+		<field name="PromotorActual" type="string">
+		      <bind-xml name="PromotorActual" />
+		</field>
+		<field name="ExtTelefonoPart" type="string">
+		      <bind-xml name="ExtTelefonoPart" />
+		</field>
+		
+		<field name="TipoDireccionID" type="string">
+		      <bind-xml name="TipoDireccionID" />
+		</field>
+		<field name="EstadoID" type="string">
+		      <bind-xml name="EstadoID" />
+		</field>
+		<field name="MunicipioID" type="string">
+		      <bind-xml name="MunicipioID" />
+		</field>
+		<field name="LocalidadID" type="string">
+		      <bind-xml name="LocalidadID" />
+		</field>
+		<field name="ColoniaID" type="string">
+		      <bind-xml name="ColoniaID" />
+		</field>
+		<field name="Calle" type="string">
+		      <bind-xml name="Calle" />
+		</field>
+		<field name="Numero" type="string">
+		      <bind-xml name="Numero" />
+		</field>
+		<field name="CP" type="string">
+		      <bind-xml name="CP" />
+		</field>
+		<field name="Oficial" type="string">
+		      <bind-xml name="Oficial" />
+		</field>
+		<field name="Fiscal" type="string">
+		      <bind-xml name="Fiscal" />
+		</field>
+		<field name="NumInterior" type="string">
+		      <bind-xml name="NumInterior" />
+		</field>
+		<field name="Lote" type="string">
+		      <bind-xml name="Lote" />
+		</field>
+		<field name="Manzana" type="string">
+		      <bind-xml name="Manzana" />
+		</field>
+		
+		<field name="TipoIdentiID" type="string">
+		      <bind-xml name="TipoIdentiID" />
+		</field>
+		
+		<field name="NumIdentific" type="string">
+		      <bind-xml name="NumIdentific" />
+		</field>
+		<field name="FecExIden" type="string">
+		      <bind-xml name="FecExIden" />
+		</field>
+		<field name="FecVenIden" type="string">
+		      <bind-xml name="FecVenIden" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+		<field name="ClienteId" type="string">
+		      <bind-xml name="ClienteId" />
+		</field>
+	</class>
+
+	<class
+		name="operacionesCRCB.beanWS.response.AltaClienteResponse">
+		<map-to xml="AltaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />	
+			
+		<field name="clienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="codigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="mensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	
+	
+	<!-- Alta Credito -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaCreditoRequest">
+		<map-to xml="AltaCreditoRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="ProductoCreditoID" type="string">
+		      <bind-xml name="ProductoCreditoID" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="TasaFija" type="string">
+		      <bind-xml name="TasaFija" />
+		</field>
+		<field name="Frecuencia" type="string">
+		      <bind-xml name="Frecuencia" />
+		</field>
+		<field name="DiaPago" type="string">
+		      <bind-xml name="DiaPago" />
+		</field>
+		<field name="DiaMesPago" type="string">
+		      <bind-xml name="DiaMesPago" />
+		</field>
+		<field name="PlazoID" type="string">
+		      <bind-xml name="PlazoID" />
+		</field>
+		<field name="DestinoCredito" type="string">
+		      <bind-xml name="DestinoCredito" />
+		</field>
+		<field name="TipoIntegrante" type="string">
+		      <bind-xml name="TipoIntegrante" />
+		</field>
+		<field name="GrupoID" type="string">
+		      <bind-xml name="GrupoID" />
+		</field>
+		<field name="TipoDispersion" type="string">
+		      <bind-xml name="TipoDispersion" />
+		</field>
+		<field name="MontoPorComAper" type="string">
+		      <bind-xml name="MontoPorComAper" />
+		</field>
+		<field name="PromotorID" type="string">
+		      <bind-xml name="PromotorID" />
+		</field>
+		<field name="CuentaClabe" type="string">
+		      <bind-xml name="CuentaClabe" />
+		</field>
+		<field name="FechaIniPrimAmor" type="string">
+		      <bind-xml name="FechaIniPrimAmor" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+		<field name="TipoConsultaSIC" type="string">
+		      <bind-xml name="TipoConsultaSIC" />
+		</field>
+		<field name="FolioConsultaSIC" type="string">
+		      <bind-xml name="FolioConsultaSIC" />
+		</field>
+		<field name="ReferenciaPago" type="string">
+		      <bind-xml name="ReferenciaPago" />
+		</field>
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaCreditoResponse">
+		<map-to xml="AltaCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CreditoID" type="string">
+		      <bind-xml name="CreditoID" />
+		</field>
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>	
+	
+	
+	
+	<!-- Alta de Cuenta Autorizada -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaCuentaAutorizadaRequest">
+		<map-to xml="AltaCuentaAutorizadaRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="SucursalID" type="string">
+		      <bind-xml name="SucursalID" />
+		</field>
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="TipoCuentaID" type="string">
+		      <bind-xml name="TipoCuentaID" />
+		</field>
+		<field name="EsPrincipal" type="string">
+		      <bind-xml name="EsPrincipal" />
+		</field>
+		<field name="FechaContratacion" type="string">
+		      <bind-xml name="FechaContratacion" />
+		</field>
+		<field name="TasaPactada" type="string">
+		      <bind-xml name="TasaPactada" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaCuentaAutorizadaResponse">
+		<map-to xml="AltaCuentaAutorizadaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		
+	</class>	
+	
+	
+	<!-- Alta de Grupo -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaGrupoRequest">
+		<map-to xml="AltaGrupoRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="NombreGrupo" type="string">
+		      <bind-xml name="NombreGrupo" />
+		</field>
+		<field name="SucursalID" type="string">
+		      <bind-xml name="SucursalID" />
+		</field>
+		<field name="CicloActual" type="string">
+		      <bind-xml name="CicloActual" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaGrupoResponse">
+		<map-to xml="AltaGrupoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		
+		<field name="GrupoID" type="string">
+		      <bind-xml name="GrupoID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>	
+	
+	<!-- Actualiza la direccion -->
+	<class
+		name="operacionesCRCB.beanWS.request.ActualizaDireccionRequest">
+		<map-to xml="ActualizaDireccionRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="DireccionID" type="string">
+		      <bind-xml name="DireccionID" />
+		</field>
+		<field name="TipoDireccionID" type="string">
+		      <bind-xml name="TipoDireccionID" />
+		</field>
+		<field name="EstadoID" type="string">
+		      <bind-xml name="EstadoID" />
+		</field>
+		<field name="MunicipioID" type="string">
+		      <bind-xml name="MunicipioID" />
+		</field>
+		<field name="LocalidadID" type="string">
+		      <bind-xml name="LocalidadID" />
+		</field>
+		<field name="ColoniaID" type="string">
+		      <bind-xml name="ColoniaID" />
+		</field>
+		<field name="Calle" type="string">
+		      <bind-xml name="Calle" />
+		</field>
+		<field name="NumeroCasa" type="string">
+		      <bind-xml name="NumeroCasa" />
+		</field>
+		<field name="NumInterior" type="string">
+		      <bind-xml name="NumInterior" />
+		</field>
+		<field name="Piso" type="string">
+		      <bind-xml name="Piso" />
+		</field>
+		<field name="PrimeraEntreCalle" type="string">
+		      <bind-xml name="PrimeraEntreCalle" />
+		</field>
+		<field name="SegundaEntreCalle" type="string">
+		      <bind-xml name="SegundaEntreCalle" />
+		</field>
+		<field name="Oficial" type="string">
+		      <bind-xml name="Oficial" />
+		</field>
+		<field name="Fiscal" type="string">
+		      <bind-xml name="Fiscal" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.ActualizaDireccionResponse">
+		<map-to xml="ActualizaDireccionResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>	
+		
+	</class>	
+	
+	<!-- Actualiza Cuenta Destino -->
+	<class
+		name="operacionesCRCB.beanWS.request.ActCuentaDestinoRequest">
+		<map-to xml="ActCuentaDestinoRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="CuentaTranID" type="string">
+		      <bind-xml name="CuentaTranID" />
+		</field>
+		<field name="Banco" type="string">
+		      <bind-xml name="Banco" />
+		</field>
+		<field name="TipoCuentaSpei" type="string">
+		      <bind-xml name="TipoCuentaSpei" />
+		</field>
+		<field name="Cuenta" type="string">
+		      <bind-xml name="Cuenta" />
+		</field>
+		<field name="Beneficiario" type="string">
+		      <bind-xml name="Beneficiario" />
+		</field>
+		<field name="Alias" type="string">
+		      <bind-xml name="Alias" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.ActCuentaDestinoResponse">
+		<map-to xml="ActCuentaDestinoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+			<field name="CuentaTranID" type="string">
+			      <bind-xml name="CuentaTranID" />
+			</field>
+			<field name="ClienteID" type="string">
+			      <bind-xml name="ClienteID" />
+			</field>
+			<field name="CodigoRespuesta" type="string">
+			      <bind-xml name="CodigoRespuesta" />
+			</field>
+			<field name="MensajeRespuesta" type="string">
+			      <bind-xml name="MensajeRespuesta" />
+			</field>
+	</class>	
+	
+	
+	
+	<!-- Alta Cuenta Destino -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaCuentaDestinoRequest">
+		<map-to xml="AltaCuentaDestinoRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="Banco" type="string">
+		      <bind-xml name="Banco" />
+		</field>
+		<field name="TipoCuentaSpei" type="string">
+		      <bind-xml name="TipoCuentaSpei" />
+		</field>
+		<field name="Cuenta" type="string">
+		      <bind-xml name="Cuenta" />
+		</field>
+		<field name="Beneficiario" type="string">
+		      <bind-xml name="Beneficiario" />
+		</field>
+		<field name="Alias" type="string">
+		      <bind-xml name="Alias" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaCuentaDestinoResponse">
+		<map-to xml="AltaCuentaDestinoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CuentaTranID" type="string">
+		      <bind-xml name="CuentaTranID" />
+		</field>
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		
+	</class>	
+	
+	
+	<!-- Alta Cliente -->
+	<class
+		name="operacionesCRCB.beanWS.request.DesembolsoCreditoRequest">
+		<map-to xml="DesembolsoCreditoRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CreditoID" type="string">
+		      <bind-xml name="CreditoID" />
+		</field>
+		<field name="GrupoID" type="string">
+		      <bind-xml name="GrupoID" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.DesembolsoCreditoResponse">
+		<map-to xml="DesembolsoCreditoResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		
+	</class>	
+	
+	<!-- Alta Abono a la cuenta -->
+	<class name="operacionesCRCB.beanWS.request.AbonoCuentaRequest">
+		<map-to xml="AbonoCuentaRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CuentaAhoID" type="string">
+			<bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="Referencia" type="string">
+		      <bind-xml name="Referencia" />
+		</field>
+		<field name="CodigoRastreo" type="string">
+		      <bind-xml name="CodigoRastreo" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	</class>
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AbonoCuentaResponse">
+		<map-to xml="AbonoCuentaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="NoTransaccion" type="string">
+		      <bind-xml name="NoTransaccion" />
+		</field>
+		
+	</class>	
+	 
+	 <!-- Actualiza Cliente -->
+	<class
+		name="operacionesCRCB.beanWS.request.ActualizaClienteRequest">
+		<map-to xml="ActualizaClienteRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="TelefonoCelular" type="string">
+		      <bind-xml name="TelefonoCelular" />
+		</field>
+		<field name="TelefonoParticular" type="string">
+		      <bind-xml name="TelefonoParticular" />
+		</field>
+		<field name="CorreoElectronico" type="string">
+		      <bind-xml name="CorreoElectronico" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	</class>
+	
+	 
+	 <class
+		name="operacionesCRCB.beanWS.response.ActualizaClienteResponse">
+		<map-to xml="ActualizaClienteResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		
+	</class>
+	
+	
+	<!--Retiro Cuenta -->
+	<class
+		name="operacionesCRCB.beanWS.request.RetiroCuentaRequest">
+		<map-to xml="RetiroCuentaRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+
+	</class>
+		
+	
+	<class
+		name="operacionesCRCB.beanWS.response.RetiroCuentaResponse">
+		<map-to xml="RetiroCuentaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="NoTransaccion" type="string">
+		      <bind-xml name="NoTransaccion" />
+		</field>
+		
+	</class>
+	
+	
+	<!-- Consulta Amortizaciones -->
+	<class
+		name="operacionesCRCB.beanWS.request.ConsultaAmortizacionesRequest">
+		<map-to xml="ConsultaAmortizacionesRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CreditoID" type="string">
+		      <bind-xml name="CreditoID" />
+		</field>
+	</class>
+	
+	
+	<class name="operacionesCRCB.beanWS.response.ConsultaAmortizacionesResponse">
+		<map-to xml="ConsultaAmortizacionesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">		
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="amortiCredito" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="AmortiCredito" node="element" />
+		</field>
+	</class>
+	
+	
+	<!-- Movimientos de la Cuenta -->
+	<class
+		name="operacionesCRCB.beanWS.request.ConMovimientosCuentaRequest">
+		<map-to xml="ConMovimientosCuentaRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="Anio" type="string">
+		      <bind-xml name="Anio" />
+		</field>
+		<field name="Mes" type="string">
+		      <bind-xml name="Mes" />
+		</field>
+			
+	</class>
+	
+		
+	<class name="operacionesCRCB.beanWS.response.ConMovimientosCuentaResponse">
+		<map-to xml="ConMovimientosCuentaResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">		
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+		
+		<field name="SaldoInicialMes" type="string">
+		      <bind-xml name="SaldoInicialMes" />
+		</field>
+		<field name="AbonosMes" type="string">
+		      <bind-xml name="AbonosMes" />
+		</field>
+		<field name="CargosMes" type="string">
+		      <bind-xml name="CargosMes" />
+		</field>
+		<field name="SaldoDisponible" type="string">
+		      <bind-xml name="SaldoDisponible" />
+		</field>
+			
+		<field name="movimientosCuenta" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="ListaMovsCuenta" node="element" />
+		</field>
+	</class>
+	
+	
+	
+	<!-- Alta Inversion -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaInversionRequest">
+		<map-to xml="AltaInversionRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="TipoInversionID" type="string">
+		      <bind-xml name="TipoInversionID" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="Plazo" type="string">
+		      <bind-xml name="Plazo" />
+		</field>
+		<field name="Tasa" type="string">
+		      <bind-xml name="Tasa" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaInversionResponse">
+		<map-to xml="AltaInversionResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="InversionID" type="string">
+		      <bind-xml name="InversionID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="MontoISR" type="string">
+		      <bind-xml name="MontoISR" />
+		</field>
+		<field name="InteresGenerado" type="string">
+		      <bind-xml name="InteresGenerado" />
+		</field>
+		<field name="InteresRecibir" type="string">
+		      <bind-xml name="InteresRecibir" />
+		</field>
+		<field name="MontoTotal" type="string">
+		      <bind-xml name="MontoTotal" />
+		</field>
+		<field name="FechaVencimiento" type="string">
+		      <bind-xml name="FechaVencimiento" />
+		</field>
+		
+	</class>	
+	
+	<!-- Alta CEDES -->
+	<class
+		name="operacionesCRCB.beanWS.request.AltaCedesRequest">
+		<map-to xml="AltaCedesRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="CuentaAhoID" type="string">
+		      <bind-xml name="CuentaAhoID" />
+		</field>
+		<field name="TipoCedeID" type="string">
+		      <bind-xml name="TipoCedeID" />
+		</field>
+		<field name="TipoPago" type="string">
+		      <bind-xml name="TipoPago" />
+		</field>
+		<field name="DiasPeriodo" type="string">
+		      <bind-xml name="DiasPeriodo" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="Plazo" type="string">
+		      <bind-xml name="Plazo" />
+		</field>
+		<field name="Tasa" type="string">
+		      <bind-xml name="Tasa" />
+		</field>
+		<field name="Reinvertir" type="string">
+		      <bind-xml name="Reinvertir" />
+		</field>
+		<field name="TipoReinversion" type="string">
+		      <bind-xml name="TipoReinversion" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.AltaCedesResponse">
+		<map-to xml="AltaCedesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CEDEID" type="string">
+		      <bind-xml name="CEDEID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="MontoISR" type="string">
+		      <bind-xml name="MontoISR" />
+		</field>
+		<field name="InteresGenerado" type="string">
+		      <bind-xml name="InteresGenerado" />
+		</field>
+		<field name="InteresRecibir" type="string">
+		      <bind-xml name="InteresRecibir" />
+		</field>
+		<field name="MontoTotal" type="string">
+		      <bind-xml name="MontoTotal" />
+		</field>
+		<field name="FechaVencimiento" type="string">
+		      <bind-xml name="FechaVencimiento" />
+		</field>
+		
+	</class>	
+	
+	
+	<!-- Consulta Amortizaciones CEDES -->
+	<class
+		name="operacionesCRCB.beanWS.request.ConsultaAmortizacionCedeRequest">
+		<map-to xml="ConsultaAmortizacionCedeRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CedeID" type="string">
+		      <bind-xml name="CedeID" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	</class>
+	
+	
+	<class
+		name="operacionesCRCB.beanWS.response.ConsultaAmortizacionCedeResponse">
+		<map-to xml="ConsultaAmortizacionCedeResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+		<field name="CodigoRespuesta" type="string">		
+			<bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">		
+			<bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="amortiCedes" collection="arraylist" type="java.util.ArrayList"
+			required="true">
+			<bind-xml name="ListaAmortiCedes" node="element" />
+		</field>
+	</class>	
+	
+	
+	<!-- Consulta CEDES -->
+	<class
+		name="operacionesCRCB.beanWS.request.ConsultaCedesRequest">
+		<map-to xml="ConsultaCedesRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+		
+		<field name="CedeID" type="string">
+		      <bind-xml name="CedeID" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	</class>
+	
+	<class
+		name="operacionesCRCB.beanWS.response.ConsultaCedesResponse">
+		<map-to xml="ConsultaCedesResponse" ns-uri="http://safisrv/ws/schemas"
+			ns-prefix="xs" />
+			
+		<field name="CEDEID" type="string">
+		      <bind-xml name="CEDEID" />
+		</field>
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+		<field name="Capital" type="string">
+		      <bind-xml name="Capital" />
+		</field>
+		<field name="FechaInicio" type="string">
+		      <bind-xml name="FechaInicio" />
+		</field>
+		<field name="FechaVencimiento" type="string">
+		      <bind-xml name="FechaVencimiento" />
+		</field>
+		<field name="FechaPago" type="string">
+		      <bind-xml name="FechaPago" />
+		</field>
+		<field name="Interes" type="string">
+		      <bind-xml name="Interes" />
+		</field>
+		<field name="InteresRetener" type="string">
+		      <bind-xml name="InteresRetener" />
+		</field>
+		<field name="Tasa" type="string">
+		      <bind-xml name="Tasa" />
+		</field>
+		<field name="TasaISR" type="string">
+		      <bind-xml name="TasaISR" />
+		</field>
+		<field name="GATReal" type="string">
+		      <bind-xml name="GATReal" />
+		</field>
+		<field name="Plazo" type="string">
+		      <bind-xml name="Plazo" />
+		</field>
+		<field name="Estatus" type="string">
+		      <bind-xml name="Estatus" />
+		</field>
+		
+	</class>	
+	
+
+
+	<!-- ABONO BONIFICACION - REQUEST-->
+	<class
+		name="operacionesCRCB.beanWS.request.AbonoBonificacionRequest">
+		<map-to xml="AbonoBonificacionRequest" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+
+		<field name="ClienteID" type="string">
+		      <bind-xml name="ClienteID" />
+		</field>
+		<field name="CuentaID" type="string">
+		      <bind-xml name="CuentaID" />
+		</field>
+		<field name="Monto" type="string">
+		      <bind-xml name="Monto" />
+		</field>
+		<field name="Meses" type="string">
+		      <bind-xml name="Meses" />
+		</field>
+		<field name="TipoDispersion" type="string">
+		      <bind-xml name="TipoDispersion" />
+		</field>
+		<field name="CuentaClabe" type="string">
+		      <bind-xml name="CuentaClabe" />
+		</field>
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>
+	</class>
+
+	<!-- ABONO BONIFICACION - RESPONSE-->
+	<class
+		name="operacionesCRCB.beanWS.response.AbonoBonificacionResponse">
+		<map-to xml="AbonoBonificacionResponse" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+
+	
+	<!-- Rompimiento de Grupo Request-->
+	<class name="operacionesCRCB.beanWS.request.RompimientoGrupoRequest">
+		<map-to xml="RompimientoGrupoRequest" ns-uri="http://safisrv/ws/schemas" ns-prefix="xs" />
+
+		<field name="ClienteID" type="operacionesCRCB.bean.RG_ListaClienteBean" required="true">
+			<bind-xml name="ClienteID" node="element" />
+		</field>
+		<field name="CreditoID" type="operacionesCRCB.bean.RG_ListaCreditoBean" required="true">
+			<bind-xml name="CreditoID" node="element" />
+		</field>
+		<field name="GrupoID" type="string">
+		      <bind-xml name="GrupoID" />
+		</field>
+		<field name="NumCiclo" type="string">
+		      <bind-xml name="NumCiclo" />
+		</field>		
+		<field name="Usuario" type="string">
+		      <bind-xml name="Usuario" />
+		</field>		
+		<field name="DireccionIP" type="string">
+		      <bind-xml name="DireccionIP" />
+		</field>		
+		<field name="ProgramaID" type="string">
+		      <bind-xml name="ProgramaID" />
+		</field>		
+		<field name="Sucursal" type="string">
+		      <bind-xml name="Sucursal" />
+		</field>		
+	</class>
+	
+	<class name="operacionesCRCB.bean.RG_ListaClienteBean">
+		<map-to xml="ClienteID" ns-uri="http://safisrv/ws/schemas" ns-prefix="xs" />
+		<field name="ClienteID" collection="arraylist" type="string" > 
+			<bind-xml name="ClienteID" node="element" />
+		</field>	
+	</class>
+	
+	<class name="operacionesCRCB.bean.RG_ListaCreditoBean">
+		<map-to xml="CreditoID" ns-uri="http://safisrv/ws/schemas" ns-prefix="xs" />
+		<field name="CreditoID" collection="arraylist" type="string" > 
+			<bind-xml name="CreditoID"/>
+		</field>	
+	</class>		
+		
+	<!-- Rompimiento de Grupo Response-->
+	<class name="operacionesCRCB.beanWS.response.RompimientoGrupoResponse">
+		<map-to xml="RompimientoGrupoResponse" ns-uri="http://safisrv/ws/schemas"	ns-prefix="xs" />
+
+		<field name="CodigoRespuesta" type="string">
+		      <bind-xml name="CodigoRespuesta" />
+		</field>
+		<field name="MensajeRespuesta" type="string">
+		      <bind-xml name="MensajeRespuesta" />
+		</field>
+	</class>
+	<!--  FIN Operaciones CRCB -->
+
+</mapping>

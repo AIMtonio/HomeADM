@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+	<!--PERFILES DE LA BANCA MOVIL -->
+	<!-- BEAN DE PERFILES -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMPerfilBean" />
+	</dwr:configuration>
+	<!-- DAO PERFILES -->
+	<bean id="BAMPerfilDAOImpl" class="bancaMovil.dao.BAMPerfilDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERVICIO DE PERFILES -->
+	<bean id="PerfilServicioImpl" class="bancaMovil.servicio.BAMPerfilServicio">
+		<dwr:remote javascript="perfilServicio">
+			<dwr:include method="altaPerfil" />
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="modificaPerfil" />
+		</dwr:remote>
+		<property name="perfilDAO" ref="BAMPerfilDAOImpl" />
+	</bean>
+	<!-- CONTROLADORES DE PERFILES -->
+	<bean name="/listaPerfiles.htm" class="bancaMovil.controlador.BAMPerfilListaControlador">
+		<property name="perfilServicio" ref="PerfilServicioImpl" />
+	</bean>
+	<bean name="/catalogoPerfiles.htm" class="bancaMovil.controlador.BAMPerfilControlador">
+		<property name="formView" value="bancaMovil/perfilCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="perfilServicio" ref="PerfilServicioImpl" />
+	</bean>
+	<!-- BEANS DE PREGUNTAS SECRETAS -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMPregutaSecretaBean" />
+	</dwr:configuration>
+	<!-- DAO PREGUNTAS SECRETAS -->
+	<bean id="BAMPreguntaDAOImpl" class="bancaMovil.dao.BAMPreguntaSecretaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERVICIO DE PREGUNTAS SECRETAS -->
+	<bean id="BAMPreguntaServicioImpl" class="bancaMovil.servicio.BAMPreguntaSecretaServicio">
+		<dwr:remote javascript="preguntaServicio">
+			<dwr:include method="altaPregunta"/>
+			<dwr:include method="consulta"/>
+			<dwr:include method="lista"/>
+			<dwr:include method="modificaPregunta"/>
+		</dwr:remote>
+		<property name="preguntaDAO" ref="BAMPreguntaDAOImpl" />
+	</bean>
+	<!-- CONTROLADORES DE PREGUNTAS SECRETAS -->
+	<bean name="/listaPreguntas.htm"
+		class="bancaMovil.controlador.BAMPreguntaSecretaListaControlador">
+		<property name="preguntaSecretaServicio" ref="BAMPreguntaServicioImpl" />
+	</bean>
+	<bean name="/catalogoPreguntas.htm" class="bancaMovil.controlador.BAMPreguntaSecretaControlador">
+		<property name="formView" value="bancaMovil/BAMPreguntasSecretasCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="preguntaSecretaServicio" ref="BAMPreguntaServicioImpl" />
+	</bean>
+
+	<!-- IMAGENES ANTIPHISHING -->
+	<!-- BEAN DE IMAGENES ANTIPHISHING -->
+	<dwr:configuration>
+		<dwr:convert type="bean"
+			class="bancaMovil.bean.BAMImagenAntiphishingBean" />
+	</dwr:configuration>
+	<!-- DAO DE IMAGENES ANTIPHISHING -->
+	<bean id="antiphishingDAOImpl" class="bancaMovil.dao.BAMImagenAntiphishingDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERICIO DE IMAGENES ANTIPHISHING -->
+	<bean id="imagenAntiphishingServicioImpl" class="bancaMovil.servicio.BAMImagenAntiphishingServicio">
+		<dwr:remote javascript="imagenAntiphishingServicio">
+			<dwr:include method="altaImagen" />
+			<dwr:include method="lista" />
+			<dwr:include method="bajaImagen" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="imagenAntiphishingDAO" ref="antiphishingDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<!-- DEFINICION DE CONTROLADORES DE IMAGEN ANTIPHISHING -->
+	<bean name="/imagenUpload.htm" class="bancaMovil.controlador.BAMImagenPhishingControlador">
+		<property name="commandClass" value="bancaMovil.bean.BAMImagenAntiphishingBean" />
+		<property name="formView" value="bancaMovil/BAMImagenesAntiphishingUpload" />
+		<property name="successView" value="resultadoCargaImagenAntiphihing" />
+		<property name="imagenAntiphishingServicio" ref="imagenAntiphishingServicioImpl" />
+	</bean>
+	<bean name="/catalogoAntiphishing.htm" class="bancaMovil.controlador.BAMImagenPhishingControlador">
+		<property name="commandClass" value="bancaMovil.bean.BAMImagenAntiphishingBean" />
+		<property name="formView" value="bancaMovil/BAMImagenesAntiphishingCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="imagenAntiphishingServicio" ref="imagenAntiphishingServicioImpl" />
+	</bean>
+	<bean name="/listaImagenesAnt.htm"
+		class="bancaMovil.controlador.BAMImagenAntiphishingListaControlador">
+		<property name="imagenServicio" ref="imagenAntiphishingServicioImpl" />
+	</bean>
+	<bean name="/imagenesVista.htm"
+		class="bancaMovil.controlador.BAMImagenAntiphishingVerControlador">
+		<property name="imagenServicio" ref="imagenAntiphishingServicioImpl" />
+	</bean>
+
+
+		<!-- BEAN DE PARAMETROS -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMParametrosBean" />
+	</dwr:configuration>
+	
+	
+	<!-- DAO DE BAMPARAMTROS -->
+	<bean id="BAMParametrosDAOImpl" class="bancaMovil.dao.BAMParametrosDAO ">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- SERVICIO DE BAM PARAMETROS -->
+	<bean id="BAMParametrosServicioImpl" class="bancaMovil.servicio.BAMParametrosServicio">
+		<dwr:remote javascript="bamParametrosServicio">
+			<dwr:include method="consultaPrincipal" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosDAO" ref="BAMParametrosDAOImpl" />
+		<property name="banProductoCreditoBeDAO" ref="BANProductoCreditoBeDAOImpl" />
+		<property name="banTiposCuentasDAO" ref="BANTiposCuentasDAOImpl" />
+	</bean>
+	
+	
+	
+	<!-- CONTROLADORES DE BAM PARAMETROS -->
+	<bean name="/parametrosBAM.htm" class="bancaMovil.controlador.BAMParametrosControlador">
+		<property name="formView" value="bancaMovil/BAMParametrosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosServicio" ref="BAMParametrosServicioImpl" />
+	</bean>
+	
+	<!--USARIOS DE LA BANCA MOVIL -->
+	<!-- BEANS DE BAMUSUARIOS -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMUsuariosBean" />
+	</dwr:configuration>
+	<!-- DAO DE BAMUSUARIOS -->
+	<bean id="BAMUsuariosDAOImpl" class="bancaMovil.dao.BAMUsuariosDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="bitacoraDAO" ref="BAMBitacoraOperDAOImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERVICIO DE BAM USUARIOS -->
+	<bean id="BAMUsuariosServicioImpl" class="bancaMovil.servicio.BAMUsuariosServicio">
+		<dwr:remote javascript="usuariosServicio">
+			<dwr:include method="altaUsuarios" />
+			<dwr:include method="consultaUsuarios" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		
+		<property name="BAMUsuariosDAO" ref="BAMUsuariosDAOImpl" />
+		<property name="clienteServicio" ref="clienteServicioImpl" />
+   		<property name="correoServicio" ref="BAMCorreoServicioImpl" /> 
+    	<property name="correoNotificacion" ref="BamEnviarCorreosServicioImpl" /> 
+	</bean>
+	<!-- CONTROLADORES DE BAM USUARIOS -->
+	<bean name="/catalogoUsuarios.htm" class="bancaMovil.controlador.BAMUsuariosControlador">
+		<property name="formView" value="bancaMovil/BAMUsuariosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="BAMUsuariosServicio" ref="BAMUsuariosServicioImpl" />
+	</bean>
+	<bean name="/listaBAMUsuarios.htm" class="bancaMovil.controlador.BAMUsuariosListaControlador">
+		<property name="BAMUsuariosServicio" ref="BAMUsuariosServicioImpl" />
+	</bean>
+		<bean name="/bloqueoDesbloqueoUsuarioBM.htm"
+		class="bancaMovil.controlador.BAMBloqueoDesbloqueoUsuarioControlador">
+		<property name="formView" value="bancaMovil/BAMBloqueoDesbloqueoUsuarioVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="usuariosServicio" ref="BAMUsuariosServicioImpl" />
+	</bean>
+
+	<bean name="/cancelacionUsuarioBM.htm"
+		class="bancaMovil.controlador.BAMCancelacionUsuarioControlador">
+		<property name="formView" value="bancaMovil/BAMCancelacionUsuarioVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="usuariosServicio" ref="BAMUsuariosServicioImpl" />
+	</bean>
+
+	<bean name="/cambioPasswordBM.htm"
+		class="bancaMovil.controlador.BAMCambioContraseniaUsuarioControlador">
+		<property name="formView" value="bancaMovil/BAMCambioContraseniaUsuario" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="usuariosServicio" ref="BAMUsuariosServicioImpl" />
+	</bean>
+	
+	
+	<!-- BITACORA DE OPERACIONES -->
+	<!-- BEAN DE OPERACIONES -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMOperacionBean" />
+		<dwr:convert type="bean" class="bancaMovil.bean.TiposOperacionesBean" />
+	</dwr:configuration>
+	<!-- DAO OPERACIONES BITACORA -->
+	<bean id="BAMBitacoraOperDAOImpl" class="bancaMovil.dao.BAMBitacoraOperDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERVICIO DE BITACORA DE OPERACIONES -->
+	<bean id="BAMBitacoraOperServicioImpl" class="bancaMovil.servicio.BAMBitacoraOperServicio">
+		<dwr:remote javascript="bamBitacoraOperServicio">
+			<dwr:include method="altaOperacion" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="bitacoraDAO" ref="BAMBitacoraOperDAOImpl" />
+	</bean>
+	<!-- CONTROLADORES DE BITACORA -->
+ 	
+ 	 			<!--  Definicion de Controlador de consulta de operaciones -->
+ 	 <bean name="/consultaBamBitacora.htm" class="bancaMovil.controlador.BAMBitacoraOperControlador"> 
+ 	   	<property name="formView" value="bancaMovil/BAMBitacoraOperVista" /> 
+	   	<property name="successView" value="resultadoTransaccionVista"/> 
+	   	<property name="usuariosServicio" ref="BAMUsuariosServicioImpl" />
+ 	</bean>  
+ 	
+ 		<!-- Definicion del Controlador del Grid de bitacora de operaciones --> 
+  	 <bean name="/gridConsultaBAMMovimientos.htm"  class="bancaMovil.controlador.BAMBitacoraOperGridControlador">  
+  	 <property name="bamBitacoraOperServicio" ref="BAMBitacoraOperServicioImpl" />  
+ 	</bean> 
+ 	
+ 	<!-- DAO DE ENVIA CORREO BAM -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMEnviaCorreoBean" />
+	</dwr:configuration>
+	<!-- DAO correo dao -->
+	<bean id="BAMCorreoDAOImpl" class="bancaMovil.dao.BAMEnviaCorreoDAO">
+	<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+		<!-- SERVICIO DE CORREOS -->
+	<bean id="BAMCorreoServicioImpl" class="bancaMovil.servicio.BAMEnviaCorreoServicio"> 
+		<dwr:remote javascript="bamCorreoServicio">
+			<dwr:include method="altaCorreo"/>
+		</dwr:remote>
+		<property name="correoDAO" ref="BAMCorreoDAOImpl" />
+	</bean>
+	
+ 	<bean id="BamEnviarCorreosServicioImpl" class="bancaMovil.servicio.BAMNotificacionCorreoServicio">
+		<dwr:remote javascript="bamCorreoServicio">
+			<dwr:include method="enviarCorreo" />
+		</dwr:remote>
+		<property name="correoServicio" ref="correoServicioImpl" />
+		<property name="taskExecutor" ref="taskExecutorImpl"/>
+		<property name="parametrosServicio" ref="BAMParametrosServicioImpl" />
+	</bean>
+	<!-- BEAN DE CUENTAS ORIGEN -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaMovil.bean.BAMCuentasOrigenBean" />
+	</dwr:configuration>
+	<!-- DAO DE CUENTAS ORIGEN -->
+	<bean id="BAMCuentasOrigenDAOImpl" class="bancaMovil.dao.BAMCuentasOrigenDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- SERVICIO DE CUENTAS CARGO -->
+	<bean id="BAMCuentasOrigenServicioImpl" class="bancaMovil.servicio.BAMCuentasOrigenServicio">
+		<dwr:remote javascript="cuentasOrigenServicio">
+			<dwr:include method="altaCuentasOrigen" />
+			<dwr:include method="lista" />
+			<dwr:include method="consultaCuentasOrigen" />
+			<dwr:include method=" listaCuentasCargoWS" />
+		</dwr:remote>
+		<property name="BAMCuentasOrigenDAO" ref="BAMCuentasOrigenDAOImpl" />
+	</bean>
+	<!-- DEFINICION DE CONTROLADORES DE CUENTAS CARGO -->
+	<bean name="/catalogoCuentasOrigen.htm" class="bancaMovil.controlador.BAMCuentasOrigenControlador">
+		<property name="formView" value="bancaMovil/BAMCuentasOrigenCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="BAMCuentasOrigenServicio" ref="BAMCuentasOrigenServicioImpl" />
+	</bean>
+	<bean name="/gridBAMCuentasOrigen.htm"
+		class="bancaMovil.controlador.BAMCuentasOrigenGridControlador">
+		<property name="BAMCuentasOrigenServicio" ref="BAMCuentasOrigenServicioImpl" />
+	</bean>
+	<bean name="/listaBAMCuentasOrigen.htm"
+		class="bancaMovil.controlador.BAMCuentasOrigenListaControlador">
+		<property name="BAMCuentasOrigenServicio" ref="BAMCuentasOrigenServicioImpl" />
+	</bean>
+	
+	<bean name="/reporteBitacoraOperRep.htm" class="bancaMovil.reporte.RepBitacoraOperControlador">
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="bitacoraOperRepServicio" ref="BAMBitacoraOperServicioImpl" />
+	</bean> 
+	 	<!-- DAO DE CUENTAS ORIGEN -->
+ 	<bean id="BANTiposCuentasDAOImpl" class="bancaMovil.dao.BANTiposCuentasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- SERVICIO DE TIPOS CUENTA -->
+	<bean id="BANTiposCuentaServicioImpl" class="bancaMovil.servicio.BANTiposCuentaServicio">
+		<dwr:remote javascript="banTiposCuentaServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="BANTiposCuentasDAO" ref="BANTiposCuentasDAOImpl" />
+	</bean>
+	
+	<bean name="/gridBANTiposCuenta.htm"
+		class="bancaMovil.controlador.BANTiposCuentaGridControlador">
+		<property name="BANTiposCuentaServicio" ref="BANTiposCuentaServicioImpl" />
+	</bean>
+	
+		<!-- DAO DE BAMPARAMTROS -->
+	<bean id="BANProductoCreditoBeDAOImpl" class="bancaMovil.dao.BANProductoCreditoBeDAO ">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+ 	<!-- SERVICIO DE BAM Productos Creditos -->
+	<bean id="BANProductosCreditoServicioImpl" class="bancaMovil.servicio.BANProductosCreditoServicio">
+		<dwr:remote javascript="banProductosCreditos">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="banProductoCreditoBeDAO" ref="BANProductoCreditoBeDAOImpl" />
+	</bean>
+	
+	<bean name="/listaBANProductosCredito.htm"
+		class="bancaMovil.controlador.BANProductosCreditoListaControlador">
+		<property name="banProductosCreditoServicio" ref="BANProductosCreditoServicioImpl" />
+	</bean>
+	
+</beans>

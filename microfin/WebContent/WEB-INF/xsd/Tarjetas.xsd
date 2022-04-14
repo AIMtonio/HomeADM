@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- Definicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos -->
+    
+    <!--  Operaciones tarjetas--> 
+    <xs:element name="operacionesTarjetaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tipoOperacion" type="xs:string" />
+                <xs:element name="numeroTarjeta" type="xs:string" />
+                <xs:element name="origenInstrumento" type="xs:string" />
+                <xs:element name="montoTransaccion" type="xs:string" />
+                <xs:element name="fechaHoraOperacion" type="xs:string" />
+
+                <xs:element name="numeroTransaccion" type="xs:string" />
+                <xs:element name="giroNegocio" type="xs:string" />
+                <xs:element name="puntoEntrada" type="xs:string" />
+                <xs:element name="idTerminal" type="xs:string" />
+                <xs:element name="nombreUbicacionTerminal" type="xs:string" />
+                
+                <xs:element name="nip" type="xs:string" />
+                <xs:element name="codigoMonedaoperacion" type="xs:string" />
+                <xs:element name="montosAdicionales" type="xs:string" />
+                <xs:element name="montoSurcharge" type="xs:string" />
+                <xs:element name="montoLoyaltyfee" type="xs:string" />
+                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="operacionesTarjetaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numeroTransaccion" type="xs:string" />
+                <xs:element name="saldoActualizado" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

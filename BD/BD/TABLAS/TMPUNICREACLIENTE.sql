@@ -1,0 +1,11 @@
+-- TMPUNICREACLIENTE
+DELIMITER ;
+DROP TABLE IF EXISTS `TMPUNICREACLIENTE`;
+
+DELIMITER $$
+CREATE TABLE TMPUNICREACLIENTE(
+NumRegistro				INT(11) 	COMMENT 'Numero Registro',
+ClienteID				INT(11)		COMMENT 'Numero ClienteID',
+PRIMARY KEY (`NumRegistro`),
+KEY `INDEX_TMPUNICREACLIENTE_1` (`ClienteID`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tmp:Tabla temporal para crear los clientes a unificar.'$$

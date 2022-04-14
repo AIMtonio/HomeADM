@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+		 
+	<!-- BEANS MODULO DE COBRANZA -->
+	
+	<!-- =========================================================================================== -->
+
+	<!--  Bean pantalla Catalogo Gestores de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.GestoresCobranzaBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Catalogo Gestores de Cobranza -->
+	<bean id="gestoresCobranzaDAOImpl" class="cobranza.dao.GestoresCobranzaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Catalogo Gestores de Cobranza -->	
+	<bean id="gestoresCobranzaServicioImpl" class="cobranza.servicio.GestoresCobranzaServicio">
+		<dwr:remote javascript="gestoresCobranzaServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="gestoresCobranzaDAO" ref="gestoresCobranzaDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Catalogo Gestores de Cobranza -->
+	<bean name="/gestoresCobranza.htm" class="cobranza.controlador.GestoresCobranzaControlador">
+		<property name="formView" value="cobranza/gestoresCobranzaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="gestoresCobranzaServicio" ref="gestoresCobranzaServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador lista gestores de cobranza -->
+	<bean name="/listaGestoresCobranza.htm"
+		  class="cobranza.controlador.GestoresCobranzaListaControlador">
+		<property name="gestoresCobranzaServicio" ref="gestoresCobranzaServicioImpl" />
+	</bean>	
+
+	<!-- =========================================================================================== -->
+	<!--  Bean pantalla asignacion de cartera -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.AsignaCarteraBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Asignacion de cartera -->
+	<bean id="asignaCarteraDAOImpl" class="cobranza.dao.AsignaCarteraDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Asignacion cartera -->	
+	<bean id="asignaCarteraServicioImpl" class="cobranza.servicio.AsignaCarteraServicio">
+		<dwr:remote javascript="asignaCarteraServicio">
+			<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="asignaCarteraDAO" ref="asignaCarteraDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Asignacion de cartera  -->
+	<bean name="/asignaCartera.htm" class="cobranza.controlador.AsignaCarteraControlador">
+		<property name="formView" value="cobranza/asignaCarteraVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="asignaCarteraServicio" ref="asignaCarteraServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador grid listado creditos para asignacion -->
+	<bean name="/asigCreditosGridVista.htm" class="cobranza.controlador.AsignaCreditosGridControlador" >
+		<property name="asignaCarteraServicio" ref="asignaCarteraServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador lista Asignaciones -->
+	<bean name="/listaAsignaCartera.htm"
+		  class="cobranza.controlador.AsignaCarteraListaControlador">
+		<property name="asignaCarteraServicio" ref="asignaCarteraServicioImpl" />
+	</bean>	
+	
+	<!-- =========================================================================================== -->
+		<!-- Seccion para Reporte de Asignaciones de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.RepAsignaCarteraBean" />
+	</dwr:configuration>
+	
+	<!-- Controlador pantalla para mostrar el reporte de Asignaciones de Cartera -->
+	<bean name="/repAsignaCobranza.htm" class="cobranza.controlador.RepAsignaCarteraControlador">
+		<property name="formView" value="cobranza/repAsignaCartera" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<!-- Controlador Reporte de Asignaciones de Cobranza -->
+	<bean name="/reporteAsignaCartera.htm" class="cobranza.reporte.RepAsignaCarteraControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="asignaCarteraServicio" ref="asignaCarteraServicioImpl" /> 
+	</bean>
+	
+
+<!-- =========================================================================================== -->
+	
+	<!-- Seccion para Reporte de Liberaciones de Cobranza -->
+
+	<!-- Bean para Reporte de Liberaciones de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.RepLiberaCarteraBean" />
+	</dwr:configuration>
+
+	<!-- Controlador pantalla para mostrar el reporte de Liberaciones de Cartera -->
+	<bean name="/repLiberaCobranza.htm" class="cobranza.controlador.RepLiberaCarteraControlador">
+		<property name="formView" value="cobranza/repLiberaCartera" />
+		<property name="successView" value="resultadoTransaccionVista" /> 
+	</bean>
+	
+	<!-- Controlador Reporte de Liberaciones de Cobranza -->
+	<bean name="/reporteLiberaCartera.htm" class="cobranza.reporte.RepLiberaCarteraControlador">
+		<property name="nombreReporte" value="cobranza/repLiberaCartera.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="liberaCarteraServicio" ref="liberaCarteraServicioImpl" /> 
+	</bean>
+	
+	
+	<!-- =========================================================================================== -->
+	<!--  Bean pantalla liberacion de cartera -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.LiberaCarteraBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla liberacion de cartera -->
+	<bean id="liberaCarteraDAOImpl" class="cobranza.dao.LiberaCarteraDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla liberacion cartera -->	
+	<bean id="liberaCarteraServicioImpl" class="cobranza.servicio.LiberaCarteraServicio">
+		<dwr:remote javascript="liberaCarteraServicio">
+			<dwr:include method="consulta" />
+		
+		</dwr:remote>
+		<property name="liberaCarteraDAO" ref="liberaCarteraDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla liberacion de cartera  -->
+	<bean name="/liberaCarteraCobranza.htm" class="cobranza.controlador.LiberaCarteraControlador">
+		<property name="formView" value="cobranza/liberaCarteraVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="liberaCarteraServicio" ref="liberaCarteraServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador pantalla liberacion de cartera  -->
+	<bean name="/liberaCreditosGridVista.htm" class="cobranza.controlador.LiberaCreditosGridControlador" >
+		<property name="liberaCarteraServicio" ref="liberaCarteraServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->
+	
+	<!-- Pantalla esquema de notificaciones -->
+	
+	<!--  Bean pantalla Esquema de Notificaciones Formatos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.FormatoNotificaBean" />
+	</dwr:configuration>
+	
+	<!--  Bean pantalla Esquema de Notificaciones -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.EsquemaNotificaBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Esquema de notificaciones -->
+	<bean id="esquemaNotificaDAOImpl" class="cobranza.dao.EsquemaNotificaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Esquema de notificaciones -->	
+	<bean id="esquemaNotificaServicioImpl" class="cobranza.servicio.EsquemaNotificaServicio">
+		<dwr:remote javascript="esquemaNotificaServicio">
+			<dwr:include method="listaCombo" /> 
+			<dwr:include method="listaComboEtapas" /> 		
+		</dwr:remote>
+		<property name="esquemaNotificaDAO" ref="esquemaNotificaDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Esquema de notificaciones -->
+	<bean name="/esquemaNotifica.htm" class="cobranza.controlador.EsquemaNotificaControlador">
+		<property name="formView" value="cobranza/esquemaNotificaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaNotificaServicio" ref="esquemaNotificaServicioImpl" /> 
+	</bean>	
+	
+	<!-- Controlador grid Esquema de notificaciones  -->
+	<bean name="/esquemaNotificaGridVista.htm" class="cobranza.controlador.EsquemaNotificaGridControlador" >
+		<property name="esquemaNotificaServicio" ref="esquemaNotificaServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->	
+	
+	<!-- Pantalla emisión de notificaciones -->
+	
+	<!--  Bean pantalla emisión de notificaciones -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.EmisionNotiCobBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla emisión de notificaciones -->
+	<bean id="emisionNotiCobDAOImpl" class="cobranza.dao.EmisionNotiCobDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="parametrosSisDAO" ref="parametrosDAOImpl"/>
+		<property name="autorizaAvalesDAO" ref="autorizaAvalesDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla emisión de notificaciones -->	
+	<bean id="emisionNotiCobServicioImpl" class="cobranza.servicio.EmisionNotiCobServicio">
+		<dwr:remote javascript="emisionNotiCobServicio">
+			<!-- <dwr:include method="consulta" /> -->		
+		</dwr:remote>
+		<property name="emisionNotiCobDAO" ref="emisionNotiCobDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla emisión de notificaciones  -->
+	<bean name="/emisionNotifica.htm" class="cobranza.controlador.EmisionNotiCobControlador">
+		<property name="formView" value="cobranza/emisionNotiCobVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="emisionNotiCobServicio" ref="emisionNotiCobServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador grid listado creditos para emisión de notificaciones -->
+	<bean name="/emisionNotiCobGridVista.htm" class="cobranza.controlador.EmisionNotiCobGridControlador" >
+		<property name="emisionNotiCobServicio" ref="emisionNotiCobServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->
+	<!-- Pantalla Reporte Pagos por Asignacion -->
+	
+	<!--  Bean para el Reporte Pagos por Asignacion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.RepPagosAsignacionBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Reporte Pagos por Asignacion -->
+	<bean id="repPagosAsignacionDAOImpl" class="cobranza.dao.RepPagosAsignacionDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Reporte Pagos por Asignacion -->	
+	<bean id="repPagosAsignacionServicioImpl" class="cobranza.servicio.RepPagosAsignacionServicio">
+		<dwr:remote javascript="repPagosAsignacionServicio">
+		</dwr:remote>
+		<property name="repPagosAsignacionDAO" ref="repPagosAsignacionDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Reporte Pagos por Asignacion -->
+	<bean name="/repPagosAsignacion.htm" class="cobranza.controlador.RepPagosAsignacionControlador">
+		<property name="formView" value="cobranza/repPagosAsignacion" />
+		<property name="successView" value="resultadoTransaccionVista" /> 
+	</bean>
+	
+	<!-- Controlador Reporte de Pagos por Asignacion  -->
+	<bean name="/reportePagosAsignacion.htm" class="cobranza.reporte.RepPagosAsignacionControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repPagosAsignacionServicio" ref="repPagosAsignacionServicioImpl" /> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+	<!-- =========================================================================================== -->
+	<!-- Reporte de Cartera de Cobranza -->
+	
+	<!-- Bean para Reporte de Cartera de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.RepCarteraCobranza" />
+	</dwr:configuration>
+		
+	<!-- Controlador pantalla para mostrar el reporte de Cartera de Cobranza -->
+	<bean name="/repCarteraCobranza.htm" class="cobranza.controlador.RepCarteraCobranzaControlador">
+		<property name="formView" value="cobranza/repCarteraCobranza" />
+		<property name="successView" value="resultadoTransaccionVista" /> 
+	</bean>
+	
+		
+	<!-- Controlador Reporte de Cartera de Cobranza -->
+	<bean name="/reporteCarteraCobranza.htm" class="cobranza.reporte.ReporteCarteraCobranzaControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="asignaCarteraServicio" ref="asignaCarteraServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->
+		
+	<!-- Pantalla Bitacora de seguimiento de cobranza -->
+	
+	<!-- Bean pantalla bitacora de seguimiento de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.BitacoraSegCobBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla bitacora de seguimiento de Cobranza -->
+	<bean id="bitacoraSegCobDAOImpl" class="cobranza.dao.BitacoraSegCobDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla bitacora de seguimiento de Cobranza -->	
+	<bean id="bitacoraSegCobServicioImpl" class="cobranza.servicio.BitacoraSegCobServicio">
+		<dwr:remote javascript="bitacoraSegCobServicio">
+			<!--<dwr:include method="consulta" />		-->	
+		</dwr:remote>
+		<property name="bitacoraSegCobDAO" ref="bitacoraSegCobDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla bitacora de seguimiento de cobranza-->
+	<bean name="/bitacoraSegCob.htm" class="cobranza.controlador.BitacoraSegCobControlador">
+		<property name="formView" value="cobranza/bitacoraSegCobVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="bitacoraSegCobServicio" ref="bitacoraSegCobServicioImpl" /> 
+	</bean> 
+	
+	<!-- Controlador grid promesas  -->
+	<bean name="/promesaSegCobGridVista.htm" class="cobranza.controlador.PromesaSegCobGridControlador" >
+		<property name="bitacoraSegCobServicio" ref="bitacoraSegCobServicioImpl" /> 
+	</bean>
+	
+
+	<!-- =========================================================================================== -->
+
+	<!-- Pantalla Tipos de Accion -->
+		
+	<!--  Bean pantalla Tipos de Accion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.TipoAccionCobBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Tipos de Accion -->
+	<bean id="tipoAccionCobDAOImpl" class="cobranza.dao.TipoAccionCobDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Tipos de Accion -->	
+	<bean id="tipoAccionCobServicioImpl" class="cobranza.servicio.TipoAccionCobServicio">
+		<dwr:remote javascript="tipoAccionCobServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="tipoAccionCobDAO" ref="tipoAccionCobDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Tipos de Accion -->
+	<bean name="/tipoAccionCob.htm" class="cobranza.controlador.TipoAccionCobControlador">
+		<property name="formView" value="cobranza/tipoAccionCobVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoAccionCobServicio" ref="tipoAccionCobServicioImpl" /> 
+	</bean>	
+	
+	<!-- Controlador grid Tipos de Accion  -->
+	<bean name="/tipoAccionCobGridVista.htm" class="cobranza.controlador.TipoAccionCobGridControlador" >
+		<property name="tipoAccionCobServicio" ref="tipoAccionCobServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->	
+	
+	<!-- Pantalla Tipos de Respuestas -->
+		
+	<!--  Bean pantalla Tipos de Respuestas -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.TipoRespuestaCobBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Tipos de Respuesta -->
+	<bean id="tipoRespuestaCobDAOImpl" class="cobranza.dao.TipoRespuestaCobDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Tipos de Respuesta -->	
+	<bean id="tipoRespuestaCobServicioImpl" class="cobranza.servicio.TipoRespuestaCobServicio">
+		<dwr:remote javascript="tipoRespuestaCobServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="tipoRespuestaCobDAO" ref="tipoRespuestaCobDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Tipos de Respuesta -->
+	<bean name="/tipoRespuestaCob.htm" class="cobranza.controlador.TipoRespuestaCobControlador">
+		<property name="formView" value="cobranza/tipoRespuestaCobVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoRespuestaCobServicio" ref="tipoRespuestaCobServicioImpl" /> 
+	</bean>	
+	
+	<!-- Controlador grid Tipos de Respuesta  -->
+	<bean name="/tipoRespuestaCobGridVista.htm" class="cobranza.controlador.TipoRespuestaCobGridControlador" >
+		<property name="tipoRespuestaCobServicio" ref="tipoRespuestaCobServicioImpl" /> 
+	</bean>
+	
+	<!-- =========================================================================================== -->	
+	
+	<!-- Pantalla Repote de bitacora de seguimiento de cobranza -->
+	
+	<!-- Bean Reporte de bitacora de seguimiento de Cobranza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cobranza.bean.RepBitacoraSegCobBean" />
+	</dwr:configuration>
+	
+	<!-- Controlador pantalla Repote de bitacora de seguimiento de cobranza -->
+	<bean name="/repBitacoraSegCob.htm" class="cobranza.controlador.RepBitacoraSegCobControlador">
+		<property name="formView" value="cobranza/repBitacoraSegCobVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<!-- Controlador Reporte de Asignaciones de Cobranza -->
+	<bean name="/reporteBitacoraSegCob.htm" class="cobranza.reporte.ReporteBitacoraSegCobControlador">
+		<property name="nombreReporte" value="cobranza/bitacoraSegCob.prpt" />
+		<property name="bitacoraSegCobServicio" ref="bitacoraSegCobServicioImpl" /> 
+	</bean>	
+
+<!-- =========================================================================================== -->
+	
+	
+</beans>

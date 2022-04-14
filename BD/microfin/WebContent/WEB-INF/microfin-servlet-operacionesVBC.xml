@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<!-- WS DE SIMULADOR DE CREDITO ******************************************************* -->
+	<bean id="vbcSimuladorCreditoDAOImpl" class="operacionesVBC.dao.VbcSimuladorCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="vbcSimuladorCreditoServicioImpl" class="operacionesVBC.servicio.VbcSimuladorCreditoServicio">
+		<property name="vbcSimuladorCreditoDAO" ref="vbcSimuladorCreditoDAOImpl"/>
+	</bean>
+	<!-- FIN WS DE SIMULADOR DE CREDITO *************************************************** -->
+	
+	<!-- WS Genera CURP-->
+	<bean id="vbcGeneraCurpDAOImpl" class="operacionesVBC.dao.VbcGeneraCurpDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="vbcGeneraCurpServicioImpl" class="operacionesVBC.servicio.VbcGeneraCurpServicio">
+		<property name="vbcGeneraCurpDAO" ref="vbcGeneraCurpDAOImpl"/>
+	</bean>
+	<!-- Fin WS Genera CURP-->
+	
+	<!-- WS Genera RFC-->
+	<bean id="vbcGeneraRFCDAOImpl" class="operacionesVBC.dao.VbcGeneraRFCDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcGeneraRFCServicioImpl" class="operacionesVBC.servicio.VbcGeneraRFCServicio">
+		<property name="vbcGeneraRFCDAO" ref="vbcGeneraRFCDAOImpl"/>
+	</bean>
+	
+	<!-- WS Consulta de Catalogos-->
+	<bean id="vbcConsultaCatalogoDAOImpl" class="operacionesVBC.dao.VbcConsultaCatalogoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcConsultaCatalogoServicioImpl" class="operacionesVBC.servicio.VbcConsultaCatalogoServicio">
+		<property name="vbcConsultaCatalogoDAO" ref="vbcConsultaCatalogoDAOImpl"/>
+	</bean>
+	
+	<!-- WS Alta Cliente-->
+	<bean id="vbcAltaClienteDAOImpl" class="operacionesVBC.dao.VbcAltaClienteDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaClienteServicioImpl" class="operacionesVBC.servicio.VbcAltaClienteServicio">
+		<property name="vbcAltaClienteDAO" ref="vbcAltaClienteDAOImpl"/>
+	</bean>
+	
+	<!-- WS Alta Direccion Cliente-->
+	<bean id="vbcAltaDirecClienteDAOImpl" class="operacionesVBC.dao.VbcAltaDirecClienteDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaDirecClienteServicioImpl" class="operacionesVBC.servicio.VbcAltaDirecClienteServicio">
+		<property name="vbcAltaDirecClienteDAO" ref="vbcAltaDirecClienteDAOImpl"/>
+	</bean>
+	<!-- Fin WS Alta Cliente-->
+
+	<!-- WS Alta Identificacion del Cliente -->
+	<bean id="vbcAltaIdentificaCteDAOImpl" class="operacionesVBC.dao.VbcAltaIdentificaCteDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaIdentificaCteServicioImpl" class="operacionesVBC.servicio.VbcAltaIdentificaCteServicio">
+		<property name="vbcAltaIdentificaCteDAO" ref="vbcAltaIdentificaCteDAOImpl"/>
+	</bean>
+	
+	<!-- WS Alta de referencia -->
+	<bean id="vbcAltaReferenciaDAOImpl" class="operacionesVBC.dao.VbcAltaReferenciaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaReferenciaServicioImpl" class="operacionesVBC.servicio.VbcAltaReferenciaServicio">
+		<property name="vbcAltaReferenciaDAO" ref="vbcAltaReferenciaDAOImpl"/>
+	</bean>
+	
+		
+	<!-- WS Alta de Solicitud de Credito -->
+	<bean id="vbcAltaSolicitudCreditoDAOImpl" class="operacionesVBC.dao.VbcAltaSolicitudCreditoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaSolicitudCreditoServicioImpl" class="operacionesVBC.servicio.VbcAltaSolicitudCreditoServicio">
+		<property name="vbcAltaSolicitudCreditoDAO" ref="vbcAltaSolicitudCreditoDAOImpl"/>
+	</bean>
+	
+	<!-- WS Alta de Avales -->
+	<bean id="vbcAltaAvalDAOImpl" class="operacionesVBC.dao.VbcAltaAvalDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAltaAvalServicioImpl" class="operacionesVBC.servicio.VbcAltaAvalServicio">
+		<property name="vbcAltaAvalDAO" ref="vbcAltaAvalDAOImpl"/>
+	</bean>
+	
+	
+	<!-- WS Asignacion de Avales -->
+	<bean id="vbcAsignaAvalDAOImpl" class="operacionesVBC.dao.VbcAsignaAvalDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="vbcAsignaAvalServicioImpl" class="operacionesVBC.servicio.VbcAsignaAvalServicio">
+		<property name="vbcAsignaAvalDAO" ref="vbcAsignaAvalDAOImpl"/>
+	</bean>
+	
+	<!-- WS DE CONSULTA DE AMORTIZACIONES ******************************************************* -->
+	<bean id="vbcConsultaAmortizaDAOImpl" class="operacionesVBC.dao.VbcConsultaAmortizaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="vbcConsultaAmortizaServicioImpl" class="operacionesVBC.servicio.VbcConsultaAmortizaServicio">
+		<property name="vbcConsultaAmortizaDAO" ref="vbcConsultaAmortizaDAOImpl"/>
+	</bean>
+
+	<!-- WS DE CONSULTA DE DETALLES DE PAGO ******************************************************* -->
+	<bean id="vbcConsultaAmorPagDAOImpl" class="operacionesVBC.dao.VbcConsultaAmorPagDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="vbcConsultaAmorPagServicioImpl" class="operacionesVBC.servicio.VbcConsultaAmorPagServicio">
+		<property name="vbcConsultaAmorPagDAO" ref="vbcConsultaAmorPagDAOImpl"/>
+	</bean>
+</beans>

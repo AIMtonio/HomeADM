@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+    
+    <!-- ============= ALTA CLIENTE SANA TUS FINANZAS =================== -->
+    <xs:element name="SolAltaClienteRequest">    						 
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="primerNombre" type="xs:string" />
+				<xs:element name="segundoNombre" type="xs:string" />
+                <xs:element name="tercerNombre" type="xs:string"/>
+                <xs:element name="apPaterno" type="xs:string" />
+                <xs:element name="apMaterno" type="xs:string" />
+                
+                <xs:element name="fecNacimiento" type="xs:string" />
+				<xs:element name="titulo" type="xs:string" />
+                <xs:element name="RFC" type="xs:string"/>
+                <xs:element name="CURP" type="xs:string" />
+                <xs:element name="estadoCivil" type="xs:string" />
+                
+                <xs:element name="sucursal" type="xs:string" />
+				<xs:element name="mail" type="xs:string" />
+                <xs:element name="paisNacimiento" type="xs:string"/>
+                <xs:element name="estadoNacimiento" type="xs:string" />
+                <xs:element name="nacionalidad" type="xs:string" />
+                
+                <xs:element name="paisResidencia" type="xs:string" />
+				<xs:element name="sexo" type="xs:string" />
+                <xs:element name="telefono" type="xs:string"/>
+                <xs:element name="sectorGeneral" type="xs:string" />
+                <xs:element name="actividadBMX" type="xs:string" />
+
+                <xs:element name="actividadFR" type="xs:string" />
+				<xs:element name="promotorInicial" type="xs:string" />
+                <xs:element name="promotorActual" type="xs:string"/>
+                <xs:element name="numero" type="xs:string" />
+                <xs:element name="tipoDireccion" type="xs:string" />
+                
+                <xs:element name="estado" type="xs:string" />
+				<xs:element name="municipio" type="xs:string" />
+                <xs:element name="codigoPostal" type="xs:string"/>
+                <xs:element name="localidad" type="xs:string" />
+                <xs:element name="colonia" type="xs:string" />
+                
+                <xs:element name="calle" type="xs:string" />
+				<xs:element name="numeroDireccion" type="xs:string" />
+                <xs:element name="oficial" type="xs:string"/>
+                <xs:element name="numIdentificacion" type="xs:string" />
+                <xs:element name="tipoIdentificacion" type="xs:string" />
+                
+                <xs:element name="esOficial" type="xs:string" />
+				<xs:element name="fechaExpedicion" type="xs:string" />
+                <xs:element name="fechaVencimiento" type="xs:string" />
+                <xs:element name="primerNombreConyuge" type="xs:string" />
+                <xs:element name="segundoNombreConyuge" type="xs:string" />
+                
+                <xs:element name="tercerNombreConyuge" type="xs:string" />
+				<xs:element name="apPaternoConyuge" type="xs:string" />
+                <xs:element name="apMaternoConyuge" type="xs:string"/>
+                <xs:element name="nacionalidadConyuge" type="xs:string" />
+                <xs:element name="paisNacimientoConyuge" type="xs:string" />
+                
+                <xs:element name="estadoNacConyuge" type="xs:string" />
+				<xs:element name="fechaNacConyuge" type="xs:string" />
+                <xs:element name="RFCConyuge" type="xs:string"/>
+                <xs:element name="tipoIdentiConyuge" type="xs:string" />
+                <xs:element name="folioIdentiConyuge" type="xs:string" />
+                
+                <xs:element name="folio" type="xs:string" />
+                <xs:element name="claveUsuario" type="xs:string" />
+                <xs:element name="dispositivo" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+      
+    <xs:element name="SolAltaClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ============= FIN ALTA CLIENTE SANA TUS FINANZAS =================== -->
+    
+    <!-- ============= ALTA SOLICITUD CREDITO INDIVIDUAL SANA TUS FINANZAS =================== -->
+	   <xs:element name="altaSolicitudCreditoRequest">    						 
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="prospectoID" type="xs:string" />
+	            <xs:element name="clienteID" type="xs:string" />
+	            <xs:element name="productoCreditoID" type="xs:string" />
+	            <xs:element name="montoSolici" type="xs:string" />
+	            <xs:element name="periodicidad" type="xs:string" />
+	            <xs:element name="plazo" type="xs:string" />
+	            <xs:element name="destinoCredito" type="xs:string" />
+	            <xs:element name="proyecto" type="xs:string" />
+	            <xs:element name="tipoDispersion" type="xs:string" />
+	            <xs:element name="cuentaCLABE" type="xs:string" />
+	            <xs:element name="tipoPagoCapital" type="xs:string" />
+	            <xs:element name="tipoCredito" type="xs:string" />
+	            <xs:element name="numeroCredito" type="xs:string" />
+	            <xs:element name="folio" type="xs:string" />
+	            <xs:element name="claveUsuario" type="xs:string" />
+	            <xs:element name="dispositivo" type="xs:string" />
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+	 
+	 <xs:element name="altaSolicitudCreditoResponse">    						 
+	    <xs:complexType>
+	        <xs:sequence>
+	      		<xs:element name="solicitudCreditoID" type="xs:string"/>
+	      		<xs:element name="codigoRespuesta" type="xs:string"/>
+	      		<xs:element name="mensajeRespuesta" type="xs:string"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+    <!-- ============= FIN ALTA SOLICITUD CREDITO INDIVIDUAL SANA TUS FINANZAS =================== -->
+    
+    
+     <!-- ============= CONSULTA DE SALDOS DE CREDITO SANA TUS FINANZAS =================== -->
+     <xs:element name="ConsultaSaldoCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="creditoID" type="xs:string" />
+                <xs:element name="folio" type="xs:string" />
+                <xs:element name="claveUsuario" type="xs:string" />
+                <xs:element name="dispositivo" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsultaSaldoCreditoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="saldoTotal" type="xs:string" />
+                <xs:element name="saldoExigibleDia" type="xs:string" />
+                <xs:element name="proyeccion" type="xs:string" />
+                <xs:element name="saldoFinalPlazo" type="xs:string" /> 
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- =========== FIN CONSULTA DE SALDOS DE CREDITO SANA TUS FINANZAS ================= -->
+    
+    <!-- =========== PAGO DE CREDITO SANA TUS FINANZAS ================= -->
+     <xs:element name="PagoCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="creditoID" type="xs:string" />
+                <xs:element name="monto" type="xs:string" />
+                <xs:element name="montoGL" type="xs:string" />
+                <xs:element name="folio" type="xs:string" />
+                <xs:element name="claveUsuario" type="xs:string" />
+                <xs:element name="dispositivo" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="PagoCreditoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="creditoID" type="xs:string" />
+                <xs:element name="numTransaccion" type="xs:string" />
+                <xs:element name="saldoExigible" type="xs:string" />
+                <xs:element name="saldoTotalActual" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ======== FIN PAGO DE CREDITO SANA TUS FINANZAS ================ -->
+        
+    <!-- ============= ALTA DE GRUPO SANA TUS FINANZAS =================== -->
+    <xs:element name="AltaGrupoWSRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombreGrupo" type="xs:string" />
+                <xs:element name="folio" type="xs:string" />
+                <xs:element name="claveUsuario" type="xs:string" />
+                <xs:element name="dispositivo" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AltaGrupoWSResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="grupoID" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />               						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ============= FIN ALTA DE GRUPO SANA TUS FINANZAS =================== -->
+    
+    <!-- ============= ALTA SOLICITUD CREDITO GRUPAL SANA TUS FINANZAS =================== -->
+	   <xs:element name="AltaSolicitudGrupalWSRequest">    						 
+	    <xs:complexType>
+	        <xs:sequence>
+                <xs:element name="integrantes">
+	       			 <xs:complexType>
+	          		 <xs:sequence>  
+	                  <xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:integrante" />                 
+	                 </xs:sequence>  
+	                 </xs:complexType>   
+                </xs:element>
+	            <xs:element name="grupoID" type="xs:string"/>
+	            <xs:element name="productoCreditoID" type="xs:string"/>
+	            <xs:element name="periodicidad" type="xs:string"/>
+	            <xs:element name="plazo" type="xs:string"/>
+	            <xs:element name="tipoDispersion" type="xs:string"/>
+	            <xs:element name="cuentaCLABE" type="xs:string"/>
+	            <xs:element name="tipoPagoCapital" type="xs:string"/>
+	            <xs:element name="folio" type="xs:string"/>
+	            <xs:element name="claveUsuario" type="xs:string"/>
+	            <xs:element name="dispositivo" type="xs:string"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+	 
+	<xs:element name="integrante">
+	 	  <xs:complexType>
+	     <xs:sequence>
+	            <xs:element name="prospectoID" type="xs:string"/>
+	            <xs:element name="clienteID" type="xs:string"/>
+	            <xs:element name="destinoCredito" type="xs:string"/>
+	            <xs:element name="proyecto" type="xs:string"/>
+	            <xs:element name="montoSolici" type="xs:string"/>
+	            <xs:element name="tipoIntegrante" type="xs:string"/>
+	      </xs:sequence>  
+	    </xs:complexType>   
+	</xs:element>
+	
+	 <xs:element name="AltaSolicitudGrupalWSResponse">    						 
+	    <xs:complexType>
+	        <xs:sequence>
+	      		<xs:element name="codigoRespuesta" type="xs:string"/>
+	      		<xs:element name="mensajeRespuesta" type="xs:string"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+    <!-- ============= FIN ALTA SOLICITUD CREDITO GRUPAL SANA TUS FINANZAS =================== -->
+    
+</xs:schema>

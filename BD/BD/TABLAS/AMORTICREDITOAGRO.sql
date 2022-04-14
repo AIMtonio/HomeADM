@@ -1,0 +1,68 @@
+-- ---------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- ---------------------------------------------------------------------------------
+-- AMORTICREDITOAGRO
+DELIMITER ;
+DROP TABLE IF EXISTS `AMORTICREDITOAGRO`;DELIMITER $$
+
+CREATE TABLE `AMORTICREDITOAGRO` (
+  `AmortizacionID` int(4) NOT NULL COMMENT 'No Amortizacion',
+  `CreditoID` bigint(12) NOT NULL COMMENT 'Numero de Credito',
+  `ClienteID` int(11) DEFAULT NULL COMMENT 'Numero de Cliente',
+  `CuentaID` bigint(12) DEFAULT NULL COMMENT 'Numero de Cuenta',
+  `FechaInicio` date DEFAULT NULL COMMENT 'Fecha de Inicio\n',
+  `FechaVencim` date DEFAULT NULL COMMENT 'Fecha de Vencimiento',
+  `FechaExigible` date DEFAULT NULL COMMENT 'Fecha Exigible de Pago\n',
+  `Estatus` varchar(1) DEFAULT NULL COMMENT 'Estatus del Credito, no se pide en el alta. Nace inactivo\nI .- Inactivo\nV.- Vigente\nP .- Pagado\nC .- Cancelado\nB.- Vencido\nA.- Atrasado\n',
+  `FechaLiquida` date DEFAULT NULL COMMENT 'Fecha de Liquidacion o Terminacion\n',
+  `Capital` decimal(14,2) DEFAULT NULL COMMENT 'Monto del Capital',
+  `Interes` decimal(14,2) DEFAULT NULL COMMENT 'Interes',
+  `IVAInteres` decimal(10,2) DEFAULT NULL COMMENT 'IVA Interes',
+  `SaldoCapVigente` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Capital Vigente, en el alta nace con ceros',
+  `SaldoCapAtrasa` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Capital Atrasado, en el alta nace con ceros',
+  `SaldoCapVencido` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Capital Vencido, en el alta nace con ceros',
+  `SaldoCapVenNExi` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Capital Vencido no Exigible, en al alta nace con ceros',
+  `SaldoInteresOrd` decimal(14,4) DEFAULT NULL COMMENT 'Saldo de Interes Ordinario, en el alta nace con ceros',
+  `SaldoInteresAtr` decimal(14,4) DEFAULT NULL COMMENT 'Saldo de Interes Atrasado, en el alta nace con ceros',
+  `SaldoInteresVen` decimal(14,4) DEFAULT NULL COMMENT 'Saldos de Interes Vencido, en el alta nace con ceros',
+  `SaldoInteresPro` decimal(14,4) DEFAULT NULL COMMENT 'Saldo de Provision, en el alta nace con ceros',
+  `SaldoIntNoConta` decimal(12,4) DEFAULT NULL COMMENT 'Saldo de Interes No Contabilizado',
+  `SaldoIVAInteres` decimal(14,2) DEFAULT NULL COMMENT 'Saldo IVA Interes, en el alta nace con ceros',
+  `SaldoMoratorios` decimal(14,2) DEFAULT NULL COMMENT 'Saldo Moratorios, en el alta nace con ceros',
+  `SaldoIVAMorato` decimal(14,2) DEFAULT NULL COMMENT 'Saldo IVA Mora, en el alta nace con ceros',
+  `SaldoComFaltaPa` decimal(14,2) DEFAULT NULL COMMENT 'Saldo Comision Falta Pago, en el alta nace con ceros',
+  `SaldoIVAComFalP` decimal(14,2) DEFAULT NULL COMMENT 'Saldo IVA Com Falta Pago, en el alta nace con ceros',
+  `SaldoOtrasComis` decimal(14,2) DEFAULT NULL COMMENT 'Saldo Otras Comisiones, en el alta nace con ceros',
+  `SaldoIVAComisi` decimal(14,2) DEFAULT NULL COMMENT 'Saldo IVA Otras Com, en el alta nace con ceros',
+  `ProvisionAcum` decimal(14,4) DEFAULT NULL COMMENT 'Provision Acumulada ',
+  `SaldoCapital` decimal(14,2) DEFAULT NULL COMMENT 'Saldo Capital',
+  `NumProyInteres` int(11) DEFAULT NULL COMMENT 'Numero de Veces que se ha Realizado la Proyeccion de Intereses en un Pago Anticipado',
+  `SaldoMoraVencido` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Interes Moratorio en atraso o vencido',
+  `SaldoMoraCarVen` decimal(14,2) DEFAULT NULL COMMENT 'Saldo de Moratorios deirvado de cartera vencida, en ctas de orden',
+  `MontoSeguroCuota` decimal(12,2) DEFAULT NULL COMMENT 'Monto del seguro por cuota',
+  `IVASeguroCuota` decimal(12,2) DEFAULT NULL COMMENT 'Monto de Iva para el seguro por cuota',
+  `SaldoSeguroCuota` decimal(12,2) DEFAULT NULL COMMENT 'Saldo Monto Seguro Cuota',
+  `SaldoIVASeguroCuota` decimal(12,2) DEFAULT NULL COMMENT 'Saldo IVA Seguro Cuota',
+  `SaldoComisionAnual` decimal(14,2) DEFAULT '0.00' COMMENT 'Comision Anual',
+  `SaldoComisionAnualIVA` decimal(14,2) DEFAULT '0.00' COMMENT 'IVA por comision por anualidad',
+  `EstatusDesembolso` char(1) DEFAULT 'N' COMMENT 'Estatus de Desembolso D:Desembolsada N: No desembolsada C: Cancelada',
+  `MontoPendDesembolso` decimal(14,2) DEFAULT '0.00' COMMENT 'Monto Pendiente a Desembolsar\n',
+  `MontoCancelado` decimal(14,2) DEFAULT '0.00' COMMENT 'Monto Cancelado. Puede ser el total de la amortización o un monto parcial.\nSe actualiza en el proceso de Cancelación.',
+  `TmpMontoDesembolso` decimal(14,2) DEFAULT '0.00' COMMENT 'Monto que se utiliza en el cursor para desembolsar, este dato se envia a CREDITOSMOVSAL',
+  `TipoCalculoInteres` char(1) DEFAULT NULL COMMENT 'Tipo de Calculo de interes fechaPactada: P,  fechaReal: R',
+  `EmpresaID` int(11) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `Usuario` int(11) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `FechaActual` datetime DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `DireccionIP` varchar(20) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `ProgramaID` varchar(50) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `Sucursal` int(11) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  `NumTransaccion` bigint(20) DEFAULT NULL COMMENT 'Parametros de Auditoria',
+  PRIMARY KEY (`AmortizacionID`,`CreditoID`),
+  KEY `fk_AMORTICREDITOAGRO_1_idx` (`CreditoID`),
+  KEY `fk_AMORTICREDITOAGRO_2_idx` (`ClienteID`),
+  KEY `fk_AMORTICREDITOAGRO_3_idx` (`CuentaID`),
+  CONSTRAINT `fk_AMORTICREDITOAGRO_1` FOREIGN KEY (`CreditoID`) REFERENCES `CREDITOS` (`CreditoID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_AMORTICREDITOAGRO_2` FOREIGN KEY (`ClienteID`) REFERENCES `CLIENTES` (`ClienteID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_AMORTICREDITOAGRO_3` FOREIGN KEY (`CuentaID`) REFERENCES `CUENTASAHO` (`CuentaAhoID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla de Amortizaciones de los Creditos'$$

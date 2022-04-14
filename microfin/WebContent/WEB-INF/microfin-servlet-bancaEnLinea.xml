@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		 
+	<!-- Beans de Banca en Linea de Usuarios -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="bancaEnLinea.bean.BEUsuariosBean" />
+	</dwr:configuration>
+	
+	<!-- DAO de Banca en Linea de Usuarios -->
+	<bean id="bEUsuariosDAOImpl" class="bancaEnLinea.dao.BEUsuariosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+    <!-- Servicio de Banca en Linea de Usuarios -->
+	<bean id="bEUsuariosServicioImpl" class="bancaEnLinea.servicio.BEUsuariosServicio">
+		<dwr:remote javascript="bEUsuariosServicio">
+			<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="bEUsuariosDAO" ref="bEUsuariosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+</beans>

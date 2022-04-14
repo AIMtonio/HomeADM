@@ -1,0 +1,2582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Beans de solicitudes de credito -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SolicitudCreditoBean" />
+	</dwr:configuration>
+
+	<bean id="solicitudCreditoDAOImpl" class="originacion.dao.SolicitudCreditoDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="seguroVidaDAO" ref="seguroVidaDAOImpl" />
+	    <property name="consolidacionesDAO" ref="consolidacionesDAOImpl"/>
+		<property name="ServiciosSolCredDAO" ref="serviciosSolCredDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="ministraCredAgroDAO" ref="ministraCredAgroDAOImpl" />
+	</bean>
+
+	<bean id="solicitudCreditoServicioImpl" class="originacion.servicio.SolicitudCreditoServicio">
+		<dwr:remote javascript="solicitudCredServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="consultaCiclo" />
+        <dwr:include method="listaComboMotivosCancelacion"/>
+        <dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="solicitudCreditoDAO" ref="solicitudCreditoDAOImpl" />
+		<property name="opeEscalamientoInternoServicio" ref="opeEscalamientoInternoServicioImpl" />
+		<property name="esquemaautfirmaServicio" ref="esquemaautfirmaServicioImpl" />
+		<property name="seguroVidaDAO" ref="seguroVidaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/listaSolicitudCredito.htm"
+		  class="originacion.controlador.SolicitudCreditoListaControlador">
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<!-- Lista consolidacionID  -->
+
+	<bean name="/listaConsolidaCartas.htm"
+		  class="originacion.controlador.SolicitudCreditoListaControlador">
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	 <bean name="/catalogoSolicitudCredito.htm" class="originacion.controlador.SolicitudCreditoControlador">
+   		<property name="formView" value="originacion/solicitudCreditoCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/autorizaSolicitudCredito.htm" class="originacion.controlador.SolicitudCreditoControlador">
+   		<property name="formView" value="originacion/AutorizaSolicitudCreditoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+
+	 <bean name="/solicitudCreditoGrupal.htm" class="originacion.controlador.SolicitudCreditoGrupalControlador">
+   		<property name="formView" value="originacion/solicitudCreditoGrupalCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/flujoIndividual.htm" class="originacion.controlador.FlujoIndividualControlador">
+   		<property name="formView" value="originacion/flujoIndividualCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/cambioCondicionesCalendarioGrupal.htm" class="originacion.controlador.SolicitudCreditoGrupalActualizaControlador">
+   		<property name="formView" value="originacion/cambioCondicionesCalendarioGrupalVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/solicitudCreditoRep.htm" class="originacion.controlador.SolicitudCreditoControlador">
+   		<property name="formView" value="originacion/repSolicitudCreditoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/repPDFSolicitudCredito.htm" class="originacion.reporte.SolicitudCreditoRepControlador">
+		<property name="nombreReporte" value="creditos/SolicitudDeCredito.prpt" />
+		<property name="nombreReporteMesaCont" value="creditos/MesaControlAse.prpt"></property>
+		<property name="nombreReportePMoral" value="creditos/SolicitudDeCreditoPersonaMoral.prpt"></property>
+		<property name="nombreReportePFisica" value="creditos/SolicitudDeCreditoPersonaFisica.prpt"></property>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!--  Reporte RECA -->
+	<bean name="/repReca.htm" class="originacion.reporte.RecaRepControlador">
+		<property name="nombreReporte" value="/creditos/RecaRep.prpt" />
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/cambioTasa.htm" class="originacion.controlador.SolicitudCreditoControlador	">
+		<property name="formView" value="originacion/cambioTasaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl"/>
+	</bean>
+
+	<!-- Beans de esquema de tasas -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaTasasBean" />
+	</dwr:configuration>
+
+	<bean id="esquemaTasasDAOImpl" class="originacion.dao.EsquemaTasasDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="esquemaTasasServicioImpl" class="originacion.servicio.EsquemaTasasServicio">
+		<dwr:remote javascript="esquemaTasasServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="lista" />
+ 		<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="esquemaTasasDAO" ref="esquemaTasasDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<bean name="/catalogoEsquemaTasas.htm" class="originacion.controlador.EsquemaTasasControlador">
+   		<property name="formView" value="originacion/esquemaTasasCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="esquemaTasasServicio" ref="esquemaTasasServicioImpl" />
+	</bean>
+
+	<!-- Gris de esquema de tasas -->
+
+    <bean name="/esquemaTasasGrid.htm"  class="originacion.controlador.EsquemaTasasGridControlador">
+	<property name="esquemaTasasServicio" ref="esquemaTasasServicioImpl" />
+	</bean>
+
+	<!-- Beans de Calendario por Producto de credito -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CalendarioProdBean" />
+	</dwr:configuration>
+
+	<bean id="calendarioProdDAOImpl" class="originacion.dao.CalendarioProdDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="calendarioProdServicioImpl" class="originacion.servicio.CalendarioProdServicio">
+		<dwr:remote javascript="calendarioProdServicio">
+ 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="calendarioProdDAO" ref="calendarioProdDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<bean name="/catalogoCalendarioProducto.htm" class="originacion.controlador.CalendarioProdControlador">
+   		<property name="formView" value="originacion/calendarioProductoCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="calendarioProdServicio" ref="calendarioProdServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de Plazos de Credito -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CreditosPlazosBean" />
+	</dwr:configuration>
+
+	<bean id="creditosPlazosDAOImpl" class="originacion.dao.CreditosPlazosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="CreditosPlazosServicioImpl" class="originacion.servicio.CreditosPlazosServicio">
+		<dwr:remote javascript="plazosCredServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="listaCombo" />
+ 		<dwr:include method="listaComboProducto" />
+ 		<dwr:include method="listaFrecuencia" />
+		</dwr:remote>
+		<property name="creditosPlazosDAO" ref="creditosPlazosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Configuración de controladores para Garantías -->
+
+    <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.GarantiaBean" />
+	</dwr:configuration>
+
+    <bean id="garantiasDAOImpl" class="originacion.dao.GarantiasDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="garantiaServicioImpl" class="originacion.servicio.GarantiaServicio">
+		<dwr:remote javascript="garantiaServicioScript">
+ 		<dwr:include method="clasifGarantiasLista" />
+ 		<dwr:include method="consultaGarantia" />
+ 		<dwr:include method="lista" />
+ 		</dwr:remote>
+		<property name="garantiasDAO" ref="garantiasDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+
+	<bean name="/registroGarantia.htm" class="originacion.controlador.GarantiasControlador">
+   		<property name="formView" value="originacion/registroGarantiaVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+   	</bean>
+
+	<!-- fin de configuracion de garantias -->
+
+
+	<!-- inicio controladores para asignacion de garantias -->
+
+	<bean name="/asignacionGarantia.htm" class="originacion.controlador.AsignaGarantiasControlador">
+   		<property name="formView" value="originacion/asignaGarantiaVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+   	</bean>
+
+   <bean name="/listaGarantias.htm"
+		  class="originacion.controlador.GarantiaListaControlador">
+	<property name="garantiaServicio" ref="garantiaServicioImpl" />
+	</bean>
+
+      <bean name="/asignacionGarantiasGrid.htm"  class="originacion.controlador.AsigGarantiasGridControlador">
+	<property name="garantiaServicio" ref="garantiaServicioImpl" />
+	</bean>
+
+     <bean name="/garantiasListaGridVista.htm"  class="originacion.controlador.GarantiasListaGridControlador">
+		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+	</bean>
+
+	<!-- fin controladores asignacion de garantias-->
+
+
+
+	<!-- controladores para CheckList de documentos solicitud -->
+	  <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SolicitudCheckListBean" />
+	</dwr:configuration>
+
+    <bean id="solicitudCheckListDAOImpl" class="originacion.dao.SolicitudCheckListDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="solicitudCheckListServicioImpl" class="originacion.servicio.SolicitudCheckListServicio">
+		<dwr:remote javascript="solicitudCheckListServicio">
+ 		<dwr:include method="listaCombo" />
+ 		</dwr:remote>
+		<property name="solicitudCheckListDAO" ref="solicitudCheckListDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+    <bean name="/solicitudCheckListGridVista.htm"
+			class="originacion.controlador.SolicitudCheckListGridControlador">
+		<property name="solicitudCheckListServicio" ref="solicitudCheckListServicioImpl" />
+	</bean>
+      <bean name="/solicitudCreditoListaVista.htm"
+			class="originacion.controlador.SolicitudCheckListListaControlador">
+		<property name="solicitudCheckListServicio" ref="solicitudCheckListServicioImpl" />
+	</bean>
+
+    <bean name="/checkListSolicitudCreditoListaVista.htm"
+			class="originacion.controlador.SolicitudCreditoCheckListListaControlador">
+		<property name="solicitudCheckListServicio" ref="solicitudCheckListServicioImpl" />
+	</bean>
+
+	<bean name="/solicitudCheckList.htm" class="originacion.controlador.SolicitudCheckListControlador">
+   		<property name="formView" value="originacion/solicitudCheckListVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCheckListServicio" ref="solicitudCheckListServicioImpl" />
+   	</bean>
+
+	<!-- beans Alta de Datos Socioeconómicos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ClidatsocioeBean" />
+	</dwr:configuration>
+
+    <bean id="clidatsocioeDAOImpl" class="originacion.dao.ClidatsocioeDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="clidatsocioeServicioImpl" class="originacion.servicio.ClidatsocioeServicio">
+		<dwr:remote javascript="clidatsocioeServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="listaCombo" />
+ 		<dwr:include method="lista" />
+
+ 		</dwr:remote>
+		<property name="clidatsocioeDAO" ref="clidatsocioeDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+
+	<bean name="/altaDatosSocioeconomicos.htm" class="originacion.controlador.ClidatsocioeControlador">
+   		<property name="formView" value="originacion/ClidatsocioeCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="clidatsocioeServicio" ref="clidatsocioeServicioImpl" />
+   	</bean>
+
+	<bean name="/socioeconomicosCteGrid.htm"
+		  class="originacion.controlador.ClidatsocioeGridControlador">
+	<property name="clidatsocioeServicio" ref="clidatsocioeServicioImpl" />
+	</bean>
+
+	<!-- beans lineas de negocio -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CatlineanegocioBean" />
+	</dwr:configuration>
+
+    <bean id="catlineanegocioDAOImpl" class="originacion.dao.CatlineanegocioDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="catlineanegocioServicioImpl" class="originacion.servicio.CatlineanegocioServicio">
+		<dwr:remote javascript="lineaNegocioServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="listaCombo" />
+ 		</dwr:remote>
+		<property name="catlineanegocioDAO" ref="catlineanegocioDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+
+   <!-- controladores para Esquema Autorizacion -->
+	  <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaAutorizaBean" />
+	</dwr:configuration>
+
+    <bean id="esquemaAutorizaDAOImpl" class="originacion.dao.EsquemaAutorizaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="esquemaAutorizaServicioImpl" class="originacion.servicio.EsquemaAutorizaServicio">
+		<dwr:remote javascript="esquemaAutorizaServicio">
+ 		<dwr:include method="listaCombo" />
+ 		</dwr:remote>
+		<property name="esquemaAutorizaDAO" ref="esquemaAutorizaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+    <bean name="/esquemaAutorizaCatalogoVista.htm" class="originacion.controlador.EsquemaAutorizaControlador">
+        <property name="formView" value="originacion/esquemaAutorizaCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="esquemaAutorizaServicio" ref="esquemaAutorizaServicioImpl" />
+	</bean>
+
+      <bean name="/esquemaAutorizaGridVista.htm" class="originacion.controlador.EsquemaAutorizaGridControlador">
+          <property name="successView" value="resultadoTransaccionVista"/>
+		<property name="esquemaAutorizaServicio" ref="esquemaAutorizaServicioImpl" />
+	</bean>
+ 	<!-- FIN controladores para Esquema Autorizacion -->
+
+
+
+
+    <!-- beans Alta de Datos Sociodemograficos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.DatSocDemogBean" />
+	</dwr:configuration>
+
+    <bean id="datSocDemograDAOImpl" class="originacion.dao.DatSocDemograDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="datSocDemogServicioImpl" class="originacion.servicio.DatSocDemogServicio">
+		<dwr:remote javascript="datSocDemogServicio">
+ 		<dwr:include method="listaRelaciones" />
+ 		<dwr:include method="listaDependEconom" />
+ 		<dwr:include method="listaGradosEsc" />
+ 		<dwr:include method="consulta" />
+
+ 		</dwr:remote>
+		<property name="datSocDemograDAO" ref="datSocDemograDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+
+	<bean name="/altaDatosSocioDemograficos.htm" class="originacion.controlador.DatSocDemogControlador">
+   		<property name="formView" value="originacion/ClidatsocioeCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="datSocDemogServicio" ref="datSocDemogServicioImpl" />
+   	</bean>
+
+
+	  <!-- beans Alta de Datos de conyugue (sociodemograficos) -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SocDemConyugBean" />
+	</dwr:configuration>
+
+    <bean id="socDemoConyugDAOImpl" class="originacion.dao.SocDemoConyugDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="socDemoConyugServicioImpl" class="originacion.servicio.SocDemoConyugServicio">
+		<dwr:remote javascript="socDemoConyugServicio">
+ 		<dwr:include method="consulta" />
+ 		</dwr:remote>
+		<property name="socDemoConyugDAO" ref="socDemoConyugDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+
+	<bean name="/datosSocioDemConyugue.htm" class="originacion.controlador.SocDemoConyugControlador">
+   		<property name="formView" value="originacion/ClidatsocioeCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="socDemoConyugServicio" ref="socDemoConyugServicioImpl" />
+   	</bean>
+
+
+		  <!-- beans Alta de Datos de Vivienda (sociodemograficos) -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SocDemogViviendaBean" />
+	</dwr:configuration>
+
+    <bean id="sosDemogViviendaDAOImpl" class="originacion.dao.SosDemogViviendaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="socDemoViviendaServicioImpl" class="originacion.servicio.SocDemoViviendaServicio">
+		<dwr:remote javascript="socDemoViviendaServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="comboMaterialVivienda" />
+ 		<dwr:include method="comboTiposVivienda" />
+ 		</dwr:remote>
+		<property name="sosDemogViviendaDAO" ref="sosDemogViviendaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<bean name="/datosSocioDemVivienda.htm" class="originacion.controlador.SocDemoViviendaControlador">
+   		<property name="formView" value="originacion/ClidatsocioeCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="socDemoViviendaServicio" ref="socDemoViviendaServicioImpl" />
+   	</bean>
+
+
+    <!-- beans Documentos requeridos por producto de credito -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SolicidocreqBean" />
+	</dwr:configuration>
+
+    <bean id="solicidocreqDAOImpl" class="originacion.dao.SolicidocreqDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="solicidocreqServicioImpl" class="originacion.servicio.SolicidocreqServicio">
+		<dwr:remote javascript="datosSocioeconServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="listaCombo" />
+ 		</dwr:remote>
+		<property name="solicidocreqDAO" ref="solicidocreqDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/documentosRequeridosProducto.htm" class="originacion.controlador.SolicidocreqControlador">
+   		<property name="formView" value="originacion/documentosReqProdCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicidocreqServicio" ref="solicidocreqServicioImpl" />
+   	</bean>
+
+	<bean name="/documentosReqProdGridVista.htm"
+		  class="originacion.controlador.SolicidocreqGridControlador">
+	<property name="solicidocreqServicio" ref="solicidocreqServicioImpl" />
+	</bean>
+
+
+
+	<!--  Beans organo Autoriza -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.OrganoAutorizaBean" />
+	</dwr:configuration>
+
+    <bean id="organoAutorizaDAOImpl" class="originacion.dao.OrganoAutorizaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="organoAutorizaServicioImpl" class="originacion.servicio.OrganoAutorizaServicio">
+		<dwr:remote javascript="organoAutorizaServicio">
+ 		</dwr:remote>
+		<property name="organoAutorizaDAO" ref="organoAutorizaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/esquemaOrganoAutorizaGridVista.htm" class="originacion.controlador.OrganoAutorizaGridControlador">
+   		 <property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="organoAutorizaServicio" ref="organoAutorizaServicioImpl" />
+   	</bean>
+
+
+
+	<!--  Bean para grid de firmas para autorizar en la autorizacion de solicitud de crédito-->
+	<bean name="/firmasautorizaSolGridVista.htm"
+		  class="originacion.controlador.FirmasautorizarSolGridControlador">
+	<property name="organoAutorizaServicio" ref="organoAutorizaServicioImpl" />
+	</bean>
+
+
+	<!-- beans Esquema Autoriza Firmas -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaautfirmaBean" />
+	</dwr:configuration>
+
+    <bean id="esquemaautfirmaDAOImpl" class="originacion.dao.EsquemaautfirmaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<!-- <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>-->
+
+	</bean>
+
+    <bean id="esquemaautfirmaServicioImpl" class="originacion.servicio.EsquemaautfirmaServicio">
+		<dwr:remote javascript="esquemaAutServicio">
+ 		<dwr:include method="consulta" />
+ 		</dwr:remote>
+		<property name="esquemaautfirmaDAO" ref="esquemaautfirmaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+    <!--  Bean para grid de firmas ya autorizadas en la autorizacion de solicitud de crédito-->
+	<bean name="/firmasautorizadasSolGridVista.htm"
+		  class="originacion.controlador.FirmasAutorizadasSolCredGridControlador">
+	<property name="esquemaautfirmaServicio" ref="esquemaautfirmaServicioImpl" />
+	</bean>
+
+
+	<!-- Bean para el catalogo de Clasificación de Documentos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ClasificaTipDocBean" />
+	</dwr:configuration>
+
+    <bean id="clasificaTipDocDAOImpl" class="originacion.dao.ClasificaTipDocDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+    <bean id="clasificaTipDocServicioImpl" class="originacion.servicio.ClasificaTipDocServicio">
+		<dwr:remote javascript="clasificaTipDocServicio">
+		</dwr:remote>
+		<property name="clasificaTipDocDAO" ref="clasificaTipDocDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+ 	 <bean name="/clasificaDocumentosCatalogo.htm" class="originacion.controlador.ClasificaTipDocControlador">
+   		<property name="formView" value="originacion/clasificaDocumentosCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="clasificaTipDocServicio" ref="clasificaTipDocServicioImpl" />
+   	</bean>
+   	 <bean name="/clasificaDocumentosListaVista.htm" class="originacion.controlador.ClasificaTipDocListaControlador">
+		<property name="clasificaTipDocServicio" ref="clasificaTipDocServicioImpl" />
+	</bean>
+
+   	 <bean name="/clasificaDocumentosGridVista.htm" class="originacion.controlador.ClasificaTipDocGridControlador">
+   		<property name="clasificaTipDocServicio" ref="clasificaTipDocServicioImpl" />
+   	</bean>
+
+	<!-- Controlador Grid pantalla Tipos de Respuesta -->
+	<bean name="/documentosPorClasificaGrid.htm" class="originacion.controlador.DocumentosPorClasificaControlador">
+		<property name="formView" value="originacion/clasificaDocumentosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="ClasificaTipDocServicio" ref="clasificaTipDocServicioImpl" />
+	</bean>
+
+   	<bean name="/documentosPorClasificaGridVista.htm" class="originacion.controlador.DocumentosPorClasificaGridControlador">
+   		<property name="clasificaTipDocServicio" ref="clasificaTipDocServicioImpl" />
+   	</bean>
+
+	<!-- -FIN catalogo de Documentos -->
+
+	<!-- bean Días Paso a Vencido -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.DiasPasoVencidoBean" />
+	</dwr:configuration>
+
+    <bean id="diasPasoVencidoDAOImpl" class="originacion.dao.DiasPasoVencidoDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="diasPasoVencidoServicioImpl" class="originacion.servicio.DiasPasoVencidoServicio">
+		<dwr:remote javascript="diasPasoVencidoServicio">
+		</dwr:remote>
+		<property name="diasPasoVencidoDAO" ref="diasPasoVencidoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	 <bean name="/diasPasoVencido.htm" class="originacion.controlador.DiasPasoVencidoControlador">
+   		<property name="formView" value="originacion/diasPasoVencidoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="diasPasoVencidoServicio" ref="diasPasoVencidoServicioImpl" />
+   	</bean>
+
+   	<bean name="/diasPasoVencidoGridVista.htm" class="originacion.controlador.DiasPasoVencidoGridControlador">
+   		<property name="diasPasoVencidoServicio" ref="diasPasoVencidoServicioImpl" />
+   	</bean>
+
+
+   <!--============================= ESTIMACION DE CAPACIDAD DE PAGO =============================-->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CapacidadPagoBean" />
+	</dwr:configuration>
+
+	<bean id="capacidadPagoDAOImpl" class="originacion.dao.CapacidadPagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<bean id="capacidadPagoServicioImpl" class="originacion.servicio.CapacidadPagoServicio">
+		<dwr:remote javascript="capacidadPagoServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="capacidadPagoDAO" ref="capacidadPagoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/capacidadPagoVista.htm" class="originacion.controlador.CapacidadPagoControlador">
+		<property name="formView" value="originacion/capacidadPagoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="capacidadPagoServicio" ref="capacidadPagoServicioImpl" />
+	</bean>
+
+	<!--    BEAN PARA REPORTE DE CAPACIDAD DE PAGO -->
+	<bean name="/capacidadPagoVistaReporte.htm" class="originacion.controlador.RepCapacidadPagoControlador">
+		<property name="formView" value="originacion/reporteCapacidadPagoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="capacidadPagoServicio" ref="capacidadPagoServicioImpl" />
+	</bean>
+
+	<bean name="/reporteCapacidadPago.htm" class="originacion.reporte.CapacidadPagoRepControlador">
+      	<property name="nomReporte" value="originacion/CapacidadPago.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="capacidadPagoServicio" ref="capacidadPagoServicioImpl" />
+	</bean>
+
+	<!-- ========================= fin de estimacion de capacidad de pago ============================ -->
+
+
+ <!--============================= ESQUEMAS DE GARANTIA LIQUIDA =============================-->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaGarantiaLiqBean" />
+	</dwr:configuration>
+
+	<bean id="esquemaGarantiaLiqDAOImpl" class="originacion.dao.EsquemaGarantiaLiqDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="esquemaGarantiaLiqServicioImpl" class="originacion.servicio.EsquemaGarantiaLiqServicio">
+		<dwr:remote javascript="esquemaGarantiaLiqServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="esquemaGarantiaLiqDAO" ref="esquemaGarantiaLiqDAOImpl" />
+	</bean>
+
+
+	<bean name="/esquemaGarantiaLiqVista.htm" class="originacion.controlador.EsquemaGarantiaLiqControlador">
+		<property name="formView" value="originacion/esquemaGarantiaLiqVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaGarantiaLiqServicio" ref="esquemaGarantiaLiqServicioImpl" />
+	</bean>
+
+	<!-- *************************   Bean para Mostrar Grid esquemas garantia liquida   ************************  -->
+		<bean name="/esquemaGarantiaLiqGridVista.htm" class="originacion.controlador.EsquemaGarantiaLiqGridListaControlador">
+		<property name="esquemaGarantiaLiqServicio" ref="esquemaGarantiaLiqServicioImpl" />
+	</bean>
+
+	<!-- *************************   Bean para Mostrar Grid esquemas garantia liquida FOGAFI  ************************  -->
+		<bean name="/esquemaGarFOGAFIGridVista.htm" class="originacion.controlador.EsquemaGarFOGAFIGridListaControlador">
+		<property name="esquemaGarantiaLiqServicio" ref="esquemaGarantiaLiqServicioImpl" />
+	</bean>
+
+	<!-- ========================= FIN DE LOS ESQUEMAS DE GARANTIA LIQUIDA ============================ -->
+
+	<!-- Beans para el Calculo del Ratios -->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.RatiosBean" />
+	</dwr:configuration>
+
+	<bean id="ratiosDAOImpl" class="originacion.dao.RatiosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ratiosServicioImpl" class="originacion.servicio.RatiosServicio">
+		<dwr:remote javascript="ratiosServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="ratiosDAO" ref="ratiosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="solicitudCreditoDAO" ref="solicitudCreditoDAOImpl" />
+	</bean>
+		 <bean name="/generacionRatios.htm" class="originacion.controlador.CalculoRatiosControlador">
+   		<property name="formView" value="originacion/calculoRatios" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="ratiosServicio" ref="ratiosServicioImpl" />
+   	</bean>
+   		<bean name="/ReporteCalculoRatios.htm" class="originacion.reporte.ImprimirCalculoRatiosControlador">
+      	<property name="nomReporte" value="originacion/CalculoRatios.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="ratiosServicio" ref="ratiosServicioImpl" />
+	</bean>
+
+	<!-- Beans para la lista de Gastos Alimeticios -->
+
+   	<bean name="/listaGastosDatoSocio.htm"
+		  class="originacion.controlador.ClidatsocioeListaVistaControlador">
+		<property name="clidatsocioeServicio" ref="clidatsocioeServicioImpl" />
+	</bean>
+	<!-- Bean para el Catalogo de Ingresos y Egresos -->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CatdatsocioeBean" />
+	</dwr:configuration>
+
+	<bean id="catDatSocioEDAOImpl" class="originacion.dao.CatDatSocioEDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="catDatSocioEServicioImpl" class="originacion.servicio.CatDatSocioEServicio">
+		<dwr:remote javascript="catDatSocioEServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="catDatSocioEDAO" ref="catDatSocioEDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+			<!-- PANTALLA REPORTE DE SOLICITUDES DE CREDITOS GENERADAS -->
+	<bean name="/repSolicitudesGen.htm" class="originacion.controlador.SolicitudesGeneradasControlador">
+		<property name="formView" value="originacion/repSolGeneradasVista" />
+	   	<property name="successView" value="resultadoTransaccionReporteVista" />
+     	<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+			<!-- CONTROLADOR REPORTE SOLICITUDES DE CREDITOS GENERADAS -->
+	<bean name="/reporteSolicGeneradas.htm" class="originacion.reporte.RepSolicitudesGenControlador">
+		<property name="nombreReporte" value="originacion/SolicitudesGeneradas.prpt" />
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<!-- Bean de Autorización de Solicitud Grupal  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.AutorizaSolicitudGrupoBean"/>
+	</dwr:configuration>
+
+	<!-- Dao de Autorizacion de Solicitud Grupal -->
+	 <bean id="autorizaSolicitudGrupoDAOImpl" class="originacion.dao.AutorizaSolicitudGrupoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+      	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <!-- Servicio de Autorizacion de Solicitud Grupal -->
+	<bean id="autorizaSolicitudGrupoServicioImpl" class="originacion.servicio.AutorizaSolicitudGrupoServicio">
+		<dwr:remote javascript="autorizaSolicitudGrupoServicio">
+	    <dwr:include method="consulta" />
+		</dwr:remote>
+	    <property name="autorizaSolicitudGrupoDAO" ref="autorizaSolicitudGrupoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<!-- Pantalla de Autorizacion de Solicitud Grupal -->
+	<bean name="/autorizaSolicitudGrupal.htm" class="originacion.controlador.AutorizaSolicitudGrupoControlador">
+		<property name="formView" value="originacion/autorizaSolicitudGrupoVista" />
+		<property name="successView" value="originacion/resultadoTransaccionAutGrupalVista" />
+		<property name="autorizaSolicitudGrupoServicio" ref="autorizaSolicitudGrupoServicioImpl" />
+	</bean>
+
+	<!-- Controlador de Grid de lista de los integrantes del Grupo -->
+	<bean name="/integrantesSolicitudGrupoGridVista.htm"
+	    class="originacion.controlador.IntegraSolicitudGrupoGridControlador">
+		<property name="autorizaSolicitudGrupoServicio" ref="autorizaSolicitudGrupoServicioImpl" />
+	</bean>
+
+	<!--============================= FLUJO INDIVIDUAL PARA RENOVACION DE CREDITOS =============================-->
+	<bean name="/flujoIndividualRenovacionVista.htm" class="originacion.controlador.FlujoIndividualRenovacionControlador">
+   		<property name="formView" value="originacion/flujoIndividualRenovacionVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	 <bean name="/solicitudCreditoRenovacion.htm" class="originacion.controlador.SolicitudCreditoRenovacionControlador">
+  		<property name="formView" value="originacion/solicitudCreditoRenovacionVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!-- ========================= fin de flujo individual para renovaciones de creditos ========================= -->
+
+	<!-- Pantalla de Reporte de Renovaciones -->
+
+	<bean name="/repRenovaciones.htm" class="originacion.controlador.RepRenovacionesVistaControlador" >
+		<property name="formView" value="originacion/repRenovacionesVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+
+	<bean name="/RenovacionesCreRep.htm" class="originacion.reporte.RenovacionesCreRepControlador" >
+		<property name="nombreReporte" value="originacion/RenovacionesCredito.prpt" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="renovacionesCreServicio" ref="RenovacionesCreServicioImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+  		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<bean id="RenovacionesCreServicioImpl" class="originacion.servicio.RenovacionesCreServicio">
+		<property name="renovacionesCreDAO" ref="RenovacionesCreDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean id="RenovacionesCreDAOImpl" class="originacion.dao.RenovacionesCreDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Pantalla de Reporte de Consolidaciones -->
+
+	<bean name="/repConsolidaciones.htm" class="originacion.controlador.ReporteConsolidacionVistaControlador">
+		<property name="formView" value="originacion/reporteConsolidacionVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+
+	<bean name="/ConsolidacionCreRep.htm" class="originacion.reporte.ReporteConsolidacionControlador" >
+		<property name="nombreReporte" value="originacion/ConsolidacionCredito.prpt" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="reporteConsolidacionSerivicio" ref="ReporteConsolidacionSerivicioImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+  		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<bean id="ReporteConsolidacionSerivicioImpl" class="originacion.servicio.ReporteConsolidacionSerivicio">
+		<property name="reporteConsolidacionDAO" ref="ReporteConsolidacionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean id="ReporteConsolidacionDAOImpl" class="originacion.dao.ReporteConsolidacionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!--============================= FLUJO INDIVIDUAL PARA REESTRUCTURA DE CREDITOS =============================-->
+	<bean name="/flujoIndividualReestructura.htm" class="originacion.controlador.FlujoIndividualReestructuraControlador">
+   		<property name="formView" value="originacion/flujoIndividualReestructuraVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	  <bean name="/solicitudCreditoReestructura.htm" class="originacion.controlador.SolicitudCreditoReestructuraControlador">
+  		<property name="formView" value="originacion/solicitudCreditoReestructuraVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+
+	<!--====================== DESTINOS POR PRODUCTO DE CREDITO DESTINOSCREDPROD =============================-->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.DestinosCredProdBean" />
+	</dwr:configuration>
+
+	<bean id="destinosCredProdDAOImpl" class="originacion.dao.DestinosCredProdDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<bean id="destinosCredProdServicioImpl" class="originacion.servicio.DestinosCredProdServicio">
+		<dwr:remote javascript="destinosCredProdServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="destinosCredProdDAO" ref="destinosCredProdDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/destinosCreditoProducto.htm" class="originacion.controlador.DestinosCredProdControlador">
+		<property name="formView" value="originacion/destinosCreditoProductoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="destinosCredProdServicio" ref="destinosCredProdServicioImpl" />
+	</bean>
+
+	<bean name="/destinosCreditoProductoGrid.htm"  class="originacion.controlador.DestinosCredProdGridControlador">
+		<property name="destinosCredProdServicio" ref="destinosCredProdServicioImpl" />
+	</bean>
+	<!-- ===================== Referencias de Clientes/prospectos =================-->
+		<!-- Beans de ReferenciaCliente -->
+		<dwr:configuration>
+			<dwr:convert type="bean" class="originacion.bean.ReferenciaClienteBean" />
+		</dwr:configuration>
+
+		<!--  DAO de Referencias -->
+		<bean id="referenciaClienteDAOImpl" class="originacion.dao.ReferenciaClienteDAO">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+			<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+			<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+			<property name="transactionTemplate">
+				<bean class="org.springframework.transaction.support.TransactionTemplate">
+						<property name="transactionManager" ref="transactionManager" />
+				</bean>
+			</property>
+		</bean>
+
+		<!--  Servicio de Referencias -->
+		<bean id="referenciaClienteServicioImpl" class="originacion.servicio.ReferenciaClienteServicio">
+			<dwr:remote javascript="referenciaClienteServicio">
+				<dwr:include method="consulta" />
+				<dwr:include method="lista"/>
+			</dwr:remote>
+			<property name="referenciaClienteDAO" ref="referenciaClienteDAOImpl"/>
+			<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		</bean>
+
+		<!-- Controlador pantalla -->
+		<bean name="/referenciaCliente.htm" class="originacion.controlador.ReferenciaClienteControlador">
+			<property name="formView" value="originacion/referenciaCliente" />
+			<property name="successView" value="resultadoTransaccionVista" />
+			<property name="referenciaClienteServicio" ref="referenciaClienteServicioImpl" />
+		</bean>
+		<!-- Grid Referencias -->
+		<bean name="/referenciaClienteGridVista.htm" class="originacion.controlador.ReferenciaClienteListaControlador">
+			<property name="successView" value="originacion/referenciaDetalleGridVista"/>
+			<property name="referenciaClienteServicio" ref="referenciaClienteServicioImpl" />
+		</bean>
+	<!-- ================== Fin Referencias de Clientes/prospectos =================-->
+	<!-- =========================   Reporte Referencias   =========================-->
+	<!-- Controlador Pantalla -->
+	<bean name="/referenciasClienteRep.htm" class="originacion.controlador.ReferenciasCteControlador">
+		<property name="formView" value="originacion/referenciasClienteRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="referenciaClienteServicio" ref="referenciaClienteServicioImpl" />
+	</bean>
+
+	<!-- Controlador reporte -->
+	<bean name="/referenciasCteReporte.htm" class="originacion.reporte.RepReferenciasCteControlador">
+   		<property name="nombreReporte" value="originacion/ReferenciaClientes.prpt" />
+   		<property name="referenciaClienteServicio" ref="referenciaClienteServicioImpl" />
+	</bean>
+	<!-- ========================= Fin Reporte Referencias =========================-->
+	<!-- ======================  Catalogo de Frecuencias por producto ============= -->
+	<!-- Beans -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.FrecuenciaBean" />
+	</dwr:configuration>
+	<!--  DAO -->
+	<bean id="catFrecuenciasDAOImpl" class="originacion.dao.CatFrecuenciasDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="catFrecuenciasServicioImpl" class="originacion.servicio.CatFrecuenciasServicio">
+		<dwr:remote javascript="catFrecuenciasServicio">
+			<dwr:include method="lista"/>
+		</dwr:remote>
+		<property name="catFrecuenciasDAO" ref="catFrecuenciasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- ==================  Fin Catalogo de Frecuencias por producto ============= -->
+	<!-- ================== Parametrizacion de Dias por Frecuencia ============ -->
+	<!-- Beans -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ParamDiasFrecuenciaBean" />
+	</dwr:configuration>
+	<!--  DAO -->
+	<bean id="paramDiasFrecuenciaDAOImpl" class="originacion.dao.ParamDiasFrecuenciaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!--  Servicio -->
+	<bean id="paramDiasFrecuenciaServicioImpl" class="originacion.servicio.ParamDiasFrecuenciaServicio">
+		<dwr:remote javascript="paramDiasFrecuenciaServicio">
+			<dwr:include method="lista"/>
+		</dwr:remote>
+		<property name="paramDiasFrecuenciaDAO" ref="paramDiasFrecuenciaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Controlador pantalla -->
+	<bean name="/parametrizacionDiasFrecuencia.htm" class="originacion.controlador.ParamDiasFrecuenciaControlador">
+		<property name="formView" value="originacion/paramDiasFrecuenciaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="paramDiasFrecuenciaServicio" ref="paramDiasFrecuenciaServicioImpl" />
+	</bean>
+	<!-- Grid Referencias -->
+	<bean name="/parametrizacionDiasFrecuenciaGrid.htm" class="originacion.controlador.ParamDiasFrecuenciaGridControlador">
+		<property name="successView" value="originacion/paramDiasFrecuenciaGridVista"/>
+		<property name="paramDiasFrecuenciaServicio" ref="paramDiasFrecuenciaServicioImpl" />
+	</bean>
+
+	<!-- ================ Fin Parametrizacion de dias de frecuencia de Creditos ========== -->
+	<!-- ================== Parametrizacion de Esquema de seguros por Frecuencia ============ -->
+	<!-- Beans -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaSeguroBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="esquemaSeguroDAOImpl" class="originacion.dao.EsquemaSeguroDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!--  Servicio -->
+	<bean id="esquemaSeguroServicioImpl" class="originacion.servicio.EsquemaSeguroServicio">
+		<dwr:remote javascript="esquemaSeguroServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+		</dwr:remote>
+		<property name="esquemaSeguroDAO" ref="esquemaSeguroDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Controlador pantalla -->
+	<bean name="/esquemaSeguro.htm" class="originacion.controlador.EsquemaSeguroControlador">
+		<property name="formView" value="originacion/esquemaSeguroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaSeguroServicio" ref="esquemaSeguroServicioImpl" />
+	</bean>
+	<!-- Grid Seguros -->
+	<bean name="/esquemaSeguroGrid.htm" class="originacion.controlador.EsquemaSeguroGridControlador">
+		<property name="successView" value="originacion/esquemaSeguroGridVista"/>
+		<property name="esquemaSeguroServicio" ref="esquemaSeguroServicioImpl" />
+	</bean>
+	<!-- ================== Fin Parametrizacion de Esquema de seguros por Frecuencia ============ -->
+
+    	<!-- PANTALLA MONITOR DE SOLICITUDES DE CRÉDITO -->
+
+    	<!-- Controlador pantalla -->
+	<bean name="/monitorSolicitudes.htm" class="originacion.controlador.MonitorSolicitudesControlador">
+		<property name="formView" value="originacion/monitorSolicitudesVista" />
+	   	<property name="successView" value="resultadoTransaccionVista" />
+    	<property name="monitorSolicitudesServicio" ref="monitorSolicitudesServicioImpl" />
+    </bean>
+
+    <!-- Controlador para el GRID del Total de Solicitudes de Crédito -->
+	<bean name="/monitorCantidadSolicitudesGridVista.htm" class="originacion.controlador.MonitorCantidadSolicitudesGridControlador" >
+		<property name="monitorSolicitudesServicio" ref="monitorSolicitudesServicioImpl" />
+	</bean>
+
+    <dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.MonitorSolicitudesBean" />
+	</dwr:configuration>
+
+	<bean id="monitorSolicitudesImpl" class="originacion.dao.MonitorSolicitudesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="monitorSolicitudesServicioImpl" class="originacion.servicio.MonitorSolicitudesServicio">
+		<dwr:remote javascript="monitorSolicitudesServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="obtieneDatos" />
+		</dwr:remote>
+		<property name="monitorSolicitudesDAO" ref="monitorSolicitudesImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+    <!-- Terminan Beans para PANTALLA MONITOR DE SOLICITUDES DE CRÉDITO  -->
+
+	<!--  Pantalla Reporte BITACORA DE SOLICITUDES -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.RepBitacoraSolBean" />
+	</dwr:configuration>
+
+		<!-- Definicion de Controlador de Bitacora de Solicitud de Crédito -->
+	<bean name="/repBitacoraSol.htm"  class="originacion.controlador.RepBitacoraSolControlador">
+		<property name="formView" value="originacion/repBitacoraSolVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repBitacoraSolServicio" ref="repBitacoraSolServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Bitacora de Solicitud de Credito -->
+	<bean name="/RepBitacoraSol.htm"  class="originacion.reporte.RepBitacoraSolCredControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repBitacoraSolServicio" ref="repBitacoraSolServicioImpl" />
+	</bean>
+
+		<!-- Definicion de Servicio de Bitacora de Solicitud de Crédito -->
+	<bean id="repBitacoraSolServicioImpl" class="originacion.servicio.RepBitacoraSolServicio">
+		<dwr:remote javascript="repBitacoraSolicitudServicio">
+ 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repBitacoraSolDAO" ref="repBitacoraSolDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Definicion de Dao de Bitacora de Solicitud de Crédito -->
+	<bean id="repBitacoraSolDAOImpl" class="originacion.dao.RepBitacoraSolDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- Termina Bean para Pantalla BITACORA DE MONITOR DE SOLICITUDES -->
+
+	<!-- PANTALLA EXPEDIENTE SOLICITUD DE CRÉDITO -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.SolicitudesArchivoBean" />
+	</dwr:configuration>
+
+			<!-- Controlador para ver archivos del credito -->
+	<bean name="/solicitudVerArchivos.htm" class="originacion.controlador.SolicitudVerArchivoControlador">
+    	<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+
+	</bean>
+
+	<bean id="solicitudArchivoDAOImpl" class="originacion.dao.SolicitudArchivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="instrumentosArchivosDAO" ref="instrumentosArchivosDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="solicitudArchivoServicioImpl" class="originacion.servicio.SolicitudArchivoServicio">
+		<dwr:remote javascript="solicitudArchivoServicio">
+			<dwr:include method="listaArchivosCredito" />
+			<dwr:include method="bajaArchivoCredito" />
+			<dwr:include method="consulta" />
+			<dwr:include method="consulParam" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="solicitudArchivoDAO" ref="solicitudArchivoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/solicitudesAdjuntaArchivo.htm" class="originacion.controlador.SolicitudesArchivoControlador">
+        <property name="commandClass" value="originacion.bean.SolicitudesArchivoBean"/>
+        <property name="formView" value="originacion/solicitudAdjuntaArchivo"/>
+        <property name="successView" value="resultadoTransaccionVista"/>
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+
+    </bean>
+
+	<bean name="/solicitudesAdjuntaArchivoVista.htm" class="originacion.controlador.SolicitudesArchivoControlador">
+        <property name="commandClass" value="originacion.bean.SolicitudesArchivoBean"/>
+        <property name="formView" value="originacion/solicitudAdjuntaArchivoVista"/>
+        <property name="successView" value="resultadoTransaccionArchivoSolicitudVista"/>
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+
+    </bean>
+
+	<!-- TERMINA BEAN DE EXPEDIENTE DE SOLICITU DE CRÉDITO -->
+
+	<!-- Reporte de Archivos de Solicitud de Credito PDF -->
+	<bean name="/solicitudArchivoPDF.htm" class="originacion.reporte.PDFSolicitudesArchivoRepControlador">
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl" />
+	</bean>
+
+	<bean name="/solicitudConsulArchGridVista.htm" class="originacion.controlador.SolicitudArchivosGridControlador">
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+	</bean>
+
+	<!-- Termina la definicion del recurso adjuntar archivo -->
+	<!-- ================== Configuracion Ratios ============ -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ConfiguracionRatiosBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="configuracionRatiosDAOImpl" class="originacion.dao.ConfiguracionRatiosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	<!-- Servicio -->
+	<bean id="configuracionRatiosServicioImpl" class="originacion.servicio.ConfiguracionRatiosServicio">
+		<property name="configuracionRatiosDAO" ref="configuracionRatiosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Pantalla -->
+	<bean name="/configuracionRatios.htm" class="originacion.controlador.ConfiguracionRatiosControlador">
+		<property name="formView" value="originacion/configuracionRatios" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="configuracionRatiosServicio" ref="configuracionRatiosServicioImpl" />
+	</bean>
+	<!-- Grid -->
+	<bean name="/configuracionRatiosGrid.htm" class="originacion.controlador.ConfiguracionRatiosGridControlador">
+		<property name="configuracionRatiosServicio" ref="configuracionRatiosServicioImpl" />
+	</bean>
+	<!-- ================== Termina Configuracion Ratios ============ -->
+	<!-- ================== Parametrizacion de Esquema de Comision Anualidad Credito============ -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaComAnualBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="esquemaComAnualDAOImpl" class="originacion.dao.EsquemaComAnualDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="esquemaComAnualServicioImpl" class="originacion.servicio.EsquemaComAnualServicio">
+		<dwr:remote javascript="esquemaComAnualServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="esquemaComAnualDAO" ref="esquemaComAnualDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	<!-- Controlador Pantalla -->
+	<bean name="/esquemaComisionAnualidadCred.htm" class="originacion.controlador.EsquemaComAnualControlador">
+		<property name="formView" value="originacion/esquemaComisionAnualidadCred" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaComAnualServicio" ref="esquemaComAnualServicioImpl" />
+	</bean>
+	<!-- ================== Termina Parametrizacion de Esquema de Comision Anualidad Credito============ -->
+
+
+	<!-- =========================== INICIO PANTALLA NIVELES DE CREDITO ================================= -->
+
+	<!--  Bean pantalla Niveles de Credito -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.NivelCreditoBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Niveles de Credito-->
+	<bean id="nivelCreditoDAOImpl" class="originacion.dao.NivelCreditoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Niveles de Credito -->
+	<bean id="nivelCreditoServicioImpl" class="originacion.servicio.NivelCreditoServicio">
+		<dwr:remote javascript="nivelCreditoServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="nivelCreditoDAO" ref="nivelCreditoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Niveles de Credito -->
+	<bean name="/nivelCredito.htm" class="originacion.controlador.NivelCreditoControlador">
+		<property name="formView" value="originacion/nivelCreditoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="nivelCreditoServicio" ref="nivelCreditoServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid Niveles de Credito  -->
+	<bean name="/nivelCreditoGridVista.htm" class="originacion.controlador.NivelCreditoGridControlador" >
+		<property name="nivelCreditoServicio" ref="nivelCreditoServicioImpl" />
+	</bean>
+
+	<!-- =========================== FIN PANTALLA NIVELES DE CREDITO ================================= -->
+
+	<!-- ================ Parametrizacion de Esquema Cobro por Disposición de Créditos ============ -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaCargoDispBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="esquemaCargoDispDAOImpl" class="originacion.dao.EsquemaCargoDispDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!--  Servicio -->
+	<bean id="esquemaCargoDispServicioImpl" class="originacion.servicio.EsquemaCargoDispServicio">
+		<dwr:remote javascript="esquemaCargoDispServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+		</dwr:remote>
+		<property name="esquemaCargoDispDAO" ref="esquemaCargoDispDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Controlador Pantalla -->
+	<bean name="/esquemaCargoDispVista.htm" class="originacion.controlador.EsquemaCargoDispControlador">
+		<property name="formView" value="originacion/esquemaCargoDispercionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaCargoDispServicio" ref="esquemaCargoDispServicioImpl" />
+	</bean>
+	<!-- Controlador Grid -->
+	<bean name="/esquemaCargoGrid.htm" class="originacion.controlador.EsquemaCargoDispGridControlador">
+		<property name="successView" value="originacion/esquemaCargoDispGridVista"/>
+		<property name="esquemaCargoDispServicio" ref="esquemaCargoDispServicioImpl" />
+	</bean>
+	<!-- ============== FIN Parametrizacion de Esquema Cobro por Disposición de Créditos ========== -->
+
+	<!-- ====================== Reporte de Cobro por Disposición de Créditos ====================== -->
+	<!-- Controlador Pantalla -->
+	<bean name="/cargoDispRepVista.htm" class="originacion.controlador.EsquemaCargoDispControlador">
+		<property name="formView" value="originacion/reporteCargoDispVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaCargoDispServicio" ref="esquemaCargoDispServicioImpl" />
+	</bean>
+	<!-- Controlador Reporte -->
+	<bean name="/cargoDispReporteVista.htm" class="originacion.reporte.RepCargoDispControlador">
+		<property name="nombreReporte" value="originacion/CargosXDisposicionCred.prpt" />
+		<property name="esquemaCargoDispServicio" ref="esquemaCargoDispServicioImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	<!-- ==================== FIN Reporte de Cobro por Disposición de Créditos ==================== -->
+
+	<!-- ================ BEANS DE LA PANTALLA RIESGO COMÚN ============ -->
+
+	<!--  Bean pantalla Riesgo Común -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.RiesgoComunBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Tipos de Respuesta -->
+	<bean id="riesgoComunDAOImpl" class="originacion.dao.RiesgoComunDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Tipos de Respuesta -->
+	<bean id="riesgoComunServicioImpl" class="originacion.servicio.RiesgoComunServicio">
+		<dwr:remote javascript="riesgoComunServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="riesgoComunDAO" ref="riesgoComunDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Tipos de Respuesta 	-->
+	<bean name="/riesgoComun.htm" class="originacion.controlador.RiesgoComunControlador">
+		<property name="formView" value="originacion/riesgoComunVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="riesgoComunServicio" ref="riesgoComunServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid Tipos de Respuesta  -->
+	<bean name="/riesgoComunGridVista.htm" class="originacion.controlador.RiesgoComunGridControlador" >
+		<property name="riesgoComunServicio" ref="riesgoComunServicioImpl" />
+	</bean>
+
+	<!-- ============================== FIN Beans de la Pantalla Riesgo Común ==================================== -->
+
+
+
+	<!-- ================ BEANS DE LA PANTALLA MONITOR RIESGO COMÚN ============ -->
+
+	<!--  Bean pantalla Riesgo Común -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.MonitorRiesgoComunBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Tipos de Respuesta -->
+	<bean id="monitorRiesgoComunDAOImpl" class="originacion.dao.MonitorRiesgoComunDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Tipos de Respuesta -->
+	<bean id="monitorRiesgoComunServicioImpl" class="originacion.servicio.MonitorRiesgoComunServicio">
+		<dwr:remote javascript="monitorRiesgoComunServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="monitorRiesgoComunDAO" ref="monitorRiesgoComunDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Tipos de Respuesta -->
+	<bean name="/monitorRiesgoComun.htm" class="originacion.controlador.MonitorRiesgoComunControlador">
+		<property name="formView" value="originacion/monitorRiesgoComunVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="monitorRiesgoComunServicio" ref="monitorRiesgoComunServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid Tipos de Respuesta  -->
+	<bean name="/monitorRiesgoComunGridVista.htm" class="originacion.controlador.MonitorRiesgoComunGridControlador" >
+		<property name="monitorRiesgoComunServicio" ref="monitorRiesgoComunServicioImpl" />
+	</bean>
+
+	<!-- ============================== FIN Beans de la Pantalla Monitor Riesgo Común ==================================== -->
+
+		<!--  Pantalla Reporte RIESGO COMÚN -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.RepRiesgoComunBean" />
+	</dwr:configuration>
+
+		<!-- Definicion de Dao de Bitacora de Solicitud de Crédito -->
+	<bean id="repRiesgoComunDAOImpl" class="originacion.dao.RepRiesgoComunDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+		<!-- Definicion de Servicio de Bitacora de Solicitud de Crédito -->
+	<bean id="repRiesgoComunServicioImpl" class="originacion.servicio.RepRiesgoComunServicio">
+		<dwr:remote javascript="repRiesgoComunServicio">
+ 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repRiesgoComunDAO" ref="repRiesgoComunDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Definicion de Controlador de Bitacora de Solicitud de Crédito -->
+	<bean name="/reporteRiesgoComun.htm"  class="originacion.controlador.RepRiesgoComunControlador">
+		<property name="formView" value="originacion/repRiesgoComunVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repRiesgoComunServicio" ref="repRiesgoComunServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Bitacora de Solicitud de Credito -->
+	<bean name="/RepRiesgoComun.htm"  class="originacion.reporte.RepRiesgoComunControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repRiesgoComunServicio" ref="repRiesgoComunServicioImpl" />
+	</bean>
+	<!-- Termina Bean para Pantalla REPORTE RIESGO COMÚN -->
+
+
+	<!--============================= FLUJO INDIVIDUAL PARA REACREDITAMIENTO DE CREDITOS =============================-->
+	<bean name="/flujoIndividualReacreditamientoVista.htm" class="originacion.controlador.FlujoIndividualReacreditamientoControlador">
+   		<property name="formView" value="originacion/flujoIndividualReacreditamientoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	 <bean name="/solicitudCreditoReacreditamiento.htm" class="originacion.controlador.SolicitudCreditoReacreditamientoControlador">
+  		<property name="formView" value="originacion/solicitudCreditoReacreditamientoVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!-- ========================= fin de flujo individual para renovaciones de creditos ========================= -->
+
+
+	<!-- ================ PANTALLA OTROS ACCESORIOS ============ -->
+
+	<!--  Bean pantalla Otros Accesorios -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.OtrosAccesoriosBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Tipos de Accesorios -->
+	<bean id="otrosAccesoriosDAOImpl" class="originacion.dao.OtrosAccesoriosDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Tipos de Accesorios-->
+	<bean id="otrosAccesoriosServicioImpl" class="originacion.servicio.OtrosAccesoriosServicio">
+		<dwr:remote javascript="otrosAccesoriosServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="otrosAccesoriosDAO" ref="otrosAccesoriosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Tipos de Accesorios -->
+	<bean name="/otrosAccesorios.htm" class="originacion.controlador.OtrosAccesoriosControlador">
+		<property name="formView" value="originacion/otrosAccesoriosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="otrosAccesoriosServicio" ref="otrosAccesoriosServicioImpl" />
+	</bean>
+
+	<!-- Grid pantalla Accesorios -->
+	<bean name="/otrosAccesoriosGridVista.htm" class="originacion.controlador.OtrosAccesoriosGridControlador">
+		<property name="successView" value="originacion/otrosAccesoriosGridVista"/>
+		<property name="otrosAccesoriosServicio" ref="otrosAccesoriosServicioImpl" />
+	</bean>
+
+
+	<!--  Bean pantalla Esquema Otros Accesorios -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.EsquemaOtrosAccesoriosBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Esquema Otros Accesorios -->
+	<bean id="esquemaOtrosAccesoriosDAOImpl" class="originacion.dao.EsquemaOtrosAccesoriosDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Esquema Otros Accesorios -->
+	<bean id="esquemaOtrosAccesoriosServicioImpl" class="originacion.servicio.EsquemaOtrosAccesoriosServicio">
+		<dwr:remote javascript="esquemaOtrosAccesoriosServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="esquemaOtrosAccesoriosDAO" ref="esquemaOtrosAccesoriosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Esquemas Otros Accesorios -->
+	<bean name="/esquemaOtrosAccesorios.htm" class="originacion.controlador.EsquemaOtrosAccesoriosControlador">
+		<property name="formView" value="originacion/esquemaOtrosAccesoriosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="esquemaOtrosAccesoriosServicio" ref="esquemaOtrosAccesoriosServicioImpl" />
+	</bean>
+
+		<!-- Grid pantalla Esquema Otros Accesorios -->
+	<bean name="/esquemaOtrosAccesoriosGridVista.htm" class="originacion.controlador.EsquemaOtrosAccesoriosGridControlador">
+		<property name="successView" value="originacion/esquemaOtrosAccesoriosGridVista"/>
+		<property name="esquemaOtrosAccesoriosServicio" ref="esquemaOtrosAccesoriosServicioImpl" />
+	</bean>
+
+	<!-- Grid pantalla Esquema Plazos Otros Accesorios -->
+	<bean name="/accesoriosGridVista.htm" class="originacion.controlador.AccesoriosGridControlador">
+		<property name="successView" value="originacion/AccesoriosGridVista"/>
+		<property name="esquemaOtrosAccesoriosServicio" ref="esquemaOtrosAccesoriosServicioImpl" />
+	</bean>
+
+<!-- INCONSISTENCIAS -->
+	<!--  Bean pantalla Esquema Otros Accesorios -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.InconsistenciasBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Esquema Otros Accesorios -->
+	<bean id="inconsistenciasDAOImpl" class="originacion.dao.InconsistenciasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Esquema Otros Accesorios -->
+	<bean id="inconsistenciasServicioImpl" class="originacion.servicio.InconsistenciasServicio">
+		<dwr:remote javascript="inconsistenciasServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="inconsistenciasDAO" ref="inconsistenciasDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<!-- Controlador pantalla Inconsistencias Nombres -->
+	<bean name="/inconsistencias.htm" class="originacion.controlador.InconsistenciasControlador">
+		<property name="formView" value="originacion/inconsistenciasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="inconsistenciasServicio" ref="inconsistenciasServicioImpl" />
+	</bean>
+<!-- FIN INCONSISTENCIAS -->
+
+
+<!-- BEANS GARANTES  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.GarantesBean" />
+	</dwr:configuration>
+
+	<bean id="garantesDAOImpl" class="originacion.dao.GarantesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="garantesServicioImpl" class="originacion.servicio.GarantesServicio">
+		<dwr:remote javascript="garantesServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="formaRFC" />
+			<dwr:include method="consultaRFC" />
+			<dwr:include method="consultaCURP" />
+			<dwr:include method="formaCURP" />
+			<dwr:include method="consultaEsta" />
+		</dwr:remote>
+		<property name="garantesDAO" ref="garantesDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controladores de Garantes -->
+	<bean name="/catalogoGarantes.htm" class="originacion.controlador.GarantesControlador">
+		<property name="formView" value="originacion/garantesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="garantesServicio" ref="garantesServicioImpl" />
+	</bean>
+
+	<bean name="/listaGarantes.htm" class="originacion.controlador.GarantesListaControlador">
+		<property name="garantesServicio" ref="garantesServicioImpl" />
+	</bean>
+
+	<!-- FIN BEANS GARANTES  -->
+
+	<!--  Definicion de controlador para la vista del proceso Check-in Out Analista  POS. ctomas -->
+
+	<bean name="/checkOuInAnalistas.htm" class="soporte.controlador.checkInOutAnalistaControlador">
+		<property name="formView" value="originacion/chekInOutAnalistaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+	</bean>
+
+
+		<!-- ===================== Pantalla Parametros de Analisis de Credito ============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="credito.bean.PerfilesAnalistasCreBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+    <bean id="perfilesAnalistasCreDAOImpl" class="credito.dao.PerfilesAnalistasCreDAO">
+	   	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!--  Servicio -->
+
+		<bean id="perfilesAnalistasCreServicioImpl" class="credito.servicio.PerfilesAnalistasCreServicio">
+	      <dwr:remote javascript="perfilesAnalistasCreServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+			</dwr:remote>
+	      <property name="perfilesAnalistasCreDAO" ref="perfilesAnalistasCreDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  </bean>
+
+
+	<!-- Controlador pantalla -->
+		<bean name="/perfilesAnalistasCre.htm"
+			class="credito.controlador.PerfilesAnalistasCreControlador">
+		<property name="formView" value="originacion/perfilesAnalistasCreVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="perfilesAnalistasCreServicio" ref="perfilesAnalistasCreServicioImpl" />
+	   </bean>
+
+	<!-- Grid analistas y ejecutivos -->
+	   <bean name="/perfilesAnalistasCreGrid.htm" class="credito.controlador.PerfilesAnalistasCreGridControlador">
+		<property name="successView" value="originacion/perfilesAnalistasCreVistaGrid"/>
+		<property name="perfilesAnalistasCreServicio" ref="perfilesAnalistasCreServicioImpl" />
+	   </bean>
+
+	<!-- ==================== FIN Pantalla Parametros de Analisis de Credito =========================== -->
+
+
+	<!-- ===================== Pantalla Asignacion de solicitud de Credito ============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="originacion.bean.AnalistasAsignacionBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+    <bean id="analistasAsignacionDAOImpl" class="originacion.dao.AnalistasAsignacionDAO">
+	   	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!--  Servicio -->
+
+	<bean id="analistasAsignacionServicioImpl" class="originacion.servicio.AnalistasAsignacionServicio">
+	      <dwr:remote javascript="analistasAsignacionServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+			<dwr:include method="listaComboCatalogoAsignaciones"/>
+			</dwr:remote>
+	      <property name="analistasAsignacionDAO" ref="analistasAsignacionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	 </bean>
+
+
+	<!-- Controlador pantalla -->
+		<bean name="/analistasAsignacion.htm" class="originacion.controlador.AnalistasAsignacionControlador">
+		<property name="formView" value="originacion/analistasAsignacionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="analistasAsignacionServicio" ref="analistasAsignacionServicioImpl" />
+	   </bean>
+
+	<!-- Grid analistas y ejecutivos -->
+	   <bean name="/analistasAsignacionGrid.htm" class="originacion.controlador.AnalistasAsignacionGridControlador">
+		<property name="successView" value="originacion/analistasAsignacionVistaGrid"/>
+		<property name="analistasAsignacionServicio" ref="analistasAsignacionServicioImpl" />
+	   </bean>
+
+	<!-- ==================== FIN Pantalla Asignacion de solicitud de Credito  =========================== -->
+
+
+	<!-- ===================== Pantalla de Reasignación de Solicitudes de Credito ============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="originacion.bean.SolicitudesCreAsigBean" />
+	</dwr:configuration>
+
+	<bean name="/listaSolicitudesCreAsig.htm"
+	      class="originacion.controlador.SolicitudesCreAsigListaControlador">
+	       <property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	</bean>
+
+	<!-- DAO -->
+    <bean id="solicitudesCreAsigDAOImpl" class="originacion.dao.SolicitudesCreAsigDAO">
+	   	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!--  Servicio -->
+
+	<bean id="solicitudesCreAsigServicioImpl" class="originacion.servicio.SolicitudesCreAsigServicio">
+	      <dwr:remote javascript="solicitudesCreAsigServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+			</dwr:remote>
+	      <property name="solicitudesCreAsigDAO" ref="solicitudesCreAsigDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	 </bean>
+
+
+	<!-- Controlador pantalla -->
+		<bean name="/solicitudCreAsig.htm" class="originacion.controlador.SolicitudesCreAsigControlador">
+		<property name="formView" value="originacion/solicitudCreAsigVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	   </bean>
+
+
+	<!-- ==================== FIN Pantalla Asignacion de solicitud de Credito  =========================== -->
+
+
+	<!-- ===================== Pantalla de Reasignación Masiva de Solicitudes de Credito ============================== -->
+		<!-- Controlador pantalla -->
+		<bean name="/solicitudCreAsigMasiva.htm" class="originacion.controlador.SolicitudCreAsigMasivaControlador">
+		<property name="formView" value="originacion/solicitudCreAsigMasivaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	   </bean>
+
+	<!-- Grid analistas y ejecutivos -->
+	   <bean name="/solicitudCreAsigMasivaGrid.htm" class="originacion.controlador.SolicitudCreAsigMasivaGridControlador">
+		<property name="successView" value="originacion/solicitudCreAsigMasivaVistaGrid"/>
+		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	   </bean>
+
+	<!-- ===================== Pantalla de Reasignación Masiva de Solicitudes de Credito ============================== -->
+
+
+
+	<!-- =========================   Reporte Historico de Solicitudes   =========================-->
+
+		<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="originacion.bean.HisEstatusCreSolBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+    <bean id="hisEstatusCreSolDAOImpl" class="originacion.dao.HisEstatusCreSolDAO">
+	   	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!--  Servicio -->
+
+	<bean id="hisEstatusCreSolServicioImpl" class="originacion.servicio.HisEstatusCreSolServicio">
+	      <dwr:remote javascript="hisEstatusCreSolServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+			</dwr:remote>
+	      <property name="hisEstatusCreSolDAO" ref="hisEstatusCreSolDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	 </bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/historicoSolCre.htm" class="originacion.controlador.HisEstatusCreSolControlador">
+		<property name="formView" value="originacion/hisEstatusCreSolVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="hisEstatusCreSolServicio" ref="hisEstatusCreSolServicioImpl" />
+	</bean>
+
+		<!-- Controlador reporte -->
+	<bean name="/historicoSolCreReporte.htm" class="originacion.reporte.RepHisEstatusCreSolControlador">
+   		<property name="nombreReporte" value="creditos/RepHistoricoSolCredito.prpt" />
+   		<property name="hisEstatusCreSolServicio" ref="hisEstatusCreSolServicioImpl" />
+	</bean>
+
+	<!-- =========================  Fin Reporte Historico de Solicitudes   =========================-->
+
+
+	<!-- =========================   Reporte de Asignacion de Solicitudes a Analistas =========================-->
+	<!-- Controlador Pantalla -->
+	<bean name="/solicitudesCreARep.htm" class="originacion.controlador.SolicitudesCreAControlador">
+		<property name="formView" value="originacion/solicitudesCreARepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	</bean>
+
+	<!-- Controlador reporte -->
+	<bean name="/solicitudesCreAReporte.htm" class="originacion.reporte.RepSolicitudesCreAControlador">
+   		<property name="nombreReporte" value="originacion/RepAsignacionSolicitudes.prpt" />
+   		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	</bean>
+	<!-- ========================= Fin Reporte de Asignacion de Solicitudes a Analistas =========================-->
+
+
+	<!-- =========================   Reporte Productividad Analistas =========================-->
+	<!-- Controlador Pantalla -->
+	<bean name="/productividadAnalisRep.htm" class="originacion.controlador.ProductividadAnalistasControlador">
+		<property name="formView" value="originacion/productividadAnalisRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="analistasAsignacionServicio" ref="analistasAsignacionServicioImpl" />
+	</bean>
+
+	<!-- Controlador reporte -->
+	<bean name="/productividadAnalisReporte.htm" class="originacion.reporte.RepProductividadAnalistasControlador">
+   		<property name="nombreReporte" value="creditos/RepProductividadAnalistas.prpt" />
+   		<property name="analistasAsignacionServicio" ref="analistasAsignacionServicioImpl" />
+	</bean>
+	<!-- ========================= Fin Reporte Productividad Analistas =========================-->
+<!-- ============================= Casas Comerciales =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.CasasComercialesBean" />
+	</dwr:configuration>
+
+
+	<!-- DAO -->
+	<bean id="casasComercialesDAOImpl" class="originacion.dao.CasasComercialesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="casasComercialesServicioImpl" class="originacion.servicio.CasasComercialesServicio">
+	    <dwr:remote javascript="casasComercialesServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+	    <property name="casasComercialesDAO" ref="casasComercialesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/casaComercial.htm" class="originacion.controlador.CasasComercialesControlador">
+		<property name="formView" value="originacion/casaComercialVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="casasComercialesServicio" ref="casasComercialesServicioImpl" />
+	</bean>
+
+	<bean name="/listaCasaComercial.htm"
+		  class="originacion.controlador.CasasComercialesListaControlador">
+		<property name="casasComercialesServicio" ref="casasComercialesServicioImpl" />
+	</bean>
+	<!-- ============================= FIN Casas Comerciales  =============================== -->
+
+	<!-- ============================= Asignacion de Cartas de Liquidacion =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.AsignaCartaLiqBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="asignaCartaLiqDAOImpl" class="originacion.dao.AsignaCartaLiqDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="asignaCartaLiqServicioImpl" class="originacion.servicio.AsignaCartaLiqServicio">
+	    <dwr:remote javascript="asignaCartaLiqServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+	    <property name="asignaCartaLiqDAO" ref="asignaCartaLiqDAOImpl"/>
+	    <property name="cartaLiquidacionDAO" ref="cartaLiquidacionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+		<property name="consolidacionCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl" />
+	</bean>
+
+	<bean name="/asignaCartaLiq.htm" class="originacion.controlador.AsignaCartaLiqControlador">
+		<property name="formView" value="originacion/asignaCartaLiqVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="asignaCartaLiqServicio" ref="asignaCartaLiqServicioImpl" />
+	</bean>
+
+	<!-- Grid pantalla Asigna Cartas Externas -->
+	 <bean name="/asignaCartaLiqGrid.htm"  class="originacion.controlador.AsignaCartaLiqGridControlador">
+		<property name="asignaCartaLiqServicio" ref="asignaCartaLiqServicioImpl" />
+	</bean>
+
+	<!-- Controlador Pantalla Upload -->
+	<bean name="/asignaCartaLiqAutUpload.htm" class="originacion.controlador.CartaLiqArchivoAutUploadControlador">
+		<property name="commandClass" value="originacion.bean.AsignaCartaLiqBean" />
+		<property name="formView" value="originacion/cartaLiqAutUploadVista" />
+		<property name="successView" value="originacion/resultadoTransaccionArchivoCartaLiqVista" />
+		<property name="asignaCartaLiqServicio" ref="asignaCartaLiqServicioImpl" />
+	 </bean>
+	<!-- ============================= Asignacion de Cartas de Liquidacion =============================== -->
+
+	<!-- ======= Inicio Servicios adicionales ==================-->
+		<!-- Bean pantalla Servicios adicionales -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="originacion.bean.ServiciosAdicionalesBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+    <bean id="serviciosAdicionalesDAOImpl" class="originacion.dao.ServiciosAdicionalesDAO">
+	   	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="serviciosAdicionalesServicioImpl" class="originacion.servicio.ServiciosAdicionalesServicio">
+	      <dwr:remote javascript="serviciosAdicionalesServicio">
+			<dwr:include method="consulta"/>
+			<dwr:include method="listaCombo" />
+			<dwr:include method="lista" />
+			</dwr:remote>
+	      <property name="serviciosAdicionalesDAO" ref="serviciosAdicionalesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	 </bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/serviciosAdicionales.htm" class="originacion.controlador.ServiciosAdicionalesControlador">
+		<property name="formView" value="originacion/serviciosAdicionalesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="serviciosAdicionalesServicio" ref="serviciosAdicionalesServicioImpl" />
+	</bean>
+
+	<!-- Controlador Lista Servicios Adicionales -->
+	<bean name="/serviciosAdicionalesListaVista.htm" class="originacion.controlador.ServiciosAdicionalesListaControlador">
+		<property name="serviciosAdicionalesServicio" ref="serviciosAdicionalesServicioImpl" />
+	</bean>
+
+	<!-- ========================= Fin Servicios Adicionales =========================-->
+	<!-- ================ Consolidación y asignacion de Cartas de Liquidacion =============== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ConsolidacionCartaLiqBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="consolidacionCartaLiqDAOImpl" class="originacion.dao.ConsolidacionCartaLiqDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="consolidacionCartaLiqServicioImpl" class="originacion.servicio.ConsolidacionCartaLiqServicio">
+	    <dwr:remote javascript="consolidacionCartaLiqServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCon" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+	    <property name="consolidaCartaLiqDAO" ref="consolidacionCartaLiqDAOImpl"/>
+	    <property name="cartaLiquidacionDAO" ref="cartaLiquidacionDAOImpl"/>
+		<property name="asignaCartaLiqDAO" ref="asignaCartaLiqDAOImpl"/>
+		<property name="solicitudArchivoDAO" ref="solicitudArchivoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/consolidaCartaLiq.htm" class="originacion.controlador.ConsolidacionCartaLiqControlador">
+		<property name="formView" value="originacion/ConsoCarLiqVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="consolidaCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl" />
+	</bean>
+
+	<bean name="/listaConsolidacion.htm" class="originacion.controlador.ConsolidacionListaControlador">
+		<property name="consolidaCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl"/>
+	</bean>
+
+	<!-- Grid Externo -->
+	<bean name="/consolidaCartaLiqExtGrid.htm"  class="originacion.controlador.ConsolidacionCartaLiqGridControlador">
+		<property name="consolidaCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl" />
+	</bean>
+
+	<!-- Grid pantalla Asigna Cartas Internas -->
+	<bean name="/consolidaCartaLiqIntGrid.htm"  class="originacion.controlador.ConsolidaCartaLiqIntGridControlador">
+		<property name="consolidaCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl" />
+	</bean>
+	<!-- ==================== Fin Consolidación y asignacion de Cartas de Liquidacion ==================== -->
+
+
+	<!-- ========================= Instrucciones de Dispersion  =========================-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="originacion.bean.InstruccionDispersionBean" />
+	</dwr:configuration>
+	<bean id="instruccionDispersionDAOImpl" class="originacion.dao.InstruccionDispersionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="instruccionDispersionServicioImpl" class="originacion.servicio.InstruccionDispersionServicio">
+		<dwr:remote javascript="instruccionDispersionServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="instruccionDispersionDAO" ref="instruccionDispersionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+	<!-- Controlador Pantalla -->
+		<bean name="/instruccionDispersion.htm" class="originacion.controlador.InstruccionDispersionControlador">
+			<property name="formView" value="originacion/instruccionDispersionVista" />
+			<property name="successView" value="resultadoTransaccionVista" />
+		</bean>
+	<!-- Controlador Pantalla GRID-->
+		<bean name="/instruccionDispersionGrid.htm" class="originacion.controlador.InstruccionDispersionGridControlador">
+			<property name="successView" value="resultadoTransaccionVista" />
+			<property name="instruccionDispersionServicio" ref="instruccionDispersionServicioImpl" />
+		</bean>
+
+
+	<!-- ========================= FIN Instrucciones de Dispersion  =========================-->
+		<!--============================= FLUJO INDIVIDUAL PARA CONSOLIDACION DE CREDITOS =============================-->
+	<bean name="/flujoIndividualConsolidacion.htm" class="originacion.controlador.FlujoIndividualConsolidacionControlador">
+   		<property name="formView" value="originacion/flujoIndividualConsolidacionVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+
+	<bean name="/solicitudCreditoConsolidacion.htm" class="originacion.controlador.SolicitudCreditoConsolidacionControlador">
+  		<property name="formView" value="originacion/solicitudCreditoConsolidacionVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+  		<property name="consolidacionCartaLiqServicio" ref="consolidacionCartaLiqServicioImpl" />
+	</bean>
+	<!-- ========================= fin de flujo individual para renovaciones de creditos ========================= -->
+	<!--============================= Asigancion de cartas de liquidacion internas =============================-->
+		<bean name="/asignaCartasInt.htm" class="originacion.controlador.AsignaCartaLiqInternaControlador">
+		<property name="formView" value="originacion/asignaCartaLiqVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="asignaCartaLiqServicio" ref="asignaCartaLiqServicioImpl" />
+	</bean>
+	<!--============================= Fin Asigancion de cartas de liquidacion internas =============================-->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.ConsolidacionesBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="consolidacionesDAOImpl" class="originacion.dao.ConsolidacionesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="consolidacionesServicioImpl" class="originacion.servicio.ConsolidacionesServicio">
+	    <dwr:remote javascript="consolidacionesServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="consultaConsolidacion" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+	    <property name="consolidacionesDAO" ref="consolidacionesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Peticion post de Creditos Consolidados -->
+	<bean name="/consolidacionCreditoAgro.htm" class="originacion.controlador.ConsolidacionAgroControlador">
+		<property name="consolidacionesServicio" ref="consolidacionesServicioImpl"/>
+	</bean>
+
+	<!-- Lista de Creditos Consolidados -->
+	<bean name="/listaConsolidacionesAgro.htm" class="originacion.controlador.ConsolidacionAgroListaControlador">
+		<property name="consolidacionesServicio" ref="consolidacionesServicioImpl"/>
+	</bean>
+
+	<!-- Grid de Creditos Consolidados -->
+	<bean name="/listaConsolidacionesGridAgro.htm" class="originacion.controlador.ConsolidacionAgroGridControlador">
+		<property name="consolidacionesServicio" ref="consolidacionesServicioImpl"/>
+	</bean>
+
+	<!-- INICIO Pantalla Tipos de Notas de Cargo -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="originacion.bean.TiposNotasCargoBean" />
+	</dwr:configuration>
+
+	<bean id="tiposNotasCargoDAOImpl" class="originacion.dao.TiposNotasCargoDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tiposNotasCargoServicioImpl" class="originacion.servicio.TiposNotasCargoServicio">
+		<dwr:remote javascript="tiposNotasCargoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="tiposNotasCargoDAO" ref="tiposNotasCargoDAOImpl" />
+	</bean>
+
+	<bean name="/tiposNotasCargo.htm" class="originacion.controlador.TiposNotasCargoControlador">
+   		<property name="formView" value="originacion/tiposNotasCargoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="tiposNotasCargoServicio" ref="tiposNotasCargoServicioImpl" />
+	</bean>
+
+	<bean name="/listaTiposNotasCargo.htm" class="originacion.controlador.TiposNotasCargoListaControlador">
+		<property name="tiposNotasCargoServicio" ref="tiposNotasCargoServicioImpl" />
+	</bean>
+
+	<!-- FIN Pantalla Tipos de Notas de Cargo -->
+
+	<!-- INICIO PANTALLAS DEL MODULO DE ANALISIS -->
+	<!-- Pantalla Monitor de Solicitudes -->
+	<bean name="/monitorSolicitudesMA.htm" class="originacion.controlador.MonitorSolicitudesControlador">
+		<property name="formView" value="originacion/monitorSolicitudesVista" />
+	   	<property name="successView" value="resultadoTransaccionVista" />
+    	<property name="monitorSolicitudesServicio" ref="monitorSolicitudesServicioImpl" />
+    </bean>
+	<!-- Pantalla Expediente de Solicitudes -->
+	<bean name="/solicitudesAdjuntaArchivoMA.htm" class="originacion.controlador.SolicitudesArchivoControlador">
+        <property name="commandClass" value="originacion.bean.SolicitudesArchivoBean"/>
+        <property name="formView" value="originacion/solicitudAdjuntaArchivo"/>
+        <property name="successView" value="resultadoTransaccionVista"/>
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" />
+    </bean>
+	<!-- Pantalla Flujo Individual de Solicitudes -->
+	<bean name="/flujoIndividualMA.htm" class="originacion.controlador.FlujoIndividualControlador">
+   		<property name="formView" value="originacion/flujoIndividualCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	<!-- Pantalla Flujo Individual de Consolidacion -->
+	</bean>
+		<bean name="/flujoIndividualConsolidacionMA.htm" class="originacion.controlador.FlujoIndividualConsolidacionControlador">
+   		<property name="formView" value="originacion/flujoIndividualConsolidacionVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!-- Pantalla Instrucciones de Dispersion -->
+	<bean name="/instruccionDispersionMA.htm" class="originacion.controlador.InstruccionDispersionControlador">
+		<property name="formView" value="originacion/instruccionDispersionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	<!-- Pantalla de Autorizacion de Solicitudes -->
+	</bean>
+		<bean name="/autorizaSolicitudCreditoMA.htm" class="originacion.controlador.SolicitudCreditoControlador">
+   		<property name="formView" value="originacion/AutorizaSolicitudCreditoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!-- Pantalla de Check IN/Out de Analista -->
+	<bean name="/checkOuInAnalistasMA.htm" class="soporte.controlador.checkInOutAnalistaControlador">
+		<property name="formView" value="originacion/chekInOutAnalistaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+	</bean>
+	<!-- Pantalla de Asignacion de Solititud Analista -->
+	<bean name="/solicitudesCreARepMA.htm" class="originacion.controlador.SolicitudesCreAControlador">
+		<property name="formView" value="originacion/solicitudesCreARepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="solicitudesCreAsigServicio" ref="solicitudesCreAsigServicioImpl" />
+	</bean>
+	<!-- Pantalla de Productividad Analista -->
+	<bean name="/productividadAnalisRepMA.htm" class="originacion.controlador.ProductividadAnalistasControlador">
+		<property name="formView" value="originacion/productividadAnalisRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="analistasAsignacionServicio" ref="analistasAsignacionServicioImpl" />
+	</bean>
+	<!-- Pantalla de Historico de Solicitud -->
+	<bean name="/historicoSolCreMA.htm" class="originacion.controlador.HisEstatusCreSolControlador">
+		<property name="formView" value="originacion/hisEstatusCreSolVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="hisEstatusCreSolServicio" ref="hisEstatusCreSolServicioImpl" />
+	</bean>
+	<!-- Pantalla de Reporte Consolidacion -->
+	<bean name="/repConsolidacionesMA.htm" class="originacion.controlador.ReporteConsolidacionVistaControlador">
+		<property name="formView" value="originacion/reporteConsolidacionVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+	<!-- Pantalla de Reporte Renovaciones -->
+	<bean name="/repRenovacionesMA.htm" class="originacion.controlador.RepRenovacionesVistaControlador" >
+		<property name="formView" value="originacion/repRenovacionesVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+	<bean name="/referenciasClienteRepMA.htm" class="originacion.controlador.ReferenciasCteControlador">
+		<property name="formView" value="originacion/referenciasClienteRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+ 		<property name="referenciaClienteServicio" ref="referenciaClienteServicioImpl" />
+	</bean>
+	<!-- FIN PANTALLAS DEL MODULO DE ANALISIS -->
+	
+	<!-- ================================== INICIA PANTALLA DE CICLOS CLIENTE POR GRUPO ====================================  -->
+	<bean name="/ciclosClienteGrupal.htm" class="originacion.controlador.CiclosClienteGrupalControlador">
+   		<property name="formView" value="originacion/ciclosClienteGrupalVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	
+	<!--  Controlador de Para el registro de la bitacora de ciclos cliente grupal -->
+	<bean name="/ciclosProcesaClienteGrupal.htm" class="originacion.controlador.CiclosProcesaClienteGrupalControlador">
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl"/>
+	</bean>
+	<!-- ================================== TERMINA PANTALLA DE CICLOS CLIENTE POR GRUPO ====================================  -->
+</beans>

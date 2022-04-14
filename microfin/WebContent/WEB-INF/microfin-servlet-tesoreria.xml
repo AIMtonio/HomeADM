@@ -1,0 +1,2885 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Definicion de Beans de Guia Contable de Divisas-->
+	<bean id="guiaContableDivServicioImpl" class="tesoreria.servicio.GuiaContableDivServicio">
+	      <dwr:remote javascript="guiaContableDivServicio"/>
+	      <property name="cuentasMayorMonDAO" ref="cuentasMayorMonDAOImpl"/>
+	      <property name="subCtaMonedaDivDAO" ref="subCtaMonedaDivDAOImpl"/>
+	      <property name="subCtaTipoDivDAO" 	ref="subCtaTipoDivDAOImpl"/>
+
+	      <property name="subCtaSucursDivDAO" 	ref="subCtaSucursDivDAOImpl"/>
+	      <property name="subCtaCajeroDivDAO" 	ref="subCtaCajeroDivDAOImpl"/>
+	      <property name="subCtaTipoCajaDivDAO" ref="subCtaTipoCajaDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<!-- Definicion de Controladores de Guia Contable de Divisas-->
+	<bean name="/guiaContDivisas.htm" class="tesoreria.controlador.GuiaContableDivControlador">
+	      <property name="formView" value="tesoreria/guiaContableDivisasCatalogo" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableDivServicio" ref="guiaContableDivServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Beans de Conciliacion Movimientos-->
+	<bean id="conciliacionMovsServicioImpl" class="tesoreria.servicio.ConciliacionMovsServicio">
+	    <dwr:remote javascript="conciliacionMovs"/>
+	    <property name="movimientosGridDAO" ref="movimientosGridDAOImpl"/>
+		<property name="tesoMovsConciliaDAO" ref="tesoMovsCargaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Conciliacion Movimientos-->
+	<bean name="/ConciliacionMovs.htm" class="tesoreria.controlador.ConciliacionMovsControlador">
+	      <property name="formView" value="tesoreria/conciliacionMovsVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="conciliacionMovsServicio" ref="conciliacionMovsServicioImpl"/>
+	</bean>
+
+	<!-- bean para el Grid de Movimientos-->
+	<bean name="/movimientosGrid.htm" class="tesoreria.controlador.MovimientosGridControlador">
+		<property name="movimientosGridServicio" ref="movimientosGridServicioImpl" />
+	</bean>
+
+	<!-- Beans de Subcuentas por Tipo de Moneda-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaMonedaDivBean" />
+	</dwr:configuration>
+
+	<bean id="subCtaMonedaDivDAOImpl" class="tesoreria.dao.SubCtaMonedaDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <bean id="subCtaMonedaDivServicioImpl" class="tesoreria.servicio.SubCtaMonedaDivServicio">
+	      <dwr:remote javascript="subCtaMonedaDivServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaMonedaDivDAO" ref="subCtaMonedaDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Beans de Subcuentas por Tipo-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaTipoDivBean" />
+	</dwr:configuration>
+
+	<bean id="subCtaTipoDivDAOImpl" class="tesoreria.dao.SubCtaTipoDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <bean id="subCtaTipoDivServicioImpl" class="tesoreria.servicio.SubCtaTipoDivServicio">
+	      <dwr:remote javascript="subCtaTipoDivServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTipoDivDAO" ref="subCtaTipoDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Beans de Cuentas de Mayor  -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.CuentasMayorMonBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasMayorMonDAOImpl" class="tesoreria.dao.CuentasMayorMonDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="cuentasMayorMonServicioImpl" class="tesoreria.servicio.CuentasMayorMonServicio">
+	      <dwr:remote javascript="cuentasMayorMonServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="cuentasMayorMonDAO" ref="cuentasMayorMonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+ 	<!-- subCta por Sucursal -->
+
+ 	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaSucursDivBean" />
+	</dwr:configuration>
+
+ 	<bean id="subCtaSucursDivDAOImpl" class="tesoreria.dao.SubCtaSucursDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="subCtaSucursDivServicioImpl" class="tesoreria.servicio.SubCtaSucursDivServicio">
+	      <dwr:remote javascript="subCtaSucursalDivisaServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaSucursDivDAO" ref="subCtaSucursDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- SubCta por Cajero -->
+	 <dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaCajeroDivBean" />
+	</dwr:configuration>
+
+	<bean id="subCtaCajeroDivDAOImpl" class="tesoreria.dao.SubCtaCajeroDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="subCtaCajeroDivServicioImpl" class="tesoreria.servicio.SubCtaCajeroDivServicio">
+	      <dwr:remote javascript="subCtaCajeroDivisaServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaCajeroDivDAO" ref="subCtaCajeroDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- subCta por Tipo de Caja -->
+	 <dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaTipoCajaDivBean" />
+	</dwr:configuration>
+	<bean id="subCtaTipoCajaDivDAOImpl" class="tesoreria.dao.SubCtaTipoCajaDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	 <bean id="subCtaTipoCajaDivServicioImpl" class="tesoreria.servicio.SubCtaTipoCajaDivServicio">
+	      <dwr:remote javascript="subCtaTipoCajaDivisaServicio">
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTipoCajaDivDAO" ref="subCtaTipoCajaDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+      <!-- Beans de Cuenta Nostro-->
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CuentaNostroBean" />
+	</dwr:configuration>
+
+	<bean id="cuentaNostroDAOImpl" class="tesoreria.dao.CuentaNostroDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="cuentaNostroServicioImpl" class="tesoreria.servicio.CuentaNostroServicio">
+		<dwr:remote javascript="cuentaNostroServicio">
+			<dwr:include method="consultaExisteCta" />
+      		<dwr:include method="consulta" />
+      		<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="cuentaNostroDAO" ref="cuentaNostroDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/cuentaNostro.htm" class="tesoreria.controlador.CuentaNostroControlador">
+              <property name="formView" value="tesoreria/ctaNostroRegistroVista" />
+              <property name="successView" value="resultadoTransaccionVista" />
+              <property name="cuentaNostroServicio" ref="cuentaNostroServicioImpl" />
+   </bean>
+
+	<bean name="/ctaNostroLista.htm" class="tesoreria.controlador.CtaNostroListaControlador">
+		<property name="cuentaNostroServicio" ref="cuentaNostroServicioImpl" />
+	</bean>
+
+	<!-- Beans de Conceptos de Divisas -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ConceptosDivBean" />
+	</dwr:configuration>
+
+	<bean id="conceptosDivDAOImpl" class="tesoreria.dao.ConceptosDivDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <bean id="conceptosDivServicioImpl" class="tesoreria.servicio.ConceptosDivServicio">
+	      <dwr:remote javascript="conceptosDivServicio">
+	      <dwr:include method="listaCombo" />
+         </dwr:remote>
+	      <property name="conceptosDivDAO" ref="conceptosDivDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+
+	<!-- Beans de Movivmientos -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.MovimientosGridBean" />
+	</dwr:configuration>
+
+	<bean id="movimientosGridDAOImpl" class="tesoreria.dao.MovimientosGridDAO">
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="movimientosGridServicioImpl" class="tesoreria.servicio.MovimientosGridServicio">
+	      <dwr:remote javascript="movimientosGridServicio">
+	      <dwr:include method="consulta" />
+	      <dwr:include method="movimientos" />
+	      </dwr:remote>
+	      <property name="movimientosGridDAO" ref="movimientosGridDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+
+	 <!-- Beans de Movimientos de Conciliacion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.TesoMovsArchConciliaBean" />
+	</dwr:configuration>
+
+        <bean id="tesoMovsCargaDAOImpl" class="tesoreria.dao.TesoMovsConciliaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tesoMovsServicioImpl" class="tesoreria.servicio.TesoMovsConciliaServicio">
+		<property name="tesoMovsConciliaDAO" ref="tesoMovsCargaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<dwr:remote javascript="tesoMovsServicio">
+		<dwr:include method="consultaCtaAhorro" /></dwr:remote>
+	</bean>
+
+    <!-- Definicion de Controlador de Carga de Archivo Movs Conciliacion Vista-->
+	<bean name="/tesoCargaMovCon.htm" class="tesoreria.controlador.TesoMovsConciliaControlador">
+	   <property name="commandClass" value="tesoreria.bean.TesoMovsArchConciliaBean"/>
+		<property name="commandName"><value>tesoMovsArch</value></property>
+		<property name="formView" value="tesoreria/tesoMovsConciliaCargaArchivoVista" />
+		<property name="successView" value="resultadoTransaccionArchivoVista"/>
+		<property name="tesoMovsConciliaServicio" ref="tesoMovsServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Carga de Archivo Movs Conciliacion Subir Archivo-->
+	<bean name="/tesoMovsConciliaSubirArch.htm" class="tesoreria.controlador.TesoMovsConciliaControlador">
+	   <property name="commandClass" value="tesoreria.bean.TesoMovsArchConciliaBean"/>
+		<property name="commandName"><value>tesoMovsArch</value></property>
+		<property name="formView" value="tesoreria/tesoMovsConciliaSubirArchVista" />
+		<property name="successView" value="resultadoTransaccionArchivoVista"/>
+		<property name="tesoMovsConciliaServicio" ref="tesoMovsServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+
+	<bean name="/tesoCargaMovLista.htm" class="tesoreria.controlador.TesoMovsConciliaListaControlador">
+		<property name="tesoMovsConciliaServicio" ref="tesoMovsServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Pantalla para conciliacion manual de movimientos. -->
+	<bean name="/conciliacionManualVista.htm" class="tesoreria.controlador.TesoMovsConciliaManualControlador">
+		<property name="commandClass" value="tesoreria.bean.TesoMovsConciliaBean"/>
+		<property name="formView" value="tesoreria/tesoMovsConciliaManualVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="tesoMovsConciliaServicio" ref="tesoMovsServicioImpl" />
+	</bean>
+
+	<!-- bean para el Grid de Movimientos no conciliados se muestra en la pantalla de conciliacion manual-->
+	<bean name="/conciliacionManualGridVista.htm" class="tesoreria.controlador.TesoMovsConciliaManualGridControlador">
+		<property name="tesoMovsConciliaServicio" ref="tesoMovsServicioImpl" />
+	</bean>
+
+	<!-- Dispersion  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DispersionBean" />
+	</dwr:configuration>
+
+	<bean id="operDispersionDAOImpl" class="tesoreria.dao.OperDispersionDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="chequesEmitidosDAO" ref="chequesEmitidosDAOImpl"/>
+		<property name="renovacionOrdenPagoDAO" ref="renovacionOrdenPagoDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+   <bean id="operDispersionServicioImpl" class="tesoreria.servicio.OperDispersionServicio">
+      		<dwr:remote javascript="operDispersionServicio">
+				<dwr:include method="consulta" />
+				<dwr:include method="importaMovimientos" />
+				<dwr:include method="consultaMovs" />
+	      	</dwr:remote>
+		<property name="operDispersionDAO" ref="operDispersionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Carga de Archivo Movimientos-->
+	<bean name="/operacionesDispersion.htm" class="tesoreria.controlador.OperDispersionControlador">
+		<property name="formView" value="tesoreria/operacionesDispersionVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<bean name="/operacionesDisp.htm" class="tesoreria.controlador.OperDispersionControlador">
+		<property name="formView" value="tesoreria/operacionesDispersionGrid" />
+	</bean>
+
+	<bean name="/importarDispersiones.htm" class="tesoreria.controlador.ImpDisControaldor">
+	    <property name="successView" value="tesoreria/xmlRespuestaImportar" />
+	    <property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<bean name="/dispersionListaVista.htm" class="tesoreria.controlador.DispersionListaControlador">
+	    <property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<!--REPORTE DE DISPERSIONES POR ORDEN DE PAGO -->
+	<bean name="/RepDispOrdenPagPDF.htm" class="tesoreria.reporte.DispOrdenPagoRepControlador">
+     	<property name="nomReporte" value="tesoreria/DispOrdenPagPDF.prpt" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+		<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<!-- Exporta reporte de Dispersion en txt -->
+
+	<bean name="/exportaArchDispersion.htm" class="tesoreria.controlador.OperDispersionControlador">
+		<property name="formView" value="tesoreria/exportaArchDispersion" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<bean name="/exportaDispercionTxt.htm" class="tesoreria.reporte.DispercionRepControlador">
+		<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+	</bean>
+
+
+
+	 <!-- bean para el Grid de Operaciones Dispersion de Recursos-->
+	<bean id="operDispGridServicioImpl" class="tesoreria.servicio.OperDispGridServicio">
+	      <dwr:remote javascript="operDispGridServicio">
+	      </dwr:remote>
+	      <property name="operDispersionDAO" ref="operDispersionDAOImpl"/>
+	</bean>
+
+
+	<bean name="/operDispersionGrid.htm" class="tesoreria.controlador.OperDispGridControlador">
+
+		<property name="operDispGridServicio" ref="operDispGridServicioImpl" />
+	</bean><!-- fin Oper Grid Disp de Rec -->
+
+
+	<!-- Fin de Dispersion -->
+
+
+
+	<!-- Beans de Requisicion Gastos        inicio de Configuracion-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.RequisicionGastosBean" />
+	</dwr:configuration>
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.RequisicionTipoGastoListaBean" />
+	</dwr:configuration>
+
+	<bean id="requisicionGastosDAOImpl" class="tesoreria.dao.RequisicionGastosDAO">
+        <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Definicion de Servicio de Requisicion de Gastos-->
+	<bean id="requisicionGastosServicioImpl" class="tesoreria.servicio.RequisicionGastosServicio">
+	      <dwr:remote javascript="requisicionGastosServicio">
+			<dwr:include method="consulta" />
+	       	<dwr:include method="consultaTipoGasto" />
+	      </dwr:remote>
+	      <property name="requisicionGastosDAO" ref="requisicionGastosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Requisicion de Gastos-->
+	<bean name="/requisicionGastos.htm" class="tesoreria.controlador.RequisicionGastosControlador">
+	      <property name="formView" value="tesoreria/requisicionGastos" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="requisicionGastosServicio" ref="requisicionGastosServicioImpl" />
+	</bean>
+
+	<!-- Lista Requisicion Gasto-->
+	<bean name="/listaRequisicionGastos.htm"  class="tesoreria.controlador.RequisicionGastosListaControlador">
+	       <property name="requisicionGastosServicio" ref="requisicionGastosServicioImpl" />
+	</bean>
+
+	<!-- Lista Tipo de Gasto:requisicion -->
+	<bean name="/requisicionTipoGastoListaVista.htm"  class="tesoreria.controlador.RequisicionTipoGastoListaControlador">
+	       <property name="requisicionGastosServicio" ref="requisicionGastosServicioImpl" />
+	</bean>
+	<!-- Fin de Requisicion tipos Gastos -->
+
+
+
+  <!-- Depositos Referenciados -->
+  	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DepositosRefeBean" />
+	</dwr:configuration>
+
+        <bean id="depositosRefeDAOImpl" class="tesoreria.dao.DepositosRefeDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="cuentasAhoDAO" ref="cuentasAhoDAOImpl"/>
+		<property name="referenciasPagosDAO" ref="referenciasPagosDAOImpl"/>
+		<property name="creditosDAO" ref="creditosDAOImpl"/>
+		<property name="pldListasPersBloqDAO" ref="pldListasPersBloqDAOImpl"/>
+		<property name="seguimientoPersonaListaDAO" ref="seguimientoPersonaListaDAOImpl"/>
+		<property name="procesosETLDAO" ref="procesosETLDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="depositosRefeServicioImpl" class="tesoreria.servicio.DepositosRefeServicio">
+		<dwr:remote javascript="depositosRefeServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="depositosRefeDAO" ref="depositosRefeDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="institucionesServicio" ref="institucionesServicioImpl" />
+	</bean>
+		<!-- Fin de Depositos Referenciados   -->
+
+        <!-- Definicion de Controladores de Carga de Archivo Movimientos-->
+	<bean name="/archivoDepRefere.htm" class="tesoreria.controlador.DepositosRefeControlador">
+	    <property name="commandClass" value="tesoreria.bean.DepositosRefeBean"/>
+		<property name="commandName"><value>depositosReferencia</value></property>
+		<property name="formView" value="tesoreria/DepositosReferenciadosVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="depositosRefeServicio" ref="depositosRefeServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+	<bean name="/archivoDepRefereSubArc.htm" class="tesoreria.controlador.DepositosRefeControlador">
+	    <property name="commandClass" value="tesoreria.bean.DepositosRefeBean"/>
+		<property name="commandName"><value>depositosReferencia</value></property>
+		<property name="formView" value="tesoreria/depReferenSubirArcVista" />
+		<property name="successView" value="resultadoTransaccionArchivoVista"/>
+		<property name="depositosRefeServicio" ref="depositosRefeServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Grid de Depósitos Referenciados obtenidos del archivo -->
+  	<bean name="/depositoArchivoGrid.htm" class="tesoreria.controlador.DepositosArchivoGridControlador">
+ 	     <property name="depositosRefeServicio" ref="depositosRefeServicioImpl" />
+	</bean>
+
+	<!-- Definocion de controladores de tesoreria movimientos (Depositos refere No Identificados) -->
+	<bean id="tesoMovimientosDAOImpl" class="tesoreria.dao.TesoMovimientosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="cuentasAhoDAO" ref="cuentasAhoDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="depositosRefeDAO" ref="depositosRefeDAOImpl"/>
+	</bean>
+
+	<bean id="tesoMovimientosServicioImpl" class="tesoreria.servicio.TesoMovimientosServicio">
+		<property name="tesoMovimientosDAO" ref="tesoMovimientosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/depReferenNoIdVista.htm" class="tesoreria.controlador.TesoMovimientosControlador">
+		<property name="formView" value="tesoreria/depReferenNoIdenVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="tesoMovimientosServicio" ref="tesoMovimientosServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+
+ 	<!-- Grid para Depositos Referenciados No Identificados -->
+  	<bean name="/depositosReferen.htm" class="tesoreria.controlador.DepReferenGridControlador">
+ 	     <property name="depositosRefeServicio" ref="depositosRefeServicioImpl" />
+	</bean>
+	<!-- fin tesoreria movimientos (Depositos refere No Identificados) -->
+
+	<!-- Definición para controladores de Divisas -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DivisasBean" />
+   </dwr:configuration>
+
+	 <bean id="divisasDAOImpl" class="tesoreria.dao.DivisasDAO">
+        <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		  <property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+   <bean id="divisasServicioImpl" class="tesoreria.servicio.DivisasServicio">
+	  <dwr:remote javascript="divisasServicio">
+				 <dwr:include method="consultaExisteDivisa" />
+	  </dwr:remote>
+		<property name="divisasDAO" ref="divisasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+ 		   <bean name="/registroDivisas.htm" class="tesoreria.controlador.DivisasControlador">
+              <property name="formView" value="tesoreria/divisasRegistroVista" />
+              <property name="successView" value="resultadoTransaccionVista" />
+               <property name="divisasServicio" ref="divisasServicioImpl" />
+     </bean>
+
+	<!-- Fin controlador de Divisas -->
+	<!-- Beans de Bloqueo -->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.BloqueoBean" />
+	</dwr:configuration>
+
+	<bean id="bloqueoDAOImpl" class="tesoreria.dao.BloqueoDAO">
+	    <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="bloqueoServicioImpl" class="tesoreria.servicio.BloqueoServicio">
+			<dwr:remote javascript="bloqueoServicio">
+			<dwr:include method="consulta" />
+			</dwr:remote>
+	      <property name="bloqueoDAO" ref="bloqueoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Actividades -->
+	<bean name="/listaBloqueo.htm"
+		  class="tesoreria.controlador.BloqueoListaControlador">
+		<property name="bloqueoServicio" ref="bloqueoServicioImpl" />
+	</bean>
+
+
+
+	<!-- Beans de tipoGas -->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.TipoGasBean" />
+	</dwr:configuration>
+
+	<bean id="tipoGasDAOImpl" class="tesoreria.dao.TipoGasDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tipoGasServicioImpl" class="tesoreria.servicio.TipoGasServicio">
+	      <dwr:remote javascript="tipoGasServicio">
+	      <dwr:include method="consulta" />
+			</dwr:remote>
+	      <property name="tipoGasDAO" ref="tipoGasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<!-- Controladores de tipoGas -->
+
+	<bean name="/listaTipoGas.htm"
+		  class="tesoreria.controlador.TipoGasListaControlador">
+		<property name="tipoGasServicio" ref="tipoGasServicioImpl" />
+	</bean>
+
+	<bean name="/tipoGasCatalogo.htm" class="tesoreria.controlador.TipoGasControlador">
+		<property name="formView" value="tesoreria/tipoGasCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoGasServicio" ref="tipoGasServicioImpl" />
+	</bean>
+
+
+
+	<!-- Definicion de controladores para Req. de gastos por sucursal -->
+
+   	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ReqGastosSucBean" />
+   	</dwr:configuration>
+
+   	<bean id="reqGastosSucDAOImpl" class="tesoreria.dao.ReqGastosSucDAO">
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="reqGastosSucServicioImpl" class="tesoreria.servicio.ReqGastosSucServicio">
+		<dwr:remote javascript="reqGastosSucServicio">
+		    <dwr:include method="consulta" />
+		    <dwr:include method="cuentasAhoSuc" />
+		    <dwr:include method="consultaCtaSucursal" />
+	  	</dwr:remote>
+		<property name="reqGastosSucDAO" ref="reqGastosSucDAOImpl"/>
+		<property name="operDispersionDAO" ref="operDispersionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+   	<bean name="/requisicionGastosGrid.htm" class="tesoreria.controlador.ReqGastosSucControlador">
+    	<property name="formView" value="tesoreria/reqGastosSucursal" />
+        <property name="successView" value="resultadoTransaccionVista" />
+        <property name="reqGastosSucServicio" ref="reqGastosSucServicioImpl" />
+    </bean>
+
+	<bean name="/reqGastosSucursalGrid.htm" class="tesoreria.controlador.ReqGastosSucGridControlador">
+		<property name="reqGastosSucServicio" ref="reqGastosSucServicioImpl" />
+	</bean>
+
+	<bean name="/reqGastosSucListaVista.htm" class="tesoreria.controlador.ReqGastosSucListaControlador">
+		<property name="reqGastosSucServicio" ref="reqGastosSucServicioImpl" />
+	</bean>
+   <!-- Fin de Requisicion de Gastos -->
+
+
+
+   <!-- Beans de Presupuesto por Sucursal Bean -->
+
+	<!-- Definicion de bean -->
+	<dwr:configuration>
+    	<dwr:convert type="bean" class="tesoreria.bean.PresupuestoSucursalBean"/>
+	</dwr:configuration>
+
+	<!-- Definicion de DAO's Presupuesto por Sucursal -->
+
+	<bean id="presupSucursalDAOImpl" class="tesoreria.dao.PresupuestoSucursalDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+<!-- Definicion de Servicios de Presupuesto por Sucursal-->
+
+	<bean id="presupSucursalServicioImpl" class="tesoreria.servicio.PresupSucursalServicio">
+		<dwr:remote javascript="presupSucursalServicio">
+		     <dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="presupSucursalDAO" ref="presupSucursalDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<bean name="/presupuestoPorSucursal.htm"  class="tesoreria.controlador.PresupSucursalControlador">
+		<property name="formView" value="tesoreria/presupuestoSucursalCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="presupSucursalServicio" ref="presupSucursalServicioImpl"/>
+	</bean>
+
+	<bean id="preSucGridServicioImpl" class="tesoreria.servicio.PresupSucurGridServicio">
+		<dwr:remote javascript="preSucGridServicio">
+		</dwr:remote>
+		<property name="presupSucursalDAO" ref="presupSucursalDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/presupSucursalGrid.htm" class="tesoreria.controlador.PresuSucursalGridControlador">
+		<property name="preSucGridServicio" ref="preSucGridServicioImpl" />
+	</bean>
+
+	<bean name="/partidaPresupuestoLista.htm"  class="tesoreria.controlador.PresupSucurListaControlador">
+	       <property name="presupSucursalServicio" ref="presupSucursalServicioImpl" />
+	</bean> <!-- Lista para la partida de presupuestos -->
+
+	<!-- fin Pre Suc Grid -->
+
+	<!-- Inversion Bancaria -->
+	<!-- Definicion de bean -->
+	<dwr:configuration>
+    	<dwr:convert type="bean" class="tesoreria.bean.InvBancariaBean"/>
+	</dwr:configuration>
+
+	<bean id="invBancariaDAOImpl" class="tesoreria.dao.InvBancariaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="distCCInvBancariaDAO" ref="distCCInvBancariaDAOImpl"/>
+	</bean>
+
+	<bean id="invBancariaServicioImpl" class="tesoreria.servicio.InvBancariaServicio">
+		<dwr:remote javascript="invBancariaServicioScript">
+			<dwr:include method="calculaRendimiento" />
+			<dwr:include method="consultaInversionBancaria"/>
+		</dwr:remote>
+		<property name="invBancariaDAO" ref="invBancariaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!--Pantalla de Vencimientos de Inv Bancaria Vista  -->
+	 <bean name="/vencimientoInvBancariaVista.htm"  class="tesoreria.controlador.VencimientoInvBancariaControlador">
+		<property name="formView" value="tesoreria/vencimientoInvBancariaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl"/>
+	</bean>
+
+	<bean name="/invBancaria.htm"  class="tesoreria.controlador.InvBancariaControlador">
+		<property name="formView" value="tesoreria/InvBancariaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl"/>
+	</bean>
+	<!-- Reporte de Posicion De Inv Bancarias Vista -->
+	<bean name="/repPosicionInvBancaria.htm"  class="tesoreria.controlador.InvBancariaControlador">
+		<property name="formView" value="tesoreria/posicionInvBancariaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl"/>
+	</bean>
+	<!--Reporte de Posicion de Inversiones Bancarias-->
+	<bean name="/RepPosicionInvBancaria.htm" class="tesoreria.reporte.PosicionInvBancariaRepControlador">
+     	<property name="nomReporte" value="tesoreria/PosicionInvBancarias.prpt" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl" />
+	</bean>
+	 <!--Reporte de Apertura de Inv Bancaria Vista  -->
+	 <bean name="/repAperturaInvBancaria.htm"  class="tesoreria.controlador.InvBancariaControlador">
+		<property name="formView" value="tesoreria/aperturaInvBancariaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl"/>
+	</bean>
+	<!--Reporte de Apertura de Inversiones Bancarias-->
+	<bean name="/RepAperturaInvBancaria.htm" class="tesoreria.reporte.AperturaInvBancariaRepControlador">
+     	<property name="nomReporte" value="tesoreria/AperturasInvBancarias.prpt" />
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl" />
+	</bean>
+
+
+ 	<!-- definicion de bean para Cuentas de ahorro de sucursales  -->
+    <dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CuentasAhoSucBean" />
+   </dwr:configuration>
+
+ <!-- Fin bean cuentas aho sucursales -->
+
+
+
+
+
+	<!-- Beans de Proveedores -->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ProveedoresBean" />
+	</dwr:configuration>
+
+	<bean id="proveedoresDAOImpl" class="tesoreria.dao.ProveedoresDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="proveedoresServicioImpl" class="tesoreria.servicio.ProveedoresServicio">
+	      <dwr:remote javascript="proveedoresServicio">
+	      <dwr:include method="consulta" />
+	      <dwr:include method="lista" />
+	      <dwr:include method="listaCombo" />
+			</dwr:remote>
+	      <property name="proveedoresDAO" ref="proveedoresDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<!-- Controladores de proveedores -->
+	<bean name="/listaProveedores.htm"
+		  class="tesoreria.controlador.ProveedoresListaControlador">
+		<property name="proveedoresServicio" ref="proveedoresServicioImpl" />
+	</bean>
+
+	<bean name="/proveedoresCatalogo.htm" class="tesoreria.controlador.ProveedoresControlador">
+		<property name="formView" value="tesoreria/proveedoresCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="proveedoresServicio" ref="proveedoresServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+
+	<!-- Inversion Bancaria -->
+	<dwr:configuration>
+    	<dwr:convert type="bean" class="tesoreria.bean.MovNoIdentificadosBean"/>
+	</dwr:configuration>
+
+	<bean id="movNoIdentificadosDAOImpl" class="tesoreria.dao.MovNoIdentificadosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="movNoIdentificadosServicioImpl" class="tesoreria.servicio.MovNoIdentificadosServicio">
+		<property name="movNoIdentificadosDAO" ref="movNoIdentificadosDAOImpl"/>
+		<property name="tesoMovimientosDAO" ref="tesoMovimientosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/movNoIdentificados.htm"  class="tesoreria.controlador.MovNoIdentificadosControlador">
+		<property name="formView" value="tesoreria/MovNoIdentificadosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="movNoIdentificadosServicio" ref="movNoIdentificadosServicioImpl"/>
+	</bean>
+
+
+	<!-- Bean de configuracion para la consola Para Kubo-->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ConsolaBean" />
+	</dwr:configuration>
+
+	<bean id="consolaDAOImpl" class="tesoreria.dao.ConsolaDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="consolaServicioImpl" class="tesoreria.servicio.ConsolaServicio">
+	    <dwr:remote javascript="consolaServicioScript">
+	      	<dwr:include method="obtieneConcentrado" />
+	      	<dwr:include method="obtieneDetalleConsola" />
+		</dwr:remote>
+		<property name="consolaDAO" ref="consolaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/consola.htm"  class="tesoreria.controlador.ConsolaControlador">
+		<property name="formView" value="tesoreria/ConsolaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="consolaServicio" ref="consolaServicioImpl"/>
+	</bean>
+	<!-- Fin del Bean de configuracion para la consola -->
+
+<!-- inicio controladores de relacion proveedores y tipo Gasto  -->
+
+	<bean name="/proveedoresTipoGasto.htm" class="tesoreria.controlador.PoveeTipoGastoControlador">
+		<property name="formView" value="tesoreria/proveedTipoGastoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="proveedoresServicio" ref="proveedoresServicioImpl" />
+	</bean>
+
+<!--  fin conoladores de proveedores y tipo de gasto( se usaron los controladores de provedores) -->
+
+
+<!-- Controladores para cuentas de sucursales (el bean fue declarado con anterioridad en requisicion de gastos) -->
+
+
+	<bean id="CuentasAhoSucDAOImpl" class="tesoreria.dao.CuentasAhoSucDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="CuentasAhoSucServicioImpl" class="tesoreria.servicio.CuentasAhoSucServicio">
+	    <dwr:remote javascript="cuentasAhoSucServicioScript">
+		</dwr:remote>
+		<property name="cuentasAhoSucDAO" ref="CuentasAhoSucDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/cuentasAhoSucursal.htm"  class="tesoreria.controlador.CuentasAhoSucControlador">
+		<property name="formView" value="tesoreria/cuentasClabeSucursal" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cuentasAhoSucServicio" ref="CuentasAhoSucServicioImpl"/>
+	</bean>
+<!-- Fin de controladores para cuentas de sucursal -->
+
+	<!-- Definicion de clases para reporte de estado de Cuenta de bancos-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.EstadoCuentaBancosReporteBean" />
+	</dwr:configuration>
+
+
+<!-- Bean tipos de movimientos tresoreria-->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.TiposMovTesoBean" />
+	</dwr:configuration>
+
+	<bean id="TiposMovTesoDAOImpl" class="tesoreria.dao.TiposMovTesoDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="TiposMovTesoServicioImpl" class="tesoreria.servicio.TiposMovTesoServicio">
+	    <dwr:remote javascript="TiposMovTesoServicioScript">
+	      	<dwr:include method="conTiposMovTeso" />
+	      	<dwr:include method="lista" />
+	      	<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="tiposMovTesoDAO" ref="TiposMovTesoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/tiposMovimientosTeso.htm"  class="tesoreria.controlador.TiposMovTesoControlador">
+		<property name="formView" value="tesoreria/tipoMovsTesoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposMovTesoServicio" ref="TiposMovTesoServicioImpl"/>
+	</bean>
+
+
+			 <!-- Lista -->
+	 <bean name="/listaTiposMovTesoreria.htm"
+		  class="tesoreria.controlador.TiposMovTesoListaControlador">
+		<property name="tiposMovTesoServicio" ref="TiposMovTesoServicioImpl"/>
+	</bean>
+	<!-- Fin del Bean tipos de movimientos tresoreria -->
+
+
+
+	<bean id="estadoCuentaBancosReporteDAOImpl" class="tesoreria.dao.EstadoCuentaBancosReporteDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="estadoCuentaBancosReporteServicioImpl" class="tesoreria.servicio.EstadoCuentaBancosReporteServicio">
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="estadoCuentaBancosReporteDAO" ref="estadoCuentaBancosReporteDAOImpl"/>
+	</bean>
+
+	<!-- Definicion para la pantalla estado de Cuenta de Bancos-->
+	<bean name="/estadoCuentaBancos.htm" class="tesoreria.controlador.CuentaNostroControlador">
+		<property name="formView" value="tesoreria/estadoCuentaBancosVista" />
+        <property name="successView" value="resultadoTransaccionVista" />
+        <property name="cuentaNostroServicio" ref="cuentaNostroServicioImpl" />
+   </bean>
+
+	<!-- Definicion de grid para el estado de Cuenta de Bancos-->
+	<bean name="/gridEstadoDeCuentaBancos.htm"
+		class="tesoreria.controlador.EstadoCuentaBancosGridControlador">
+		<property name="estadoCuentaBancosReporteServicio" ref="estadoCuentaBancosReporteServicioImpl" />
+	</bean>
+
+	<!--Reporte Estado de Cuenta de Bancos En PDF-->
+	<bean name="/repEstadoCuentBancosPDF.htm" class="tesoreria.reporte.PDFEstadoCuentaBancosRepControlador">
+     	<property name="nombreReporte" value="tesoreria/MovsCuentasBancos.prpt" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="estadoCuentaBancosReporteServicio" ref="estadoCuentaBancosReporteServicioImpl" />
+	</bean>
+
+
+
+	<!-- Beans de Factura Proveedor -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.FacturaprovBean" />
+	</dwr:configuration>
+
+	<bean id="facturaprovDAOImpl" class="tesoreria.dao.FacturaprovDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="detallefactprovDAO" ref="detallefactprovDAOImpl"/>
+		<property name="detalleImpuestoDAO" ref="detalleImpuestoDAOImpl"/>
+	</bean>
+
+	<bean id="facturaprovServicioImpl" class="tesoreria.servicio.FacturaprovServicio">
+		<dwr:remote javascript="facturaProvServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="facturaprovDAO" ref="facturaprovDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores Factura Proveedor -->
+	<bean name="/catalogoFacturaProveedor.htm" class="tesoreria.controlador.FacturaprovControlador">
+		<property name="formView" value="tesoreria/facturaProvCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="facturaprovServicio" ref="facturaprovServicioImpl" />
+	</bean>
+
+	<bean name="/listaFacturaProvVista.htm"  class="tesoreria.controlador.FacturaprovListaControlador">
+		<property name="facturaprovServicio" ref="facturaprovServicioImpl" />
+	</bean>
+
+	<bean name="/facturaFileUploadVista.htm" class="tesoreria.controlador.FacturaprovFileUploadControlador">
+        <property name="commandClass" value="tesoreria.bean.FacturaprovBean"/>
+        <property name="formView" value="tesoreria/facturaFileUploadVista"/>
+        <property name="successView" value="ResultadoTransaccionArchivosFacturaVista"/>
+		<property name="facturaprovServicio" ref="facturaprovServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl" />
+    </bean>
+
+	<!-- Controlador para ver archivos de Factura -->
+	<bean name="/facturasVerArchivos.htm" class="tesoreria.controlador.FacturaVisualizaArchivoControlador">
+	</bean>
+
+	<!-- Beans de Factura Detalle de Proveedor -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DetallefactprovBean" />
+	</dwr:configuration>
+
+	<bean id="detallefactprovDAOImpl" class="tesoreria.dao.DetallefactprovDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="detallefactprovServicioImpl" class="tesoreria.servicio.DetallefactprovServicio">
+		<dwr:remote javascript="detfacturaProvServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaDetalleFacturaProv" />
+		</dwr:remote>
+		<property name="detallefactprovDAO" ref="detallefactprovDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores Detalle de Factura Proveedor -->
+
+	<bean name="/detalleFacturaProvGridVista.htm"
+			  class="tesoreria.controlador.DetallefactprovGridControlador">
+			<property name="detallefactprovServicio" ref="detallefactprovServicioImpl" />
+			<property name="detalleImpuestoServicio" ref="detalleImpuestoServicioImpl"/>
+	</bean>
+		<!-- ============================== DETALLE IMPUESTO ==================================== -->
+
+	<!-- Beans de detalle de impuestos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DetalleImpuestoBean" />
+	</dwr:configuration>
+
+	<bean id="detalleImpuestoDAOImpl" class="tesoreria.dao.DetalleImpuestoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="detalleImpuestoServicioImpl" class="tesoreria.servicio.DetalleImpuestoServicio">
+		<dwr:remote javascript="detImpuestoServicio">
+			<dwr:include method="listaDetalleImpuesto" />
+		</dwr:remote>
+		<property name="detalleImpuestoDAO" ref="detalleImpuestoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<!-- ============================== FIN BEANS TIPOS DE PROVEEDORES ==================================== -->
+
+	<!-- ==============================  TIPOS DE PROVEEDORES ==================================== -->
+
+	<!-- Beans de tipos de Proveedor -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.TipoproveedoresBean" />
+	</dwr:configuration>
+
+	<bean id="tipoproveedoresDAOImpl" class="tesoreria.dao.TipoproveedoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="tipoproveedoresServicioImpl" class="tesoreria.servicio.TipoproveedoresServicio">
+		<dwr:remote javascript="tipoProvServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="consultaPrincipal" />
+	     <dwr:include method="lista" />
+		</dwr:remote>
+		<property name="tipoproveedoresDAO" ref="tipoproveedoresDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/listaTipoProveedores.htm"
+		  class="tesoreria.controlador.TipoProveedorListaControlador">
+		<property name="tipoproveedoresServicio" ref="tipoproveedoresServicioImpl" />
+	</bean>
+
+	<bean name="/tiposProveedores.htm"  class="tesoreria.controlador.TipoproveedoresControlador">
+		<property name="formView" value="tesoreria/tipoProveedoresVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+	  	<property name="tipoproveedoresServicio" ref="tipoproveedoresServicioImpl" />
+	</bean>
+
+
+	<!-- ============================== FIN BEANS TIPOS DE PROVEEDORES ==================================== -->
+
+		<!-- ==============================  IMPUESTOS ==================================== -->
+
+	<!-- Beans de impuestos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ImpuestosBean" />
+	</dwr:configuration>
+
+	<bean id="impuestosDAOImpl" class="tesoreria.dao.ImpuestosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="impuestosServicioImpl" class="tesoreria.servicio.ImpuestosServicio">
+		<dwr:remote javascript="impuestoServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="lista" />
+		<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="impuestosDAO" ref="impuestosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/listaImpuestos.htm"
+		  class="tesoreria.controlador.ImpuestosListaControlador">
+		<property name="impuestosServicio" ref="impuestosServicioImpl" />
+	</bean>
+
+	<bean name="/tiposImpuestos.htm"  class="tesoreria.controlador.ImpuestosControlador">
+		<property name="formView" value="tesoreria/impuestosCatalogoVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+	  	<property name="impuestosServicio" ref="impuestosServicioImpl" />
+	</bean>
+
+		<!-- ============================== FIN BEANS IMPUESTOS ==================================== -->
+
+		<!-- ==============================  IMPUESTOS POR PROVEEDOR ==================================== -->
+
+	<!-- Beans de tipo proveedor impuesto -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.TipoproveimpuesBean" />
+	</dwr:configuration>
+
+	<bean id="tipoproveimpuesDAOImpl" class="tesoreria.dao.TipoproveimpuesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+  	<bean id="tipoproveimpuesServicioImpl" class="tesoreria.servicio.TipoproveimpuesServicio">
+		<dwr:remote javascript="tipoprovimpServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="listaCombo" />
+		<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="tipoproveimpuesDAO" ref="tipoproveimpuesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<bean name="/impuestosProveedor.htm"  class="tesoreria.controlador.TipoproveimpuesControlador">
+		<property name="formView" value="tesoreria/impuestosProveedorCatalogoVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+	  	<property name="tipoproveimpuesServicio" ref="tipoproveimpuesServicioImpl" />
+	</bean>
+
+	<bean name="/impuestosProveedorGridVista.htm" class="tesoreria.controlador.TipoproveimpuesGridControlador">
+		<property name="tipoproveimpuesServicio" ref="tipoproveimpuesServicioImpl" />
+	</bean>
+
+	<!-- ============================== FIN BEANS IMPUESTOS POR PROVEEDOR ==================================== -->
+
+
+	<!-- Beans de condiciones de pago -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CondicionespagoBean" />
+	</dwr:configuration>
+
+	<bean id="condicionespagoDAOImpl" class="tesoreria.dao.CondicionespagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="condicionespagoServicioImpl" class="tesoreria.servicio.CondicionespagoServicio">
+		<dwr:remote javascript="condicionespagServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="condicionespagoDAO" ref="condicionespagoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Bean para Transferencia entre Cuentas Propias -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.CuentasPropiasBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasPropiasDAOImpl" class="tesoreria.dao.CuentasPropiasDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cuentasPropiasServicioImpl" class="tesoreria.servicio.CuentasPropiasServicio">
+	    <dwr:remote javascript="cuentasPropiasServicio">
+	        <dwr:include method="consulta"/>
+		</dwr:remote>
+		<property name="cuentasPropiasDAO" ref="cuentasPropiasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/transferCuentasPropiasVista.htm"  class="tesoreria.controlador.CuentasPropiasControlador">
+		<property name="formView" value="tesoreria/transferCuentasPropiasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cuentasPropiasServicio" ref="cuentasPropiasServicioImpl"/>
+	</bean>
+
+		<!-- pantalla  de reporte de facturas -->
+	<bean name="/repFacturasVista.htm" class="tesoreria.controlador.RepFacturaControlador">
+		<property name="formView" value="tesoreria/reporteFacturaVista" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="facturaprovServicio" ref="facturaprovServicioImpl" />
+	</bean>
+
+		<bean name="/reporteFacturas.htm" class="tesoreria.reporte.ReporteFacturasControlador">
+    	<property name="nombreReporte" value="tesoreria/RepFacturas.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="facturaprovServicio" ref="facturaprovServicioImpl" />
+	  	<property name="impuestosServicio" ref="impuestosServicioImpl" />
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+		<!-- pantalla  de reporte de presupuestos -->
+	<bean name="/repPresupuestosVista.htm" class="tesoreria.controlador.PresupuestosRepControlador">
+		<property name="formView" value="tesoreria/reportePresupVista" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="presupSucursalServicio" ref="presupSucursalServicioImpl"/>
+	</bean>
+
+		<bean name="/reportePresupuestos.htm" class="tesoreria.reporte.ReportePresupControlador">
+    	<property name="nombreReporte" value="tesoreria/Presupuestos.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	 <property name="presupSucursalServicio" ref="presupSucursalServicioImpl"/>
+	</bean>
+
+		<!-- Pantalla de reporte de dispersion -->
+
+	<bean name="/repDispersionVista.htm" class="tesoreria.controlador.DispersionRepControlador">
+		<property name="formView" value="tesoreria/reporteDispVista" />
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+	<bean name="/reporteOperDispersion.htm" class="tesoreria.reporte.ReporteDispControlador">
+    	<property name="nombreReporte" value="tesoreria/Dispersion.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="operDispersionServicio" ref="operDispersionServicioImpl" />
+	</bean>
+
+
+				<!-- Pantalla de reporte de Requisicion de gastos -->
+
+	<bean name="/repReqGastosVista.htm" class="tesoreria.controlador.RepRequisicionVistaControlador">
+		<property name="formView" value="tesoreria/repReqGastosVista" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="reqGastosSucServicio" ref="reqGastosSucServicioImpl" />
+	</bean>
+
+	<bean name="/reporteReqGastos.htm" class="tesoreria.reporte.ReporteRequisicionControlador">
+    	<property name="nombreReporte" value="tesoreria/RequisicionGastos.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="reqGastosSucServicio" ref="reqGastosSucServicioImpl" />
+	</bean>
+
+	<!--Pantalla de Reporte Fondeo Sucursales -->
+
+	<bean name="/fondeoSucursales.htm" class="tesoreria.controlador.FondSucRepVistaControlador">
+     	<property name="formView" value="tesoreria/repFondSucVista" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="tesoMovimientosServicio" ref="tesoMovimientosServicioImpl" />
+	</bean>
+
+	 <bean name="/fondSucursales.htm" class="tesoreria.reporte.FondeoSucRepControlador">
+     	<property name="nombreReporte" value="tesoreria/FondeoSucursales.prpt" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="tesoMovimientosServicio" ref="tesoMovimientosServicioImpl" />
+	</bean>
+
+
+	<!--  ************GUIA CONTABLE CAJA  -->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.CuentaMayorCajasBean" />
+	</dwr:configuration>
+
+	 <!-- Beans de Conceptos de Caja -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ConceptoCajaBean" />
+	</dwr:configuration>
+
+	<bean id="guiaContableCajaDAOImpl" class="tesoreria.dao.GuiaContableCajaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	 <bean id="guiaContableCajasServicioImpl" class="tesoreria.servicio.GuiaContableCajasServicio">
+	    <dwr:remote javascript="guiaContableCajasServicio">
+	        <dwr:include method="consulta"/>
+	        <dwr:include method="listaCombo" />
+	  </dwr:remote>
+		 <property name="guiaContableCajaDAO" ref="guiaContableCajaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/guiaContableCajas.htm" class="tesoreria.controlador.GuiaContableCajasControlador">
+		<property name="formView" value="tesoreria/guiaContableCajasVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+    	<property name="guiaContableCajasServicio" ref="guiaContableCajasServicioImpl" />
+	</bean>
+	<bean name="/aplicaChequeSBC.htm" class="tesoreria.controlador.AplicaChequeSBCControlador">
+		<property name="formView" value="tesoreria/aplicaChequeSBCVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+    		<property name="abonoChequeSBCServicio" ref="abonoChequeSBCServicioImpl"/>
+	</bean>
+
+	<!-- Bean y Controlador Reporte Cheques SBC  PDF-->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="tesoreria.bean.ReporteChequesSBCBean"/>
+	</dwr:configuration>
+
+	<bean id="reporteChequesSBCDAOImpl" class="tesoreria.dao.ReporteChequesSBCDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="reporteChequesSBCServicioImpl" class="tesoreria.servicio.ReporteChequesSBCServicio">
+	      <dwr:remote javascript="reporteChequesSBCServicio">
+		</dwr:remote>
+	      <property name="reporteChequesSBCDAO" ref="reporteChequesSBCDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/><!-- MULTIBASE -->
+	</bean>
+		<bean name="/repChequesSBC.htm" class="tesoreria.controlador.ReporteChequesSBCControlador">
+		 <property name="formView" value="tesoreria/repChequesSBCVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="reporteChequesSBCServicio" ref="reporteChequesSBCServicioImpl" />
+    </bean>
+
+	<bean name="/repChequesSBCPDF.htm" class="tesoreria.reporte.PDFReporteChequesSBCControlador">
+      <property name="nombreReporte" value="tesoreria/reporteChequesSBC.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	<property name="reporteChequesSBCServicio" ref="reporteChequesSBCServicioImpl" />
+	</bean>
+	<!--  FIN Bean y Controlador Reporte Cheques SBC  PDF-->
+
+	 <!-- Definicion de Beans de Anticipo a Proveedores -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.AnticipoFacturaBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Dao de Anticipo a Proveedores -->
+		<bean id="anticipoFacturaDAOImpl" class="tesoreria.dao.AnticipoFacturaDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+		<!-- Definicion de Servicio de Anticipo a Proveedores -->
+	<bean id="anticipoFacturaServicioImpl" class="tesoreria.servicio.AnticipoFacturaServicio">
+	     <dwr:remote javascript="anticipoFacturaServicio">
+	         <dwr:include method="consulta" />
+		</dwr:remote>
+	      <property name="anticipoFacturaDAO" ref="anticipoFacturaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Anticipo a Proveedores-->
+	<bean name="/anticipoFacturaProveedor.htm" class="tesoreria.controlador.AnticipoFacturaControlador">
+		<property name="formView" value="tesoreria/anticipoFacturaVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="anticipoFacturaServicio" ref="anticipoFacturaServicioImpl" />
+	</bean>
+		<!-- Definicion del Controlador del Grid de Anticipo a Proveedores-->
+ 	<bean name="/gridAnticipoFactura.htm"  class="tesoreria.controlador.AnticipoFacturaGridControlador">
+ 	 <property name="anticipoFacturaServicio" ref="anticipoFacturaServicioImpl" />
+	</bean>
+
+	<!-- Beans de tipo Catalogo de Cajeros ATM -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CatCajerosATMBean" />
+	</dwr:configuration>
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CatTipoCajeroBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Dao de Catalogo de Cajeros ATM -->
+		<bean id="catCajerosATMDAOImpl" class="tesoreria.dao.CatCajerosATMDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+		<!-- Definicion de Servicio de Catalogo de Cajeros ATM -->
+	<bean id="catCajerosATMServicioImpl" class="tesoreria.servicio.CatCajerosATMServicio">
+	     <dwr:remote javascript="catCajerosATMServicio">
+	         <dwr:include method="consulta" />
+	          <dwr:include method="listaTiposCajerosATM" />
+		</dwr:remote>
+	      <property name="catCajerosATMDAO" ref="catCajerosATMDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	 	<bean name="/catCajerosATM.htm" class="tesoreria.controlador.CatCajerosATMControlador">
+		<property name="formView" value="tesoreria/catCajerosATMVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="catCajerosATMServicio" ref="catCajerosATMServicioImpl" />
+    </bean>
+
+	<bean name="/listaCajerosATM.htm"	 class="tesoreria.controlador.CatCajerosATMListaControlador">
+		<property name="catCajerosATMServicio" ref="catCajerosATMServicioImpl" />
+	</bean>
+
+		<bean name="/cajeroATMRecepTransfer.htm" class="tesoreria.controlador.CajeroATMRecepcionTransfControlador">
+		<property name="formView" value="tesoreria/cajeroATMRecepTransferVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+        <property name="cajeroATMTransfServicio" ref="cajeroATMTransfServicioImpl"/>
+    </bean>
+
+    <!-- Beans para pantalla AsignarCheques a Sucursal -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.AsignarChequeSucurBean" />
+	</dwr:configuration>
+    <bean name="/asignarChequeSucursal.htm" class="tesoreria.controlador.AsignarChequeSucurControlador">
+		<property name="formView" value="tesoreria/asignarChequeSucurVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="asignarChequeSucurServicio" ref="asignarChequeSucurServicioImpl" />
+    </bean>
+	<bean id="asignarChequeSucurServicioImpl" class="tesoreria.servicio.AsignarChequeSucurServicio">
+		<dwr:remote javascript="asignarChequeSucurServicio">
+			<dwr:include method="consulta"/>
+			<dwr:include method="listaCombo"/>
+		</dwr:remote>
+		<property name="asignarChequeSucurDAO" ref="asignarChequeSucurDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean id="asignarChequeSucurDAOImpl" class="tesoreria.dao.AsignarChequeSucurDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+			<!-- Bean  Reporte Cheques YANGA PDF-->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="tesoreria.bean.ImprimeChequeBean"/>
+	</dwr:configuration>
+
+		<!-- DAO Reporte Cheques YANGA PDF-->
+	<bean id="imprimeChequeDAOImpl" class="tesoreria.dao.ImprimeChequeDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio Reporte Cheques YANGA PDF-->
+	<bean id="imprimeChequeServicioImpl" class="tesoreria.servicio.ImprimeChequeServicio">
+	      <dwr:remote javascript="imprimeChequeServicio">
+		</dwr:remote>
+	    <property name="imprimeChequeDAO" ref="imprimeChequeDAOImpl"/>
+      	<property name="monedasServicio" ref="monedasServicioImpl" />
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Controlador Reporte de Cheques YANGA PDF -->
+	<bean name="/imprimeCheque.htm" class="tesoreria.reporte.ImprimeChequeRepControlador">
+    	<property name="successView" value="resultadoTransaccionReporteVista" />
+      	<property name="imprimeChequeServicio" ref="imprimeChequeServicioImpl" />
+	</bean>
+
+	<!-- Servicio Reporte Cheques Dispersion PDF-->
+	<bean id="chequeServicioServicioImpl" class="tesoreria.servicio.ChequeDispersionRepServicio">
+	      <dwr:remote javascript="chequeServicio">
+		</dwr:remote>
+      	<property name="monedasServicio" ref="monedasServicioImpl" />
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<!-- Controlador Reporte de Cheques Dispersion PDF -->
+	<bean name="/imprimeChequeDispersion.htm" class="tesoreria.reporte.ChequeDispersionRepControlador">
+    	<property name="successView" value="resultadoTransaccionReporteVista" />
+      	<property name="chequeServicio" ref="chequeServicioServicioImpl" />
+	</bean>
+
+	<!-- Bean  Tipos de Pago Proveedores-->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="tesoreria.bean.TipoPagoProvBean"/>
+	</dwr:configuration>
+	<!-- Bean  Servicio Tipos de Pago Proveedores-->
+	<bean id="tipoPagoProvImpl" class="tesoreria.servicio.TipoPagoProvServicio">
+		<dwr:remote javascript="tipoPagoProvServicio">
+			<dwr:include method="listaTipoPagoProv"/>
+		</dwr:remote>
+		<property name="tipoPagoProvDAO" ref="tipoPagoProvDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- DAO Tipos de Pago Proveedores-->
+	<bean id="tipoPagoProvDAOImpl" class="tesoreria.dao.TipoPagoProvDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--  Beans Pantalla Reporte de Depositos Referenciados -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.RepDepositosRefBean" />
+	</dwr:configuration>
+
+	<bean id="repDepositosRefDAOImpl" class="tesoreria.dao.RepDepositosRefDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="repDepositosRefServicioImpl" class="tesoreria.servicio.RepDepositosRefServicio">
+		<dwr:remote javascript="repDepositosRef">
+		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repDepositosRefDAO" ref="repDepositosRefDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<bean name="/repDepositosRef.htm" class="tesoreria.controlador.RepDepositosRefControlador">
+	      <property name="formView" value="tesoreria/repDepositosRefVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="repDepositosRef" ref="repDepositosRefServicioImpl" />
+	</bean>
+		<!-- 	Fin de Beans Pantalla Reporte Depositos Referenciados -->
+		<!-- Bean para Reporte depositos referenciados -->
+	<bean name="/reporteDepositosref.htm" class="tesoreria.reporte.ReporteDepositosRefControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="nombreReporte" value="tesoreria/DepositosReferenciados.prpt" />
+       	<property name="repDepositosRefServicio" ref="repDepositosRefServicioImpl"/>
+       	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+		<!-- Fin para Reporte depositos referenciados -->
+
+	<!-- Inicio de BEANS para pantallas Inflacion Anual Proyectada -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.InflacionProyecBean" />
+	</dwr:configuration>
+	<bean name="/inflacionProyectada.htm"  class="tesoreria.controlador.InflacionProyecControlador">
+		<property name="formView" value="tesoreria/inflacionProyectadaVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+    	<property name="inflacionProyecServicio" ref="inflacionProyecServicioImpl" />
+	</bean>
+
+	<bean id="inflacionProyecServicioImpl" class="tesoreria.servicio.InflacionProyecServicio">
+	    <dwr:remote javascript="inflacionProyecServicio">
+	        <dwr:include method="consulta"/>
+		</dwr:remote>
+ 		<property name="inflacionProyecDAO" ref="InflacionProyecDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+ 	<bean name="InflacionProyecDAOImpl" class="tesoreria.dao.InflacionProyecDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+     	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+ 	</bean>
+
+
+	<!-- Fin de BEANS para pantallas Inflacion Anual Proyectada -->
+
+			<!-- lista de números de cuenta que manejan chequera-->
+	<bean name="/listaCuentasConChequera.htm"
+		  class="tesoreria.controlador.CajasChequeraListaControlador">
+		<property name="asignarChequeSucurServicio" ref="asignarChequeSucurServicioImpl" />
+	</bean>
+	<!-- fin lista de números de cuentas que manejan chequera-->
+
+
+		<!-- Inicio de BEANS para pantalla  Reporte Saldo en Bancos Por Centro de Costo-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.RepSaldoBancosCCBean" />
+	</dwr:configuration>
+	<bean name="/saldoBancosCC.htm"  class="tesoreria.controlador.RepSaldoBancosCCControlador">
+		<property name="formView" value="tesoreria/repSaldoBancosCCVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+    	<property name="repSaldoBancosCCServicio" ref="repSaldoBancosCCServicioImpl" />
+	</bean>
+
+	<bean id="repSaldoBancosCCServicioImpl" class="tesoreria.servicio.RepSaldoBancosCCServicio">
+	    <dwr:remote javascript="repSaldoBancosCCServicio">
+	        <dwr:include method="consulta"/>
+		</dwr:remote>
+ 		<property name="repSaldoBancosCCDAO" ref="RepSaldoBancosCCDAOImpl"/>
+ 		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+
+ 	<bean name="RepSaldoBancosCCDAOImpl" class="tesoreria.dao.RepSaldoBancosCCDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+     	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+ 	</bean>
+
+
+	<!-- Fin de BEANS para pantalla  Reporte Saldo en Bancos Por Centro de Costo-->
+
+	<!-- Bean para reporte Saldo en Bancos Por Centro de Costo  -->
+	<bean name="/SaldoBancosCCRep.htm" class="tesoreria.reporte.RepSaldoCCControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="repSaldoBancosCCServicio" ref="repSaldoBancosCCServicioImpl"/>
+	</bean>
+	<!-- Reporte de Cheques emitidos -->
+	<!-- bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ReporteChequesEmitidosBean" />
+	</dwr:configuration>
+	<!-- Servicio -->
+	<bean id="reporteChequesEmitidosServicioImpl" class="tesoreria.servicio.ReporteChequesEmitidosServicio">
+      	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/><!-- MULTIBASE -->
+	</bean>
+	<!-- Pantalla  -->
+	<bean name="/chequesEmitidosTeso.htm"  class="tesoreria.controlador.ReporteChequesEmitidosControlador">
+		<property name="formView" value="tesoreria/chequesEmitidosVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepChequesEmision.htm" class="tesoreria.reporte.ChequesEmitidosRepControlador">
+     	<property name="nomReporte" value="tesoreria/reporteChequesEmitidos.prpt" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="chequeServicio" ref="reporteChequesEmitidosServicioImpl" />
+	</bean>
+	<!-- Distribucion en Centro de Costos de Inversiones Bancarias -->
+	<!-- bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.DistCCInvBancariaBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="distCCInvBancariaDAOImpl" class="tesoreria.dao.DistCCInvBancariaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio GRID-->
+	<bean id="distCCInvBancariaServicioImpl" class="tesoreria.servicio.DistCCInvBancariaServicio">
+	      <dwr:remote javascript="distCCInvBancariaServicio"> </dwr:remote>
+	      <property name="distCCInvBancariaDAO" ref="distCCInvBancariaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Controlador GRID -->
+	<bean name="/gridDetalleInvBancaria.htm" class="tesoreria.controlador.DistCCInvBancariaGridControlador">
+			<property name="distCCInvBancariaServicio" ref="distCCInvBancariaServicioImpl" />
+	</bean>
+	<!-- FIN Distribucion en Centro de Costos de Inversiones Bancarias -->
+
+	<!-- Conceptos de Inversiones Bancarias -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ConceptosInverBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="conceptosInverBanDAOImpl" class="tesoreria.dao.ConceptosInverBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="conceptosInverBanServicioImpl" class="tesoreria.servicio.ConceptosInverBanServicio">
+		<dwr:remote javascript="conceptosInverBanServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="conceptosInverBanDAO" ref="conceptosInverBanDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- FIN Conceptos de Inversiones Bancarias -->
+	<!--  Sub Cuentas de Monedas de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaMonedaInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaMonedaInvBanDAOImpl" class="tesoreria.dao.SubCtaMonedaInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaMonedaInvBanServicioImpl" class="tesoreria.servicio.SubCtaMonedaInvBanServicio">
+		<property name="subCtaMonedaInvBanDAO" ref="subCtaMonedaInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaMonedaInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Fin Sub Cuentas de Monedas de Inversiones Bancarias para la Guia contable -->
+	<!-- Sub Cuentas por Tipo de Personas de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaInstInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaInstInvBanDAOImpl" class="tesoreria.dao.SubCtaInstInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaInstInvBanServicioImpl" class="tesoreria.servicio.SubCtaInstInvBanServicio">
+		<property name="SubCtaInstInvBanDAO" ref="subCtaInstInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaInstInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Fin Sub Cuentas por Tipo de Personas de Inversiones Bancarias para la Guia contable -->
+	<!-- Sub Cuentas por Titulo de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaTituInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaTituInvBanDAOImpl" class="tesoreria.dao.SubCtaTituInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaTituInvBanServicioImpl" class="tesoreria.servicio.SubCtaTituInvBanServicio">
+		<property name="subCtaTituInvBanDAO" ref="subCtaTituInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaTituInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- FIN Sub Cuentas por Titulo de Inversiones Bancarias para la Guia contable -->
+	<!-- Sub Cuentas por Restriccion de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaRestInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaRestInvBanDAOImpl" class="tesoreria.dao.SubCtaRestInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaRestInvBanServicioImpl" class="tesoreria.servicio.SubCtaRestInvBanServicio">
+		<property name="subCtaRestInvBanDAO" ref="subCtaRestInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaRestInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- FIN Sub Cuentas por Restriccion de Inversiones Bancarias para la Guia contable -->
+	<!-- Sub Cuentas por tipo de deuda de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaDeudaInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaDeudaInvBanDAOImpl" class="tesoreria.dao.SubCtaDeudaInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaDeudaInvBanServicioImpl" class="tesoreria.servicio.SubCtaDeudaInvBanServicio">
+		<property name="subCtaDeudaInvBanDAO" ref="subCtaDeudaInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaDeudaInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- FIN Sub Cuentas por tipo de deuda de Inversiones Bancarias para la Guia contable -->
+	<!-- Sub Cuentas de plazos de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.SubCtaPlazoInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="subCtaPlazoInvBanDAOImpl" class="tesoreria.dao.SubCtaPlazoInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="subCtaPlazoInvBanServicioImpl" class="tesoreria.servicio.SubCtaPlazoInvBanServicio">
+		<property name="subCtaPlazoInvBanDAO" ref="subCtaPlazoInvBanDAOImpl"/>
+		<dwr:remote javascript="subCtaPlazoInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Fin Sub Cuentas de plazos de Inversiones Bancarias para la Guia contable -->
+	<!-- Cuenta Mayor de Inversiones Bancarias para la Guia contable -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.CuentasMayorInvBanBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="cuentasMayorInvBanDAOImpl" class="tesoreria.dao.CuentasMayorInvBanDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+		</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="cuentasMayorInvBanServicioImpl" class="tesoreria.servicio.CuentasMayorInvBanServicio">
+		<dwr:remote javascript="cuentasMayorInvBanServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="cuentasMayorInvBanDAO" ref="cuentasMayorInvBanDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- FIN Sub Cuentas por tipo de deuda de Inversiones Bancarias para la Guia contable -->
+	<!-- Guia Contable de Inversion Bancaria -->
+	<!-- Servicio -->
+	<bean id="guiaContableInverBancariaServicioImpl" class="tesoreria.servicio.GuiaContableInverBancariaServicio">
+		<property name="cuentasMayorInvBanServicio" ref="cuentasMayorInvBanServicioImpl"/>
+		<property name="subCtaMonedaInvBanServicio" ref="subCtaMonedaInvBanServicioImpl"/>
+		<property name="subCtaInstInvBanServicio" ref="subCtaInstInvBanServicioImpl"/>
+		<property name="subCtaTituInvBanServicio" ref="subCtaTituInvBanServicioImpl"/>
+		<property name="subCtaRestInvBanServicio" ref="subCtaRestInvBanServicioImpl"/>
+		<property name="subCtaDeudaInvBanServicio" ref="subCtaDeudaInvBanServicioImpl"/>
+		<property name="subCtaPlazoInvBanServicio" ref="subCtaPlazoInvBanServicioImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Controlador pantalla -->
+	<bean name="/guiaContableInvBancaria.htm" class="tesoreria.controlador.GuiaContableInverBancariaControlador">
+	      <property name="formView" value="tesoreria/guiaContableInvBancariaCatalago" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableInverBancariaServicio" ref="guiaContableInverBancariaServicioImpl" />
+	</bean>
+	<!-- Controlador para las Listas de las Inversiones Bancarias -->
+	<bean name="/listaInversionesBanc.htm" class="tesoreria.controlador.InversionBanListaControlador">
+		<property name="invBancariaServicio" ref="invBancariaServicioImpl" />
+	</bean>
+	<!-- FIN Guia Contable de Inversion Bancaria -->
+
+	<!-- ==============================  REPORTE DE CHEQUES ASIGNADOS ==================================== -->
+	<!-- bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.RepAsignarChequesBean" />
+	</dwr:configuration>
+	<!-- Servicio -->
+	<bean id="repAsignarChequesServicioImpl" class="tesoreria.servicio.RepAsignarChequesServicio">
+      	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/><!-- MULTIBASE -->
+	</bean>
+	<!-- Pantalla  -->
+	<bean name="/repChequesAsignados.htm"  class="tesoreria.controlador.RepAsignarChequesControlador">
+		<property name="formView" value="tesoreria/chequesAsignadosVista" />
+	  	<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/ReporteChequesAsignados.htm" class="tesoreria.reporte.ChequesAsignadosRepControlador">
+     	<property name="nomReporte" value="tesoreria/reporteStockCheque.prpt" />
+	  	<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repAsignarChequesServicio" ref="repAsignarChequesServicioImpl" />
+	</bean>
+	<!-- ============================== FIN REPORTE DE CHEQUES ASIGNADOS ==================================== -->
+
+
+	<!-- ============================== INICIO DE BEANS DE MOTIVOS DE CANCELACION DE CHEQUES ==================================== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.MotivoCancelacionChequesBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Controlador de Pantalla de motivos de cancelacion de cheques -->
+	<bean name="/motivoCancelacionCheques.htm"  class="tesoreria.controlador.MotivoCancelacionChequesControlador">
+		<property name="formView" value="tesoreria/motivosCancelacionChequesVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="motivoCancelacionChequesServicio" ref="motivoCancelacionChequesServicioImpl" />
+	</bean>
+
+	<!-- Definicion del Grid de  motivos de cancelacion de cheques-->
+		<bean name="/motivoCancelacionChequesGrid.htm" class="tesoreria.controlador.MotivoCancelacionChequesGridControlador">
+   		<property name="motivoCancelacionChequesServicio" ref="motivoCancelacionChequesServicioImpl" />
+   	</bean>
+
+   		<!-- lista de motivos de cancelacion-->
+	<bean name="/listaMotivosCancelacion.htm"  class="tesoreria.controlador.MotivoCancelacionChequesListaControlador">
+		<property name="motivoCancelacionChequesServicio" ref="motivoCancelacionChequesServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Servicio de motivos de cancelacion de cheques -->
+	<bean id="motivoCancelacionChequesServicioImpl" class="tesoreria.servicio.MotivoCancelacionChequesServicio">
+		<dwr:remote javascript="motivoCancelacionChequesServicio">
+		<dwr:include method="consultaMotivos" />
+		</dwr:remote>
+		<property name="motivoCancelacionChequesDAO" ref="motivoCancelacionChequesDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Definicion de Dao de motivos de cancelacion de chequess -->
+	<bean id="motivoCancelacionChequesDAOImpl" class="tesoreria.dao.MotivoCancelacionChequesDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- ============================== FIN DE BEANS DE MOTIVOS DE CANCELACION DE CHEQUES ==================================== -->
+
+	<!-- ============ INICIO DE BEANS DE CANCELACION DE CHEQUES(gastos y anticipos, dispersiones c/s factura) ================ -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CancelaChequesBean" />
+	</dwr:configuration>
+
+	<bean id="cancelaChequesDAOImpl" class="tesoreria.dao.CancelaChequesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<bean id="cancelaChequesServicioImpl" class="tesoreria.servicio.CancelaChequesServicio">
+		<property name="cancelaChequesDAO" ref="cancelaChequesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/cancelaCheques.htm"
+		  class="tesoreria.controlador.CancelaChequesControlador">
+		  <property name="formView" value="tesoreria/cancelaChequesVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cancelaChequesServicio" ref="cancelaChequesServicioImpl" />
+	</bean>
+	<!-- ============ FIN DE BEANS DE CANCELACION DE CHEQUES(gastos y anticipos, dispersiones c/s factura) ================ -->
+
+	<!-- Pantalla de reporte de la DIOT -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.RepDIOTBean" />
+	</dwr:configuration>
+
+		<!-- Definicion de Controlador de Bitacora de Solicitud de Crédito -->
+	<bean name="/repDIOT.htm"  class="tesoreria.controlador.RepDIOTControlador">
+		<property name="formView" value="tesoreria/repDIOTVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="repDIOTServicio" ref="repDIOTServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador de Bitacora de Solicitud de Credito -->
+	<bean name="/ReporteDIOT.htm"  class="tesoreria.reporte.ReporteDIOTControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repDIOTServicio" ref="repDIOTServicioImpl" />
+	</bean>
+
+		<!-- Definicion de Servicio de Bitacora de Solicitud de Crédito -->
+	<bean id="repDIOTServicioImpl" class="tesoreria.servicio.RepDIOTServicio">
+		<dwr:remote javascript="repDIOTServicio">
+ 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="repDIOTDAO" ref="repDIOTDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Definicion de Dao de Bitacora de Solicitud de Crédito -->
+	<bean id="repDIOTDAOImpl" class="tesoreria.dao.RepDIOTDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- ============= Pantalla Referencias de Pago por Tipo de Instrumento ================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="tesoreria.bean.ReferenciasPagosBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="referenciasPagosDAOImpl" class="tesoreria.dao.ReferenciasPagosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+					<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--  Servicio -->
+	<bean id="referenciasPagosServicioImpl" class="tesoreria.servicio.ReferenciasPagosServicio">
+		<dwr:remote javascript="referenciasPagosServicio">
+			<dwr:include method="lista"/>
+			<dwr:include method="consulta"/>
+			<dwr:include method="calculaAlgoritmoRefe"/>
+		</dwr:remote>
+		<property name="referenciasPagosDAO" ref="referenciasPagosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla -->
+	<bean name="/refPagosInstVista.htm" class="tesoreria.controlador.ReferenciasPagosControlador">
+		<property name="formView" value="tesoreria/referenciasPagosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="referenciasPagosServicio" ref="referenciasPagosServicioImpl" />
+	</bean>
+
+	<!-- Grid Referencias de Pagos -->
+	<bean name="/referenciasPagGrid.htm" class="tesoreria.controlador.ReferenciasPagosGridControlador">
+		<property name="successView" value="tesoreria/referenciasPagosGridVista"/>
+		<property name="referenciasPagosServicio" ref="referenciasPagosServicioImpl"/>
+	</bean>
+	<!-- =========== FIN Pantalla Referencias de Pago por Tipo de Instrumento ================ -->
+
+	<!-- ============ INICIO DE BEANS DE RENOVACION DE ORDEN DE PAGO (DISPERSIONES) ================ -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.RenovacionOrdenPagoBean" />
+	</dwr:configuration>
+
+	<bean id="renovacionOrdenPagoDAOImpl" class="tesoreria.dao.RenovacionOrdenPagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<bean id="renovacionOrdenPagoServicioImpl" class="tesoreria.servicio.RenovacionOrdenPagoServicio">
+		<dwr:remote javascript="renovacionOrdenPagoServicio">
+		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="renovacionOrdenPagoDAO" ref="renovacionOrdenPagoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/renovacionOrdenPag.htm"
+		  class="tesoreria.controlador.RenovacionOrdenPagoControlador">
+		  <property name="formView" value="tesoreria/renovacionOrdenPagoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="renovacionOrdenPagoServicio" ref="renovacionOrdenPagoServicioImpl" />
+	</bean>
+
+	<!-- lista de ordenes de pago-->
+	<bean name="/listaOrdenesPago.htm" class="tesoreria.controlador.RenovacionOrdenPagoListaControlador">
+		<property name="renovacionOrdenPagoServicio" ref="renovacionOrdenPagoServicioImpl" />
+	</bean>
+
+	<!-- ============ FIN DE BEANS DE RENOVACION DE ORDEN DE PAGO (DISPERSIONES) ================ -->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ParametrosDIOTBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Controlador de Bitacora de Solicitud de Crédito -->
+	<bean name="/parametrosDIOT.htm"  class="tesoreria.controlador.ParametrosDIOTControlador">
+		<property name="formView" value="tesoreria/parametrosDIOTVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosDIOTServicio" ref="parametrosDIOTServicioImpl" />
+	</bean>
+
+		<!-- Definicion de Servicio de Bitacora de Solicitud de Crédito -->
+	<bean id="parametrosDIOTServicioImpl" class="tesoreria.servicio.ParametrosDIOTServicio">
+		<dwr:remote javascript="parametrosDIOTServicio">
+ 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosDIOTDAO" ref="parametrosDIOTDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+		<!-- Definicion de Dao de Bitacora de Solicitud de Crédito -->
+	<bean id="parametrosDIOTDAOImpl" class="tesoreria.dao.ParametrosDIOTDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- ============ INICIO BEANS INSTITUCIONES FINANCIERA PAGO REFERENCIADO ================ -->
+
+	<!-- Bean algoritmos depositos referenciados -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.AlgoritmoDepRefBean" />
+	</dwr:configuration>
+
+	<!-- Controlador pantalla parametros depositos referenciados de Instituciones-->
+	<bean name="/paramDepRefInstituciones.htm" class="tesoreria.controlador.ParamDepRefInstitucionesControlador">
+		<property name="formView" value="tesoreria/paramDepRefInstitucionesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="institucionesServicio" ref="institucionesServicioImpl" />
+	</bean>
+
+	<!-- Controlador Reporte -->
+	<bean name="/reporteRefPagoInst.htm" class="soporte.reporte.ReporteRefPagoInstControlador">
+		<property name="nombreReporte" value="tesoreria/ReferenciaPagoInstrumentos.prpt" />
+		<property name="referenciasPagosServicio" ref="referenciasPagosServicioImpl" />
+	</bean>
+
+	<!-- ============ FIN BEANS INSTITUCIONES FINANCIERA PAGO REFERENCIADO ================ -->
+
+	<!-- ========================= Reporte Historico de Divisas =========================== -->
+	<!-- Controlador -->
+	<bean name="/repHistDivisas.htm" class="tesoreria.controlador.ReporteHistDivisasControlador">
+		<property name="formView" value="tesoreria/reporteHistDivisaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	<!-- Controlador Reporte -->
+	<bean name="/reporteHistDivisas.htm" class="tesoreria.reporte.RepHistDivisasControlador">
+		<property name="divisasServicio" ref="divisasServicioImpl" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>
+	<!-- ======================= FIN Reporte Historico de Divisas ========================== -->
+
+	<!-- ========================= Pantalla Parametros Depositos Referenciados =========================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ParametrosDepRefBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Dao -->
+	<bean id="parametrosDepRefDAOImpl" class="tesoreria.dao.ParametrosDepRefDAO">
+	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Definicion de Servicio -->
+		<!-- Definicion de Servicio de Bitacora de Solicitud de Crédito -->
+	<bean id="parametrosDepRefServicioImpl" class="tesoreria.servicio.ParametrosDepRefServicio">
+		<dwr:remote javascript="parametrosDepRefServicio">
+	 		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosDepRefDAO" ref="parametrosDepRefDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controlador -->
+	<!-- Controlador pantalla parametros depositos referenciados de Instituciones -->
+	<bean name="/parametrosDepReferenciados.htm" class="tesoreria.controlador.ParametrosDepRefControlador">
+		<property name="formView" value="tesoreria/parametrosDepRefVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosDepRefServicio" ref="parametrosDepRefServicioImpl" />
+	</bean>
+	<!-- ========================= FIN Pantalla Parametros Depositos Referenciados =========================== -->
+
+	<!-- ============================= Tasas Impuesto ISR =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.TasaImpuestoISRBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="tasaImpuestoISRDAOImpl" class="tesoreria.dao.TasaImpuestoISRDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="tasaImpuestoISRServicioImpl" class="tesoreria.servicio.TasaImpuestoISRServicio">
+		<dwr:remote javascript="tasaImpuestoISRServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="tasaImpuestoISRDAO" ref="tasaImpuestoISRDAOImpl"/>
+		<property name="tasasISRExtDAO" ref="tasasISRExtDAOImpl"/>
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/tasaImpuestoISR.htm" class="tesoreria.controlador.TasaImpuestoISRControlador">
+		<property name="formView" value="tesoreria/tasaImpuestoISRVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tasaImpuestoISRServicio" ref="tasaImpuestoISRServicioImpl" />
+	</bean>
+
+	<!-- Controlador Lista de Ayuda -->
+	<bean name="/tasaImpuestoISRLista.htm" class="tesoreria.controlador.TasaImpISRListaControlador">
+		<property name="tasaImpuestoISRServicio" ref="tasaImpuestoISRServicioImpl" />
+	</bean>
+	<!-- =========================== FIN Tasas Impuesto ISR ============================= -->
+
+	<!-- ============================= Bonificaciones     =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.BonificacionesBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="bonificacionesDAOImpl" class="tesoreria.dao.BonificacionesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="bonificacionesServicioImpl" class="tesoreria.servicio.BonificacionesServicio">
+		<property name="bonificacionesDAO" ref="bonificacionesDAOImpl"/>
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/reporteBonificaciones.htm" class="tesoreria.controlador.ReporteBonificacionesControlador">
+		<property name="formView" value="tesoreria/reporteBonificaciones" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- Controlador Reporte -->
+	<bean name="/repBonificaciones.htm" class="tesoreria.reporte.ReporteBonificacionesControlador" >
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+		<property name="bonificacionesServicio" ref="bonificacionesServicioImpl" />
+	</bean>
+	<!-- ============================= FIN Bonificaciones  =============================== -->
+	
+	<!-- ============================= Conceptos de Dispersion =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ConceptoDispersionBean" />
+	</dwr:configuration>
+	
+	
+	<!-- DAO -->
+	<bean id="conceptoDispersionDAOImpl" class="tesoreria.dao.ConceptoDispersionDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio -->
+	<bean id="conceptoDispersionServicioImpl" class="tesoreria.servicio.ConceptoDispersionServicio">
+	    <dwr:remote javascript="conceptoDispersionServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />	
+		</dwr:remote>      
+	    <property name="conceptoDispersionDAO" ref="conceptoDispersionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/conceptoDispersion.htm" class="tesoreria.controlador.ConceptoDispersionControlador">
+		<property name="formView" value="tesoreria/conceptoDispersionCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="conceptoDispersionServicio" ref="conceptoDispersionServicioImpl" />
+	</bean>
+	
+	<bean name="/listaConceptoDisp.htm"
+		  class="tesoreria.controlador.ConceptoDispListaControlador">
+		<property name="conceptoDispersionServicio" ref="conceptoDispersionServicioImpl" />
+	</bean>
+	<!-- ============================= FIN Conceptos de Dispersion  =============================== -->
+	
+	<!-- =============== GENERACION  CUENTAS DE SANTANDER  =============== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CuentasSantanderBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasSantanderDAOImpl" class="tesoreria.dao.CuentasSantanderDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+   <bean id="cuentasSantanderServicioImpl" class="tesoreria.servicio.CuentasSantanderServicio">
+      		<dwr:remote javascript="cuentasSantanderServicio">
+				<dwr:include method="listaCreaArchivoTxt" />
+	      	</dwr:remote>
+		<property name="cuentasSantanderDAO" ref="cuentasSantanderDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	<bean name="/ctasSantanderVista.htm" class="tesoreria.controlador.CuentasSantanderControlador">
+      <property name="formView" value="tesoreria/cuentasSantanderVista" />
+      <property name="successView" value="resultadoTransaccionVista" />
+      <property name="cuentasSantanderServicio" ref="cuentasSantanderServicioImpl" />
+	</bean> 	
+	<!-- =============== FIN GENERACION CUENTAS DE SANTANDER  =============== -->
+	
+	
+	
+	<!-- =============== RESPUESTA DE ALTA DE CUENTAS SANTANDER =============== -->
+	<bean name="/resCtasSantanderVista.htm" class="tesoreria.controlador.ResCuentasSantanderControlador">
+      <property name="formView" value="tesoreria/resCuentasSantanderVista" />
+      <property name="successView" value="resultadoTransaccionVista" />
+      <property name="cuentasSantanderServicio" ref="cuentasSantanderServicioImpl" />
+	</bean> 
+	
+	<!-- =============== FIN RESPUESTA DE ALTA DE CUENTAS SANTANDER =============== -->
+	
+	<!-- =============== RESPUESTA TRANFERENCIAS SANTANDER =============== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ResTransferenciaSantaBean" />
+	</dwr:configuration>
+	
+	<bean id="resTransferenciaSantaDAOImpl" class="tesoreria.dao.ResTransferenciaSantaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="cuentasSantanderDAO" ref="cuentasSantanderDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	 <bean id="resTransferenciaSantaServicioImpl" class="tesoreria.servicio.ResTransferenciaSantaServicio">
+      	<dwr:remote javascript="resTransferenciaSantaServicio"></dwr:remote>
+		<property name="resTransferenciaSantaDAO" ref="resTransferenciaSantaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+	
+	<bean name="/resTransSantanderVista.htm" class="tesoreria.controlador.ResTransferenciaSantaControlador">
+      <property name="formView" value="tesoreria/resTransferenciaSantanderVista" />
+      <property name="successView" value="resultadoTransaccionVista" />
+      <property name="resTransferenciaSantaServicio" ref="resTransferenciaSantaServicioImpl" />
+	</bean> 
+	<!-- =============== FIN RESPUESTA TRANFERENCIAS SANTANDER =============== -->
+
+
+	<!-- =============== RESPUESTA DE ORDEN DE PAGO SANTANDER =============== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.ResOrdPagoSantaBean" />
+	</dwr:configuration>
+	
+	<bean id="resOrdPagoSantaDAOImpl" class="tesoreria.dao.ResOrdPagoSantaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="cuentasSantanderDAO" ref="cuentasSantanderDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	 <bean id="resOrdPagoSantanderServicioImpl" class="tesoreria.servicio.ResOrdPagoSantaServicio">
+      	<dwr:remote javascript="resOrdPagoSantaServicio">
+      		 <dwr:include method="consulta" />
+      	</dwr:remote>
+		<property name="resOrdPagoSantaDAO" ref="resOrdPagoSantaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+	
+	<bean name="/resOrdPagoSantanderVista.htm" class="tesoreria.controlador.ResOrdPagoSantaControlador">
+	  <property name="formView" value="tesoreria/resOrdPagoSantanderVista" />
+	  <property name="successView" value="resultadoTransaccionVista" />
+	  <property name="resOrdPagoSantaServicio" ref="resOrdPagoSantanderServicioImpl" />
+	</bean> 
+  <!-- =============== FIN RESPUESTA DE ORDEN DE PAGO SANTANDER =============== -->
+	
+	<!-- =============== CANCELACION ORDENES DE PAGO =============== -->
+
+	<!--  Bean pantalla Cancelacion Orden Pago -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CancelacionOrdPagoBean" />
+	</dwr:configuration>
+
+	<!-- DAO pantalla Cancelacion Orden Pago -->
+	<bean id="cancelacionOrdPagoDAOImpl" class="tesoreria.dao.CancelacionOrdPagoDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio pantalla Cancelacion Orden Pago-->
+	<bean id="cancelacionOrdPagoServicioImpl" class="tesoreria.servicio.CancelacionOrdPagoServicio">
+		<dwr:remote javascript="cancelacionOrdPagoServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="cancelacionOrdPagoDAO" ref="cancelacionOrdPagoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla Cancelacion Orden Pago -->
+	<bean name="/cancelacionOrdPago.htm" class="tesoreria.controlador.CancelacionOrdPagoControlador">
+		<property name="formView" value="tesoreria/cancelacionOrdPagoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cancelacionOrdPagoServicio" ref="cancelacionOrdPagoServicioImpl" />
+	</bean>
+
+	<!-- Grid pantalla Cancelacion Orden Pago -->
+	<bean name="/cancelacionOrdPagoGridVista.htm" class="tesoreria.controlador.CancelacionOrdPagoGridControlador">
+		<property name="successView" value="tesoreria/cancelacionOrdPagoGridVista"/>
+		<property name="cancelacionOrdPagoServicio" ref="cancelacionOrdPagoServicioImpl" />
+	</bean>
+	<!-- =============== FIN CANCELACION ORDENES DE PAGO =============== -->
+	
+	<!-- ================= CARGA DE DISPERSION MASIVA ================== -->
+	
+	<!--  Bean pantalla Carga masiva de dispersion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.DispersionMasivaBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla Carga masiva de dispersion -->
+	<bean id="dispersionMasivaDAOImpl" class="tesoreria.dao.DispersionMasivaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla Carga masiva de dispersion-->
+	<bean id="dispersionMasivaServicioImpl" class="tesoreria.servicio.DispersionMasivaServicio">
+		<property name="dispersionMasivaDAO" ref="dispersionMasivaDAOImpl" />
+	</bean>
+	
+	<bean name="/cargaDispersionMasiva.htm" class="tesoreria.controlador.DispersionMasivaControlador">
+		<property name="formView" value="tesoreria/dispersionMasivaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="dispersionMasivaServicio" ref="dispersionMasivaServicioImpl" />
+	</bean>
+	
+	<!-- Grid pantalla Carga masiva de dispersion -->
+	<bean name="/dispersionMasivaGridVista.htm" class="tesoreria.controlador.DispersionMasivaGridControlador">
+		<property name="dispersionMasivaServicio" ref="dispersionMasivaServicioImpl" />
+	</bean>
+	
+	<!-- ================ FIN CARGA DE DISPERSION MASIVA =============== -->
+
+	<!-- ============================= Carga Masiva de Facturas =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="tesoreria.bean.CargaMasivaFacturasBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="cargaMasivaFacturasDAOImpl" class="tesoreria.dao.CargaMasivaFacturasDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="paramGeneralesDAO" ref="paramGeneralesDAOImpl" />
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="cargaMasivaFacturasServicioImpl" class="tesoreria.servicio.CargaMasivaFacturasServicio">
+		<dwr:remote javascript="cargaMasivaFacturasServicio">
+	      <dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="cargaMasivaFacturasDAO" ref="cargaMasivaFacturasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<!-- Controlador Pantalla -->
+	<bean name="/cargaMasivaFacturas.htm" class="tesoreria.controlador.CargaMasivaFacturasControlador">
+		<property name="formView" value="tesoreria/cargaMasivaFacturasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controlador para adjuntar archivos de Carga masiva de facturas -->
+	<bean name="/cargaMasivaFileUpload.htm" class="tesoreria.controlador.CargaMasivaFacturasControlador">
+	    <property name="formView" value="tesoreria/archivoFacturasMasivaVista" /> 
+	    <property name="successView" value="tesoreria/resultadoTransaccionArchivoFacturas"/> 
+		<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" /> 
+	</bean>
+	
+	<!-- Definicion de Controlador de Grid de Biracora de Facturas -->
+	<bean name="/bitArchivoFacturaGrid.htm" class="tesoreria.controlador.BitacoraArchivoFacturasGridControlador">
+		<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" />
+	</bean>	
+	<!-- =========================== FIN Carga Masiva de Facturas============================= -->
+	
+	<!-- ============================= Procesa Carga Masiva de Facturas =============================== -->
+	<!-- Controlador Pantalla -->
+	<bean name="/procesaCargaMasivaFacturas.htm" class="tesoreria.controlador.ProcesaCargaMasivaFacturasControlador">
+		<property name="formView" value="tesoreria/procesaCargaMasivaFacturasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" />
+	</bean>
+	
+	<bean name="/listaFolioFactura.htm" class="tesoreria.controlador.CargaMasivaListaFacturasControlador">
+		<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" />
+	</bean>
+	
+	<!-- ============================= Procesa Carga Masiva de Facturas =============================== -->
+	
+	<!-- ============================= GENERACION DE REPORTE DE PROVEEDORES CARGA MASIVA  =============================== -->
+	<bean name="/repProveedoresCargaMasiva.htm" class="tesoreria.reporte.ReporteProvCargaMasivaControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  	<property name="cargaMasivaFacturasServicio" ref="cargaMasivaFacturasServicioImpl" /> 
+	</bean>
+	
+</beans>

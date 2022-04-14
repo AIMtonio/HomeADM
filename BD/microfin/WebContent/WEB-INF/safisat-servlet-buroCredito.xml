@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+	 	 
+ 
+	<!-- Beans de Respuesta Buro de Credito--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="buroCredito.bean.SolBuroCreditoBean"/> 
+	</dwr:configuration>
+	
+	<bean id="solBuroCreditoDAOImpl" class="buroCredito.dao.SolBuroCreditoDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="solBuroCreditoServicioImpl" class="buroCredito.servicio.SolBuroCreditoServicio">
+		<dwr:remote javascript="solBuroCredServicio">
+	    	<dwr:include method="consulta" />		
+			<dwr:include method="lista" />
+		</dwr:remote> 
+		<property name="solBuroCreditoDAO" ref="solBuroCreditoDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="solicitudCreditoDAO" ref="solicitudCreditoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		
+	    <!-- <property name="taskExecutor" ref="taskExecutorImpl"/> -->	      
+	</bean> 
+	
+	<bean name="/consultaBCVista.htm" class="buroCredito.controlador.SolBuroCreditoControlador">
+		<property name="formView" value="buroCredito/solBuroCreditoCatalogoVista" />
+		<property name="successView" value="buroCredito/resultadoTransaccionBCVista" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	<bean name="/reporteBCVista.htm" class="buroCredito.controlador.ReporteBCControlador">
+		<property name="formView" value="buroCredito/reporteBCCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Reporte BC -->
+	<bean name="/ReporteBC.htm" class="buroCredito.reporte.SolBuroCreditoRepControlador">
+		<property name="nomReporte" value="buroCredito/ReporteBuroCredito.prpt" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Reporte Autorizacion Credito CC-->
+	<bean name="/ReporteAutorizacionCred.htm" class="buroCredito.reporte.SolCirculoCreditoRepControlador">
+		<property name="nomReporte" value="buroCredito/ReporteAutorizacionConsultasCC.prpt" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Lista Reporte Buro Credito -->
+	<bean name="/listaFolioConsulta.htm"
+		  class="buroCredito.controlador.ReporteBCListaControlador">
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Consulta por Solicitud BC -->
+	<bean name="/consultaSolicitudBCVista.htm" class="buroCredito.controlador.ConsultaSolicitudBCControlador">
+		<property name="formView" value="buroCredito/consultaSolicitudBCVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+		<property name="avalesServicio" ref="avalesServicioImpl" />
+		<property name="direccionesClienteServicio" ref="direccionesClienteServicioImpl" />
+		<property name="clienteServicio" ref="clienteServicioImpl" />
+		<property  name="prospectosServicio" ref="prospectosServicioImpl" />
+		<property  name="estadosServicio" ref="estadosRepubServicioImpl" />
+		<property  name="municipiosServicio" ref="municipiosRepubServicioImpl" />
+		<property name="obligadosSolidariosServicio" ref="obligadosSolidariosServicioImpl" />
+	</bean>
+	
+	<bean name="/consultaSolicitudGridVista.htm" 
+			class="buroCredito.controlador.ConsultaSolicitudGridControlador">
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+		<bean id="EnvioCintaCirculoDAOImpl" class="buroCredito.dao.EnvioCintaCirculoDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	
+	<bean id="EnvioCintaCirculoServicioImpl" class="buroCredito.servicio.EnvioCintaCirculoServicio">
+	    <dwr:remote javascript="EnvioCintaCirculoServicio">
+	  		</dwr:remote> 
+	    <property name="EnvioCintaCirculoDAO" ref="EnvioCintaCirculoDAOImpl"/>
+	    <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosSisDAO" ref="parametrosDAOImpl"/>
+	</bean> 
+	
+		<!-- Beans de Respuesta Buro de Credito--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="buroCredito.bean.EnvioCintaCirculoBean"/> 
+	</dwr:configuration>
+	
+	
+	<!-- Creacion de cinta de circulo de  creditos -->
+	<bean name="/envioCintaCirculo.htm" class="buroCredito.controlador.CintaCirculoControlador">
+	    <property name="commandClass" value="buroCredito.bean.EnvioCintaCirculoBean"/>  
+		<property name="formView" value="buroCredito/cintaCirculoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="EnvioCintaCirculoServicio" ref="EnvioCintaCirculoServicioImpl" />
+	</bean>
+
+	<bean name="/circuloVerArchivos.htm" class="buroCredito.controlador.CirculoArchivosVerControlador">
+		<property name="EnvioCintaCirculoServicio" ref="EnvioCintaCirculoServicioImpl" /> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+	<!-- Reporte CC -->
+	<bean name="/ReporteCC.htm" class="buroCredito.reporte.SolCirculoCreditoRepControlador">
+		<property name="nomReporte" value="buroCredito/ReporteCirculoCredito.prpt" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+	
+	
+	<!-- Reporte Autorizacion para Solicitar Reporte de Crédito BC-->
+	<bean name="/RepPDFAutorizacionSolRepCredito.htm" class="buroCredito.reporte.SolCirculoCreditoRepControlador">
+		<property name="nomReporte" value="buroCredito/ReporteSolicitarRepCredito.prpt" />
+		<property name="solBuroCreditoServicio" ref="solBuroCreditoServicioImpl" />
+	</bean>
+  
+  	<!-- Bean Tipo de Institucion de Circulo de Crédito -->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="buroCredito.bean.TipoInstitucionCirculoBean"/> 
+	</dwr:configuration>
+	
+	<bean id="tipoInstitucionCirculoDAOImpl" class="buroCredito.dao.TipoInstitucionCirculoDAO"> 
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="tipoInstitucionCirculoServicioImpl" class="buroCredito.servicio.TipoInstitucionCirculoServicio">
+		<dwr:remote javascript="tipoInstitucionCirculoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+	  	</dwr:remote> 
+	    <property name="tipoInstitucionCirculoDAO" ref="tipoInstitucionCirculoDAOImpl"/>
+	</bean>
+	
+	<bean name="/listaTipoInstitucionCirculo.htm" class="buroCredito.controlador.TipoInstitucionCirculoListaControlador">
+		<property name="tipoInstitucionCirculoServicio" ref="tipoInstitucionCirculoServicioImpl" />
+	</bean>
+	<!-- =============================== INICIO BURO CALIFICA =============================== -->
+	<!-- BEAN -->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="buroCredito.bean.BuroCalificaBean"/> 
+	</dwr:configuration>
+	
+	<!-- DAO -->
+		<bean id="buroCalificaDAOImpl" class="buroCredito.dao.BuroCalificaDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- SERVICIO -->
+	<bean id="buroCalificaServicioImpl" class="buroCredito.servicio.BuroCalificaServicio">
+	 <dwr:remote javascript="buroCalificaServicio">
+	  		</dwr:remote> 
+		<property name="buroCalificaDAO" ref="buroCalificaDAOImpl"/>
+	</bean>
+	
+	
+	<!-- CONTROLADOR PANTALLA-->
+	<bean name="/buroCalifica.htm" class="buroCredito.controlador.BuroCalificaControlador">
+		<property name="formView" value="buroCredito/buroCalificaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="buroCalificaServicio" ref="buroCalificaServicioImpl"/>
+	</bean> 
+	
+	<!-- CONTROLADOR REPORTE-->
+	<bean name="/repBuroCalifica.htm" class="buroCredito.reporte.RepBuroCalificaControlador">
+		<property name="buroCalificaServicio" ref="buroCalificaServicioImpl" />
+	</bean>
+	
+	
+	<!-- =============================== FIN INICIO BURO CALIFICA =============================== -->
+	<bean name="/envioCintaCirculoVtaCar.htm" class="buroCredito.controlador.CintaCirculoVtaCarControlador">
+	    <property name="commandClass" value="buroCredito.bean.EnvioCintaCirculoBean"/>  
+		<property name="formView" value="buroCredito/cintaCirculoVistaVtaCar" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="EnvioCintaCirculoServicio" ref="EnvioCintaCirculoServicioImpl" />
+	</bean>
+	
+	<bean name="/circuloVerArchivosVtaCar.htm" class="buroCredito.controlador.CirculoArchivosVerVtaCarControlador">
+		<property name="EnvioCintaCirculoServicio" ref="EnvioCintaCirculoServicioImpl" /> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+</beans>

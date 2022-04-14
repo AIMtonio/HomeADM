@@ -1,0 +1,176 @@
+
+ /* Body  */
+ 
+body { font-size: 70%; }
+label { display: inline-block; width: 100px; }
+legend { padding: 0.5em; }
+fieldset fieldset label { 
+	display: block; 
+	}
+.VistaForm { width: 500px; }
+.VistaForm label { width: 250px; } 
+ 
+ 
+
+input, select, textarea, fieldset{
+	border:solid 1px #e0e0e0;
+	font-size: .70em;
+	
+}
+
+input[type="radio"]{
+	border:solid 1px #e0e0e0;
+	font-size: .70em;
+	
+}
+
+
+label.error {
+	color: red;
+	font-family: tahoma, geneva, sans-serif;	
+	font-style: italic;
+	font-weight: normal;
+	font-size: .80em;	
+}
+
+
+td label.error {
+	color: red;
+	font-family: tahoma, geneva, sans-serif;	
+	font-style: italic;
+	font-weight: normal;
+	font-size: .80em;		
+}
+
+input.error, select.error, textarea.error{
+	border: 1px solid red;
+	background-color: #FFFFD5;
+	margin: 0px;
+	color: red;
+}
+
+td.label {
+	width: 150px;
+	font-size: .80em;
+}
+
+td.separador {
+	width: 50px;
+}
+
+td textarea{
+	padding:1px;
+	vertical-align:middle;
+}
+
+td label{
+	color:#999999;
+}
+
+.botonGral {
+	vertical-align:middle;
+	font-family: tahoma, geneva, sans-serif;
+	font-size:1em;
+	font-weight:normal	
+	border:solid 1px #056672;
+	padding:3px 5px 3px 5px !important;
+	color:#fff !important;
+	margin:3px 1px !important;
+	background:url(../images/buttonBlueBg.gif) left top repeat-x;
+	white-space:nowrap;
+	cursor:pointer;
+}
+
+.botonGral:hover {
+	text-decoration:none !important;
+	background:url(../images/buttonBlueBgHover.gif) left top repeat-x;
+	border:solid 1px #0099bb;
+}
+
+.botonDeshabilitado {
+	vertical-align:middle;
+	font-family: tahoma, geneva, sans-serif;
+	font-size:1em;
+	font-weight:normal	
+	border:solid 1px #056672;
+	padding:3px 5px 3px 5px !important;
+	color:#FFFFFF !important;
+	background-color: #B3B3B3;	
+	margin:3px 1px !important;	
+	white-space:nowrap;
+	cursor:pointer;
+}
+
+
+.submit {
+	vertical-align:middle;
+	font-family: tahoma, geneva, sans-serif;
+	font-size:1em;
+	font-weight:normal	
+	border:solid 1px #056672;
+	padding:3px 5px 3px 5px !important;
+	color:#fff !important;
+	margin:3px 1px !important;
+	background:url(../../images/buttonBlueBg.gif) left top repeat-x;
+	white-space:nowrap;
+	cursor:pointer;
+}
+
+.submit:hover {
+	text-decoration:none !important;
+	background:url(../../images/buttonBlueBgHover.gif) left top repeat-x;
+	border:solid 1px #0099bb;
+}
+
+#encabezadoLista {
+	background-color: #659CD8;			
+	color: #fff;
+}
+
+#cajaLista {
+	position: relative;
+	margin: 0px 0px 0px 0px;				
+	border:solid 1px #DBDBDB;		
+	background-color: #FFFFFF;
+}
+
+#elementoLista {
+	margin: 1px;
+	padding: px;
+}
+
+#elementoLista tr {		a
+	margin: 0px 0px 3px 0px;
+	padding: 3px;
+	cursor: pointer;
+	list-style-type:none;
+}
+
+#elementoLista tr:hover {		
+	background-color: #DDDDDD;
+}
+	
+
+#cajaLista2 {
+	position: relative;
+	margin: 0px 0px 0px 0px;				
+	border:solid 1px #DBDBDB;		
+	background-color: #FFFFFF;
+}
+
+#elementoLista2 {
+	margin: 1px;
+	padding: px;
+}
+
+#elementoLista2 tr {		a
+	margin: 0px 0px 3px 0px;
+	padding: 3px;
+	cursor: pointer;
+	list-style-type:none;
+}
+
+#elementoLista2 tr:hover {		
+	background-color: #DDDDDD;
+}
+	

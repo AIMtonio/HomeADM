@@ -1,0 +1,55 @@
+DELIMITER ;
+DROP TABLE IF EXISTS EDOCTAV2HEADERCRED;
+DELIMITER $$
+
+
+CREATE TABLE EDOCTAV2HEADERCRED (
+	FolioProceso			BIGINT(12)		NOT NULL COMMENT 'ID de Procesamiento o de ejecucion del estado de cuenta, Se genera cuando se ejecuta el estado de cuenta',
+	AnioMes 				INT(11) 		NOT NULL COMMENT 'Anio y mes para generar Estado de cuenta',
+	CreditoID				BIGINT(12)		NOT NULL COMMENT 'Identificacion de credito',
+	SucursalID	 			INT(11) 		NOT NULL COMMENT 'Numero de surcusal del cliente',
+	ClienteID 				INT(11) 		NOT NULL COMMENT 'Numero de cliente',
+	ProductoCreditoID		INT(11)			NOT NULL COMMENT 'Identificador del producto de credito de la tabla PRODUCTOSCREDITO',
+	NombreProducto			VARCHAR(50)		NOT NULL COMMENT 'Nombre del producto, Descripcion de la tabla PRODUCTOSCREDITO',
+	CuentaClabe				VARCHAR(18)		NOT NULL COMMENT 'Cuenta Clabe Asignada al credito',
+	ImporteCredito			DECIMAL(18,2)	NOT NULL COMMENT 'importe del credito, Monto Otorgado del credito',
+	FechaMinistrado			DATE			NOT NULL COMMENT 'Fecha de ministrado o de Desembolso',
+	FechaVencimiento		DATE			NOT NULL COMMENT 'Fecha de vencimiento, FechaVencimiento del CREDITO',
+	SaldoInsoluto			DECIMAL(14,2)	NOT NULL COMMENT 'Saldo Insoluto, SALDOSCREDITOS (SalCapVigente + SalCapAtrasado + SalCapVencido + SalCapVenNoExi) DONDE FechaCorte = Cierre Mes',
+	SaldoInicial			DECIMAL(14,2)	NOT NULL COMMENT 'Saldo Inicial, la suma de los campos: SalCapVigente\nSalCapAtrasado\nSalCapVencido\nSalCapVenNoExi\nSalIntOrdinario\nSalIntAtrasado\nSalIntVencido\nSalIntProvision\nSalIntNoConta\nSalMoratorios\nSaldoMoraVencido\nSaldoMoraCarVen\nSalComFaltaPago\nSalOtrasComisi\n de SALDOSCREDITO',
+	PagoAmortizaciones		VARCHAR(25)		NOT NULL COMMENT 'Se obtiene de SALDOSCREDITO juntando CuotasPagadas y NumAmortizacion',
+	CAT						DECIMAL(12,2)	NOT NULL COMMENT 'Valor del CAT,  Se obtiene de SALDOSCREDITO',
+	TasaOrdinaria			DECIMAL(12,2)	NOT NULL COMMENT 'Tasa Ordinaria, TasaFija de SALDOSCREDITOS',
+	TasaMoratoria			DECIMAL(12,2)	NOT NULL COMMENT 'Tasa Moratoria',
+	PagoIntOrdMes			DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de Intereses Ordinarios pagadas en el Mes',
+	PagoIVAIntOrdMes		DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de IVA de Intereses Ordinarios pagadas en el Mes',
+	PagoMoraMes				DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de Interes Moratorio pagado en el Mes',
+	PagoIVAMoraMes			DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de IVA de Interes Moratorio pagado en el Mes',
+	PagoComisiMes			DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de Comisiones pagadas en el Mes',
+	PagoIVAComisiMes		DECIMAL(18,2)	DEFAULT '0.00'	COMMENT 'Monto de IVA de Comisiones pagadas en el Mes',
+	FechaProxPag			DATE			NOT NULL COMMENT 'Fecha a realizar el proximo pago, se obtienes de SALDOSCREDITOS',
+	FechaProxPagLey			VARCHAR(30)		NOT NULL COMMENT 'Fecha a realizar el proximo pago, en formato de Texto, cuando el credito presenta atraso se muestra la leyenda INMEDIATO',
+	CapitalProxpago			DECIMAL(14,2)	NOT NULL COMMENT 'capital proximo pago, se obtiene de SALDOSCREDITOS',
+	InteresProxPago			DECIMAL(14,2)	NOT NULL COMMENT 'interes proximo pago, se obtiene de SALDOSCREDITOS',
+	IvaProxPago				DECIMAL(14,2)	NOT NULL COMMENT 'iva proximo pago, se obtiene de SALDOSCREDITOS',
+	OtrCargosProxPago		DECIMAL(14,2)	NOT NULL COMMENT 'Otros Cargos para Proximo Pago, solo tien valor cuando existen cuotas atrasadas con comisinoes y mora',
+	IVAOtrCargosProxPago	DECIMAL(14,2)	NOT NULL COMMENT 'IVA de Otros Cargos para Proximo Pago, solo tien valor cuando existen cuotas atrasadas con comisinoes y mora',
+	PlazoID					INT(11)	NOT NULL COMMENT 'PlazodID que tien el credito',
+	DiasDelPlazo			INT(11)	NOT NULL COMMENT 'Dias del PlazodID de acuerdo a CREDITOSPLAZOS',
+	FrecPlazo				CHAR(1)	NOT NULL COMMENT 'Frecuencia Del Plazo',
+	PlazoEnMes				INT(11)	NOT NULL COMMENT 'Es la Tranformacion del Plazo expresado en Meses',
+
+
+	EmpresaID 				INT(11) 		NOT NULL COMMENT 'Parametro de Auditoria',
+	Usuario 				INT(11) 		NOT NULL COMMENT 'Parametro de Auditoria',
+	FechaActual 			DATETIME 		NOT NULL COMMENT 'Parametro de Auditoria',
+	DireccionIP 			VARCHAR(15) 	NOT NULL COMMENT 'Parametro de Auditoria',
+	ProgramaID 				VARCHAR(50) 	NOT NULL COMMENT 'Parametro de Auditoria',
+	Sucursal 				INT(11) 		NOT NULL COMMENT 'Parametro de Auditoria',
+	NumTransaccion 			BIGINT(20)		NOT NULL COMMENT 'Parametro de Auditoria',
+	PRIMARY KEY (AnioMes, CreditoID),
+	INDEX INDEX_EDOCTAV2HEADERCRED_1 (AnioMes, CreditoID),
+	INDEX INDEX_EDOCTAV2HEADERCRED_2 (ClienteID),
+	INDEX INDEX_EDOCTAV2HEADERCRED_3 (CreditoID),
+	INDEX INDEX_EDOCTAV2HEADERCRED_4 (FolioProceso)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tab: Header o cabecera de creditos de la seccion de Detalle de Creditos'$$

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="consultaInverRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="numero" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaInverResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="gananciaAnuTot" type="xs:string" />
+                <xs:element name="interesCobrado" type="xs:string" /> 
+                <xs:element name="numInteresCobrado" type="xs:string" /> 
+					 <xs:element name="pagTotalRecib" type="xs:string" /> 
+					 <xs:element name="saldoTotal" type="xs:string" />
+					 <xs:element name="numeroEfectivoDispon" type="xs:string" />       
+					 <xs:element name="saldoEfectivoDispon" type="xs:string" /> 
+					 <xs:element name="numeroInverEnProceso" type="xs:string" />       
+					 <xs:element name="saldoInverEnProceso" type="xs:string" />   
+					 <xs:element name="numeroInvActivas" type="xs:string" />       
+					 <xs:element name="saldoInvActivas" type="xs:string" />       
+					 <xs:element name="numeroIntDevengados" type="xs:string" />       
+					 <xs:element name="saldoIntDevengados" type="xs:string" />       
+					 <xs:element name="numeroTotInversiones" type="xs:string" />            
+					 <xs:element name="numeroInvActivasResumen" type="xs:string" />       
+					 <xs:element name="SaldoInvActivasResumen" type="xs:string" />       
+					 <xs:element name="numeroInvAtrasadas1a15Resumen" type="xs:string" />       
+					 <xs:element name="saldoInvAtrasadas1a15Resumen" type="xs:string" />       
+					 <xs:element name="numeroInvAtrasadas16a30Resumen" type="xs:string" />       
+					 <xs:element name="saldoInvAtrasadas16a30Resumen" type="xs:string" /> 
+					 <xs:element name="numeroInvAtrasadas31a90Resumen" type="xs:string" />
+					 <xs:element name="saldoInvAtrasadas31a90Resumen" type="xs:string" />       
+					 <xs:element name="numeroInvVencidas91a120Resumen" type="xs:string" />       
+					 <xs:element name="saldoInvVencidas91a120Resumen" type="xs:string" />       
+					 <xs:element name="numeroInvVencidas121a180Resumen" type="xs:string" />       
+					 <xs:element name="saldoInvVencidas121a180Resumen" type="xs:string" />       
+					 <xs:element name="numeroInvQuebrantadasResumen" type="xs:string" />       
+					 <xs:element name="saldoInvQuebrantadasResumen" type="xs:string" />       
+					 <xs:element name="numeroInvLiquidadasResumen" type="xs:string" />       
+					 <xs:element name="saldoInvLiquidadasResumen" type="xs:string" />
+					 <xs:element name="numCapitalCobrado" type="xs:string" />                                        
+					 <xs:element name="CapitalCobrado" type="xs:string" />
+					 <xs:element name="numMoraCobrado" type="xs:string" />
+					 <xs:element name="moraCobrado" type="xs:string" />
+         		 <xs:element name="numComFalPago" type="xs:string" />
+					 <xs:element name="comFalPago" type="xs:string" />
+					 <xs:element name="codigoRespuesta" type="xs:string" />      
+                <xs:element name="mensajeRespuesta" type="xs:string" />    
+         		 
+         			          						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<!-- DEfinicion  para el ALTA DE SOLICITUD DE INVERSION --> 
+    <xs:element name="solicitudInversionRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="solicitudCreditoID" type="xs:string" />
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="cuentaAhoID" type="xs:string" />
+                <xs:element name="montoFondeo" type="xs:string" />
+                <xs:element name="tasaPasiva" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="solicitudInversionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="porcentajeFondeo" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" /> 
+					 <xs:element name="mensajeRespuesta" type="xs:string" /> 				                             						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- DEfinicion  para CANCELAR UNA SOLICITUD DE INVERSION --> 
+    <xs:element name="cancelarInversionRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="solicitudCreditoID" type="xs:string" />
+                <xs:element name="clienteID" type="xs:string" />
+                <xs:element name="cuentaAhoID" type="xs:string" />
+                <xs:element name="montoFondeo" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cancelarInversionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="porcentajeFondeo" type="xs:string" />
+                <xs:element name="montoFaltaFondeo" type="xs:string" /> 
+                <xs:element name="codigoRespuesta" type="xs:string" /> 
+				<xs:element name="mensajeRespuesta" type="xs:string" /> 				                             						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+	 <xs:element name="consultaDetalleInverRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDetalleInverResponse">
+        <xs:complexType>
+            <xs:sequence>
+          			 <xs:element name="numeroTotInversiones" type="xs:string" />            
+					 <xs:element name="numeroInverEnProceso" type="xs:string" />       
+					 <xs:element name="saldoInverEnProceso" type="xs:string" />   
+					 <xs:element name="numeroInvActivas" type="xs:string" />       
+					 <xs:element name="saldoInvActivas" type="xs:string" />          
+					 <xs:element name="numeroInvAtrasadas1a15" type="xs:string" />       
+					 <xs:element name="saldoInvAtrasadas1a15" type="xs:string" />       
+					 <xs:element name="numeroInvAtrasadas16a30" type="xs:string" />       
+					 <xs:element name="saldoInvAtrasadas16a30" type="xs:string" /> 
+					 <xs:element name="numeroInvAtrasadas31a90" type="xs:string" />
+					 <xs:element name="saldoInvAtrasadas31a90" type="xs:string" />       
+					 <xs:element name="numeroInvVencidas91a120" type="xs:string" />       
+					 <xs:element name="saldoInvVencidas91a120" type="xs:string" />       
+					 <xs:element name="numeroInvVencidas121a180" type="xs:string" />       
+					 <xs:element name="saldoInvVencidas121a180" type="xs:string" />       
+					 <xs:element name="numeroInvQuebrantadas" type="xs:string" />       
+					 <xs:element name="saldoInvQuebrantadas" type="xs:string" />       
+					 <xs:element name="numeroInvLiquidadas" type="xs:string" />       
+					 <xs:element name="saldoInvLiquidadas" type="xs:string" />
+					 <xs:element name="infoCalifPorc" type="xs:string" />
+					 <xs:element name="infoPlazosPorc" type="xs:string" />
+					 <xs:element name="infoTasasPonCalif" type="xs:string" />
+					 <xs:element name="TasaPonderada" type="xs:string" />
+					 <xs:element name="numeroIntDev" type="xs:string" />
+					 <xs:element name="saldoIntDev" type="xs:string" />
+					 <xs:element name="numPagosRecibidos" type="xs:string" />
+					 <xs:element name="salPagosRecibidos" type="xs:string" />
+					 <xs:element name="numPagosCapital" type="xs:string" />
+					 <xs:element name="salPagosCapital" type="xs:string" />
+					 <xs:element name="numPagosInterOrdi" type="xs:string" />
+					 <xs:element name="SalPagosInterOrdi" type="xs:string" />
+					 <xs:element name="numPagosInteMora" type="xs:string" />
+					 <xs:element name="salPagosInteMora" type="xs:string" />
+					 <xs:element name="impuestos" type="xs:string" />
+					 <xs:element name="comisPagadas" type="xs:string" />
+					 <xs:element name="numComisRecibidas" type="xs:string" />
+					 <xs:element name="salComisRecibidas" type="xs:string" />
+					 <xs:element name="numEfecDisp" type="xs:string" />
+					 <xs:element name="salEfecDisp" type="xs:string" />
+					 <xs:element name="numeroInvActivas" type="xs:string" />
+					 <xs:element name="saldoInvActivas" type="xs:string" />
+					 <xs:element name="Depositos" type="xs:string" />
+					 <xs:element name="InverRealiz" type="xs:string" />
+					 <xs:element name="PagCapRecib" type="xs:string" />
+					 <xs:element name="IntOrdRec" type="xs:string" />
+					 <xs:element name="IntMoraRec" type="xs:string" />
+					 <xs:element name="RecupMorosos" type="xs:string" />
+					 <xs:element name="ISRretenido" type="xs:string" />
+					 <xs:element name="ComisCobrad" type="xs:string" />
+					 <xs:element name="ComisPagad" type="xs:string" />
+					 <xs:element name="Ajustes" type="xs:string" />
+					 <xs:element name="Quebrantos" type="xs:string" />
+					 <xs:element name="QuebranXapli" type="xs:string" />
+					 <xs:element name="PremiosRecom" type="xs:string" />
+					
+					 <xs:element name="codigoRespuesta" type="xs:string" />      
+               		 <xs:element name="mensajeRespuesta" type="xs:string" />    
+         		 
+         			          						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+</xs:schema>

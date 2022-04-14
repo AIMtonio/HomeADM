@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		  
+	<!-- Beans de InstitucionesFondeo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.InstitutFondeoBean" />
+	</dwr:configuration>
+	
+	<bean id="institutFondeoDAOImpl" class="fondeador.dao.InstitutFondeoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="institutFondeoServicioImpl" class="fondeador.servicio.InstitutFondeoServicio">
+		<dwr:remote javascript="fondeoServicio">
+		<dwr:include method="consulta" />		
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="InstitutFondeoDAO" ref="institutFondeoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Definicion de Controladores de InstitucionesFondeo -->
+	<bean name="/catalogoInstitutFondeo.htm"
+		  class="fondeador.controlador.InstitutFondeoControlador">
+		<property name="formView" value="fondeador/institutFondeoCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="institutFondeoServicio" ref="institutFondeoServicioImpl" />
+	</bean>
+	
+	<bean name="/intitutFondeoLista.htm" 
+	      class="fondeador.controlador.InstitutFondeoListaControlador">
+	       <property name="institutFondeoServicio" ref="institutFondeoServicioImpl" />
+	</bean> 
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.TipoFondeadorBean" />
+	</dwr:configuration>
+	
+	<bean id="tipoFondeadorDAOImpl" class="fondeador.dao.TipoFondeadorDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="tipoFondeadorServicioImpl" class="fondeador.servicio.TipoFondeadorServicio">
+		<dwr:remote javascript="tipoFondeadorServicio">		
+	    <dwr:include method="listaCombo" />   
+	    <dwr:include method="consulta" />   	
+		</dwr:remote>
+		<property name="tipoFondeadorDAO" ref="tipoFondeadorDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/tipoFondeadorLista.htm" 
+	      class="fondeador.controlador.TipoFondeadorListaControlador">
+	       <property name="tipoFondeadorServicio" ref="tipoFondeadorServicioImpl" />
+	</bean> 
+
+	<!-- Beans de Lineas Fondeo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.LineaFondeadorBean" />
+	</dwr:configuration>	  
+	
+	<bean id="lineaFondeadorDAOImpl" class="fondeador.dao.LineaFondeadorDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="lineaFondeadorServicioImpl" class="fondeador.servicio.LineaFondeadorServicio">
+		<dwr:remote javascript="lineaFonServicio">
+		<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="lineaFondeadorDAO" ref="lineaFondeadorDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+	
+	<!-- Definicion de Controladores de Lineas Fondeo -->
+	<bean name="/catalogoLineaFondeador.htm"
+		  class="fondeador.controlador.LineaFondeadorControlador">
+		<property name="formView" value="fondeador/lineaFondeadorCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineaFondeadorServicio" ref="lineaFondeadorServicioImpl" />
+	</bean>
+	
+	<bean name="/listaLineasFondeador.htm" 
+	      class="fondeador.controlador.LineaFondeadorListaControlador">
+	       <property name="lineaFondeadorServicio" ref="lineaFondeadorServicioImpl" /> 
+	</bean> 
+	
+	<!-- Beans de Condiciones de descuenta para Lineas Fondeo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.CondicionesDesctoActLinFonBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.CondicionesDesctoDestLinFonBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.CondicionesDesctoEdoLinFonBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.CondicionesDesctoCteLinFonBean" />
+	</dwr:configuration>
+	
+	<bean id="condicionesDesctoActLinFonDAOImpl" class="fondeador.dao.CondicionesDesctoActLinFonDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="condicionesDesctoDestLinFonDAOImpl" class="fondeador.dao.CondicionesDesctoDestLinFonDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+			  
+	<bean id="condicionesDesctoEdoLinFonDAOImpl" class="fondeador.dao.CondicionesDesctoEdoLinFonDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="condicionesDesctoCteLinFonDAOImpl" class="fondeador.dao.CondicionesDesctoCteLinFonDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="condicionesDesctoActLinFonServicioImpl" class="fondeador.servicio.CondicionesDesctoActLinFonServicio">
+		<dwr:remote javascript="condicionesDesctoActLinFonServicio">
+		<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="condicionesDesctoActLinFonDAO" ref="condicionesDesctoActLinFonDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="condicionesDesctoCteLinFonServicioImpl" class="fondeador.servicio.CondicionesDesctoCteLinFonServicio">
+		<dwr:remote javascript="condicionesDesctoCteLinFonServicio">
+		<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="condicionesDesctoCteLinFonDAO" ref="condicionesDesctoCteLinFonDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="condicionesDesctoDestLinFonServicioImpl" class="fondeador.servicio.CondicionesDesctoDestLinFonServicio">
+		<dwr:remote javascript="condicionesDesctoDestLinFonServicio">
+			<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="condicionesDesctoDestLinFonDAO" ref="condicionesDesctoDestLinFonDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="condicionesDesctoEdoLinFonServicioImpl" class="fondeador.servicio.CondicionesDesctoEdoLinFonServicio">
+		<dwr:remote javascript="condicionesDesctoEdoLinFonServicio">
+			<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="condicionesDesctoEdoLinFonDAO" ref="condicionesDesctoEdoLinFonDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- Definicion de Controladores de condiciones de Lineas Fondeo -->
+	<bean name="/catalogoCondDesctoLineaFondeadorAct.htm"
+		  class="fondeador.controlador.CondicionesDesctoActLinFonControlador">
+		<property name="formView" value="fondeador/lineaFondeadorCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="condicionesDesctoActLinFonServicio" ref="condicionesDesctoActLinFonServicioImpl" />
+	</bean>
+	
+	<bean name="/catalogoCondDesctoLineaFondeadorDest.htm"
+		  class="fondeador.controlador.CondicionesDesctoDestLinFonControlador">
+		<property name="formView" value="fondeador/lineaFondeadorCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="condicionesDesctoDestLinFonServicio" ref="condicionesDesctoDestLinFonServicioImpl" />
+	</bean>
+	
+	<bean name="/catalogoCondDesctoLineaFondeadorEdo.htm"
+		  class="fondeador.controlador.CondicionesDesctoEdoLinFonControlador">
+		<property name="formView" value="fondeador/lineaFondeadorCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="condicionesDesctoEdoLinFonServicio" ref="condicionesDesctoEdoLinFonServicioImpl" />
+	</bean>
+	
+	<bean name="/catalogoCondDesctoLineaFondeadorCte.htm"
+		  class="fondeador.controlador.CondicionesDesctoCteLinFonControlador">
+		<property name="formView" value="fondeador/lineaFondeadorCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="condicionesDesctoCteLinFonServicio" ref="condicionesDesctoCteLinFonServicioImpl" />
+	</bean>
+	
+	<bean name="/gridCondicionesDesctoEdoLinFon.htm"
+		class="fondeador.controlador.CondicionesDesctoEdoLinFonGridControlador">
+		<property name="condicionesDesctoEdoLinFonServicio" ref="condicionesDesctoEdoLinFonServicioImpl" /></bean> 
+	
+	<bean name="/gridCondicionesDesctoDestLinFon.htm"
+		class="fondeador.controlador.CondicionesDesctoDestLinFonGridControlador">
+		<property name="condicionesDesctoDestLinFonServicio" ref="condicionesDesctoDestLinFonServicioImpl" /></bean> 
+	
+	<bean name="/gridCondicionesDesctoActLinFon.htm" 
+		class="fondeador.controlador.CondicionesDesctoActLinFonGridControlador">
+		<property name="condicionesDesctoActLinFonServicio" ref="condicionesDesctoActLinFonServicioImpl" />
+	</bean> 
+	
+		<!-- Beans de RedesCuento -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.RedesCuentoBean" />
+	</dwr:configuration>	  
+	
+	<bean id="redesCuentoDAOImpl" class="fondeador.dao.RedesCuentoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="redesCuentoServicioImpl" class="fondeador.servicio.RedesCuentoServicio">
+		<dwr:remote javascript="redesCueServicio">
+		<dwr:include method="consulta" />		
+		</dwr:remote>
+		<property name="redesCuentoDAO" ref="redesCuentoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+	
+	<!-- Definicion de Controladores de RedesCuento -->
+	<bean name="/redesCuentos.htm"
+		  class="fondeador.controlador.RedesCuentoControlador">
+		<property name="formView" value="fondeador/redesCuentoCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="redesCuentoServicio" ref="redesCuentoServicioImpl" />
+	</bean>
+	
+	<bean name="/listaCreditosAsig.htm"
+	     class="fondeador.controlador.RedesCuentoGridControlador">
+		<property name="redesCuentoServicio" ref="redesCuentoServicioImpl" />
+	</bean> 
+	
+	<!-- Definicion de reporte de RedesCuento -->
+	<bean name="/RepPDFCreditoAsig.htm" class="fondeador.reporte.RepDetalleCredFonControlador">
+		<property name="nombreReporte" value="fondeador/DetalleCredFon.prpt" />
+		<property name="redesCuentoServicio" ref="redesCuentoServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans de Tipos Lineas Fondeo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.TiposLineaFondeaBean" />
+	</dwr:configuration>	  
+	
+	<bean id="tiposLineaFondeaDAOImpl" class="fondeador.dao.TiposLineaFondeaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="tiposLineaFondeaServicioImpl" class="fondeador.servicio.TiposLineaFondeaServicio">
+		<dwr:remote javascript="tiposLineaFonServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="consultaTiposInstitut" />	
+		</dwr:remote>
+		<property name="tiposLineaFondeaDAO" ref="tiposLineaFondeaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Definicion de Controladores de Tipos Lineas Fondeo -->
+	<bean name="/listaTipoLineaFondea.htm"  
+	      class="fondeador.controlador.TiposLineaFondeaListaControlador">
+	       <property name="tiposLineaFondeaServicio" ref="tiposLineaFondeaServicioImpl" /> 
+	</bean>
+	
+	<!-- Beans de Creditos de Fondeo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fondeador.bean.CreditoFondeoBean" />
+	</dwr:configuration>	  
+	
+	<bean id="creditoFondeoDAOImpl" class="fondeador.dao.CreditoFondeoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+		<property name="amortizaFondeoDAO" ref="amortizaFondeoDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl" />
+	</bean> 
+    	  
+	<bean id="creditoFondeoServicioImpl" class="fondeador.servicio.CreditoFondeoServicio">
+		<dwr:remote javascript="creditoFondeoServicio">
+			<dwr:include method="consulta" />	
+		</dwr:remote>
+		<property name="creditoFondeoDAO" ref="creditoFondeoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	
+	</bean>
+	
+	<!-- bean para el simulador de pagos  -->
+	<bean name="/simPagCreditoFondeo.htm" class="fondeador.controlador.SimuladorPagosFondeoControlador">
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<!-- bean para el simulador de pagos  libres-->
+	<bean name="/simPagLibresCreditoFondeo.htm"
+		  class="fondeador.controlador.SimuladorPagLibresFondeoControlador">
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<!-- bean para el simulador de pagos  libres de capital -->
+	<bean name="/simPagLibresCapCreditoFondeo.htm"
+		  class="fondeador.controlador.SimuladorPagosLibreCapFondeoControlador">
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controladores de Tipos Lineas Fondeo -->
+	<bean name="/altaCreditoPasivoFondeo.htm" class="fondeador.controlador.CreditoFondeoControlador">
+		<property name="formView" value="fondeador/creditoFondeadorVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<bean name="/listaCreditoFondeo.htm" 
+	      class="fondeador.controlador.CreditoFondeoListaControlador">
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	<!-- Definicion de Controladores del Reporte de Contrato Inversionista -->
+	<bean name="/contratoInv.htm" class="fondeador.reporte.ContratoInvRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="fondeador/ContratoInversionistas.prpt" />    
+       <property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+    </bean>
+   
+		<!-- Reporte de Contrato de credito Pasivo  --> 
+	<bean name="/contratoCredPasivo.htm" class="fondeador.reporte.ContratoCreditoPasivoControlador">
+      	<property name="nombreReportePF" value="fondeador/ContratoCredPasivoPF.prpt" />		
+	 	<property name="nombreReportePM" value="fondeador/ContratoCredPasivoPM.prpt" />
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+        <property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Controladores de Tipos Lineas Fondeo -->
+	<bean name="/pagoCreditoPasivo.htm" class="fondeador.controlador.CreditoFondeoControlador">
+		<property name="formView" value="fondeador/pagoCreditoFondeadorVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean> 
+	
+	<!-- Definicion de Controlador para reporte de creditosFondeoMovs -->
+	<bean name="/carCreditoFondeMovsReporte.htm" class="fondeador.reporte.CreditoFondeoMovsControlador">
+	 	<property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+     	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+	</bean>
+	
+	<!-- Beans de Amortizaciones de  Fondeo --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.AmortizaFondeoBean" />
+	</dwr:configuration>
+	
+	<bean id="amortizaFondeoDAOImpl" class="fondeador.dao.AmortizaFondeoDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+
+	<bean id="amortizaFondeoServicioImpl" class="fondeador.servicio.AmortizaFondeoServicio">
+	      <dwr:remote javascript="amortiFondeoServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="amortizaFondeoDAO" ref="amortizaFondeoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean name="/amortizaGridMovimiento.htm"
+	     class="fondeador.controlador.AmortizaMovimientoGridControlador">
+		<property name="amortizaFondeoServicio" ref="amortizaFondeoServicioImpl" />
+	</bean>
+	
+	<!-- Beans de Movimientos de  Fondeo --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.CreditoFondMovsBean" />
+	</dwr:configuration>
+	
+	<bean id="creditoFondMovsDAOImpl" class="fondeador.dao.CreditoFondMovsDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+
+	<bean id="creditoFondMovsServicioImpl" class="fondeador.servicio.CreditoFondMovsServicio">
+	      <dwr:remote javascript="amortiFondeoServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="creditoFondMovsDAO" ref="creditoFondMovsDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean name="/movimientosCreditoFondeoGrid.htm"
+	     class="fondeador.controlador.CreditoFondMovsGridControlador">
+		<property name="creditoFondMovsServicio" ref="creditoFondMovsServicioImpl" />
+	</bean>
+	
+	<!-- Beans de Conceptos de Fondeo --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.ConceptosFondeoBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptosFondeoDAOImpl" class="fondeador.dao.ConceptosFondeoDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="conceptosFondeoServicioImpl" class="fondeador.servicio.ConceptosFondeoServicio">
+	      <dwr:remote javascript="conceptosFondServicio" >
+	      <dwr:include method="listaCombo" />	
+	      </dwr:remote> 
+	      <property name="conceptosFondeoDAO" ref="conceptosFondeoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	<!-- Beans de Subcuentas por Tipo de Institucion --> 
+	
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaTiInstCreditoPasBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiInstCredPasDAOImpl" class="fondeador.dao.SubCtaTiInstCreditoPasDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaTiInstCredPasServicioImpl" class="fondeador.servicio.SubCtaTiInstCreditoPasServicio">
+	      <dwr:remote javascript="subCtaTiInstCreditoPasServicio" >	
+	      <dwr:include method="consulta" />
+	      </dwr:remote> 
+	      <property name="SubCtaTiInstCreditoPasDAO" ref="subCtaTiInstCredPasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Beans de Cuenta Mayor Credito Pasivo --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.CuentasMayorCreditoPasBean" />
+	</dwr:configuration>
+	
+	<bean id="cuentasMayorCredPasDAOImpl" class="fondeador.dao.CuentasMayorCreditoPasDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	<bean id="cuentasMayorCredPasServicioImpl" class="fondeador.servicio.CuentasMayorCreditoPasServicio">
+	      <dwr:remote javascript="cuentasMayorCreditoPasServicio" >
+	      <dwr:include method="consulta" /> 
+	      </dwr:remote> 
+	      <property name="CuentasMayorCreditoPasDAO" ref="cuentasMayorCredPasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean id="guiaContableCredPasServicioImpl" class="fondeador.servicio.GuiaContableCreditoPasServicio">
+	      <dwr:remote javascript="guiaContableCreditoPasServicio"/> 
+	      <property name="cuentasMayorCreditoPasDAO" ref="cuentasMayorCredPasDAOImpl"/>
+	      <property name="SubCtaTipInsFonDAO" 	ref="subCtaTipInsFonDAOImpl"/>
+	      <property name="SubCtaPorPlazoFonDAO" 	ref="subCtaPorPlazoFonDAOImpl"/>
+	      <property name="SubCtaNacInsFonDAO" 	ref="subCtaNacInsFonDAOImpl"/>
+	      <property name="SubCtaInsFonDAO" 	ref="subCtaInsFonDAOImpl"/>
+	      <property name="subCtaTipPerFonDAO" 	ref="subCtaTipPerFonDAOmpl"/>
+	      <property name="subCtaMonFonDAO" ref="subCtaMonFonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+
+	</bean> 
+	
+	<!-- Definicion de Controladores de Guia Contable de Creditos Pasivos-->
+	
+	<bean name="/catalogoGuiaContaCredPas.htm" class="fondeador.controlador.GuiaContableCreditoPasControlador">
+	      <property name="formView" value="fondeador/guiaContaCreditoPasCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableCreditoPasServicio" ref="guiaContableCredPasServicioImpl" />
+	</bean>	
+	
+
+	<!-- Beans de Subcuentas por Tipo de Institucion--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaTipInstFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTipInsFonDAOImpl" class="fondeador.dao.SubCtaTipInsFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subCtaTipInstFondeoServicioImpl" class="fondeador.servicio.SubCtaTipInstFondeoServicio">
+	      <dwr:remote javascript="subCtaTipInstFondeo"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTipInsFonDAO" ref="subCtaTipInsFonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+		<!-- Beans de Subcuentas por Plazo--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaPorPlazoFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaPorPlazoFonDAOImpl" class="fondeador.dao.SubCtaPorPlazoFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subCtaPorPlazoFondeoServicioImpl" class="fondeador.servicio.SubCtaPorPlazoFondeoServicio">
+	      <dwr:remote javascript="subCtaPorPlazoFondeo"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaPorPlazoFonDAO" ref="subCtaPorPlazoFonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	
+			<!-- Beans de Subcuentas Por Nacionalidad--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaNacInstFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaNacInsFonDAOImpl" class="fondeador.dao.SubCtaNacInsFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subCtaNacInstFondeoServicioImpl" class="fondeador.servicio.SubCtaNacInstFondeoServicio">
+	      <dwr:remote javascript="subCtaNacInstFondeo"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaNacInsFonDAO" ref="subCtaNacInsFonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Beans de Subcuentas Por Institucion --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaInstFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaInsFonDAOImpl" class="fondeador.dao.SubCtaInsFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subCtaInstFondeoServicioImpl" class="fondeador.servicio.SubCtaInstFondeoServicio">
+	      <dwr:remote javascript="subCtaInstFondeo"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaInsFonDAO" ref="subCtaInsFonDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+
+<!-- Beans de Subcuentas Por tipo de persona --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaTipPerFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTipPerFonDAOmpl" class="fondeador.dao.SubCtaTipPerFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subCtaTipPerFonServicioImpl" class="fondeador.servicio.SubCtaTipPerFonServicio">
+	      <dwr:remote javascript="subCtaTipPerFonServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subCtaTipPerFonDAO" ref="subCtaTipPerFonDAOmpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	<!-- subcuenta tipo de moneda -->
+	
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="fondeador.bean.SubCtaMonFonBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaMonFonDAOImpl" class="fondeador.dao.SubCtaMonFonDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	<bean id="subCtaMonFonServicioImpl" class="fondeador.servicio.SubCtaMonFonServicio">
+		<dwr:remote javascript="subCtaMonFonServicio">
+		<dwr:include method="consulta"/>
+		</dwr:remote>
+		<property name="subCtaMonFonDAO" ref="subCtaMonFonDAOImpl"/>
+	</bean>
+		
+		
+	<!-- Definicion de Controladores de Vencimientos-->
+	
+	<bean name="/vencimientosPasivos.htm" class="fondeador.controlador.VencimienPasivControlador">
+		<property name="formView" value="fondeador/vencimienPasivosRep" />   
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>	
+		
+	<bean name="/repVencimientosPasivos.htm" class="fondeador.reporte.RepVencimienPasivosControlador">
+    	<property name="nomReporte" value="fondeador/RepVencimientosPasivos.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+	
+	<!-- beans para movimientos crédito fondeo-->
+ 	<dwr:configuration> 
+		<dwr:convert type="bean" class="fondeador.bean.AjusteMovimientosBean" />
+	</dwr:configuration>
+
+	<bean id="ajusteMovimientosDAOImpl" class="fondeador.dao.AjusteMovimientosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ajusteMovimientosServicioImpl" class="fondeador.servicio.AjusteMovimientosServicio">
+		<dwr:remote javascript="ajusteMovsServicio">
+ 			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="ajusteMovimientosDAO" ref="ajusteMovimientosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/ajusteMovimientos.htm" class="fondeador.controlador.AjusteMovimientosControlador">
+		 <property name="formView" value="fondeador/ajusteMovimientosCatalogoVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="ajusteMovimientosServicio" ref="ajusteMovimientosServicioImpl" />
+    </bean> 
+    
+	<!-- Definicion de Controladores de Base Crédito Fommur-->
+	
+	<bean name="/baseCredFommur.htm" class="fondeador.controlador.BaseCreditoFommurControlador">
+		<property name="formView" value="fondeador/baseCreditoFommurRepVista" />   
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="redesCuentoServicio" ref="redesCuentoServicioImpl" />
+	</bean>	
+		
+	<bean name="/repBaseCredFommur.htm" class="fondeador.reporte.RepBaseCreditoFommurControlador">
+    	<property name="nombreReporte" value="fondeador/baseCreditoFommur.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="redesCuentoServicio" ref="redesCuentoServicioImpl" />
+	</bean> 
+	
+		<!-- Definicion de Controladores de tipo linea -->
+	<bean name="/tipoLineaFondeo.htm"
+		  class="fondeador.controlador.TiposLineaFondeaControlador">
+		<property name="formView" value="fondeador/tipoLineaFondeoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposLineaFondeaServicio" ref="tiposLineaFondeaServicioImpl" />
+	</bean>
+	
+	 <!-- Controlador para reporte de linea de fondeo -->
+ 
+       <bean name="/repLineaFondeo.htm" class="fondeador.controlador.DetalleLineaFondeoControlador">
+		 <property name="formView" value="fondeador/repDetalleLineaFondeoVista" />      
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="lineaFondeadorServicio" ref="lineaFondeadorServicioImpl" />
+    </bean> 
+    
+    <bean name="/lineaFondeoRep.htm" class="fondeador.reporte.LineaFondeoRepControlador">   
+       <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="nombreReporte" value="fondeador/RepLineaFondeo.prpt" />    
+       <property name="lineaFondeadorServicio" ref="lineaFondeadorServicioImpl" />
+    </bean>
+    	 
+	<bean name="/condicionesLinea.htm"
+		  class="fondeador.controlador.LineaFondeadorControlador">
+		<property name="formView" value="fondeador/condicionesLineaFondeoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineaFondeadorServicio" ref="lineaFondeadorServicioImpl" />
+	</bean>
+	
+	<!-- ============================ REPORTE ANALITICO DE CARTERA PASIVA ================================== -->
+	<bean name="/analiticoCarteraPasivaVista.htm" class="fondeador.controlador.AnaliticoCarteraPasControlador">
+		<property name="formView" value="fondeador/repAnaliticoCarteraPas" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+	</bean>
+
+	<bean name="/repAnaliticoCarteraPas.htm" class="fondeador.reporte.RepAnaCarteraPasControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl" />
+	</bean>
+	<!-- =========================== FIN REPORTE ANALITICO DE CARTERA PASIVA ================================ -->
+	
+	<bean name="/carCambioFuenteFondeoMasivo.htm" class="fondeador.controlador.CambioFuenteFondeoMasivoControlador">
+		<property name="formView" value="fondeador/cambioFuenteFondeoMasivoVista" />
+		<property name="carCambioFondeoBitServicio" ref="carCambioFondeoBitServicioImpl"/> 
+	   	<property name="successView" value="resultadoTransaccionVista"/> 
+	</bean>
+
+	<bean name="/CambioFuenteFondeoMasivoUpload.htm" class="fondeador.controlador.CambioFuenteFondeoArchivoControlador">
+		<property name="formView" value="fondeador/cambioFuenteFondeoupload" /> 
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" /> 
+		<property name="carCambioFondeoBitServicio" ref="carCambioFondeoBitServicioImpl"/> 
+	   	<property name="successView" value="resultadoTransaccionArchivoETLVista"/> 
+	</bean>
+	
+	<bean name="/camFondeoMasivoListaVal.htm" class="fondeador.controlador.CambioFuenteValidacionesGridControlador">
+		<property name="carCambioFondeoBitServicio" ref="carCambioFondeoBitServicioImpl"/> 
+	</bean>
+</beans>

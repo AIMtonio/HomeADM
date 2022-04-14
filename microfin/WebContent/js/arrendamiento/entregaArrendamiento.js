@@ -1,0 +1,124 @@
+$(document).ready(function() {
+	
+	esTab = false;
+	
+	$("#arrendaID").focus();
+	
+	$('#arrendaID').blur(function() {
+		if ($("#entregar").is(":disabled") && esTab) {
+ 			$("#arrendaID").focus();
+ 		}
+		if(isNaN($('#arrendaID').val())) {
+			$('#arrendaID').val("");
+			$('#arrendaID').focus();
+			inicializaForma('formaGenerica','arrendaID');
+			deshabilitaBoton('entregar', 'submit');
+		} else {
+			funcionConsultaArrendamiento(this.id);
+		}
+	});
+	
+	$('#entregar').focus(function() {
+	 	esTab = false;
+	});
+	
+	$('#entregar').bind('keydown',function(e){
+		if (e.which == 9 && !e.shiftKey){
+			esTab= true;
+		}
+	});
+	
+	$('#entregar').blur(function() {
+		if (esTab) {
+			$("#arrendaID").focus();
+		}
+	});
+	
+	deshabilitaBoton('entregar', 'submit');
+	
+	agregaFormatoControles('formaGenerica');
+	
+	$(':text').focus(function() {
+	 	esTab = false;
+	});
+	
+	$.validator.setDefaults({
+		submitHandler: function(event) { 
+			deshabilitaBoton('entregar', 'submit');
+			grabaFormaTransaccion(event, 'formaGenerica', 'contenedorForma', 'mensaje','true','entregar');
+		}
+	});
+	
+	$(':text').bind('keydown',function(e){
+		if (e.which == 9 && !e.shiftKey){
+			esTab= true;
+		}
+	});
+	
+	$('#arrendaID').bind('keyup',function(e){
+		lista('arrendaID', '2', '4', 'arrendaID', $('#arrendaID').val(), 'listaArrendamientosAutorizados.htm');
+	});
+	
+
+	//------------ Validaciones de la Forma -------------------------------------
+	$('#formaGenerica').validate({
+		rules: {
+			arrendaID: 'required',			
+		},
+		
+		messages: {
+			arrendaID: 'Especifique número de arrendamiento',
+		}		
+	});
+});
+
+function funcionConsultaArrendamiento(idControl) {
+	var varJqArrendamiento = eval("'#" + idControl + "'");
+	var varArrendamiento = $(varJqArrendamiento).val();
+	var varTipoCon = 4;
+	
+	var varEntregaArrendamientoBean = {
+		'arrendaID': varArrendamiento
+	};
+
+	setTimeout("$('#cajaLista').hide();", 200);
+	
+	if(varArrendamiento != '' && !isNaN(varArrendamiento) ){
+		varArrendamiento = parseInt(varArrendamiento); 
+		arrendamientoServicio.consultaEntregaArrendamiento(varTipoCon, varEntregaArrendamientoBean, function(varArrendamientos) {
+			if(varArrendamientos != null){
+				$('#arrendaID').val(varArrendamientos.arrendaID);							
+				$('#clienteID').val(varArrendamientos.clienteID); 						
+				$('#nombreCliente').val(varArrendamientos.nombreCliente);
+				$('#productoArrendaID').val(varArrendamientos.productoArrendaID);
+				$('#nombreCorto').val(varArrendamientos.nombreCorto);
+				$('#fechaAutoriza').val(varArrendamientos.fechaAutoriza);
+				$('#usuarioAutoriza').val(varArrendamientos.usuarioAutoriza);
+				$('#nombreUsuario').val(varArrendamientos.nombreUsuario);
+				$('#estatus').val(varArrendamientos.estatus);
+				$('#montoArrenda').val(varArrendamientos.montoArrenda);
+				$('#ivaMontoArrenda').val(varArrendamientos.ivaMontoArrenda);
+				$('#fechaApertura').val(varArrendamientos.fechaApertura);
+				$('#montoEnganche').val(varArrendamientos.montoEnganche);
+				$('#frecuenciaPlazo').val(varArrendamientos.frecuenciaPlazo);
+				$('#montoSeguroAnual').val(varArrendamientos.montoSeguroAnual);
+				$('#plazo').val(varArrendamientos.plazo);
+				$('#tipoPagoSeguro').val(varArrendamientos.tipoPagoSeguro);
+				$('#montoFinanciado').val(varArrendamientos.montoFinanciado);
+				$('#diaPagoProd').val(varArrendamientos.diaPagoProd);
+				agregaFormatoControles('formaGenerica');
+				if ($('#estatus').val() == 'AUTORIZADO') {
+					habilitaBoton('entregar', 'submit');
+				} else {
+					deshabilitaBoton('entregar', 'submit');
+				}
+				$("#entregar").focus();
+			}else{ 
+				mensajeSis("El arrendamiento no existe");
+				$(varJqArrendamiento).focus();
+				deshabilitaBoton('entregar', 'submit');
+				inicializaForma('formaGenerica');
+			}
+		});
+	}
+}

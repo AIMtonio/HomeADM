@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+							http://www.springframework.org/schema/aop
+							http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+							http://www.directwebremoting.org/schema/spring-dwr
+							http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!--============================= INICIO PARAMETROS GUARDA VALORES =============================-->
+	<!-- Parámetros Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.ParamGuardaValoresBean" />
+	</dwr:configuration>
+
+	<!-- Parámetros DAO -->
+	<bean id="paramGuardaValoresDAOImpl" class="guardaValores.dao.ParamGuardaValoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Parámetros Servicio -->
+	<bean id="paramGuardaValoresServicioImpl" class="guardaValores.servicio.ParamGuardaValoresServicio">
+		<dwr:remote javascript="paramGuardaValoresServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+			<dwr:include method="consultaFacultados" />
+		</dwr:remote>
+		<property name="paramGuardaValoresDAO" ref="paramGuardaValoresDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Parámetros Controlador-Vista -->
+	<bean name="/paramGuardaValores.htm" class="guardaValores.controlador.ParamGuardaValoresControlador">
+		<property name="formView" value="guardaValores/paramGuardaValoresVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="paramGuardaValoresServicio" ref="paramGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Lista de Parámetros -->
+	<bean name="/listaParamGuardaValores.htm" class="guardaValores.controlador.ParamGuardaValoresListaControlador">
+		<property name="paramGuardaValoresServicio" ref="paramGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Grid de parametros -->
+	<bean name="/paramGuardaValoresGrid.htm"  class="guardaValores.controlador.ParamGuardaValoresGridControlador">
+		<property name="paramGuardaValoresServicio" ref="paramGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Grid de parametros Documentos -->
+	<bean name="/paramGuardaValoresDocGrid.htm"  class="guardaValores.controlador.ParamGuardaValoresDocGridControlador">
+		<property name="paramGuardaValoresServicio" ref="paramGuardaValoresServicioImpl" />
+	</bean>
+
+
+	<!--============================= INICIO INSTRUMENTOS GUARDA VALORES =============================-->
+	<!-- Catalogo de Intrumentos Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.CatInstGuardaValoresBean" />
+	</dwr:configuration>
+
+	<!-- Catalogo de Intrumentos DAO -->
+	<bean id="catInstGuardaValoresDAOImpl" class="guardaValores.dao.CatInstGuardaValoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Catalogo de Intrumentos Servicio -->
+	<bean id="catInstGuardaValoresServicioImpl" class="guardaValores.servicio.CatInstGuardaValoresServicio">
+		<dwr:remote javascript="catInstGuardaValoresServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catInstGuardaValoresDAO" ref="catInstGuardaValoresDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Lista de instrumentos -->
+	<bean name="/listaCatalogoInsGuardaValores.htm" class="guardaValores.controlador.CatInstGuardaValoresListaControlador">
+		<property name="catInstGuardaValoresServicio" ref="catInstGuardaValoresServicioImpl" />
+	</bean>
+
+
+	<!--============================= INICIO ORIGENES DOCUMENTOS GUARDA VALORES =============================-->
+	<!-- Catalogo de Origenes Documentos Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.CatOrigenesDocumentosBean" />
+	</dwr:configuration>
+
+	<!-- Catalogo de Intrumentos DAO -->
+	<bean id="catOrigenesDocumentosDAOImpl" class="guardaValores.dao.CatOrigenesDocumentosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Catalogo de Origenes Documentos Servicio -->
+	<bean id="catOrigenesDocumentosServicioImpl" class="guardaValores.servicio.CatOrigenesDocumentosServicio">
+		<dwr:remote javascript="catOrigenesDocumentosServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catOrigenesDocumentosDAO" ref="catOrigenesDocumentosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Lista de Origenes Documentos -->
+	<bean name="/listaCatalogoOrigenDocumento.htm" class="guardaValores.controlador.CatOrigenesDocumentosListaControlador">
+		<property name="catOrigenesDocumentosServicio" ref="catOrigenesDocumentosServicioImpl" />
+	</bean>
+
+
+	<!--============================= INICIO MOVIMIENTOS GUARDA VALORES =============================-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.CatalogoMovGuardaValoresBean" />
+	</dwr:configuration>
+
+	<bean id="catalogoMovGuardaValoresDAOImpl" class="guardaValores.dao.CatalogoMovGuardaValoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="catalogoMovGuardaValoresServicioImpl" class="guardaValores.servicio.CatalogoMovGuardaValoresServicio">
+		<dwr:remote javascript="catalogoMovGuardaValoresServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catalogoMovGuardaValoresDAO" ref="catalogoMovGuardaValoresDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Lista de Movimientos -->
+	<bean name="/listaCatalogoMovsGuardaValores.htm" class="guardaValores.controlador.CatalogoMovGuardaValoresListaControlador">
+		<property name="catalogoMovGuardaValoresServicio" ref="catalogoMovGuardaValoresServicioImpl" />
+	</bean>
+
+
+	<!--============================= INICIO ALMACENES GUARDA VALORES =============================-->
+	<!-- Almacén Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.CatalogoAlmacenesBean" />
+	</dwr:configuration>
+
+	<!-- Almacén DAO -->
+	<bean id="catalogoAlmacenesDAOImpl" class="guardaValores.dao.CatalogoAlmacenesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Almacén Servicio -->
+	<bean id="catalogoAlmacenesServicioImpl" class="guardaValores.servicio.CatalogoAlmacenesServicio">
+		<dwr:remote javascript="catalogoAlmacenesServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="catalogoAlmacenesDAO" ref="catalogoAlmacenesDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Almacén Controlador-Vista -->
+	<bean name="/catalogoAlmacenes.htm" class="guardaValores.controlador.CatalogoAlmacenesControlador">
+		<property name="formView" value="guardaValores/catalogoAlmacenesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catalogoAlmacenesServicio" ref="catalogoAlmacenesServicioImpl" />
+	</bean>
+
+	<!-- Lista de Almacenes -->
+	<bean name="/listaCatalogoAlmacenes.htm" class="guardaValores.controlador.CatalogoAlmacenesListaControlador">
+		<property name="catalogoAlmacenesServicio" ref="catalogoAlmacenesServicioImpl" />
+	</bean>
+
+
+	<!--============================= INICIO DOCUMENTOS GUARDA VALORES =============================-->
+	<!-- Documento Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="guardaValores.bean.DocumentosGuardaValoresBean" />
+	</dwr:configuration>
+
+	<!-- Documento DAO -->
+	<bean id="documentosGuardaValoresDAOImpl" class="guardaValores.dao.DocumentosGuardaValoresDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Documento Servicio -->
+	<bean id="documentosGuardaValoresServicioImpl" class="guardaValores.servicio.DocumentosGuardaValoresServicio">
+		<dwr:remote javascript="documentosGuardaValoresServicio">
+			<dwr:include method="consultaExpediente" />
+			<dwr:include method="consultaDocumento" />
+			<dwr:include method="consultaPrestamoDocumento" />
+			<dwr:include method="listaDocumento" />
+			<dwr:include method="listaExpediente" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="documentosGuardaValoresDAO" ref="documentosGuardaValoresDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Pantalla Registro de Documento -->
+	<bean name="/registroDocumento.htm" class="guardaValores.controlador.DocumentosGuardaValoresControlador">
+		<property name="formView" value="guardaValores/documentosGuardaValoresVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Pantalla Registro de Ubicación de Documento -->
+	<bean name="/ubicacionDocumento.htm" class="guardaValores.controlador.UbicacionDocumentosGuardaValoresControlador">
+		<property name="formView" value="guardaValores/ubicacionDocumentosGuardaValoresVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Pantalla Administración de Documento -->
+	<bean name="/admDocGuardaValores.htm" class="guardaValores.controlador.AdmonDocGuardaValoresControlador">
+		<property name="formView" value="guardaValores/admonDocumentosGuardaValoresVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Pantalla Consulta de Documento -->
+	<bean name="/consultaDocumento.htm" class="guardaValores.controlador.ConsultaDocumentoControlador">
+		<property name="formView" value="guardaValores/consultaDocumentosVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- Pantalla Reporte de Ingreso de Documentos -->
+	<bean name="/repIngresoDocumento.htm" class="guardaValores.controlador.ReporteIngresoDocumentoControlador" >
+		<property name="formView" value="guardaValores/reporteIngresoDocumentoVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+	</bean>
+
+	<!-- Pantalla Reporte de Estatus de Documentos -->
+	<bean name="/repEstatusDocumento.htm" class="guardaValores.controlador.ReporteEstatusDocumentoControlador" >
+		<property name="formView" value="guardaValores/reporteEstatusDocumentoVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+	</bean>
+
+	<!-- Pantalla Reporte de Prestamo de Documentos -->
+	<bean name="/repPrestamoDocumento.htm" class="guardaValores.controlador.ReportePrestamoDocumentoControlador" >
+		<property name="formView" value="guardaValores/reportePrestamoDocumentoVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+	</bean>
+
+	<!-- Reporte de Documento en Excel -->
+	<bean name="/reporteDocumentosGrdValExcel.htm" class="guardaValores.reporte.ReporteDocumentosExcelControlador" >
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Documento en PDF -->
+	<bean name="/reporteDocumentosGrdValPDF.htm" class="guardaValores.reporte.ReporteDocumentosPDFControlador" >
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+		<property name="ingresoDocumentos"	value="guardaValores/ingresoDocumentos.prpt" />
+		<property name="estatusDocumentos"	value="guardaValores/estatusDocumentos.prpt" />
+		<property name="prestamoDocumentos"	value="guardaValores/prestamoDocumentos.prpt" />
+		<property name="bitacoraDocumentos"	value="guardaValores/bitacoraDocumentos.prpt" />
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Grid de Registro Expedientes -->
+	<bean name="/registroExpedientesGridGrdValores.htm" class="guardaValores.controlador.RegistroGrdValoresGridControlador">
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+	
+	<!-- Grid de Expedientes -->
+	<bean name="/listaExpedientesGridGrdValores.htm" class="guardaValores.controlador.ExpedienteGuardaValoresGridControlador">
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Lista de Expedientes -->
+	<bean name="/listaExpedientesGrdValores.htm" class="guardaValores.controlador.ExpedienteGuardaValoresListaControlador">
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+	<!-- Lista de Documentos -->
+	<bean name="/listaDocumentosGrdValores.htm" class="guardaValores.controlador.DocumentoGuardaValoresListaControlador">
+		<property name="documentosGuardaValoresServicio" ref="documentosGuardaValoresServicioImpl" />
+	</bean>
+
+</beans>

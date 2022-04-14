@@ -1,0 +1,1656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+	<!-- ========================= DATOS SOCIO ECONOMICOS ================================ -->
+
+	<bean name="/altaDatSocioEcoAgro.htm" class="fira.controlador.DatosSocioEconomicosAgroControlador">
+		<property name="formView" value="fira/DatosSocioAgroCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="clidatsocioeServicio" ref="clidatsocioeServicioImpl" />
+	</bean> 
+   	
+   	<!-- ============= ALTA AVALES COMPARTE VISTA CON ALTA AVALES MODULO SOLICITUD DE CREDITO ============ -->
+    
+	<bean name="/avalesAgroCatalogo.htm" class="credito.controlador.AvalesControlador">
+		<property name="formView" value="credito/avalesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="avalesServicio" ref="avalesServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean> 
+	
+	<!-- ======== ASIGNA AVALES POR SOLICITUD COMPARTE VISTA CON AUTORIZA AVALES MODULO SOLICITUD DE CREDITO ======== -->
+	
+	<bean name="/avalesPorSolicitudAgro.htm" class="credito.controlador.AvalesPorSoliciControlador">
+		 <property name="formView" value="fira/avalesPorSolicitudAgroVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="avalesPorSoliciServicio" ref="avalesPorSoliciServicioImpl" />
+    </bean> 
+    
+    <!-- ======== ALTA DE GARANTIAS COMPARTE VISTA CON ALTA GARANTIAS MODULO SOLICITUD DE CREDITO ======== -->
+	
+	<bean name="/registroGarantia.htm" class="originacion.controlador.GarantiasControlador">
+   		<property name="formView" value="originacion/registroGarantiaVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+   	</bean> 
+   	
+   	 <!-- ======== ALTA DE GARANTIAS ======== -->
+   	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.GarantiaAgroBean" />
+	</dwr:configuration>
+	
+	<bean id="garantiasAgroDAOImpl"  class="fira.dao.GarantiasAgroDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="garantiaAgroServicioImpl" class="fira.servicio.GarantiaAgroServicio">
+		<dwr:remote javascript="garantiaAgroServicioScript">
+ 		<dwr:include method="clasifGarantiasLista" />
+ 		<dwr:include method="consultaGarantia" />
+ 		<dwr:include method="lista" />
+ 		</dwr:remote> 
+		<property name="garantiasAgroDAO" ref="garantiasAgroDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/registroGarantiaAgro.htm" class="fira.controlador.GarantiasAgroControlador">
+   		<property name="formView" value="fira/registroGarantiaAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="garantiaAgroServicio" ref="garantiaAgroServicioImpl" />
+   	</bean> 
+   	
+   	
+    <!-- ======== ASIGNACION DE GARANTIAS COMPARTE VISTA CON MODULO SOLICITUD DE CREDITO ======== -->
+    
+   	<bean name="/asignacionGarantiaAgro.htm" class="originacion.controlador.AsignaGarantiasControlador">
+   		<property name="formView" value="fira/asignaGarantiaAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+   	</bean> 
+   	
+   	<bean name="/asignacionGarantiasAgroGrid.htm"  class="fira.controlador.AsigGarantiasAgroGridControlador">
+		<property name="garantiaServicio" ref="garantiaServicioImpl" />
+	</bean>
+   	
+   	<!-- Ref. autorizacion de avales por solicitud comparte vista  con pantalla de modulo solicitud de credito -->
+    
+    <bean name="/autorizaAvalesAgro.htm" class="credito.controlador.AutorizaAvalesControlador">
+		 <property name="formView" value="fira/autorizaAvalesAgroCatalogoVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="autorizaAvalesServicio" ref="autorizaAvalesServicioImpl" />
+    </bean>
+    
+    <!-- Ref. cheklist comparte vista  con pantalla de modulo solicitud de credito -->
+    
+    <bean name="/solicitudCheckListAgro.htm" class="originacion.controlador.SolicitudCheckListControlador">
+   		<property name="formView" value="fira/solicitudAgroCheckListVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCheckListServicio" ref="solicitudCheckListServicioImpl" />
+   	</bean>
+
+    <!-- Ref. autorizacion solicitud de credito comparte vista  con pantalla de modulo solicitud de credito -->
+    
+	<bean name="/autorizaSolicitudCreditoAgro.htm" class="originacion.controlador.SolicitudCreditoControlador">
+   		<property name="formView" value="fira/autorizaSolicitudCreditoAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>   	
+	
+	<!-- Ref. flujo individual de  solicitud de credito comparte vista con pantalla de modulo solicitud de credito -->
+	
+	<bean name="/flujoIndividualAgro.htm" class="originacion.controlador.FlujoIndividualControlador">
+  		<property name="formView" value="fira/flujoIndividualAgroCatalogoVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	<!-- =========================================== CONCEPTOS DE INVERSION =============================== -->
+	<!-- Pantalla Conceptos de Inversion -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.ConceptosInversionAgroBean" />
+	</dwr:configuration>
+
+	<bean id="conceptosInversionAgroDAOImpl" class="fira.dao.ConceptosInversionAgroDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="conceptosInversionAgroServicioImpl" class="fira.servicio.ConceptosInversionAgroServicio">
+		<dwr:remote javascript="conceptosInversionAgroServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaConcetosInv" />
+		</dwr:remote>
+		<property name="conceptosInversionAgroDAO" ref="conceptosInversionAgroDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<!-- Controlador -->
+	<bean name="/conceptosInversionAgro.htm" class="fira.controlador.ConceptosInversionAgroControlador">
+		<property name="formView" value="fira/conceptosInversionVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="conceptosInversionAgroServicio" ref="conceptosInversionAgroServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid Prestamo -->
+	<bean name="/conceptosInvAgroGridVista.htm" class="fira.controlador.ConceptosInversionAgroGridControlador">
+		<property name="conceptosInversionAgroServicio" ref="conceptosInversionAgroServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid Solicitante -->
+	<bean name="/conceptosInvSolAgroGridVista.htm" class="fira.controlador.ConceptosInversionSolAgroGridControlador">
+		<property name="conceptosInversionAgroServicio" ref="conceptosInversionAgroServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid otras fuentes -->
+	<bean name="/conceptosInvOFAgroGridVista.htm" class="fira.controlador.ConceptosInversionOFAgroGridControlador">
+		<property name="conceptosInversionAgroServicio" ref="conceptosInversionAgroServicioImpl" />
+	</bean>
+
+	<!-- Controlador grid lista conceptos -->
+	<bean name="/listaConceptosInvAgro.htm" class="fira.controlador.ConceptosInversionAgroListaVistaControlador">
+		<property name="conceptosInversionAgroServicio" ref="conceptosInversionAgroServicioImpl" />
+	</bean>
+	<!-- ====================================== FIN CONCEPTOS DE INVERSION ================================ -->
+	<!-- ============================== SECCION GRUPALES ================================= -->
+	<!-- Controlador Vista de grupales-->
+	<bean name="/altaGrupoAgro.htm" class="fira.controlador.AltaGrupoAgroControlador">
+		 <property name="formView" value="fira/gruposAgroCreditoCatalogoVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="gruposCreditoServicio" ref="gruposCreditoServicioImpl" />
+    </bean> 
+    
+    <bean name="/solicitudCredAgroGrupal.htm" class="originacion.controlador.SolicitudCreditoGrupalControlador">
+   		<property name="formView" value="fira/solCredGrupalAgroCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	
+	<!-- Pantalla de Autorizacion de Solicitud Grupal -->
+	<bean name="/autorizaSolAgroGrupal.htm" class="originacion.controlador.AutorizaSolicitudGrupoControlador">
+		<property name="formView" value="fira/autorizaSolicitudGrupoAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="autorizaSolicitudGrupoServicio" ref="autorizaSolicitudGrupoServicioImpl" />
+	</bean>
+	<!-- ============================= SECCION DE REPORTES =============================== -->
+	
+	<!-- Controlador reporte solicitud de credito-->
+	<bean name="/solicitudCreditoAgroRep.htm" class="fira.controlador.SolicitudCreditoRepControlador">
+   		<property name="formView" value="fira/repSolCreditoAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador reporte de avales comparte vista con modulo solicitud de credito-->
+	<bean name="/repAvaladosCreditoAgro.htm" class="credito.controlador.AvaladosCreditoRepControlador">
+	   <property name="formView" value="credito/repAvaladosCreditoVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="avaladosCreditoRepServicio" ref="avaladosCreditoRepServicioImpl" />
+    </bean> 
+    
+    <!-- PANTALLA REPORTE DE SOLICITUDES DE CREDITOS GENERADAS -->
+	<bean name="/repSolicitudesGenAgro.htm" class="fira.controlador.SolicitudesGenAgroRepControlador">
+		<property name="formView" value="fira/repSolGeneradasAgroVista" />   
+	   	<property name="successView" value="resultadoTransaccionReporteVista" />
+     	<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	
+	<!-- CONTROLADOR REPORTE SOLICITUDES DE CREDITOS GENERADAS -->
+	<bean name="/reporteSolicGeneradasAgro.htm" class="originacion.reporte.RepSolicitudesGenControlador">
+		<property name="nombreReporte" value="fira/SolicitudesGeneradas.prpt" />
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+	  	<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>	
+	
+	<!-- Definicion de Controlador de Bitacora de Solicitud de Crédito -->
+	<bean name="/repBitacoraSolAgro.htm"  class="fira.controlador.BitacoraSolicitudAgroRepControlador">	    																		  
+		<property name="formView" value="fira/repBitacoraSolAgroVista"/> 
+		<property name="successView" value="resultadoTransaccionVista" /> 
+		<property name="repBitacoraSolServicio" ref="repBitacoraSolServicioImpl" />
+	</bean>
+	
+	<!-- PANTALLA EXPEDIENTE DE SOLICITUD DE CREDITO -->
+	<bean name="/solicitudesAgroAdjuntaArchivo.htm" class="fira.controlador.SolicitudAgroArchivoControlador">
+        <property name="commandClass" value="originacion.bean.SolicitudesArchivoBean"/>
+        <property name="formView" value="fira/solicitudAgroAdjuntaArchivo"/>
+        <property name="successView" value="resultadoTransaccionArchivoSolicitudVista"/> 
+		<property name="solicitudArchivoServicio" ref="solicitudArchivoServicioImpl" /> 
+    </bean>
+	
+	<!-- ========================= SOLICITUD CREDITO AGRO ================================ -->
+	<!-- CONTROLADOR PANTALLA -->
+	<bean name="/solicitudCreditoAgro.htm" class="fira.controlador.SolicitudCreditoAgroControlador">
+		<property name="formView" value="fira/solicitudCreditoAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+	<!-- ======================= FIN SOLICITUD CREDITO AGRO ============================== -->
+	
+	<!-- ========================= MINISTRACIONES CREDITO ================================ -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.MinistracionCredAgroBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="ministraCredAgroDAOImpl" class="fira.dao.MinistraCredAgroDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="usuarioDAO" ref="usuarioDAOImpl" />
+	</bean>
+
+	<!-- SERVICIO -->
+	<bean id="ministraCredAgroServicioImpl" class="fira.servicio.MinistraCredAgroServicio">
+		<dwr:remote javascript="ministraCredAgroServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="ministraCredAgroDAO" ref="ministraCredAgroDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<!-- GRID -->
+	<bean name="/ministraCredAgroGrid.htm" class="fira.controlador.MinistraCredAgroGridControlador">
+		<property name="successView" value="fira/ministraPagoCredGridVista" />
+		<property name="ministraCredAgroServicio" ref="ministraCredAgroServicioImpl" />
+	</bean>
+	<!-- ========================= FIN MINISTRACIONES CREDITO ============================ -->
+
+	<!-- =========================  SIMULADOR DE PAGOS LIBRES ============================ -->
+	<!-- LISTA -->
+	<bean name="/lisSimuladorLibresAgroConsulta.htm" class="fira.controlador.SimuladorConsultaControlador">
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+
+	<!-- SIMULADOR -->
+	<bean name="/simPagLibresAgroCredito.htm" class="fira.controlador.SimuladorPagLibresAgroControlador">
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- ========================= FIN SIMULADOR DE PAGOS LIBRES ========================= -->
+	
+	<!-- ====================== CALENDARIO DE MINISTRACIONES ============================= -->
+	<!-- Bean -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.CalendarioMinistracionBean" />
+	</dwr:configuration>
+	
+	<!-- DAO -->
+	<bean id="calendarioMinistracionDAOImpl" class="fira.dao.CalendarioMinistracionDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio -->
+	<bean id="calendarioMinistracionServicioImpl" class="fira.servicio.CalendarioMinistracionServicio">
+		<dwr:remote javascript="calendarioMinistracionServicio">
+ 			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="calendarioMinistracionDAO" ref="calendarioMinistracionDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+	
+	<!-- Controlador de Pantalla -->
+	<bean name="/calendarioMinistraVista.htm" class="fira.controlador.CalendarioMinistracionControlador">
+   		<property name="formView" value="fira/calendarioMinistraCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="calendarioMinistracionServicio" ref="calendarioMinistracionServicioImpl" /> 
+	</bean> 
+	<!-- ==================== FIN CALENDARIO DE MINISTRACIONES =========================== -->
+	
+	<!-- ======================= PRODUCTO DE CREDITOS AGRO =============================== -->
+	<!-- Servicio -->
+	<bean id="productosCredAgroServicioImpl" class="fira.servicio.ProductosCreditoServicio">
+		<property name="productosCreditoDAO" ref="productosCreditoDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador de Pantalla -->
+	<bean name="/productosCreditoAgro.htm" class="fira.controlador.ProductosCreditoControlador">
+		<property name="formView" value="fira/productosCreditoCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="productosCreditoServicio" ref="productosCredAgroServicioImpl" />
+	</bean>
+	<!-- ===================== FIN PRODUCTO DE CREDITOS AGRO ============================= -->
+	
+	<!-- ====================== DESEMBOLSO DE CREDITO AGRO =============================== -->
+	<!-- Controlador de Pantalla -->
+	<bean name="/desembolsoCredAgroVista.htm" class="fira.controlador.DesembolsoCreditoControlador">
+		<property name="formView" value="fira/desembolsoCreditoCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Grid -->
+	<bean name="/calendarioMinistraGrid.htm" class="fira.controlador.MinistraCredAgroGridControlador">
+		<property name="successView" value="fira/ministraDesembolsoGridVista" />
+		<property name="ministraCredAgroServicio" ref="ministraCredAgroServicioImpl" />
+	</bean>
+	<!-- ==================== FIN DESEMBOLSO DE CREDITO AGRO ============================= -->
+	
+	<!-- Controlador Mesa de Control -->	
+	<bean name="/autorizaCreditosAgro.htm" class="credito.controlador.CreditosControlador">
+		<property name="formView" value="fira/creditosAgroAutoriza" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		 <property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" />
+	</bean>
+	
+	 <!-- ======================== CONDICIONES DE DESEMBOLSO ============================= -->
+	<bean name="/condicionesDesemAgro.htm"
+		  class="credito.controlador.CreditosControlador">
+		<property name="formView" value="fira/condicionesDesemAgro" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		 <property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" /> 
+	</bean>
+
+	<!-- =================== CATALOGO DE TIPO DE GARANTIAS FIRA ========================== -->
+
+	<!-- Bean -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.CatTipoGarantiaFIRABean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="catTipoGarantiaFIRADAOImpl" class="fira.dao.CatTipoGarantiaFIRADAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="catTipoGarantiaFIRAServicioImpl" class="fira.servicio.CatTipoGarantiaFIRAServicio">
+		<dwr:remote javascript="catTipoGarantiaFIRAServicio">
+ 			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catTipoGarantiaFIRADAO" ref="catTipoGarantiaFIRADAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- ================== FIN CATALOGO DE TIPO DE GARANTIAS FIRA ======================= -->
+
+	<!-- ===================CATALOGO DE CADENAS PRODUCTIVAS FIRA ========================= -->
+	<!-- Bean -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.CatCadenaProductivaBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="catCadenaProductivaDAOImpl" class="fira.dao.CatCadenaProductivaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="catCadenaProductivaServicioImpl" class="fira.servicio.CatCadenaProductivaServicio">
+		<dwr:remote javascript="catCadenaProductivaServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="catCadenaProductivaDAO" ref="catCadenaProductivaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaCadenaProductiva.htm" class="fira.controlador.CatCadenaProductivaControlador">
+		<property name="catCadenaProductivaServicio" ref="catCadenaProductivaServicioImpl" />
+	</bean> 
+	<!-- ================ FIN CATALOGO DE CADENAS PRODUCTIVAS FIRA ======================= -->
+
+	<!-- ========================= RELACIONES CADENA/RAMAS FIRA ========================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.RelCadenaRamaFIRABean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="relCadenaRamaFIRADAOImpl" class="fira.dao.RelCadenaRamaFIRADAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="relCadenaRamaFIRAServicioImpl" class="fira.servicio.RelCadenaRamaFIRAServicio">
+		<dwr:remote javascript="relCadenaRamaFIRAServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="relCadenaRamaFIRADAO" ref="relCadenaRamaFIRADAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaRelCadenaRamaFIRA.htm" class="fira.controlador.RelCadenaRamaFIRAControlador">
+		<property name="relCadenaRamaFIRAServicio" ref="relCadenaRamaFIRAServicioImpl" />
+	</bean> 
+	<!-- ======================FIN RELACIONES CADENA/RAMAS FIRA ========================== -->
+	<!-- ========================= RELACIONES SUBRAMA FIRA =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.RelSubRamaFIRABean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="relSubRamaFIRADAOImpl" class="fira.dao.RelSubRamaFIRADAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="relSubRamaFIRAServicioImpl" class="fira.servicio.RelSubRamaFIRAServicio">
+		<dwr:remote javascript="relSubRamaFIRAServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="relSubRamaFIRADAO" ref="relSubRamaFIRADAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaRelSubRamaFIRA.htm" class="fira.controlador.RelSubRamaFIRAControlador">
+		<property name="relSubRamaFIRAServicio" ref="relSubRamaFIRAServicioImpl" />
+	</bean> 
+	<!-- ======================FIN RELACIONES CADENA/RAMAS FIRA ========================== -->
+
+	<!-- ========================= RELACIONES ACTIVIDADES FIRA =========================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.RelActividadFIRABean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="relActividadFIRADAOImpl" class="fira.dao.RelActividadFIRADAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="relActividadFIRAServicioImpl" class="fira.servicio.RelActividadFIRAServicio">
+		<dwr:remote javascript="relActividadFIRAServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="relActividadFIRADAO" ref="relActividadFIRADAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaRelActividadFIRA.htm" class="fira.controlador.RelActividadFIRAControlador">
+		<property name="relActividadFIRAServicio" ref="relActividadFIRAServicioImpl" />
+	</bean> 
+	<!-- ======================FIN RELACIONES CADENA/RAMAS FIRA ========================== -->
+
+	<!-- ================================ SUBPROGRAMA FIRA =============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.CatFIRAProgEspBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="catFIRAProgEspDAOImpl" class="fira.dao.CatFIRAProgEspDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="catFIRAProgEspServicioImpl" class="fira.servicio.CatFIRAProgEspServicio">
+		<dwr:remote javascript="catFIRAProgEspServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="catFIRAProgEspDAO" ref="catFIRAProgEspDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Lista -->
+	<bean name="/listaCatFIRAProgEsp.htm" class="fira.controlador.CatFIRAProgEspControlador">
+		<property name="catFIRAProgEspServicio" ref="catFIRAProgEspServicioImpl" />
+	</bean> 
+	<!-- ================================ SUBPROGRAMA FIRA =============================== -->
+
+	<!-- ================================ CREDITOS FIRA ================================== -->
+	<!-- Definicion de Controladores de creditos -->
+	<bean name="/altaCreditoAgro.htm" class="fira.controlador.CreditoAgroControlador">
+		<property name="formView" value="fira/creditosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" />
+	</bean>
+	<!-- ================================ CREDITOS FIRA ================================== -->
+	<!-- ============================= PAGARE DE CREDITO ================================= -->
+	<bean name="/pagareCreditoAgro.htm" class="fira.controlador.PagareCredAgroControlador">
+		<property name="formView" value="fira/pagareCredAgroCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<bean name="/consultaCredAmortiAgroGridVista.htm" class="fira.controlador.ConsulAmortiCredAgroGridControlador">
+		<property name="amortizacionCreditoServicio" ref="amortizacionCreditoServicioImpl" />
+	</bean>	
+	<!-- Reporte de pagare agro individual -->
+	<bean name="/pagareCreditoAgroInd.htm" class="fira.reporte.PagareCreditoIndividualAgroControlador">
+		<property name="nombreReporteAvio" value="fira/PagareAvioRefa.prpt" />
+		<property name="nombRepAmorticre" value="fira/Amortizacion.prpt" />
+		<property name="nombRepCaratContraInd" value="fira/CaratulaContratoIndiv.prpt" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- Fin de pagare agro individual -->
+	<!-- =========================== FIN PAGARE DE CREDITO =============================== -->
+	<!-- ======================== SECCION DE CREDITOS GRUPALES =========================== -->
+	<!-- alta de credito grupal -->
+ 	<bean name="/creditoGrupalAgroCatalogoVista.htm" class="fira.controlador.CreditoGrupalAgroControlador">
+		<property name="formView" value="fira/creditoGrupalAgroCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" />
+	</bean> 
+	
+	<!-- pagare de credito grupal -->
+	 <bean name="/pagareCreditoGrupAgro.htm" class="fira.controlador.CreditosGrupalesAgroControlador">
+		<property name="formView" value="fira/pagareCreditoGrupalAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" />
+	</bean> 
+	
+	<!-- Reporte de Pagare de Credito -->
+	<bean name="/pagareCreditoGrupalAgro.htm" class="fira.reporte.PagareCreditosGrupalesAgroControlador">
+		<property name="nombreReporteTF" value="fira/PagareTasaFija.prpt" />
+		<property name="nombreReporteTV" value="fira/PagareTasaVar.prpt" />
+		<property name="nombreReporteTFGru" value="fira/PagareTasaFijaGrupal.prpt" />
+		<property name="nombRepAmorticre" value="fira/Amortizacion.prpt" />	  
+		<property name="nombRepCaratContra" value="fira/CaratulaContrato.prpt" />
+		<property name="nombRepCaratContraInd" value="fira/CaratulaContratoIndiv.prpt" />	  
+		<property name="nombRepClausuContra" value="fira/Contrato.prpt" />
+		<property name="nombRepObligacionesCG" value="fira/ObligacionesCreditoGrupal.prpt" />	 	  
+		<property name="nombreReporteTFInd" value="fira/PagareTasaFijaInd.prpt" />		
+		 <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- mesa de control de credito grupal -->
+	 <bean name="/autorizaCredGrupalAgro.htm" class="credito.controlador.CreditosGrupalesControlador">
+		<property name="formView" value="fira/autorizacreditoAgroGrupalVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+		<property name="creditoDocEntServicio" ref="creditoDocEntServicioImpl" />
+	</bean> 
+		
+	<!-- desembolso de credito grupal -->
+	 <bean name="/desembosoCredGrupalAgro.htm" class="fira.controlador.CreditosGrupalesAgroControlador">
+		<property name="formView" value="fira/desembolsoCreditoGrupalAgroVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+
+	<!-- DAO Rompimiento de Grupo -->
+ 	<bean id="rompimientoGrupoAgroDAOImpl" class="fira.dao.RompimientoGrupoAgroDAO"> 
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+      	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>	
+	
+	<!-- Servicio Rompimiento de Grupo -->
+	<bean id="rompimientoGrupoAgroServicioImpl" class="fira.servicio.RompimientoGrupoAgroServicio">
+		<dwr:remote javascript="rompimientoGrupoAgroServicio"> 	
+	    </dwr:remote>
+	    <property name="rompimientoGrupoAgroDAO" ref="rompimientoGrupoAgroDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Pantalla Rompimiento de Grupo -->
+	<bean name="/rompimientoGrupoAgro.htm" class="fira.controlador.RompimientoGrupoAgroControlador">
+		<property name="formView" value="fira/rompimientoGrupoAgroVista" />   
+	   	<property name="successView" value="resultadoTransaccionVista" />
+     	<property name="rompimientoGrupoAgroServicio" ref="rompimientoGrupoAgroServicioImpl" />
+	</bean>
+	<!-- ====================== FIN SECCION DE CREDITOS GRUPALES ========================= -->
+
+	 <!-- ========================== SECCION DE PROCESOS ================================= -->
+	 <!-- expediente del credito -->
+	 <bean name="/credAgroAdjuntaArchivo.htm" class="credito.controlador.CreditosArchivoControlador">
+        <property name="commandClass" value="credito.bean.CreditosArchivoBean"/>
+        <property name="formView" value="fira/creditoAgroAdjuntaArchivo"/>
+        <property name="successView" value="resultadoTransaccionArchivoVista"/> 
+		<property name="creditoArchivoServicio" ref="creditoArchivoServicioImpl" /> 
+    </bean>
+  
+     <!-- ========================== SECCION DE CONSULTAS ================================ -->
+     
+    <!-- informacion de creditos  -->
+    <bean name="/consultaCreditosAgro.htm" class="credito.controlador.ConsultaCreditosControlador">
+			<property  name="formView" value="fira/consultaCreditoAgroCatalogoVista"/>
+			<property  name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- ========================== SECCION DE TRATAMIENTOS ============================== -->
+
+<!-- ::::::::::::::::::::::::::::::::Castigos:::::::::::::::::::::::::::::::::::::::::::::.. -->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="fira.bean.CastigosCarteraAgroBean"/> 
+	</dwr:configuration>
+	
+	<bean id="castigosCarteraAgroDAOImpl" class="fira.dao.CastigosCarteraAgroDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	   <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	   <property name="polizaDAO" ref="polizaDAOImpl"/>	
+	</bean> 
+	
+	<bean id="castigosCarteraAgroServicioImpl" class="fira.servicio.CastigosCarteraAgroServicio">
+		<dwr:remote javascript="castigosCarteraAgroServicio"> 	
+	    	<dwr:include method="listaCombo" />		
+	    	<dwr:include method="consulta" />			
+		</dwr:remote>
+	    <property name="castigosCarteraAgroDAO" ref="castigosCarteraAgroDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 	
+	
+	<!-- castigos   -->
+	<bean name="/castigosAgro.htm" class="fira.controlador.CastigosCarteraAgroControlador">
+		<property  name="formView" value="fira/castigosCarteraAgroVista"/>
+	    <property name="successView" value="resultadoTransaccionVista" />
+		<property  name="castigosCarteraAgroServicio" ref="castigosCarteraAgroServicioImpl" />
+	</bean>
+
+
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::.. -->
+
+	 <!-- cambio fuente de fondeo -->
+	 <!-- DAO -->
+	<bean id="cambioFondeadorAgroDAOImpl" class="fira.dao.CambioFondeadorAgroDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl" />
+		<property name="usuarioDAO" ref="usuarioDAOImpl" />
+		<property name="solicitudCreditoDAO" ref="solicitudCreditoDAOImpl" />
+	</bean> 
+	
+	<!-- Controlador -->
+    <bean name="/cambioFondeodAgro.htm" class="fira.controlador.CambioFuenteFondeoControlador">
+			<property  name="formView" value="fira/cambioFuenteFondeoVista"/>
+			<property name="successView" value="resultadoTransaccionVista" />
+			<property  name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- ============================= SECCION DE REPORTES =============================== -->
+	
+	<!-- Reporte de Vencimientos-->
+	<bean name="/repVistaVencimientosAgro.htm" class="credito.controlador.VencimientosRepControlador">
+		<property name="formView" value="credito/vencimientosRepVista" />   
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Reporte de movimientos de credito-->
+	<bean name="/repMovsCreditoAgro.htm" class="credito.controlador.MovsCreditoControlador">
+	   <property name="formView" value="credito/reporteMovsCredito" /> 
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- pantalla  de reporte de ministraciones de credito-->
+	<bean name="/repMinistracionesCredAgro.htm" class="credito.controlador.MinistracionesCredito">
+	   <property name="formView" value="credito/ministracionesCreditoCatalogoVista" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- pantalla  de reporte de saldos de cartera-->
+	<bean name="/saldosCapitalCredAgro.htm" class="credito.controlador.SaldosCapitalControlador">
+	   <property name="formView" value="credito/saldosCapitalCatalogoVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Reporte de pagos realizados-->
+	<bean name="/repPagosRealizadosAgro.htm" class="credito.controlador.PagosRealizadosControlador">
+		<property name="formView" value="credito/pagosRealizadosRepVista" />   
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Reporte de Antiguedad de saldos-->
+	<bean name="/repAntigSaldosAgro.htm" class="credito.controlador.AntiguedadSaldosRepControlador">
+		<property name="formView" value="credito/repAntiguedadSaldosVista" />   
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Reporte de Perfil de grupos-->
+	<bean name="/perfilGrupoVistaAgro.htm" class="credito.controlador.PerfilGrupoCreditoControlador">
+		<property name="formView" value="credito/repPerfilGrupoCreditoVista" />
+        <property name="successView" value="resultadoTransaccionVista" />
+        <property name="repPerfilGrupoCreditoServicio" ref="repPerfilGrupoCreditoServicioImpl" />
+    </bean> 
+    
+    <!-- Reporte de EStimaciones y Calificacion-->
+    <bean name="/repEstimayCalifAgro.htm" class="credito.controlador.EstimacionesyCalificacionControlador">
+	   <property name="formView" value="credito/estimacionesyCalificacionRepVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Reporte de Comisiones Pendientes de Pago-->
+	<bean name="/repPendientePagoAgro.htm" class="credito.controlador.ComPendPagoRepControlador">
+		<property name="formView" value="credito/comPendPagoRepVista" />   
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	 <!-- pantalla de EXIGIBLE DE CARTERA POR CLIENTE-->
+	<bean name="/exigCarAgroCliente.htm" class="credito.controlador.ExigibleCarteraCteReporControlador">
+		<property name="formView" value="credito/exigibleCarteraClienteRepVista" /> 
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creditosServicio" ref="creditosServicioImpl" />
+    </bean>	
+	
+<!--  Reporte de Castigos -->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="fira.bean.CreCastigosAgroRepBean"/> 
+	</dwr:configuration>
+			
+	<bean name="/credCastigoAgroRepVista.htm" class="fira.controlador.CreCastigosAgroReporteControlador">
+		<property name="formView" value="fira/creCastigadosAgroRepVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="castigosCarteraAgroServicio" ref="castigosCarteraAgroServicioImpl" />
+	</bean>	
+		
+	<bean name="/ReporteCredCastigosAgro.htm" class="fira.reporte.CreCastigosAgroRepControlador">
+	   	<property name="nomReporte" value="fira/CreCastigosAgro.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	   	<property name="castigosCarteraAgroServicio" ref="castigosCarteraAgroServicioImpl" />
+	   	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<!-- ========= REPORTE DE HISTORIAL DE CARTERA POR CLIENTE --> 
+	<bean name="/hisCarteraClieteAgro.htm" class="credito.controlador.HisCarteraClienteRepVistaControlador">
+	   <property name="formView" value="credito/reporteHisCarteraClienteVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- ========= REPORTE DE CREDITOS CON GARANTIA LIQUIDA --> 
+	<bean name="/creditoGarLiqAgro.htm" class="credito.controlador.RepCreditoGarLiqControlador">
+	   <property name="formView" value="credito/reporteCreditoGarLiqVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- PANTALLA GENERACION DE REFERENCIAS BANCARIAS -->
+	<bean name="/refDepBancarioAgro.htm" class="credito.controlador.CreditosControlador">
+		<property name="formView" value="credito/reporteReferenciasBancVista" />   
+	   	<property name="successView" value="resultadoTransaccionReporteVista" />
+     	<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<!-- PANTALLA REPORTE DE CREDITOS OTORGADOS POR USUARIO -->
+	<bean name="/repCredOtorgadosAgro.htm" class="credito.controlador.CreditosControlador">
+		<property name="formView" value="credito/repCreditosOtorgadosVista" />   
+	   	<property name="successView" value="resultadoTransaccionReporteVista" />
+     	<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>	
+	
+	<!-- Pantalla de Reportes de Rompimientos de Grupos-->
+	<bean name="/repRompimientosAgro.htm" class="credito.controlador.RompimientoGrupoRepControlador">
+		<property name="formView" value="credito/rompimientoGrupoRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="rompimientoGrupoServicio" ref="rompimientoGrupoServicioImpl" />
+	</bean>	
+	<!-- =========================== FIN SECCION DE REPORTES ============================= -->
+	
+	<!-- ======================= CREDITOS CON GARANTIA SIN FONDEO ======================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.GarantiaFiraBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="garantiaFiraDAOImpl" class="fira.dao.GarantiaFiraDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<!-- SERVICIO -->
+	<bean id="garantiaFiraServicioImpl" class="fira.servicio.GarantiaFiraServicio">
+		<dwr:remote javascript="garantiaFiraServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="garantiaFiraDAO" ref="garantiaFiraDAOImpl" />
+	</bean>
+	
+	
+	<!-- Controlador de Pantalla -->
+	<bean name="/creditosConGarSinFondeoVista.htm" class="fira.controlador.CreditosGarSinFondeoControlador">
+		<property name="formView" value="fira/creditosConGarSinFondeoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="garantiaFiraServicio" ref="garantiaFiraServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Grid -->
+	<bean name="/creditosConGarSinFondeoGrid.htm" class="fira.controlador.CredConGarSinFondeoGridControlador">
+		<property name="successView" value="fira/CredConGarSinFondeoGridVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- ===================== FIN CREDITOS CON GARANTIA SIN FONDEO ====================== -->
+		
+	<!-- ========================= APLICACION DE GARANTIAS AGRO ========================== -->
+	<!-- Controlador de Pantalla -->
+	<bean name="/apliGarAgroVista.htm" class="fira.controlador.AplicaGarAgroControlador">
+		<property name="formView" value="fira/aplicaGarantiasAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="garantiaFiraServicio" ref="garantiaFiraServicioImpl" />
+	</bean>
+	<!-- ======================= FIN APLICACION DE GARANTIAS AGRO ======================== -->	
+	
+	<!-- ========================== PAGO DE CREDITO GARANTIA ============================= -->
+	<bean name="/pagoDeCreditoAgro.htm" class="fira.controlador.PagoCreditoAgroControlador">
+			<property  name="formView" value="fira/PagoDeCreditoAgroCatalogoVista"/>
+			<property name="successView" value="resultadoTransaccionVista" />
+			<property  name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	
+	<bean name="/RepTicketPagoCreditoAgro.htm" class="fira.reporte.PagoCreditoTicketContControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="creditos/RepTicketPagoCreditoCont.prpt" />
+	  <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- ======================== FIN PAGO DE CREDITO GARANTIA =========================== -->
+
+	<!-- ========================= REPORTES DE MONITOREO FIRA ============================ -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.CatReportesFIRABean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="catReportesFIRADAOImpl" class="fira.dao.CatReportesFIRADAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />	
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="catReportesFIRAServicioImpl" class="fira.servicio.CatReportesFIRAServicio">
+		<dwr:remote javascript="catReportesFIRAServicio">
+ 			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="catReportesFIRADAO" ref="catReportesFIRADAOImpl" />
+		<property name="conceptosEdosFinancierosServicio" ref="conceptosEdosFinancierosServicioImpl" />
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador Pantalla -->
+	<bean name="/monitoreoAgroVista.htm" class="fira.controlador.CatReportesFIRAControlador">
+		<property name="formView" value="fira/reporteMonitoreoFIRAVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- Controlador Reporte -->
+	<bean name="/reporteMonitoreoFiraVista.htm" class="fira.reporte.MonitoreoFIRARepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="catReportesFIRAServicio" ref="catReportesFIRAServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+	<!-- Controlador Pantalla Upload -->
+	<bean name="/archMonitoreoUpload.htm" class="fira.controlador.ArchMonitoreoUploadControlador">
+		<property name="commandClass" value="fira.bean.CatReportesFIRABean" />
+		<property name="formView" value="fira/archivosMonitoreoUploadVista" />
+		<property name="successView" value="fira/resultadoTransaccionArchivoMonitoreoVista" />
+	</bean>
+	
+	<!--  Bean pantalla Grid Proyecion y Grid Excedentes -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.MonitorProyeccionBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.MonitorExcedentesBean" />
+	</dwr:configuration>
+	
+	<!-- DAO pantalla de Grid's Tipos de Respuesta -->
+	<bean id="monitorProyeccionDAOImpl" class="fira.dao.MonitorProyeccionDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="monitorExcedentesDAOImpl" class="fira.dao.MonitorExcedentesDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio Grid Proyecion y Grid Excedentes -->	
+	<bean id="monitorProyeccionServicioImpl" class="fira.servicio.MonitorProyeccionServicio">
+		<dwr:remote javascript="monitorProyeccionServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="monitorProyeccionDAO" ref="monitorProyeccionDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="monitorExcedentesServicioImpl" class="fira.servicio.MonitorExcedentesServicio">
+		<dwr:remote javascript="monitorExcedentesServicio">
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="monitorExcedentesDAO" ref="monitorExcedentesDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla Tipos de Respuesta -->
+	<bean name="/monitorProyeccion.htm" class="fira.controlador.MonitorProyeccionControlador">
+		<property name="formView" value="fira/reporteMonitoreoFIRAVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="monitorProyeccionServicio" ref="monitorProyeccionServicioImpl" /> 
+	</bean>
+	
+	<bean name="/monitorExcedentes.htm" class="fira.controlador.MonitorExcedentesControlador">
+		<property name="formView" value="fira/reporteMonitoreoFIRAVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="monitorExcedentesServicio" ref="monitorExcedentesServicioImpl" /> 
+	</bean>	
+	
+	<!-- Controlador Grid -->
+	<bean name="/monitorProyeccionGridVista.htm" class="fira.controlador.MonitorProyeccionGridControlador" >
+		<property name="monitorProyeccionServicio" ref="monitorProyeccionServicioImpl" /> 
+	</bean>
+	
+	<bean name="/monitorExcedentesGridVista.htm" class="fira.controlador.MonitorExcedentesGridControlador" >
+		<property name="monitorExcedentesServicio" ref="monitorExcedentesServicioImpl" /> 
+	</bean>
+	
+	<!-- ======================= FIN REPORTES DE MONITOREO FIRA ========================== -->
+	<!-- ========================== REPORTE DE ARCHIVOS DE PERDIDA ESPERADA ============================= -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.ArchPerdidaEsperadaBean" />
+	</dwr:configuration>
+	<!-- DAO -->
+	<bean id="archPerdidaEsperadaDAOImpl" class="fira.dao.ArchPerdidaEsperadaDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />	
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Servicio -->
+	<bean id="archPerdidaEsperadaServicioImpl" class="fira.servicio.ArchPerdidaEsperadaServicio">
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+		<property name="archPerdidaEsperadaDAO" ref="archPerdidaEsperadaDAOImpl"/>
+	</bean>
+	<!-- Controlador Pantalla -->
+	<bean name="/archPerdEsperada.htm" class="fira.controlador.ArchPerdidaEsperadaControlador">
+		<property name="formView" value="fira/archivosPerdEsperaRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	<!-- Controlador Pantalla Upload -->
+	<bean name="/archPerdEsperadaUpload.htm" class="fira.controlador.ArchPerdidaEsperadaUploadControlador">
+		<property name="commandClass" value="fira.bean.ArchPerdidaEsperadaBean" />
+		<property name="formView" value="fira/archivosPerdEsperaUploadVista" />
+		<property name="successView" value="fira/resultadoTransaccionArchivoFiraVista" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepArchivosPerdida.htm" class="fira.reporte.ArchPerdidaEsperadaRepControlador">
+		<property name="archPerdidaEsperadaServicio" ref="archPerdidaEsperadaServicioImpl" />
+	</bean>
+	 <!-- ======================== FIN REPORTE DE ARCHIVOS DE PERDIDA ESPERADA ============================= -->
+	 <!-- =========================================== CONTRATOS FIRA  ====================================== -->
+	 <!-- Servicio -->
+	<bean id="ContratosFiraServicioImpl" class="fira.servicio.ContratosFiraServicio">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	 <!-- Reporte -->
+	<bean name="/RepContratoFira.htm" class="fira.reporte.ContratosFiraRepControlador">
+		<property name="ContratosFiraServicio" ref="ContratosFiraServicioImpl" />
+		<property name="nombreReporteFisica" value="fira/CtoPFisicaTFijaVariable.prpt" />
+		<property name="nombreReporteMoral" value="fira/CtoPMoralTFijaVariable.prpt" />
+		<property name="nombreReporteAdminUnico" value="fira/CtoPMoralAdminUnico.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>
+	 <!-- ========================================= FIN CONTRATOS FIRA  ==================================== -->
+	 
+	 <!--============================= FLUJO INDIVIDUAL PARA REESTRUCTURA DE CREDITOS AGROPECUARIOS =============================-->
+	<bean name="/flujoIndivReestructuraAgro.htm" class="fira.controlador.FlujoIndivReestructuraAgroControlador">
+   		<property name="formView" value="fira/flujoIndivReestructuraAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	
+	  <bean name="/solicitudCreditoReestAgro.htm" class="fira.controlador.SolicitudCreditoReestAgroControlador">
+  		<property name="formView" value="fira/solicitudCreditoReestAgroVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean> 
+	 
+	<!-- =========================  SIMULADOR DE PAGOS LIBRES PARA REESTRUCTURAS DE CREDITOS AGRO ============================ -->
+	<!-- LISTA -->
+	<bean name="/lisSimLibresReestAgroConsulta.htm" class="fira.controlador.SimuladorReestConsultaControlador">
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+
+	<!-- SIMULADOR -->
+	<bean name="/simPagLibresReestAgroCredito.htm" class="fira.controlador.SimPagLibresReestAgroControlador">
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- ========================= FIN SIMULADOR DE PAGOS LIBRES PARA REESTRUCTURAS DE CREDITOS AGRO ========================= -->
+	<!-- =================================== REPORTE ANALITICO DE CARTERA AGRO ============================= -->
+	<!-- DAO -->
+	<bean id="creditosAgroDAOImpl" class="fira.dao.CreditosAgroDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />	
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/> 
+	</bean>
+	<!-- Servicio -->
+	<bean id="creditosAgroServicioImpl" class="fira.servicio.CreditosAgroServicio">
+		<property name="creditosAgroDAO" ref="creditosAgroDAOImpl"/>	
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/> 	
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	<!-- Pantalla -->
+	<bean name="/saldosTotalesCredAgro.htm" class="fira.controlador.SaldosTotalesControlador">
+		<property name="formView" value="fira/saldosTotalesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepSaldosTotalesCreditoAgro.htm" class="fira.reporte.SaldosTotalesRepControlador">
+		<property name="nomReporte" value="fira/SaldosTotal.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosAgroServicio" ref="creditosAgroServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>
+	
+	<!-- ============================== FIN REPORTE ANALITICO DE CARTERA AGRO ============================== -->
+	<!-- ========================== REPORTE ANALITICO DE CARTERA CONTINGENTE AGRO ========================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.AnaliticoContBean" />
+	</dwr:configuration>
+	<!-- Pantalla -->
+	<bean name="/saldosTotalesCredContAgro.htm" class="fira.controlador.SaldosTotalesConControlador">
+		<property name="formView" value="fira/saldosTotalesContCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepSaldosTotalesCreditoContAgro.htm" class="fira.reporte.SaldosTotalesContRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosAgroServicio" ref="creditosAgroServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>
+	<!-- ======================== FIN REPORTE ANALITICO DE CARTERA CONTINGENTE AGRO ======================= -->
+	<!-- ========================== REPORTE MOVIMIENTOS CONTINGENTE AGRO ================================== -->
+	<!-- Pantalla -->
+	<bean name="/movCreditosContingentes.htm" class="fira.controlador.MovCredContingenteControlador">
+		<property name="formView" value="fira/reporteMovsCreditoCont" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepMovCredContingentes.htm" class="fira.reporte.MovCreditosContRepControlador">
+		<property name="nomReporte" value="fira/ReporteMovsCreditoCont.prpt" />
+		<property name="nomReporteSum" value="fira/ReporteMovsCreditoSumCont.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosAgroServicio" ref="creditosAgroServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+	</bean>
+	<!-- ======================== FIN REPORTE ANALITICO DE CARTERA CONTINGENTE AGRO ======================= -->
+	<!-- ========================== UNIDADES DE CONCEPTOS DE INVERSION ==================================== -->
+	<!-- Bean -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.UniConceptosInvAgroBean" />
+	</dwr:configuration>
+	<!-- Servicio -->
+	<bean id="uniConceptosInvAgroServicioImpl" class="fira.servicio.UniConceptosInvAgroServicio">
+		<dwr:remote javascript="uniConceptosInvAgroServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="creditosAgroDAO" ref="creditosAgroDAOImpl" />
+	</bean>
+
+	<!-- Controlador pantalla -->
+	<bean name="/unidadesConceptosInvAgro.htm" class="fira.controlador.UniConceptosInvAgroControlador">
+		<property name="formView" value="fira/uniConceptosInvAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="uniConceptosInvAgroServicio" ref="uniConceptosInvAgroServicioImpl" />
+	</bean>
+	<!-- Controlador Lista -->
+	<bean name="/listaUnidadConceptoInvAgro.htm" class="fira.controlador.UnidadesConceptoInvListaControlador">
+		<property name="uniConceptosInvAgroServicio" ref="uniConceptosInvAgroServicioImpl" />
+	</bean>
+	<!-- ======================== FIN UNIDADES DE CONCEPTOS DE INVERSION ================================== -->
+	  
+	 <!-- =========================== REPORTES DE PAGOS ANTICIPADOS CREDITOS ACTIVOS ============================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.PagosAnticipadosAgroBean" />
+	</dwr:configuration>
+	<!-- Pantalla Reporte -->
+	<bean name="/repPagosAnticipadosAgro.htm" class="fira.controlador.RepPagosAnticipadosAgroControlador">
+		<property name="formView" value="fira/repPagosAnticipadosAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/ReportePagosAnticipadosAgro.htm" class="fira.reporte.RepPagosAnticipadosAgroControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosAgroServicio" ref="creditosAgroServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+		<!-- =========================== FIN DE REPORTES DE PAGOS ANTICIPADOS  ============================== -->
+
+		
+		<!-- ====================== RECUPERACION CARTERA CASTIGADA CONTINGENTE ============================= -->
+	<!-- Bean -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.RecupCarteraCastAgroBean" />
+	</dwr:configuration>
+	
+	<!-- DAO -->
+	<bean id="recupCarteraCastAgroDAOImpl" class="fira.dao.RecupCarteraCastAgroDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl" />
+	</bean>
+	
+	<!-- Servicio -->
+	<bean id="recupCarteraCastAgroServicioImpl" class="fira.servicio.RecupCarteraCastAgroServicio">
+		<dwr:remote javascript="recupCarteraCastAgroServicio">
+  			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="recupCarteraCastAgroDAO" ref="recupCarteraCastAgroDAOImpl" />
+
+	</bean>
+	
+	<!-- Controlador de Pantalla -->
+	<bean name="/recupCarteraCastAgro.htm" class="fira.controlador.RecupCarteraCastAgroControlador">
+   		<property name="formView" value="fira/recupCarteraCastAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="recupCarteraCastAgroServicio" ref="recupCarteraCastAgroServicioImpl" /> 
+	</bean>
+	
+		<!-- Controlador del Ticket de Recuperacion  -->
+	<bean name="/RepTicketPagoCreditoAgroCast.htm" class="fira.reporte.PagoRecCreditoCastAgroControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="fira/ticketRecuperacionCargoCtaAgro.prpt" />
+	  <property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	 
+	<!-- ==================== FIN RECUPERACION CARTERA CASTIGADA CONTINGENTE =========================== -->
+	  
+	<!-- ===========================  CREDITOS CON AFECTACION DE GARANTIA PERIODICO ============================== -->
+	<!-- Pantalla Reporte -->
+	<bean name="/repCreditoAfectacionGarantia.htm" class="fira.controlador.ReporteCreditoAfectacionGarantiaControlador">
+		<property name="formView" value="fira/reporteCreditoAfectacionGarantiaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<!-- Reporte -->
+	<bean name="/reporteCreditoAfectacionGarantia.htm" class="fira.reporte.ReporteCreditoAfectacionGarantiaControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista"/>
+		<property name="garantiaFiraServicio" ref="garantiaFiraServicioImpl" />
+	</bean>
+	<!-- ======================== FIN CREDITOS CON AFECTACION DE GARANTIA PERIODICO  ============================== -->
+
+	<!-- ======================== INICIO PANTALLA DE QUITAS Y CONDONACIONES  ============================== -->
+	
+	<!-- beans para Quitas y Condonaciones-->
+ 	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.CreQuitasFiraBean" />
+	</dwr:configuration>
+
+	<bean id="creQuitasFiraDAOImpl" class="fira.dao.CreQuitasFiraDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<bean id="creQuitasFiraServicioImpl" class="fira.servicio.CreQuitasFiraServicio">
+		<dwr:remote javascript="creQuitasFiraServicio">
+ 			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="creQuitasFiraDAO" ref="creQuitasFiraDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- quitas y condonaciones  -->
+	<bean name="/creQuitasAgroVista.htm" class="fira.controlador.CreQuitasFiraControlador">
+		 <property name="formView" value="fira/creQuitasAgroVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+    </bean> 
+	
+	<!-- Reporte de Quitas y Condonaciones-->
+	<bean name="/repQuitasCondVistaAgro.htm" class="fira.controlador.QuitasCondFiraRepControlador">
+		<property name="formView" value="fira/quitasCondFiraReporteVista" /> 
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+	</bean>		
+	 
+	<bean name="/reporteQuitasFiraCond.htm" class="fira.reporte.ReporteQuitasCondFiraControlador">
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporte" value="fira/CrequitasFiraRep.prpt" />
+		<property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+	</bean>	
+	
+	
+	<!-- ======================== PANTALLA DE LIMITE DE QUITAS  ============================== -->
+	
+	<!-- beans para Limites de  Quitas y Condonaciones-->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="fira.bean.CreLimiteQuitasFiraBean" />
+	</dwr:configuration>
+
+	<bean id="creLimiteQuitasFiraDAOImpl" class="fira.dao.CreLimiteQuitasFiraDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" /> 
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+		<bean class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="creLimiteQuitasFiraServicioImpl" class="fira.servicio.CreLimiteQuitasFiraServicio">
+		<dwr:remote javascript="creLimiteQuitasFiraServicio">
+		<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="creLimiteQuitasFiraDAO" ref="creLimiteQuitasFiraDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- limites quitas   -->
+    <bean name="/limitesQuitasAgro.htm" class="fira.controlador.LimiteQuitasAgroControlador">
+		<property name="formView" value="fira/limiteQuitasAgroVista" /> 
+	     <property name="successView" value="resultadoTransaccionVista" />
+    	<property name="creLimiteQuitasFiraServicio" ref="creLimiteQuitasFiraServicioImpl" />
+	</bean>	
+	
+	<bean name="/limQuitasGridDetallesAgro.htm"
+			class="fira.controlador.CreLimQuitasGridFiraControlador">
+		<property name="creLimiteQuitasFiraServicio" ref="creLimiteQuitasFiraServicioImpl" />
+	</bean>	
+
+	
+	<!-- ======================== FIN DE PANTALLA DE LIMITE DE QUITAS  ============================== -->
+	
+	<!-- ======================== INICIO QUITAS Y CONDONACIONES CONTINGENTE ============================== -->
+
+	<bean name="/creQuitasAgroContVista.htm" class="fira.controlador.CreQuitasFiraControlador">
+		 <property name="formView" value="fira/creQuitasContAgroVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+    </bean> 
+
+	<!-- ======================== FIN QUITAS Y CONDONACIONES CONTINGENTE ============================== -->
+
+	<!-- ======================== INICIO REPORTE DE QUITAS Y CONDONACIONES CONTINGENTE ============================== -->
+	
+	<bean name="/repQuitasCondContAgroVista.htm" class="fira.controlador.QuitasCondFiraRepControlador">
+		<property name="formView" value="fira/quitasCondContFiraReporteVista" /> 
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+    	<property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+	</bean>		
+	 
+	<bean name="/reporteQuitasCondContAgro.htm" class="fira.reporte.ReporteQuitasCondFiraControlador">
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporte" value="fira/CrequitasContFiraRep.prpt" />
+		<property name="creQuitasFiraServicio" ref="creQuitasFiraServicioImpl" />
+	</bean>	
+	
+	<!-- ======================== FIN REPORTE DE QUITAS Y CONDONACIONES CONTINGENTE ============================== -->
+	<!--========================= INICIO DEL SERVICIO DE SOLICITUD DE CREDITO FIRA =============================-->
+	
+	<bean id="solicitudCreditoFiraDAOImpl" class="fira.dao.SolicitudCreditoFiraDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="seguroVidaDAO" ref="seguroVidaDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>		
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="ministraCredAgroDAO" ref="ministraCredAgroDAOImpl" />
+	</bean>
+	
+	<bean id="solicitudCreditoFiraServicioImpl" class="fira.servicio.SolicitudCreditoFiraServicio">
+		<dwr:remote javascript="solicitudCreFiraServicio">
+ 		<dwr:include method="consulta" />
+ 		<dwr:include method="consultaCiclo" />
+		</dwr:remote>
+		<property name="solicitudCreditoFiraDAO" ref="solicitudCreditoFiraDAOImpl" />
+		<property name="opeEscalamientoInternoServicio" ref="opeEscalamientoInternoServicioImpl" />
+		<property name="esquemaautfirmaServicio" ref="esquemaautfirmaServicioImpl" /> 
+		<property name="seguroVidaDAO" ref="seguroVidaDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean id="RenovacionesCreFiraDAOImpl" class="fira.dao.RenovacionesCreFiraDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>		
+		</property>
+	</bean>
+	
+	<bean id="RenovacionesCreFiraServicioImpl" class="fira.servicio.RenovacionesCreFiraServicio">
+		<property name="renovacionesCreFiraDAO" ref="RenovacionesCreFiraDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	
+	
+	<!--============================= FLUJO INDIVIDUAL PARA RENOVACION DE CREDITOS =============================-->
+	<bean name="/flujoIndividualRenovacionFiraVista.htm" class="fira.controlador.FlujoIndividualRenovacionFiraControlador">
+   		<property name="formView" value="fira/flujoIndividualRenovacionFiraVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoFiraServicio" ref="solicitudCreditoFiraServicioImpl" /> 
+	</bean>
+	
+	 <bean name="/solicitudCreditoRenovacionFira.htm" class="fira.controlador.SolicitudCreditoRenovacionFiraControlador">
+  		<property name="formView" value="fira/solicitudCreditoRenovacionFiraVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoFiraServicio" ref="solicitudCreditoFiraServicioImpl" /> 
+	</bean>
+	<!-- ========================= fin de flujo individual para renovaciones de creditos ========================= -->
+	
+	<!-- Pantalla de Reporte de Renovaciones -->
+	
+	<bean name="/repRenovacionesFira.htm" class="fira.controlador.RepRenovacionesFiraVistaControlador" >
+		<property name="formView" value="fira/repRenovacionesFiraVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+																
+	<bean name="/RenovacionesCreRepFira.htm" class="fira.reporte.RenovacionesCreRepFiraControlador" >
+		<property name="nombreReporte" value="fira/RenovacionesCredito.prpt" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="RenovacionesCreFiraServicio" ref="RenovacionesCreFiraServicioImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+  		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+	<!-- Pantalla de Consolidación de Solicitudes de Crédito -->
+	<bean name="/solicitudCreditoConsolidacionAgro.htm" class="fira.controlador.SolicitudCreditoConsolidacionAgroControlador" >
+   		<property name="formView" value="fira/solicitudCreditoConsolidacionAgroVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />  
+	</bean>
+	
+	<!--============================= FLUJO INDIVIDUAL PARA CONSOLIDACION DE CREDITOS =============================-->
+
+	<bean name="/flujoIndividualConsolidacionAgro.htm" class="fira.controlador.FlujoIndividualConsolidacionControlador">
+  		<property name="formView" value="fira/flujoIndividualConsolidacionAgroVista" />
+  		<property name="successView" value="resultadoTransaccionVista"/>
+  		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" /> 
+	</bean>
+	<!-- ========================= FIN FLUJO INDIVIDUAL PARA CONSOLIDACION DE CREDITOS ========================= -->
+	
+	<!--============================= REPORTE PARA CONSOLIDACION DE CREDITOS =============================-->
+	<bean name="/repCreditoConsAgro.htm" class="fira.controlador.RepCreditosConsolidadosControlador">
+		<property name="formView" value="fira/reporteCreditosConsolidadosAgroVista" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+	<!-- Reporte -->
+	<bean name="/RepCreditoConsolidadoAgro.htm" class="fira.reporte.CreditosConsolidadosRepControlador">
+		<property name="nomReporte" value="fira/CredConsolidadosAgro.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="creditosAgroServicio" ref="creditosAgroServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>
+	
+	<!--============================= FIN REPORTE PARA CONSOLIDACION DE CREDITOS =============================-->
+
+
+	<!-- ==========================   TIPOS DE LINEAS DE CREDITO==================================== -->
+	<!-- Registro Lineas Credito Agro Controlador-->
+	<bean name="/lineasCreditoAgro.htm" class="fira.controlador.LineasCreditoAgroControlador">
+		<property name="formView" value="fira/lineasCreditoAgroCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineasCreditoServicio" ref="lineasCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Autorizacion Lineas Credito Agro Controlador-->
+	<bean name="/autorizaLineasCreditoAgro.htm" class="fira.controlador.LineasCreditoAgroControlador">
+		<property name="formView" value="fira/lineasCreditoAgroAutorizaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineasCreditoServicio" ref="lineasCreditoServicioImpl" />
+	</bean>
+	
+		<!-- Condiciones de Lineas Credito Agro Controlador-->
+	<bean name="/condicionesLineasCreditoAgro.htm" class="fira.controlador.LineasCreditoAgroControlador">
+		<property name="formView" value="fira/condicionesLineasAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineasCreditoServicio" ref="lineasCreditoServicioImpl" />
+	</bean>
+
+
+	<!--============================= REPORTE LINEAS DE CREDITO AGRO =============================-->
+
+			<!-- Pantalla de Reportes de Líneas de Créditos Agro-->
+	<bean name="/reporteLineasCreditoAgro.htm" class="fira.controlador.LineasCreditoAgroRepControlador">
+		<property name="formView" value="fira/lineasCreditoAgroRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="lineasCreditoServicio" ref="lineasCreditoServicioImpl" />
+	</bean>
+	
+	<!-- Controlador del Reporte de Líneas de Créditos Agro Frormato PDF-->
+	<bean name="/lineasCreditoRepAgro.htm" class="fira.reporte.LineasCreditoAgroReporteControlador">
+		<property name="nomReporte" value="fira/LineasCreditoAgro.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="lineasCreditoServicio" ref="lineasCreditoServicioImpl" />
+	</bean>
+		<!--============================= FIN REPORTE LINEAS DE CREDITO AGRO =============================-->
+	
+	
+	<!-- Tipos Lineas Agro Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="fira.bean.TiposLineasAgroBean" />
+	</dwr:configuration>
+
+	<!-- Tipos Lineas Agro DAO -->
+	<bean id="tiposLineasAgroDAOImpl" class="fira.dao.TiposLineasAgroDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Tipos Lineas Agro Servicio -->
+	<bean id="tiposLineasAgroServicioImpl" class="fira.servicio.TiposLineasAgroServicio">
+		<dwr:remote javascript="tiposLineasAgroServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="tiposLineasAgroDAO" ref="tiposLineasAgroDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Controlador pantalla -->
+	<bean name="/tiposLineaAgro.htm" class="fira.controlador.TiposLineaAgroControlador">
+		<property name="formView" value="fira/tiposLineasAgroVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposLineasAgroServicio" ref="tiposLineasAgroServicioImpl" />
+	</bean> 
+
+	<!-- Controlador Lista -->
+	<bean name="/listaTiposLineaAgro.htm" class="fira.controlador.TiposLineaAgroListaControlador">
+		<property name="tiposLineasAgroServicio" ref="tiposLineasAgroServicioImpl" />
+	</bean>
+</beans>

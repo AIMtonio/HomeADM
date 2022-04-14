@@ -1,0 +1,1797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+	
+<!-- =========================== DEFINICION DE BEANS PARA REGULATORIOS =============================--> 
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioInsBean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioInsDAOImpl" class="regulatorios.dao.RegulatorioInsDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  <property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+	  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioInsServicioImpl" class="regulatorios.servicio.RegulatorioInsServicio">
+		<dwr:remote javascript="regulatorioInsServicio">
+			<dwr:include method="consulta" /> 
+			<dwr:include method="lista" />
+		</dwr:remote>		
+		<property name="regulatorioInsDAO" ref="regulatorioInsDAOImpl"/>	
+	</bean>
+
+
+
+
+
+
+	<!-- *******************************REGULATORIO D-842*********************************** -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioD0842Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioD0842DAOImpl" class="regulatorios.dao.RegulatorioD0842DAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  <property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+	  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioD0842ServicioImpl" class="regulatorios.servicio.RegulatorioD0842Servicio">
+		<dwr:remote javascript="regulatorioD0842Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioD0842DAO" ref="regulatorioD0842DAOImpl"/>	
+	</bean>
+		
+	<bean name="/regulatorioD084203Vista.htm" class="regulatorios.controlador.RegulatorioD0842003Controlador">
+		<property name="formView" value="regulatorios/regulatorioD0842003Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+	</bean>	
+	
+	<bean name="/regulatorioD084206Vista.htm" class="regulatorios.controlador.RegulatorioD0842006Controlador">
+		<property name="formView" value="regulatorios/regulatorioD0842006Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+	</bean>	
+	
+	<bean name="/regulatorioD0842Vista.htm" class="regulatorios.controlador.RegulatorioD0842Controlador">
+		<property name="formView" value="regulatorios/regulatorioD0842Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+	</bean>	
+
+	<bean name="/reporteRegulatorioD0842.htm" class="regulatorios.reporte.RegulatorioD0842ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+	</bean> 
+	
+	<bean name="/regulatorioD0842GridVista.htm" class="regulatorios.controlador.RegulatorioD0842GridControlador">
+   		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+   	</bean> 
+   	
+   	<bean name="/registrosReg0842Lista.htm" 
+			class="regulatorios.controlador.RegistrosReg0842ListaControlador">
+		<property name="regulatorioD0842Servicio" ref="regulatorioD0842ServicioImpl" />
+	</bean>
+	
+   	<!-- Beans de Regulatorio I0391 -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioI0391Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioI0391DAOImpl" class="regulatorios.dao.RegulatorioI0391DAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="regulatorioI0391ServicioImpl" class="regulatorios.servicio.RegulatorioI0391Servicio">
+		<dwr:remote javascript="regulatorioI0391Servicio">
+		</dwr:remote>
+		<property name="regulatorioI0391DAO" ref="regulatorioI0391DAOImpl"/>	
+	</bean>
+	
+	<!-- Controlador pantalla -->
+	<bean name="/regulatorioI0391.htm" class="regulatorios.controlador.RegulatorioI0391Controlador">
+	      <property name="formView" value="regulatorios/regulatorioI0391Vista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="regulatorioI0391Servicio" ref="regulatorioI0391ServicioImpl" />
+	</bean>
+	
+	<bean name="/regulatorioI0391GridVista.htm" class="regulatorios.controlador.RegulatorioI0391GridControlador">
+   		<property name="regulatorioI0391Servicio" ref="regulatorioI0391ServicioImpl" />
+   	</bean> 
+   	
+   		<!-- Controlador Reporte I0391-->
+   	<bean name="/reporteRegulatorioI0391.htm" class="regulatorios.reporte.RegulatorioI0391ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioI0391Servicio" ref="regulatorioI0391ServicioImpl" />
+	</bean> 
+   	
+   	
+   	<!-- Reporte Regulatorio de Captacion A 811 -->
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="regulatorios.bean.RepRegulatorioCaptacion811Bean" />
+	</dwr:configuration>
+	
+	<bean id="repRegulatorioCaptacionDAOImpl" class="regulatorios.dao.RepRegulatorioCaptacionDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="repRegulatorioCaptacionServicioImpl" class="regulatorios.servicio.RepRegulatorioCaptacionServicio">
+	      <dwr:remote javascript="repRegulatorioCaptacionServicio" >	
+	      </dwr:remote> 
+	      <property name="repRegulatorioCaptacionDAO" ref="repRegulatorioCaptacionDAOImpl"/>
+	</bean> 
+	
+	<bean name="/regulatorioCap811Rep.htm" class="regulatorios.reporte.RepRegulatorioCaptacion811Controlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repRegulatorioCaptacionServicio" ref="repRegulatorioCaptacionServicioImpl" />
+	</bean>
+	
+	<bean name="/regulatorioCap811.htm" class="cuentas.controlador.CuentasAhoControlador">
+		<property name="formView" value="regulatorios/repRegulatorioCaptacion811" />
+	   	<property name="successView" value="resultadoTransaccionVista"/>
+	   	<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl" /> 
+	</bean>
+	 
+	 <!-- Reporte Regulatorio de Captacion B 0821 -->
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="regulatorios.bean.RepCaptacionPorLocalidad821Bean" />
+	</dwr:configuration>
+
+	<bean name="/regulatorioCapt821Rep.htm" class="regulatorios.reporte.RepRegulatorioPorLocalidad821Controlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repRegulatorioCaptacionServicio" ref="repRegulatorioCaptacionServicioImpl" />
+	</bean>
+	
+	<bean name="/regulatorioCapt821.htm" class="regulatorios.controlador.RegulatorioPorLocalidad821Controlador">
+		<property name="formView" value="regulatorios/repRegulatorioCaptPorLocalidad821" />
+	   	<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>	 
+	
+	<!-- ============= DEFINICION DE CONTROLADORES DE REPORTE REGULATORIO R08 A 0815================--> 
+	<bean name="/regulatorioCap815.htm"
+		  class="regulatorios.controlador.Regulatorio0815VistaControlador">
+		<property name="formView" value="regulatorios/regulatorio0815Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+		
+	<bean name="/reporteRegulatorioCap815.htm" class="regulatorios.reporte.RepRegulatorio0815Controlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="repRegulatorioCaptacionServicio" ref="repRegulatorioCaptacionServicioImpl" />
+	</bean> 
+<!-- ===================== Fin de reporte regulatorio R08 A 0815 ============================--> 
+
+
+<!-- ===================== Fin de reporte regulatorio D0841 ============================--> 
+
+	<!-- Definicion de Controladores de Reporte Regulatorio Catalogo minimo -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RepRegCatalogoMinimoBean" />
+	</dwr:configuration>	  
+	
+	<bean id="repRegCatalogoMinimoDAOImpl" class="regulatorios.dao.RepRegCatalogoMinimoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="repRegCatalogoMinimoServicioImpl" class="regulatorios.servicio.RepRegCatalogoMinimoServicio">
+		<dwr:remote javascript="repRegCatalogoMinimoServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="repRegCatalogoMinimoDAO" ref="repRegCatalogoMinimoDAOImpl"/>	
+	</bean>
+	
+	<!-- Definicion de Controladores de Reporte Regulatorio Catalogo minimo -->
+	<bean name="/repRegulaCatMinimo.htm" class="regulatorios.controlador.RepRegCatalogoMinimoControlador">
+	      <property name="formView" value="regulatorios/repRegCatalogoMinimo" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	</bean>		
+	
+	<bean name="/reporteRegulaCatMinimo.htm" class="regulatorios.reporte.ReporteRegCatalogoMinimoControlador">
+		<property name="repRegCatalogoMinimoServicio" ref="repRegCatalogoMinimoServicioImpl"/>
+	</bean>
+	<!-- fin Definicion de Controladores de Reporte Regulatorio Catalogo minimo-->
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO A-2011 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA2011Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioA2011DAOImpl" class="regulatorios.dao.RegulatorioA2011DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA2011ServicioImpl" class="regulatorios.servicio.RegulatorioA2011Servicio">
+		<dwr:remote javascript="regulatorioA2011Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA2011DAO" ref="regulatorioA2011DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA2011Vista.htm" class="regulatorios.controlador.RegulatorioA2011VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA2011Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<bean name="/reporteRegulatorioA2011.htm" class="regulatorios.reporte.RegulatorioA2011ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA2011Servicio" ref="regulatorioA2011ServicioImpl" />
+	</bean> 
+	
+		<!-- =====================	 	Fin de regulatorio 	A-2011	============================-->
+		
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO B-2011 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB2021Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioB2021DAOImpl" class="regulatorios.dao.RegulatorioB2021DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB2021ServicioImpl" class="regulatorios.servicio.RegulatorioB2021Servicio">
+		<dwr:remote javascript="regulatorioB2021Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB2021DAO" ref="regulatorioB2021DAOImpl"/>	
+	</bean>
+	<bean name="/reporteRegulatorioB2021.htm" class="regulatorios.reporte.RegulatorioB2021ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB2021Servicio" ref="regulatorioB2021ServicioImpl" />
+	</bean>
+	<bean name="/regulatorioB2021Vista.htm" class="regulatorios.controlador.RegulatorioB2021VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB2021Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 
+	<!-- =====================	 	Fin de regulatorio 	B-2021	============================-->
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO A-2111 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA2111Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioA2111DAOImpl" class="regulatorios.dao.RegulatorioA2111DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA2111ServicioImpl" class="regulatorios.servicio.RegulatorioA2111Servicio">
+		<dwr:remote javascript="regulatorioA2111Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA2111DAO" ref="regulatorioA2111DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA2111Vista.htm" class="regulatorios.controlador.RegulatorioA2111VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA2111Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioA2111.htm" class="regulatorios.reporte.RegulatorioA2111ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA2111Servicio" ref="regulatorioA2111ServicioImpl" />
+	</bean> 
+	
+	<!-- =====================	 	Fin de regulatorio 	A-2111	============================-->	
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO A-3011 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA3011Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioA3011DAOImpl" class="regulatorios.dao.RegulatorioA3011DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA3011ServicioImpl" class="regulatorios.servicio.RegulatorioA3011Servicio">
+		<dwr:remote javascript="regulatorioA3011Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA3011DAO" ref="regulatorioA3011DAOImpl"/>	
+	</bean>
+	
+	<bean name="/reporteRegulatorioA3011.htm" class="regulatorios.reporte.RegulatorioA3011ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA3011Servicio" ref="regulatorioA3011ServicioImpl" />
+	</bean> 
+	
+	<bean name="/regulatorioA3011Vista.htm" class="regulatorios.controlador.RegulatorioA3011VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA3011Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+	
+	<!-- =========================== DEFINICION DE BEANS PARA ARCHIVO CATALOGO CONTABLE =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ContaElecCatalogoContaBean" />
+	</dwr:configuration>	  
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.CePolizasBean" />
+	</dwr:configuration>
+	
+	<bean id="contaElecCatalogoContaDAOImpl" class="regulatorios.dao.ContaElecCatalogoContaDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="contaElecCatalogoContaServicioImpl" class="regulatorios.servicio.ContaElecCatalogoContaServicio">
+		<dwr:remote javascript="contaElecCatalogoContaServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>	
+		<property name="contaElecCatalogoContaDAO" ref="contaElecCatalogoContaDAOImpl"/>	
+	</bean>
+	
+	<bean name="/contaElecCatContaVista.htm" class="regulatorios.controlador.ContaElecCatalogoContaControlador">
+		<property name="formView" value="regulatorios/contaElecCatContaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+  	
+	<bean name="/contaElecBalanzaCompVista.htm" class="regulatorios.controlador.ContaElecCatalogoContaControlador">
+		<property name="formView" value="regulatorios/contaElecBalanzaCompVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+ 
+	<bean name="/contaElecPolizaVista.htm" class="regulatorios.controlador.ContaElecCatalogoContaControlador">
+		<property name="formView" value="regulatorios/contaElecPolizaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+	
+ 	<bean name="/generarXmlContaElectro.htm" class="regulatorios.controlador.ConElectronicaXMLControlador">		
+ 		<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+ 		<property name="saldosContablesServicio" ref="saldosContablesServicioImpl" />
+  		<property name="detallePolizaServicio" ref="detallePolizaServicioImpl" /> 
+  		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean> 
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO A-2112 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA2112Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioA2112DAOImpl" class="regulatorios.dao.RegulatorioA2112DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA2112ServicioImpl" class="regulatorios.servicio.RegulatorioA2112Servicio">
+		<dwr:remote javascript="regulatorioA2112Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA2112DAO" ref="regulatorioA2112DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA2112Vista.htm" class="regulatorios.controlador.RegulatorioA2112VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA2112Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioA2112.htm" class="regulatorios.reporte.RegulatorioA2112ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA2112Servicio" ref="regulatorioA2112ServicioImpl" />
+	</bean> 
+	
+	<!-- ==========================  REPORTE REGULATORIO VARIACION DE CARTERA ============================ -->
+    <!-- Bean Reporte Regulatorio  Variacion Cartera -->
+    <dwr:configuration>
+        <dwr:convert class="regulatorios.bean.VariacionCarteraBean" type="bean" />
+    </dwr:configuration>
+
+    <!-- DAO Reporte Regulatorio  Variacion Cartera -->
+    <bean id="variacionCarteraDAOImpl" class="regulatorios.dao.VariacionCarteraDAO" >
+        <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+        <property name="transaccionDAO" ref="transaccionDAOImpl" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+        <property name="transactionTemplate" >
+            <bean class="org.springframework.transaction.support.TransactionTemplate" >
+                <property name="transactionManager" ref="transactionManager" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Servicio Reporte Regulatorio  Variacion Cartera -->
+    <bean id="variacionCarteraServicioImpl" class="regulatorios.servicio.VariacionCarteraServicio" >
+        <dwr:remote javascript="variacionCarteraServicio" >
+            <dwr:include method="consulta" />
+        </dwr:remote>
+        <property name="variacionCarteraDAO" ref="variacionCarteraDAOImpl" />
+    </bean>
+
+    <!-- Pantalla de Reporte Regulatorio  Variacion Cartera -->
+    <bean  name="/variacionCartera.htm" class="regulatorios.controlador.VariacionCarteraControlador" >
+        <property name="formView" value="regulatorios/variacionCarteraRepVista" />
+        <property name="successView" value="resultadoTransaccionVista" />
+    </bean>
+
+    <!-- Reporte Regulatorio  Variacion Cartera -->
+    <bean name="/reporteVariacionCartera.htm" class="regulatorios.reporte.VariacionCarteraRepControlador" >
+        <property name="variacionCarteraServicio" ref="variacionCarteraServicioImpl" />
+        <property name="successView" value="resultadoTransaccionReporteVista" />
+    </bean>
+    
+    <!-- Reporte Regulatorio  Est.Prev. A-419 -->
+	
+	
+	 <dwr:configuration> 
+		<dwr:convert type="bean" class="regulatorios.bean.EstimacionPreventivaA419Bean" />
+	</dwr:configuration>
+	
+	<bean id="estimacionPreventivaA419DAOImpl" class="regulatorios.dao.EstimacionPreventivaA419DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="estimacionPreventivaA419ServicioImpl" class="regulatorios.servicio.EstimacionPreventivaA419Servicio">
+		<dwr:remote javascript="estimacionPreventivaA419Servicio">
+			<dwr:include method="consulta" />
+ 			<dwr:include method="consultaEstimacion" />
+ 			<dwr:include method="consultaReservas" />
+		</dwr:remote>		
+		<property name="estimacionPreventivaA419DAO" ref="estimacionPreventivaA419DAOImpl"/>	
+	</bean>
+	
+	<!-- Pantalla de Reporte Regulatorio  Est.Prev. A-419 -->
+	<bean name="/estimacionPrevA419.htm" class="regulatorios.controlador.RegulatorioEstPrevA419Controlador">
+		<property name="formView" value="regulatorios/estimacionPreventivaRepVista" />   
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>
+	
+	<bean name="/repEstimacionPrevA419.htm" class="regulatorios.reporte.ReporteEstPrevA419Controlador">
+		<property name="estimacionPreventivaA419Servicio" ref="estimacionPreventivaA419ServicioImpl"/>
+	</bean>
+	<!-- Reporte Regulatorio  Est.Prev. I-453 -->
+		<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioI453Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioI453DAOImpl" class="regulatorios.dao.RegulatorioI453DAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioI453ServicioImpl" class="regulatorios.servicio.RegulatorioI453Servicio">
+		<dwr:remote javascript="regulatorioI453Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioI453DAO" ref="regulatorioI453DAOImpl"/>	
+	</bean>
+		
+	<bean name="/regulatorioI453Vista.htm" class="regulatorios.controlador.RegulatorioI453VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioI453Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+
+	<bean name="/reporteRegulatorioI453.htm" class="regulatorios.reporte.RegulatorioI453ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioI453Servicio" ref="regulatorioI453ServicioImpl" />
+	</bean> 
+    
+	<!-- Bean de reporte Cartera por tipo A0411--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="regulatorios.bean.CarteraPorTipoA0411Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioA0411DAOImpl" class="regulatorios.dao.RegulatorioA0411DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="regulatorioA0411ServicioImpl" class="regulatorios.servicio.RegulatorioA0411Servicio">
+		<dwr:remote javascript="regulatorioA0411Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA0411DAO" ref="regulatorioA0411DAOImpl"/>	
+	</bean>
+	
+	<!-- pantalla  de reporte de cartera por tipo de credito A0411-->
+	<bean name="/CarteraTipoCredA0411.htm" class="regulatorios.controlador.CarteraporTipoA0411Controlador">
+		<property name="formView" value="regulatorios/carteraPorTiposA0411Vista" />   
+	    <property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>	
+	
+	<bean name="/RepCarteraporTipoCredA0411.htm" class="regulatorios.reporte.CarteraporTipoA0411RepControlador">
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA0411Servicio" ref="regulatorioA0411ServicioImpl" />
+	</bean>
+	
+	<!-- Reporte Regulatorio de Estimaciones B0417-->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="regulatorios.bean.CalificacionYEstimacionB0417Bean" />
+	</dwr:configuration>
+	
+	<bean id="calificacionYEstimacionB0417DAOImpl" class="regulatorios.dao.CalificacionYEstimacionB0417DAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="calificacionYEstimacionB0417ServicioImpl" class="regulatorios.servicio.CalificacionYEstimacionB0417Servicio">
+		<property name="calificacionYEstimacionB0417DAO" ref="calificacionYEstimacionB0417DAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/> 	
+	</bean>
+	
+	
+	<!-- Pantalla de Reporte Regulatorio de Estimaciones B0417 -->
+	<bean name="/CalificacionYEstimacionB0417.htm" class="regulatorios.controlador.CalifYEstimacionesB0417Controlador">
+		<property name="formView" value="regulatorios/calificacionYEstimacionesB0417Vista" />   
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>	
+	
+	<bean name="/RepEstimacionesB0417.htm" class="regulatorios.reporte.CalifYEstimacionesB0417RepControlador">
+		<property name="calificacionYEstimacionB0417Servicio" ref="calificacionYEstimacionB0417ServicioImpl" />
+	</bean>
+	<!-- Reporte Regulatorio de Estimaciones C0451-->
+	
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="credito.bean.DesagregadoCarteraC0451Bean" />
+	</dwr:configuration>
+	
+	<bean id="desagregadoCarteraC0451DAOImpl" class="regulatorios.dao.DesagregadoCarteraC0451DAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="desagregadoCarteraC0451ServicioImpl" class="regulatorios.servicio.DesagregadoCarteraC0451Servicio">
+		<property name="desagregadoCarteraC0451DAO" ref="desagregadoCarteraC0451DAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/> 	
+	</bean>
+
+	
+	<!-- Pantalla de Reporte Regulatorio Desagregado C0451 -->
+	<bean name="/DesagregadoC0451.htm" class="regulatorios.controlador.DesagregadoC0451Controlador">
+		<property name="formView" value="regulatorios/desagregadoCarteraC0451Vista" />   
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+	</bean>	
+	
+	<bean name="/RepDesagregadoC0451.htm" class="regulatorios.reporte.DesagregadoC0451RepControlador">
+		<property name="desagregadoCarteraC0451Servicio" ref="desagregadoCarteraC0451ServicioImpl" />
+	</bean>
+	
+		
+	
+	<!-- *******************************REGULATORIO A-1713*********************************** -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1713Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioA1713DAOImpl" class="regulatorios.dao.RegulatorioA1713DAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1713ServicioImpl" class="regulatorios.servicio.RegulatorioA1713Servicio">
+		<dwr:remote javascript="regulatorioA1713Servicio">
+			<dwr:include method="consulta" /> 
+			<dwr:include method="lista" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1713DAO" ref="regulatorioA1713DAOImpl"/>	
+	</bean>
+		
+	<bean name="/regulatorioA1713Vista.htm" class="regulatorios.controlador.RegulatorioA1713Controlador">
+		<property name="formView" value="regulatorios/regulatorioA1713Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+	</bean>	
+
+	<bean name="/reporteRegulatorioA1713.htm" class="regulatorios.reporte.RegulatorioA1713ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+	</bean>
+	<bean name="/regulatorioA1713GridVista.htm" class="regulatorios.controlador.RegulatorioA1713GridControlador">
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+   	</bean> 
+	
+	<bean name="/regulatorioA1713SofipoVista.htm" class="regulatorios.controlador.RegulatorioA1713Controlador">
+		<property name="formView" value="regulatorios/regulatorioA1713VistaSofipo" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+	</bean>	
+	
+	<bean name="/regulatorioA1713SocapVista.htm" class="regulatorios.controlador.RegulatorioA1713Controlador">
+		<property name="formView" value="regulatorios/regulatorioA1713VistaSocap" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+	</bean>	
+	
+
+	<bean name="/registroA1713Lista.htm" 
+			class="regulatorios.controlador.RegistroA1713ListaControlador">
+		<property name="regulatorioA1713Servicio" ref="regulatorioA1713ServicioImpl" />
+	</bean>
+	
+	<!-- =========================== Acreditados Relacionado=============================-->
+	
+	<!--  Bean pantalla Acreditado Relacionado -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.AcreditadoRelBean" />
+	</dwr:configuration>
+	
+	<!--  Bean para las claves de relaciones -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.ClaveRelacionCNVBBean" />
+	</dwr:configuration>
+	 
+	<!-- DAO pantalla Acreditado Relacionado -->
+	<bean id="acreditadoRelDAOImpl" class="regulatorios.dao.AcreditadoRelDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Servicio pantalla acreditado relacionado -->	
+	<bean id="acreditadoRelServicioImpl" class="regulatorios.servicio.AcreditadoRelServicio">
+		<dwr:remote javascript="acreditadoRelServicio">
+			<dwr:include method="listaComboClaves" />
+		</dwr:remote>
+		<property name="acreditadoRelDAO" ref="acreditadoRelDAOImpl" /> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador pantalla acreditado relacionado  -->
+	<bean name="/acreditadoRelacionado.htm" class="regulatorios.controlador.AcreditadoRelControlador">
+		<property name="formView" value="regulatorios/acreditadoRelVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="acreditadoRelServicio" ref="acreditadoRelServicioImpl" /> 
+	</bean>		
+	
+	<!-- Controlador grid acreditados relacionados  -->
+	<bean name="/acreditadoRelGridVista.htm" class="regulatorios.controlador.AcreditadoRelGridControlador" >
+		<property name="acreditadoRelServicio" ref="acreditadoRelServicioImpl" /> 
+	</bean>
+	
+	<!-- ===========================                        =============================--> 
+
+	
+<!-- =========================== DEFINICION DE BEANS PARA REGULATORIOS SERIE R26 COMISIONISTAS =============================--> 
+	<!-- ====== REGULATORIO A2610 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA2610Bean" />
+	</dwr:configuration>
+	
+
+	<bean id="regulatorioA2610DAOImpl" class="regulatorios.dao.RegulatorioA2610DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA2610ServicioImpl" class="regulatorios.servicio.RegulatorioA2610Servicio">
+		<dwr:remote javascript="regulatorioA2610Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA2610DAO" ref="regulatorioA2610DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA2610Vista.htm" class="regulatorios.controlador.RegulatorioA2610VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA2610Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioA2610.htm" class="regulatorios.reporte.RegulatorioA2610ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA2610Servicio" ref="regulatorioA2610ServicioImpl" />
+	</bean> 
+	
+	<!-- ====== REGULATORIO A2611 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA2611Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioA2611DAOImpl" class="regulatorios.dao.RegulatorioA2611DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA2611ServicioImpl" class="regulatorios.servicio.RegulatorioA2611Servicio">
+		<dwr:remote javascript="regulatorioA2611Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA2611DAO" ref="regulatorioA2611DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA2611Vista.htm" class="regulatorios.controlador.RegulatorioA2611VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA2611Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioA2611.htm" class="regulatorios.reporte.RegulatorioA2611ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA2611Servicio" ref="regulatorioA2611ServicioImpl" />
+	</bean> 
+	
+	
+		<!-- ====== REGULATORIO B2612 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB2612Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioB2612DAOImpl" class="regulatorios.dao.RegulatorioB2612DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB2612ServicioImpl" class="regulatorios.servicio.RegulatorioB2612Servicio">
+		<dwr:remote javascript="regulatorioB2612Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB2612DAO" ref="regulatorioB2612DAOImpl"/>	
+	</bean>
+	
+	
+	<bean name="/regulatorioB2612Vista.htm" class="regulatorios.controlador.RegulatorioB2612VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB2612Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioB2612.htm" class="regulatorios.reporte.RegulatorioB2612ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB2612Servicio" ref="regulatorioB2612ServicioImpl" />
+	</bean> 
+	
+	
+	
+	<!-- ====== REGULATORIO C2613 =============================================== -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioC2613Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioC2613DAOImpl" class="regulatorios.dao.RegulatorioC2613DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioC2613ServicioImpl" class="regulatorios.servicio.RegulatorioC2613Servicio">
+		<dwr:remote javascript="regulatorioC2613Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioC2613DAO" ref="regulatorioC2613DAOImpl"/>	
+	</bean>
+	
+	
+	<bean name="/regulatorioC2613Vista.htm" class="regulatorios.controlador.RegulatorioC2613VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioC2613Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioC2613.htm" class="regulatorios.reporte.RegulatorioC2613ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioC2613Servicio" ref="regulatorioC2613ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIOS SERIE R15 ELECTRONICOS =============================--> 
+	<!-- ====== REGULATORIO B1522 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB1522Bean" />
+	</dwr:configuration>
+	
+
+	<bean id="regulatorioB1522DAOImpl" class="regulatorios.dao.RegulatorioB1522DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1522ServicioImpl" class="regulatorios.servicio.RegulatorioB1522Servicio">
+		<dwr:remote javascript="regulatorioB1522Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1522DAO" ref="regulatorioB1522DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1522Vista.htm" class="regulatorios.controlador.RegulatorioB1522VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1522Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioB1522.htm" class="regulatorios.reporte.RegulatorioB1522ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1522Servicio" ref="regulatorioB1522ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- ====== REGULATORIO B1523 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB1523Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioB1523DAOImpl" class="regulatorios.dao.RegulatorioB1523DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1523ServicioImpl" class="regulatorios.servicio.RegulatorioB1523Servicio">
+		<dwr:remote javascript="regulatorioB1523Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1523DAO" ref="regulatorioB1523DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1523Vista.htm" class="regulatorios.controlador.RegulatorioB1523VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1523Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioB1523.htm" class="regulatorios.reporte.RegulatorioB1523ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1523Servicio" ref="regulatorioB1523ServicioImpl" />
+	</bean> 
+	
+	<!-- ====== REGULATORIO B1524 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB1524Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioB1524DAOImpl" class="regulatorios.dao.RegulatorioB1524DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1524ServicioImpl" class="regulatorios.servicio.RegulatorioB1524Servicio">
+		<dwr:remote javascript="regulatorioB1524Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1524DAO" ref="regulatorioB1524DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1524Vista.htm" class="regulatorios.controlador.RegulatorioB1524VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1524Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioB1524.htm" class="regulatorios.reporte.RegulatorioB1524ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1524Servicio" ref="regulatorioB1524ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- ====== REGULATORIO D0841 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.DesagreCaptaD0841Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioD0841DAOImpl" class="regulatorios.dao.RegulatorioD0841DAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  <property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+	  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioD0841ServicioImpl" class="regulatorios.servicio.RegulatorioD0841Servicio">
+		<dwr:remote javascript="regulatorioD0841Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioD841DAO" ref="regulatorioD0841DAOImpl"/>	
+	</bean>
+		
+	
+	<!-- ============= DEFINICION DE CONTROLADORES DE REPORTE REGULATORIO D0841================--> 
+	<bean name="/desagregadoCaptacionD0841.htm" class="regulatorios.controlador.DesagreCapD0841VistaControlador">
+		<property name="formView" value="regulatorios/desagregadoCaptacionD0841Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+		
+	<bean name="/repDesagregadoCaptacionD0841.htm" class="regulatorios.reporte.RepDesagreCapD0841Controlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioD841Servicio" ref="regulatorioD0841ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- Beans Para consulta de Menús de Regulatorios -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.OpcionesMenuRegBean" />
+	</dwr:configuration>	  
+	
+		
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO B2422 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB2422Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioB2422DAOImpl" class="regulatorios.dao.RegulatorioB2422DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB2422ServicioImpl" class="regulatorios.servicio.RegulatorioB2422Servicio">
+		<dwr:remote javascript="regulatorioB2422Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB2422DAO" ref="regulatorioB2422DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB2422Vista.htm" class="regulatorios.controlador.RegulatorioB2422VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB2422Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioB2422.htm" class="regulatorios.reporte.RegulatorioB2422ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB2422Servicio" ref="regulatorioB2422ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO D2441 =============================--> 
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioD2441Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioD2441DAOImpl" class="regulatorios.dao.RegulatorioD2441DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioD2441ServicioImpl" class="regulatorios.servicio.RegulatorioD2441Servicio">
+		<dwr:remote javascript="regulatorioD2441Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioD2441DAO" ref="regulatorioD2441DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioD2441Vista.htm" class="regulatorios.controlador.RegulatorioD2441VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioD2441Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioD2441.htm" class="regulatorios.reporte.RegulatorioD2441ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioD2441Servicio" ref="regulatorioD2441ServicioImpl" />
+	</bean> 
+	 
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO D2442 =============================--> 
+	 <dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioD2442Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioD2442DAOImpl" class="regulatorios.dao.RegulatorioD2442DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioD2442ServicioImpl" class="regulatorios.servicio.RegulatorioD2442Servicio">
+		<dwr:remote javascript="regulatorioD2442Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioD2442DAO" ref="regulatorioD2442DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioD2442Vista.htm" class="regulatorios.controlador.RegulatorioD2442VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioD2442Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioD2442.htm" class="regulatorios.reporte.RegulatorioD2442ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioD2442Servicio" ref="regulatorioD2442ServicioImpl" />
+	</bean> 
+	 
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO D2443 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioD2443Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioD2443DAOImpl" class="regulatorios.dao.RegulatorioD2443DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioD2443ServicioImpl" class="regulatorios.servicio.RegulatorioD2443Servicio">
+		<dwr:remote javascript="regulatorioD2443Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioD2443DAO" ref="regulatorioD2443DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioD2443Vista.htm" class="regulatorios.controlador.RegulatorioD2443VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioD2443Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioD2443.htm" class="regulatorios.reporte.RegulatorioD2443ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioD2443Servicio" ref="regulatorioD2443ServicioImpl" />
+	</bean> 
+
+	<bean id="opcionesMenuRegDAOImpl" class="regulatorios.dao.OpcionesMenuRegDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="opcionesMenuRegServicioImpl" class="regulatorios.servicio.OpcionesMenuRegServicio">
+		<dwr:remote javascript="opcionesMenuRegServicio">
+		<dwr:include method="lista" />
+		<dwr:include method="listaCombo" />
+		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="opcionesMenuRegDAO" ref="opcionesMenuRegDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<bean name="/opcionesMenuRegLista.htm" 
+			class="regulatorios.controlador.OpcionesMenuRegListaControlador">
+		<property name="opcionesMenuRegServicio" ref="opcionesMenuRegServicioImpl" />
+	</bean>
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO B2421 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB2421Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioB2421DAOImpl" class="regulatorios.dao.RegulatorioB2421DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB2421ServicioImpl" class="regulatorios.servicio.RegulatorioB2421Servicio">
+		<dwr:remote javascript="regulatorioB2421Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB2421DAO" ref="regulatorioB2421DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB2421Vista.htm" class="regulatorios.controlador.RegulatorioB2421VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB2421Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioB2421.htm" class="regulatorios.reporte.RegulatorioB2421ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB2421Servicio" ref="regulatorioB2421ServicioImpl" />
+	</bean> 
+	
+	<!-- ====== REGULATORIO CARTERA SOFIPO =============================================== -->
+	
+	
+	<!-- ====== REGULATORIO C0451 =============================================== -->
+	
+	<bean name="/regulatorioC0451Vista.htm" class="regulatorios.controlador.RegulatorioC0452VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioC0451Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioC0451.htm" class="regulatorios.reporte.RegulatorioC0451ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="desagregadoCarteraC0451Servicio" ref="desagregadoCarteraC0451ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- ====== REGULATORIO C0452 =============================================== -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioC0452Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioC0452DAOImpl" class="regulatorios.dao.RegulatorioC0452DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioC0452ServicioImpl" class="regulatorios.servicio.RegulatorioC0452Servicio">
+		<dwr:remote javascript="regulatorioC0452Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioC0452DAO" ref="regulatorioC0452DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioC0452Vista.htm" class="regulatorios.controlador.RegulatorioC0452VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioC452VistaSofipo" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioC0452.htm" class="regulatorios.reporte.RegulatorioC0452ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioC0452Servicio" ref="regulatorioC0452ServicioImpl" />
+	</bean> 
+	<!-- ====== REGULATORIO C0452 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioC0453Bean" />
+	</dwr:configuration>
+	
+	<bean id="regulatorioC0453DAOImpl" class="regulatorios.dao.RegulatorioC0453DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioC0453ServicioImpl" class="regulatorios.servicio.RegulatorioC0453Servicio">
+		<dwr:remote javascript="regulatorioC0453Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioC0453DAO" ref="regulatorioC0453DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioC0453Vista.htm" class="regulatorios.controlador.RegulatorioC0453VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioC453VistaSofipo" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioC0453.htm" class="regulatorios.reporte.RegulatorioC0453ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioC0453Servicio" ref="regulatorioC0453ServicioImpl" />
+	</bean> 
+
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO A1316 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1316Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioA1316DAOImpl" class="regulatorios.dao.RegulatorioA1316DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1316ServicioImpl" class="regulatorios.servicio.RegulatorioA1316Servicio">
+		<dwr:remote javascript="regulatorioA1316Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1316DAO" ref="regulatorioA1316DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1316Vista.htm" class="regulatorios.controlador.RegulatorioA1316VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1316Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioA1316.htm" class="regulatorios.reporte.RegulatorioA1316ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1316Servicio" ref="regulatorioA1316ServicioImpl" />
+	</bean>
+	
+	
+	
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO A1311 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1316Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioA1311DAOImpl" class="regulatorios.dao.RegulatorioA1311DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1311ServicioImpl" class="regulatorios.servicio.RegulatorioA1311Servicio">
+		<dwr:remote javascript="regulatorioA1311Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1311DAO" ref="regulatorioA1311DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1311Vista.htm" class="regulatorios.controlador.RegulatorioA1311VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1311Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioA1311.htm" class="regulatorios.reporte.RegulatorioA1311ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1311Servicio" ref="regulatorioA1311ServicioImpl" />
+	</bean>
+	
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO A1011 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1011Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioA1011DAOImpl" class="regulatorios.dao.RegulatorioA1011DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1011ServicioImpl" class="regulatorios.servicio.RegulatorioA1011Servicio">
+		<dwr:remote javascript="regulatorioA1011Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1011DAO" ref="regulatorioA1011DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1011Vista.htm" class="regulatorios.controlador.RegulatorioA1011VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1011Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioA1011.htm" class="regulatorios.reporte.RegulatorioA1011ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1011Servicio" ref="regulatorioA1011ServicioImpl" />
+	</bean>
+	
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO A1012 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1012Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioA1012DAOImpl" class="regulatorios.dao.RegulatorioA1012DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1012ServicioImpl" class="regulatorios.servicio.RegulatorioA1012Servicio">
+		<dwr:remote javascript="regulatorioA1012Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1012DAO" ref="regulatorioA1012DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1012Vista.htm" class="regulatorios.controlador.RegulatorioA1012VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1012Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioA1012.htm" class="regulatorios.reporte.RegulatorioA1012ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1012Servicio" ref="regulatorioA1012ServicioImpl" />
+	</bean>
+	
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO B1321 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB13216Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioB1321DAOImpl" class="regulatorios.dao.RegulatorioB1321DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1321ServicioImpl" class="regulatorios.servicio.RegulatorioB1321Servicio">
+		<dwr:remote javascript="regulatorioB1321Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1321DAO" ref="regulatorioB1321DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1321Vista.htm" class="regulatorios.controlador.RegulatorioB1321VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1321Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioB1321.htm" class="regulatorios.reporte.RegulatorioB1321ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1321Servicio" ref="regulatorioB1321ServicioImpl" />
+	</bean>
+	
+	<!-- ====== DEFINICION DE BEANS PARA REGULATORIO B1322 =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB13226Bean" />
+	</dwr:configuration>
+
+	<bean id="regulatorioB1322DAOImpl" class="regulatorios.dao.RegulatorioB1322DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1322ServicioImpl" class="regulatorios.servicio.RegulatorioB1322Servicio">
+		<dwr:remote javascript="regulatorioB1321Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1322DAO" ref="regulatorioB1322DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1322Vista.htm" class="regulatorios.controlador.RegulatorioB1322VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1322Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteRegulatorioB1322.htm" class="regulatorios.reporte.RegulatorioB1322ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1322Servicio" ref="regulatorioB1322ServicioImpl" />
+	</bean>
+	
+	<!-- =========================== DEFINICION DE BEANS PARA REGULATORIO B2421 =============================--> 
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioB1413Bean" />
+	</dwr:configuration>	  
+	
+		<bean id="regulatorioB1413DAOImpl" class="regulatorios.dao.RegulatorioB1413DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioB1413ServicioImpl" class="regulatorios.servicio.RegulatorioB1413Servicio">
+		<dwr:remote javascript="regulatorioB1413Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioB1413DAO" ref="regulatorioB1413DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioB1413Vista.htm" class="regulatorios.controlador.RegulatorioB1413VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioB1413Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioB1413.htm" class="regulatorios.reporte.RegulatorioB1413ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioB1413Servicio" ref="regulatorioB1413ServicioImpl" />
+	</bean> 
+	
+	
+	
+	<!-- ==== Pantalla de Parametros para regulatorios === -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.ParamRegulatoriosBean" />
+	</dwr:configuration>	  
+	
+	 <bean id="paramRegulatoriosDAOImpl" class="regulatorios.dao.ParamRegulatoriosDAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	  <property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+	  <property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="paramRegulatoriosServicioImpl" class="regulatorios.servicio.ParamRegulatoriosServicio">
+		<dwr:remote javascript="paramRegulatoriosServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="paramRegulatoriosDAO" ref="paramRegulatoriosDAOImpl"/>	
+	</bean>  
+		
+	<bean name="/paramRegulatoriosVista.htm" class="regulatorios.controlador.ParamRegulatoriosControlador">
+		<property name="formView" value="regulatorios/paramRegulatoriosVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="paramRegulatoriosServicio" ref="paramRegulatoriosServicioImpl" /> 
+	</bean>	
+	
+	
+	<!-- *******************************REGULATORIO C-0922 *********************************** -->
+	
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioC0922Bean" />
+	</dwr:configuration>	  
+	
+	<bean id="regulatorioC0922DAOImpl" class="regulatorios.dao.RegulatorioC0922DAO">
+	  <property name="dataSource" ref="dataSource"/>
+	  <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioC0922ServicioImpl" class="regulatorios.servicio.RegulatorioC0922Servicio">
+		<dwr:remote javascript="regulatorioC0922Servicio">
+			<dwr:include method="consulta" /> 
+			<dwr:include method="lista" /> 
+		</dwr:remote>		
+		<property name="regulatorioC0922DAO" ref="regulatorioC0922DAOImpl"/>	
+	</bean>
+		
+	<bean name="/regulatorioC0922Vista.htm" class="regulatorios.controlador.RegulatorioC0922Controlador">
+		<property name="formView" value="regulatorios/regulatorioC0922Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="regulatorioC0922Servicio" ref="regulatorioC0922ServicioImpl" />
+	</bean>	
+
+	<bean name="/reporteRegulatorioC0922.htm" class="regulatorios.reporte.RegulatorioC0922ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioC0922Servicio" ref="regulatorioC0922ServicioImpl" />
+	</bean>
+	<bean name="/regulatorioC0922GridVista.htm" class="regulatorios.controlador.RegulatorioC0922GridControlador">
+		<property name="regulatorioC0922Servicio" ref="regulatorioC0922ServicioImpl" />
+   	</bean> 
+   	
+   	
+   	
+<!-- =========================== DEFINICION DE BEANS PARA REGULATORIOS SERIE R12 CONSOLIDACION =============================--> 
+<!-- ====== REGULATORIO A1219 =============================================== -->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1219Bean" />
+	</dwr:configuration>
+	
+
+	<bean id="regulatorioA1219DAOImpl" class="regulatorios.dao.RegulatorioA1219DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1219ServicioImpl" class="regulatorios.servicio.RegulatorioA1219Servicio">
+		<dwr:remote javascript="regulatorioA1219Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1219DAO" ref="regulatorioA1219DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1219Vista.htm" class="regulatorios.controlador.RegulatorioA1219VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1219Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioA1219.htm" class="regulatorios.reporte.RegulatorioA1219ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1219Servicio" ref="regulatorioA1219ServicioImpl" />
+	</bean> 
+	
+	
+	<!-- ====== REGULATORIO A1220 =============================================== -->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="regulatorios.bean.RegulatorioA1220Bean" />
+	</dwr:configuration>
+	
+
+	<bean id="regulatorioA1220DAOImpl" class="regulatorios.dao.RegulatorioA1220DAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="regulatorioA1220ServicioImpl" class="regulatorios.servicio.RegulatorioA1220Servicio">
+		<dwr:remote javascript="regulatorioA1220Servicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="regulatorioA1220DAO" ref="regulatorioA1220DAOImpl"/>	
+	</bean>
+	
+	<bean name="/regulatorioA1220Vista.htm" class="regulatorios.controlador.RegulatorioA1220VistaControlador">
+		<property name="formView" value="regulatorios/regulatorioA1220Vista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	<bean name="/reporteRegulatorioA1220.htm" class="regulatorios.reporte.RegulatorioA1220ReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="regulatorioA1220Servicio" ref="regulatorioA1220ServicioImpl" />
+	</bean> 
+	
+
+	<!-- =========================== DEFINICION DE BEANS PARA AUXILIAR DE CUENTAS ============================= -->
+	
+
+	<bean name="/auxiliarCuentasVista.htm" class="regulatorios.controlador.AuxiliarCuentasCatalogoControlador">
+		<property name="formView" value="regulatorios/auxiliarCuentasVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+ 	
+ 		
+		<!-- =========================== DEFINICION DE BEANS PARA AUXILIAR DE FOLIOS =============================--> 
+
+	<bean name="/auxiliarFoliosVista.htm" class="regulatorios.controlador.AuxiliarFoliosCatalogoControlador">
+		<property name="formView" value="regulatorios/auxiliarFoliosVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean> 	
+
+</beans>

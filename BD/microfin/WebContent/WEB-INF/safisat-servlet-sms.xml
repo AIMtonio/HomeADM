@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+	 	  
+
+	<!-- Beans de Alta de campañas sms--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSCapaniasBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsCapaniasDAOImpl" class="sms.dao.SMSCapaniasDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="smsCodigosRespDAO" ref="smsCodigosRespDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="smsCapaniasServicioImpl" class="sms.servicio.SMSCapaniasServicio">
+	      <dwr:remote javascript="campaniasServicio">
+	      <dwr:include method="consulta" />		
+	       
+		</dwr:remote> 
+	      <property name="smsCapaniasDAO" ref="smsCapaniasDAOImpl"/>
+	</bean> 
+	
+	<bean name="/AltaCampaniasVista.htm" class="sms.controlador.SMSCapaniasControlador">
+		<property name="formView" value="sms/campaniasCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsCapaniasServicio" ref="smsCapaniasServicioImpl" />
+	</bean>
+	
+		<bean name="/campaniasLista.htm" 
+			class="sms.controlador.SMSCapaniasListaControlador">
+		<property name="smsCapaniasServicio" ref="smsCapaniasServicioImpl" />
+	</bean>
+	
+	<!-- Beans de tipos de campañas sms--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSTiposCampaniasBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsTiposCampaniasDAOImpl" class="sms.dao.SMSTiposCampaniasDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="smsTiposCampaniasServicioImpl" class="sms.servicio.SMSTiposCampaniasServicio">
+	      <dwr:remote javascript="tipoCampaniasServicio">
+	      <dwr:include method="consulta" />		
+		</dwr:remote> 
+	      <property name="smsTiposCampaniasDAO" ref="smsTiposCampaniasDAOImpl"/>
+	</bean> 
+	
+	<bean name="/TipoCampaniasLista.htm" 
+			class="sms.controlador.SMSTiposCampaniasListaControlador">
+		<property name="smsTiposCampaniasServicio" ref="smsTiposCampaniasServicioImpl" />
+	</bean>
+	
+	<bean name="/altaTiposCampaniasVista.htm" class="sms.controlador.SMSTiposCampaniasControlador">
+		<property name="formView" value="sms/tiposCampaniasCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsTiposCampaniasServicio" ref="smsTiposCampaniasServicioImpl" />
+	</bean>
+	
+	
+	
+	<!-- Beans de codigos de respuesta sms--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSCodigosRespBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsCodigosRespDAOImpl" class="sms.dao.SMSCodigosRespDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="smsCodigosRespServicioImpl" class="sms.servicio.SMSCodigosRespServicio">
+	      <dwr:remote javascript="codigosRespServicio">
+	      <dwr:include method="consulta" />		
+		</dwr:remote> 
+	      <property name="smsCodigosRespDAO" ref="smsCodigosRespDAOImpl"/>
+	</bean> 
+	
+	<bean name="/codigosRespuestaGridVista.htm" 
+			class="sms.controlador.SMSCodigosRespGridControlador">
+		<property name="smsCodigosRespServicio" ref="smsCodigosRespServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans de resumen de actividades sms--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.ResumenActividadSMSBean"/> 
+	</dwr:configuration>
+	
+	<bean id="resumenActividadSMSDAOImpl" class="sms.dao.ResumenActividadSMSDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="resumenActividadSMSServicioImpl" class="sms.servicio.ResumenActividadSMSServicio">
+	      <dwr:remote javascript="resumenServicio">
+	      <dwr:include method="consulta" />		
+		</dwr:remote> 
+	      <property name="resumenActividadSMSDAO" ref="resumenActividadSMSDAOImpl"/>
+	      <property name="smsTiposCampaniasServicio" ref="smsTiposCampaniasServicioImpl"/>
+	      <property name="smsCapaniasServicio" ref="smsCapaniasServicioImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean name="/resumenActividadVista.htm" class="sms.controlador.ResumenActividadSMSControlador">
+		<property name="formView" value="sms/resumenActividadSMSVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="resumenActividadSMSServicio" ref="resumenActividadSMSServicioImpl" />
+	</bean>
+	
+	<bean name="/resumenActividadGridVista.htm" 
+			class="sms.controlador.ResumenActividadSMSGridControlador">
+		<property name="resumenActividadSMSServicio" ref="resumenActividadSMSServicioImpl" />
+	</bean>
+	
+	<!-- Grid de codigos de respuesta para resumen de actividad --> 
+	<bean name="/codRespResumenActGridVista.htm" 
+			class="sms.controlador.SMSCodRespResumenActGridControlador">
+		<property name="smsCodigosRespServicio" ref="smsCodigosRespServicioImpl" />
+	</bean>
+
+	<!-- reporte PDF para detalle resumen de actividad --> 
+	<bean name="/repDetalleResumenActSMS.htm"
+		  class="sms.reporte.DetalleResumenActRepControlador">
+		<property name="nomReporte" value="sms/DetalleResumenActividadSMS.prpt" />
+	   <property name="resumenActividadSMSServicio" ref="resumenActividadSMSServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans de Envio Mensaje sms--> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSEnvioMensajeBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsEnvioMensajeDAOImpl" class="sms.dao.SMSEnvioMensajeDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="smsEnvioMensajeServicioImpl" class="sms.servicio.SMSEnvioMensajeServicio">
+	      <dwr:remote javascript="SmsEnvioMensajeServicio">
+	      <dwr:include method="consulta" />		
+		</dwr:remote> 
+	      <property name="smsEnvioMensajeDAO" ref="smsEnvioMensajeDAOImpl"/>
+	      <property name="parametrosSMSServicio" ref="parametrosSMSServicioImpl"/>
+	      <property name="smsCondiciCargaServicio" ref="smsCondiciCargaServicioImpl"/>
+	</bean>
+	
+	<bean name="/escribirSMSVista.htm" class="sms.controlador.SMSEnvioMensajeControlador">
+		<property name="formView" value="sms/escribirSMSVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsEnvioMensajeServicio" ref="smsEnvioMensajeServicioImpl" />
+	</bean>
+	<!-- Envio masivo de SMS -->
+	<bean name="/envioMasivoVista.htm" class="sms.controlador.EnvioMasivoControlador">
+		<property name="formView" value="sms/envioMasivoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsEnvioMensajeServicio" ref="smsEnvioMensajeServicioImpl" />
+		<property name="parametrosSMSServicio" ref="parametrosSMSServicioImpl"/>
+	</bean>
+	<bean name="/smsFileUploadVista.htm" class="sms.controlador.SMSFileUploadControlador">
+        <property name="commandClass" value="sms.bean.SMSEnvioMensajeBean"/>
+        <property name="formView" value="sms/smsFileUploadVista"/>
+        <property name="successView" value="resultadoTransaccionSMSVista"/> 
+		<property name="smsEnvioMensajeServicio" ref="smsEnvioMensajeServicioImpl" />
+		<property name="parametrosSMSServicio" ref="parametrosSMSServicioImpl"/> 
+    </bean>
+    
+    <bean name="/cancelarEnvioSMS.htm" class="sms.controlador.SMSCancelarEnvioMensajeControlador">
+		<property name="formView" value="sms/cancelarEnvioMensajesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsEnvioMensajeServicio" ref="smsEnvioMensajeServicioImpl" />
+	</bean>
+
+    
+    
+	<!-- Beans de Parametros sms-->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.ParametrosSMSBean"/> 
+	</dwr:configuration>
+	
+	<bean id="parametrosSMSDAOImpl" class="sms.dao.ParametrosSMSDAO"> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="parametrosSMSServicioImpl" class="sms.servicio.ParametrosSMSServicio">
+	      <dwr:remote javascript="parametrosSMSServicio">
+	      <dwr:include method="consulta" />
+		</dwr:remote> 
+	      <property name="parametrosSMSDAO" ref="parametrosSMSDAOImpl"/>
+	</bean>	
+
+	 <bean name="/parametrosSMS.htm"
+		  class="sms.controlador.ParametrosSMSControlador">
+		<property name="formView" value="sms/parametrosSMSVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="parametrosSMSServicio" ref="parametrosSMSServicioImpl" />
+	</bean>
+	
+	<!-- Beans de Condiciones de Carga-->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSCondiciCargaBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsCondiciCargaDAOImpl" class="sms.dao.SMSCondiciCargaDAO"> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="smsCondiciCargaServicioImpl" class="sms.servicio.SMSCondiciCargaServicio">
+	      <dwr:remote javascript="smsCondiciCargaServicio">
+	      <dwr:include method="consulta" />
+		</dwr:remote> 
+	      <property name="smsCondiciCargaDAO" ref="smsCondiciCargaDAOImpl"/>
+	</bean>
+	
+	<bean name="/envioMasivoGridVista.htm"
+			  class="sms.controlador.SMSCondiciCargaControlador">
+			<property name="smsCondiciCargaServicio" ref="smsCondiciCargaServicioImpl" />
+	</bean>
+	
+	<!-- Bean para Plantilla SMS -->
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="sms.bean.SMSPlantillaBean"/> 
+	</dwr:configuration>
+	
+	<bean id="smsPlantillaDAOImpl" class="sms.dao.SMSPlantillaDAO"> 
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />		
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="smsPlantillaServicioImpl" class="sms.servicio.SMSPlantillaServicio">
+	      <dwr:remote javascript="smsPlantillaServicio">
+	      <dwr:include method="consulta" />
+	      <dwr:include method="lista" />
+	      <dwr:include method="listaCombo" />
+		</dwr:remote> 
+	      <property name="smsPlantillaDAO" ref="smsPlantillaDAOImpl"/>
+	</bean>
+	
+	<bean name="/smsPlantillaVista.htm" class="sms.controlador.SMSPlantillaControlador">
+		<property name="formView" value="sms/smsPlantillaVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="smsPlantillaServicio" ref="smsPlantillaServicioImpl" />
+	</bean>
+	<bean name="/listaPlantilla.htm"
+		  class="sms.controlador.SMSPlantillaListaControlador">
+		<property name="smsPlantillaServicio" ref="smsPlantillaServicioImpl" />
+	</bean>
+	
+	<!-- Reporte de Actividad de Envio SMS -->
+	<bean name="/repActividadSMSVista.htm" class="sms.controlador.ResumenActividadSMSControlador">
+		<property name="formView" value="sms/repActividadSMSVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="resumenActividadSMSServicio" ref="resumenActividadSMSServicioImpl" />
+	</bean>
+
+	<bean name="/RepActividadEnvioSMS.htm"
+		  class="sms.reporte.RepActividadSMSControlador">
+		<property name="nomReporte" value="sms/RepActividadSMS.prpt" />
+	   <property name="resumenActividadSMSServicio" ref="resumenActividadSMSServicioImpl" />
+	</bean>
+</beans>

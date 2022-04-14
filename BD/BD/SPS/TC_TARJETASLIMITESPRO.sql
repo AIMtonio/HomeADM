@@ -1,0 +1,35 @@
+-- TC_TARJETASLIMITESPRO
+
+DELIMITER ;
+DROP TABLE IF EXISTS TC_TARJETASLIMITESPRO;
+DELIMITER $$
+
+CREATE PROCEDURE TC_TARJETASLIMITESPRO(
+	Par_TarjetaID			CHAR(16),
+	OUT Par_NoDisposiDia	INT(11)
+)
+TerminaStore: BEGIN
+
+	DECLARE	Entero_Cero		INT(11);
+	DECLARE	Salida_SI		CHAR(1);
+
+	SET	Entero_Cero			:= 0;
+	SET	Salida_SI			:= 'S';
+
+	SELECT NoDisposiDia INTO Par_NoDisposiDia
+		FROM TC_TARJETASLIMITES
+		WHERE TarjetaID = Par_TarjetaID
+		FOR UPDATE;
+
+	IF(Par_NoDisposiDia IS NULL) THEN
+		SET Par_NoDisposiDia = 1;
+		INSERT INTO TC_TARJETASLIMITES VALUES (Par_TarjetaID, Par_NoDisposiDia);
+	ELSE
+		UPDATE TC_TARJETASLIMITES SET
+			NoDisposiDia = LAST_INSERT_ID(NoDisposiDia + 1)
+			WHERE TarjetaID = Par_TarjetaID;
+
+		SELECT LAST_INSERT_ID() INTO Par_NoDisposiDia;
+	END IF;
+
+END TerminaStore$$

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="altaProspectoRequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="prospectoIDExt" type="xs:string" />
+                <xs:element name="primerNombre" type="xs:string" />
+                <xs:element name="segundoNombre" type="xs:string" />
+                <xs:element name="tercerNombre" type="xs:string" />
+                <xs:element name="apellidoPaterno" type="xs:string" />
+                
+                <xs:element name="apellidoMaterno" type="xs:string" />
+                <xs:element name="telefono" type="xs:string" />
+                <xs:element name="calle" type="xs:string" />
+                <xs:element name="numExterior" type="xs:string" />
+                <xs:element name="numInterior" type="xs:string" />
+                
+                <xs:element name="manzana" type="xs:string" />
+                <xs:element name="lote" type="xs:string" />
+                <xs:element name="colonia" type="xs:string" />
+                <xs:element name="municipioID" type="xs:string" />
+                <xs:element name="estadoID" type="xs:string" />
+                
+                <xs:element name="CP" type="xs:string" />
+                <xs:element name="tipoPersona" type="xs:string" />
+                <xs:element name="razonSocial" type="xs:string" />
+                <xs:element name="RFC" type="xs:string" />
+                <xs:element name="latitud" type="xs:string" />
+                <xs:element name="longitud" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="altaProspectoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="prospectoID" type="xs:string" />
+                <xs:element name="codigoRespuesta" type="xs:string" />    
+                <xs:element name="mensajeRespuesta" type="xs:string" />            						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- DEfinicion de  REQUEST y RESPONSE y mapeo de datos  CONSULTA DE ACTIVIDAD DE CREDITOS--> 
+    <xs:element name="consultaActividadCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaActividadCreditoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="activosTotal" type="xs:string" />  
+                <xs:element name="totalPrestado" type="xs:string" />  
+                <xs:element name="saldoActual" type="xs:string" />  
+                <xs:element name="pesosenMora" type="xs:string" />  
+                <xs:element name="moraMayor" type="xs:string" />  
+                
+                <xs:element name="quebrantos" type="xs:string" />  
+                <xs:element name="pagosPuntuales" type="xs:string" />  
+                <xs:element name="pagosRealizados" type="xs:string" />  
+                <xs:element name="moraMenorTreintaDias" type="xs:string" />  
+                <xs:element name="moraMayorTreintaDias" type="xs:string"/>  
+               
+                <xs:element name="codigoRespuesta" type="xs:string" />    
+                <xs:element name="mensajeRespuesta" type="xs:string" />           						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="consultaDetallePagosRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clienteID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultaDetallePagosResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="infoDetallePagos" type="xs:string" minOccurs="0" maxOccurs="unbounded" />     
+                <xs:element name="codigoRespuesta" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>      
+                <xs:element name="mensajeRespuesta" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>        						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Definicion de REQUEST y RESPONSE y mapeo de datos CONSULTA DE PROSPECTOS --> 
+    <xs:element name="consultaProspectoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="prospectoID" type="xs:string" />
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="negocioAfiliadoID" type="xs:string" />
+                <xs:element name="numeroConsulta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaProspectoResponse">
+        <xs:complexType>
+            <xs:sequence>
+             	<xs:element name="prospectoID" type="xs:string" />  
+                <xs:element name="primerNombre" type="xs:string" />  
+                <xs:element name="segundoNombre" type="xs:string" />  
+                <xs:element name="tercerNombre" type="xs:string" />  
+                <xs:element name="apellidoPaterno" type="xs:string" /> 
+                
+                <xs:element name="apellidoMaterno" type="xs:string" />  
+                <xs:element name="tipoPersona" type="xs:string" />  
+                <xs:element name="fechaNacimiento" type="xs:string" />  
+                <xs:element name="RFC" type="xs:string" />  
+                <xs:element name="sexo" type="xs:string" />
+                
+                <xs:element name="estadoCivil" type="xs:string" />  
+                <xs:element name="telefono" type="xs:string" />  
+                <xs:element name="razonSocial" type="xs:string" />  
+                <xs:element name="estadoID" type="xs:string" />  
+                <xs:element name="municipioID" type="xs:string" />
+                
+                <xs:element name="localidadID" type="xs:string" />  
+                <xs:element name="coloniaID" type="xs:string" />  
+                <xs:element name="calle" type="xs:string" />  
+                <xs:element name="numExterior" type="xs:string" />  
+                <xs:element name="numInterior" type="xs:string" />
+                
+                <xs:element name="CP" type="xs:string" />  
+                <xs:element name="manzana" type="xs:string" />  
+                <xs:element name="lote" type="xs:string" />  
+                <xs:element name="latitud" type="xs:string" />  
+                <xs:element name="longitud" type="xs:string" />
+                
+                <xs:element name="tipoDireccionID" type="xs:string" /> 
+                <xs:element name="calificaProspecto" type="xs:string" />   
+                <xs:element name="codigoRespuesta" type="xs:string" />  
+                <xs:element name="mensajeRespuesta" type="xs:string" />      						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+     <!-- Definicion de REQUEST y RESPONSE y mapeo de datos LISTA DE PROSPECTOS --> 
+    <xs:element name="listaProspectoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nombreCompleto" type="xs:string" />
+                <xs:element name="institNominaID" type="xs:string" />
+                <xs:element name="negocioAfiliadoID" type="xs:string" />
+                 <xs:element name="tipoLis" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="listaProspectoResponse">
+        <xs:complexType>
+            <xs:sequence>
+             	<xs:element name="listaProspecto" type="xs:string" />  
+                <xs:element name="codigoRespuesta" type="xs:string" />  
+                <xs:element name="mensajeRespuesta" type="xs:string" />                    						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- DEfinicion de  REQUEST y RESPONSE y mapeo de datos REGISTRO DE PROSPECTOS --> 
+    <xs:element name="registroProspectoRequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+            	 <xs:element name="prospectoID" type="xs:string" />
+                <xs:element name="primerNombre" type="xs:string" />
+                <xs:element name="segundoNombre" type="xs:string" />
+                <xs:element name="tercerNombre" type="xs:string" />
+                <xs:element name="apellidoPaterno" type="xs:string" />
+                
+                <xs:element name="apellidoMaterno" type="xs:string" />
+                <xs:element name="tipoPersona" type="xs:string" />
+                <xs:element name="fechaNacimiento" type="xs:string" />
+                <xs:element name="RFC" type="xs:string" />
+                <xs:element name="sexo" type="xs:string" />
+                
+                <xs:element name="estadoCivil" type="xs:string" />
+                <xs:element name="telefono" type="xs:string" />
+                <xs:element name="razonSocial" type="xs:string" />
+                <xs:element name="estadoID" type="xs:string" />
+                <xs:element name="municipioID" type="xs:string" />
+                
+                <xs:element name="localidadID" type="xs:string" />
+                <xs:element name="coloniaID" type="xs:string" />
+                <xs:element name="calle" type="xs:string" />
+                <xs:element name="numExterior" type="xs:string" />
+                <xs:element name="numInterior" type="xs:string" />
+                
+                <xs:element name="CP" type="xs:string" />
+                <xs:element name="manzana" type="xs:string" />
+                <xs:element name="lote" type="xs:string" />
+                <xs:element name="latitud" type="xs:string" />
+                <xs:element name="longitud" type="xs:string" />
+                
+                 <xs:element name="tipoDireccionID" type="xs:string" />
+                 <xs:element name="institucionNominaID" type="xs:string" />
+                 <xs:element name="negocioAfiliadoID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="registroProspectoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+                <xs:element name="controlRespuesta" type="xs:string" />
+                <xs:element name="consecutivoResp" type="xs:string" />       						 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+ <!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaProductosCredito-->  
+  <xs:element name="consultaProdCreditoRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="producCreditoID" type="xs:string" />
+            <xs:element name="perfilID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="consultaProdCreditoResponse">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="descripcion" type="xs:string" />  
+            <xs:element name="formaCobroComAper" type="xs:string" />  
+            <xs:element name="montoComision" type="xs:string" />  
+            <xs:element name="porcentajeGarLiquida" type="xs:string" />  
+            <xs:element name="factorMora" type="xs:string" />      
+            <xs:element name="destinoCredito" type="xs:string" />  
+            <xs:element name="clasificacionDestino" type="xs:string" />     						 
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>  
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ListaProductosCredito-->     
+<xs:element name="listaProdCreditoRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="perfilID" type="xs:string" />
+            <xs:element name="numeroLista" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element> 
+  
+<xs:element name="listaProdCreditoResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="listaProductosCredito" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>  
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaDescuentosNomina-->  
+   <xs:element name="consultaDescuentosNominaRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="institNominaID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaDescuentosNominaResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaDescuentosNomina" type="xs:string"/>
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaDescuentosNomina-->  
+   <xs:element name="consultaAmortiCreditoBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="creditoID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaAmortiCreditoBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaAmort" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de Lista Solicitudes de credito-->  
+   <xs:element name="listaSolicitudCreditoRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="negocioAfiliadoID" type="xs:string" />
+            <xs:element name="institNominaID" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="prospectoID" type="xs:string" />
+            <xs:element name="estatus" type="xs:string" />
+            <xs:element name="tipoCon" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+ 
+ <xs:element name="listaSolicitudCreditoResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaSolCre" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaCreditos-->  
+   <xs:element name="consultaCreditoRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="creditoID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaCreditoResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="creditoID" type="xs:string"/>
+      		<xs:element name="clienteID" type="xs:string"/>
+      		<xs:element name="nombreCliente" type="xs:string"/>
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaCreditos para pantalla de BancaEnLinea-->  
+ <xs:element name="consultaCreditoBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="creditoID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="consultaCreditoBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+        	<xs:element name="creditoID" type="xs:string"/>
+        	
+        	<xs:element name="cuentaID" type="xs:string"/>
+      		<xs:element name="estatus" type="xs:string"/>
+            <xs:element name="productoCreditoID" type="xs:string"/>
+      		<xs:element name="descripcionCredito" type="xs:string"/>
+      		<xs:element name="tipoMoneda" type="xs:string"/>
+      		
+      		<xs:element name="valorCat" type="xs:string"/>
+      		<xs:element name="tasaFija" type="xs:string"/>
+      		<xs:element name="diasFaltaPago" type="xs:string"/>
+      		<xs:element name="totalDeuda" type="xs:string"/>
+      		<xs:element name="montoExigible" type="xs:string"/>
+      		
+      		<xs:element name="proxFechaPag" type="xs:string"/>
+      		<xs:element name="saldoCapVigente" type="xs:string"/>
+      		<xs:element name="saldoCapAtrasa" type="xs:string"/>
+       		<xs:element name="saldoInteresesAtr" type="xs:string"/>
+      		<xs:element name="saldoInteresVig" type="xs:string"/>
+      		
+      		<xs:element name="saldoIVAIntVig" type="xs:string"/>
+      		<xs:element name="saldoMoratorios" type="xs:string"/>
+      		<xs:element name="saldoIVAAtrasa" type="xs:string"/>
+      		<xs:element name="saldoComFaltaPago" type="xs:string"/>
+      		<xs:element name="saldoOtrasComis" type="xs:string"/>
+      		
+
+      		<xs:element name="saldoIVAMorato" type="xs:string"/>
+      		<xs:element name="saldoIVAComFaltaPago" type="xs:string"/>
+      		<xs:element name="saldoIVAComisi" type="xs:string"/>
+      	
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos PagosAplicados -->  
+   <xs:element name="consultaPagosAplicadosRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="institNominaID" type="xs:string" />
+            <xs:element name="negocioAfiliadoID" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="fechaInicio" type="xs:string" />
+            <xs:element name="fechaFin" type="xs:string" />
+            <xs:element name="tipoCon" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+ <xs:element name="consultaPagosAplicadosResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaPagosAplicados" type="xs:string"/>
+      		<xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de lista de creditos-->  
+   <xs:element name="listaCreditosBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="clienteID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="listaCreditosBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaCreditos" type="xs:string"/>
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos Registro de Solicitud Credito BE-->  
+   <xs:element name="registroSolCreditoBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+        	<xs:element name="solicitudCreditoID" type="xs:string" />
+            <xs:element name="prospectoID" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="produCredID" type="xs:string" />
+            <xs:element name="fechaReg" type="xs:string" />
+            <xs:element name="promotor" type="xs:string" />
+            
+            <xs:element name="destinoCre" type="xs:string" />
+            <xs:element name="proyecto" type="xs:string" />
+            <xs:element name="sucursalID" type="xs:string" />
+            
+            <xs:element name="montoSolic" type="xs:string" />
+            <xs:element name="plazoID" type="xs:string" />
+            <xs:element name="factorMora" type="xs:string" />
+             <xs:element name="formaComApertura" type="xs:string" />
+            <xs:element name="comApertura" type="xs:string" />
+            <xs:element name="IVAComAper" type="xs:string" />
+            
+            <xs:element name="tasaFija" type="xs:string" />
+            <xs:element name="frecuencia" type="xs:string" />
+            <xs:element name="periodicidad" type="xs:string" />
+            <xs:element name="numAmorti" type="xs:string" />
+            
+            <xs:element name="numTransacSim" type="xs:string" />
+            <xs:element name="CAT" type="xs:string" />
+            <xs:element name="cuentaClabe" type="xs:string" />
+            <xs:element name="montoCuota" type="xs:string" />
+            <xs:element name="fechaVencim" type="xs:string" />
+            
+            <xs:element name="fechaInicio" type="xs:string" />
+            <xs:element name="clasiDestinCred" type="xs:string" />
+            <xs:element name="institucionNominaID" type="xs:string" />
+            <xs:element name="negocioAfiliadoID" type="xs:string" />
+            <xs:element name="numCreditos" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="registroSolCreditoBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+        	<xs:element name="solicitudCreditoID" type="xs:string" />
+        	<xs:element name="prospectoID" type="xs:string" />
+        	<xs:element name="proNombreCompleto" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="cliNombreCompleto" type="xs:string" />
+            <xs:element name="produCredID" type="xs:string" />
+            <xs:element name="descripcionProducto" type="xs:string" />
+            <xs:element name="fechaReg" type="xs:string" />
+            <xs:element name="estatus" type="xs:string" />
+            <xs:element name="proyecto" type="xs:string" />            
+
+            <xs:element name="montoSolic" type="xs:string" />            
+            <xs:element name="plazoID" type="xs:string" />
+            <xs:element name="formaComApertura" type="xs:string" />
+            <xs:element name="comApertura" type="xs:string" />
+            <xs:element name="frecuencia" type="xs:string" />
+            
+            <xs:element name="numAmorti" type="xs:string" />
+            <xs:element name="CAT" type="xs:string" />
+            <xs:element name="cuentaClabe" type="xs:string" />
+            <xs:element name="fechaVencim" type="xs:string" />
+            <xs:element name="fechaInicio" type="xs:string" />
+        
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />				
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos Simulador de Credito-->  
+   <xs:element name="simuladorCreditoRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="monto" type="xs:string" />
+            <xs:element name="tasa" type="xs:string" />
+            <xs:element name="frecuencia" type="xs:string" />
+            <xs:element name="periodicidad" type="xs:string" />
+            <xs:element name="fechaInicio" type="xs:string" />
+            
+            <xs:element name="numeroCuotas" type="xs:string" />
+            <xs:element name="productoCreditoID" type="xs:string" />
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="comisionApertura" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="simuladorCreditoResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="listaSimuladorCredito" type="xs:string"/>
+            <xs:element name="codigoRespuesta" type="xs:string" />
+            <xs:element name="mensajeRespuesta" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaCiclo del Cliente o Prospecto-->  
+   <xs:element name="consultaCicloClienteRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="clienteID" type="xs:string" />
+            <xs:element name="prospectoID" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaCicloClienteResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="cicloCliente" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos ConsultaTasaFija-->  
+   <xs:element name="consultaTasaFijaRequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="sucursalID" type="xs:string" />
+            <xs:element name="prodCreID" type="xs:string" />
+            <xs:element name="numCreditos" type="xs:string" />
+            <xs:element name="monto" type="xs:string" />
+            <xs:element name="calificacion" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="consultaTasaFijaResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="tasaFija" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Definicion  REQUEST y RESPONSE y mapeo de datos consulta Nombre Completo de Prospecto-->  
+   <xs:element name="conNombreComProspectoBERequest">    						 
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="prospectoID" type="xs:string" />
+            <xs:element name="institNominaID" type="xs:string" />
+            <xs:element name="negocioAfiliadoID" type="xs:string" />
+            <xs:element name="numCon" type="xs:string" />      
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+ 
+ <xs:element name="conNombreComProspectoBEResponse">    						 
+    <xs:complexType>
+        <xs:sequence>
+      		<xs:element name="nombreCompleto" type="xs:string"/>
+      		<xs:element name="calificaProspecto" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+     <!-- Simulador de cuotas de credito --> 
+    <xs:element name="simuladorCuotaCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="montoSolici" type="xs:string" />
+                <xs:element name="frecuencia" type="xs:string" />
+                <xs:element name="plazo" type="xs:string" />
+                <xs:element name="tasaAnualizada" type="xs:string" />
+                <xs:element name="fechaInicio" type="xs:string" />
+                <xs:element name="ajustarFecVen" type="xs:string" />
+                <xs:element name="comisionApertura" type="xs:string" />
+                <xs:element name="formaCobroComAp" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="simuladorCuotaCreditoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="montoCuota" type="xs:string"/>     
+                <xs:element name="numeroCuotas" type="xs:string"/>     
+                <xs:element name="totalPagar" type="xs:string"/>  
+                <xs:element name="cat" type="xs:string"/>  
+                <xs:element name="codigoRespuesta" type="xs:string"/>      
+                <xs:element name="mensajeRespuesta" type="xs:string"/>        	
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<!-- Definicion REQUEST y RESPONSE y mapeo de datos Consulta de ProductosCredito para ZAFY-->
+	<xs:element name="consultaProdCredRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="producCreditoID" type="xs:string" />
+				<xs:element name="empresaID" type="xs:string" />
+				<xs:element name="sucursalID" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="consultaProdCredResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="producCreditoID" type="xs:string" />
+				<xs:element name="tasaFija" type="xs:string" />
+				<xs:element name="tipoComXapert" type="xs:string" />
+				<xs:element name="montoComXapert" type="xs:string" />
+				<xs:element name="montoInferior" type="xs:string" />
+				<xs:element name="montoSuperior" type="xs:string" />
+				<xs:element name="frecuencias" type="xs:string" />
+				<xs:element name="plazoID" type="xs:string" />
+				<xs:element name="codigoRespuesta" type="xs:string" />
+				<xs:element name="mensajeRespuesta" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element> 
+</xs:schema>

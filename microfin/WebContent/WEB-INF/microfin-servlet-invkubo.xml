@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Beans de fondeo de solicitudes  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="invkubo.bean.FondeoSolicitudBean" />
+	</dwr:configuration>
+
+		<bean id="fondeoSolicitudDAOImpl" class="invkubo.dao.FondeoSolicitudDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+		
+	<bean name="/gridFondeoSolicitud.htm"  
+			class="invkubo.controlador.FondeoSolicitudListaControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+	
+	<bean name="/fondeoKuboGrid.htm"  
+			class="invkubo.controlador.ConsulInverKuboGridControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+	
+
+	<bean name="/originacionCat.htm"
+			class="invkubo.controlador.ConsulOriginacionGridControlador">
+		<property name="fondeoSolicitudServicio" ref="fondeoSolicitudServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de Beans de fondeo de solicitudes Kubo-->
+	<bean id="fondeoSolicitudServicioImpl" class="invkubo.servicio.FondeoSolicitudServicio">
+	      <dwr:remote javascript="fondeoSolicitudServicio"/> 
+	      <property name="FondeoSolicitudDAO" ref="fondeoSolicitudDAOImpl"/>
+	</bean> 
+
+		<!-- Definicion de Controladores de Guia Contable de Kubo-->
+					
+	<bean name="/catalogoGuiaContaInvKubo.htm" class="invkubo.controlador.GuiaContableKuboControlador">
+	      <property name="formView" value="invKubo/guiaContableKuboCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableKuboServicio" ref="guiaContableKuboServicioImpl" />
+	</bean>
+
+		<!-- Definicion de Beans de Guia Contable de Kubo-->
+					
+	<bean id="guiaContableKuboServicioImpl" class="invkubo.servicio.GuiaContableKuboServicio">
+	      <dwr:remote javascript="guiaContableKuboServicio"/> 
+	      <property name="cuentasMayorKuboDAO" ref="cuentasMayorKuboDAOImpl"/>
+	      <property name="subctaMonedaKuboDAO" ref="subctaMonedaKuboDAOImpl"/>
+	      <property name="subctaPlazoKuboDAO" 	ref="subctaPlazoKuboDAOImpl"/>
+	</bean> 
+	
+	<!-- Beans de Cuentas de Mayor  --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="invkubo.bean.CuentasMayorKuboBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasMayorKuboDAOImpl" class="invkubo.dao.CuentasMayorKuboDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+ 	<bean id="cuentasMayorKuboServicioImpl" class="invkubo.servicio.CuentasMayorKuboServicio">
+	      <dwr:remote javascript="cuentasMayorKuboServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="cuentasMayorKuboDAO" ref="cuentasMayorKuboDAOImpl"/>
+	</bean>		
+	
+	
+	<!-- Beans de Subcuentas por Tipo de Moneda--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="invkubo.bean.SubctaMonedaKuboBean" />
+	</dwr:configuration>
+	
+	<bean id="subctaMonedaKuboDAOImpl" class="invkubo.dao.SubctaMonedaKuboDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subctaMonedaKuboServicioImpl" class="invkubo.servicio.SubctaMonedaKuboServicio">
+	      <dwr:remote javascript="subctaMonedaKuboServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subctaMonedaKuboDAO" ref="subctaMonedaKuboDAOImpl"/>
+	</bean> 
+	
+	<!-- Beans de Conceptos Kubo --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="invkubo.bean.ConceptosKuboBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptosKuboDAOImpl" class="invkubo.dao.ConceptosKuboDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="conceptosKuboServicioImpl" class="invkubo.servicio.ConceptosKuboServicio">
+	      <dwr:remote javascript="conceptosKuboServicio"> 
+	      <dwr:include method="listaCombo" />
+         </dwr:remote> 
+	      <property name="conceptosKuboDAO" ref="conceptosKuboDAOImpl"/>
+	</bean>
+	
+		<!-- Beans de Subcuentas por Plazo--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="invkubo.bean.SubctaPlazoKuboBean" />
+	</dwr:configuration>
+	
+	<bean id="subctaPlazoKuboDAOImpl" class="invkubo.dao.SubctaPlazoKuboDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="subctaPlazoKuboServicioImpl" class="invkubo.servicio.SubctaPlazoKuboServicio">
+	      <dwr:remote javascript="subctaPlazoKuboServicio"> 
+	      <dwr:include method="consulta" />
+	      </dwr:remote>
+	      <property name="subctaPlazoKuboDAO" ref="subctaPlazoKuboDAOImpl"/>
+	</bean> 
+	
+	<!-- controlador de consulta originacion --> 
+	<bean name="/consultaOriginacion.htm" class="invkubo.controlador.ConsultaOriginacionControlador">
+		<property name="formView" value="invKubo/originacionCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+		
+	
+	
+	<!-- Beans de fondeo kubo  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="invkubo.bean.FondeoKuboBean" />
+	</dwr:configuration>
+
+		<bean id="fondeoKuboDAOImpl" class="invkubo.dao.FondeoKuboDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+		
+	<bean id="fondeoKuboServicioImpl" class="invkubo.servicio.FondeoKuboServicio">
+			<dwr:remote javascript="fondeokuboServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="fondeoKuboDAO" ref="fondeoKuboDAOImpl"/> 
+	</bean> 
+	
+<!-- Beans de tipos fondeadores  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="invkubo.bean.TiposFondeadoresBean" />
+	</dwr:configuration>
+
+		<bean id="tiposFondeadoresDAOImpl" class="invkubo.dao.TiposFondeadoresDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+
+		
+	<bean id="tiposFondeadoresServicioImpl" class="invkubo.servicio.TiposFondeadoresServicio">
+			<dwr:remote javascript="tiposFondeadoresServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="tiposFondeadoresDAO" ref="tiposFondeadoresDAOImpl"/> 
+	</bean> 
+		
+	<!-- controlador de consulta originacion --> 
+	<bean name="/tiposFondeadores.htm" class="invkubo.controlador.TiposFondeadoresControlador">
+		<property name="formView" value="invKubo/tiposFondeadoresCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposFondeadoresServicio" ref="tiposFondeadoresServicioImpl" />
+	</bean>
+	
+	
+	
+	
+	
+	<!-- Beans de movimientos fondeo kubo  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="invkubo.bean.FondeoKuboMovsBean" />
+	</dwr:configuration>
+
+		<bean id="fondeoKuboMovsDAOImpl" class="invkubo.dao.FondeoKuboMovsDAO"> 
+      <property name="dataSource" ref="dataSource"/>
+      <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 	
+		
+	<bean id="fondeoKuboMovsServicioImpl" class="invkubo.servicio.FondeoKuboMovsServicio">
+			<dwr:remote javascript="fondeokuboMovsServicio">
+			<dwr:include method="consulta" />		
+			</dwr:remote>  
+	      <property name="fondeoKuboMovsDAO" ref="fondeoKuboMovsDAOImpl"/> 
+	</bean> 
+	
+	<bean name="/fondeoKuboMovsGrid.htm"  
+			class="invkubo.controlador.MovimFondKuboGridControlador">
+		<property name="fondeoKuboMovsServicio" ref="fondeoKuboMovsServicioImpl" />
+	</bean>
+	
+	<!--  bean de lista de saldos y pagos de inversionista kubo-->
+	<bean name="/pagosYsaldosFondeoKuboGrid.htm"  
+			class="invkubo.controlador.SaldosYpagosFonKuboGridControlador">
+		<property name="fondeoKuboServicio" ref="fondeoKuboServicioImpl" />
+	</bean>
+	
+	
+</beans>

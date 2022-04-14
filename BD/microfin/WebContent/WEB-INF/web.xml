@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+	<display-name>SAFI Banking</display-name>
+  
+	<display-name>Software y Aplicaciones Financieras Integrales</display-name>
+	<description>Core Banking de MicroFinanzas</description>
+
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>  
+
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+	<listener>
+    	<listener-class>
+	        org.springframework.web.context.request.RequestContextListener
+	    </listener-class>
+  	</listener>
+  	<!-- Clase encargada del manejo de tiempo sesion dinamico -->
+  	<listener>
+    	<listener-class>soporte.CustomSessionListener</listener-class>
+  	</listener>
+  	
+   	<context-param>
+   		<param-name>contextConfigLocation</param-name>		
+		<param-value>       
+			/WEB-INF/microfin-servlet.xml
+		</param-value>
+   	</context-param>
+  	
+ 
+	<servlet>
+		<servlet-name>microfin</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	  
+	<servlet-mapping>
+		<servlet-name>microfin</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+		<url-pattern>/menuAplicacion.htm</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>dwr</servlet-name>
+		<servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
+  		<init-param>
+    		<param-name>debug</param-name>
+    		<param-value>true</param-value>
+  		</init-param>
+    	<init-param>
+      		<param-name>accessLogLevel</param-name>
+      		<param-value>EXCEPTION</param-value>
+    	</init-param>  		
+  		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>dwr</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+        <servlet-name>spring-ws</servlet-name>
+        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>transformWsdlLocations</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+    	  
+    <servlet-mapping>
+        <servlet-name>spring-ws</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>    
+	
+	<servlet>
+		<servlet-name>log4j-init</servlet-name>
+		<servlet-class>soporte.Log4jInitServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>	
+	
+	<filter>
+    	<filter-name>springSecurityFilterChain</filter-name>
+ 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<welcome-file-list>
+		<welcome-file>menuAplicacion.htm</welcome-file>
+	</welcome-file-list>
+
+   <servlet>
+ 		<description>Captcha Servlet</description>
+  		<display-name>
+			This is the display name of my J2EE component
+  		</display-name>
+  		<servlet-name>jcaptcha</servlet-name>
+  		<servlet-class>soporte.ImageCaptchaServlet</servlet-class>
+  		<load-on-startup>0</load-on-startup>
+ 	</servlet>
+
+	<servlet>
+  		<description>Captcha Servlet</description>
+  		<display-name>
+   		This is the display name of my J2EE component
+  		</display-name>
+  		<servlet-name>Register</servlet-name>
+  		<servlet-class>soporte.Register</servlet-class>
+ 	</servlet>
+
+	<servlet-mapping>
+  		<servlet-name>jcaptcha</servlet-name>
+  		<url-pattern>/jcaptcha</url-pattern>
+ 	</servlet-mapping>
+
+	<servlet-mapping>
+  		<servlet-name>Register</servlet-name>
+  		<url-pattern>/register</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/jsp/errors/sesionExpir.jsp</location>
+  	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/errors/sesionExpir.jsp</location>
+ 	</error-page>  
+  
+  	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/jsp/errors/PaginaError.jsp</location>
+  	</error-page>
+  
+ 	<session-config>
+        <session-timeout>100</session-timeout>
+	</session-config>	
+ 
+ 	<filter>
+		<filter-name>charsetFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+	    	<param-name>encoding</param-name>
+	    	<param-value>UTF-8</param-value>
+		</init-param>
+
+		<init-param>
+	    	<param-name>forceEncoding</param-name>
+	    	<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>charsetFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	
+</web-app>

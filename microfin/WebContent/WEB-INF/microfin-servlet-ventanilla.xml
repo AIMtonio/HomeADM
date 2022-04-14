@@ -1,0 +1,1539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+
+
+	<!-- Beans de tasas de ahorro -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.IngresosOperacionesBean" />
+	</dwr:configuration>
+
+	<bean id="ingresosOperacionesDAOImpl" class="ventanilla.dao.IngresosOperacionesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="bloqueoSaldoDAO" ref="bloqueoSaldoDAOImpl"/>
+		<property name="creditosDAO" ref="creditosDAOImpl"/>
+	 	<property name="apoyoEscolarSolDAO" ref="apoyoEscolarSolDAOImpl"/>
+		<property name="paramFaltaSobraDAO" ref="paramFaltaSobraDAOImpl"/>
+		<property name="serviFunEntregadoDAO" ref="serviFunEntregadoDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="tarjetaDebitoDAO" ref="tarjetaDebitoDAOImpl"/>
+		<property name="clientesCancelaDAO" ref="clientesCancelaDAOImpl"/>
+		<property name="catalogoGastosAntDAO" ref="catalogoGastosAntDAOImpl"/>
+		<property name="clienteExMenorDAO" ref="clienteExMenorDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="serviFunFoliosDAO" ref="serviFunFoliosDAOImpl"/>
+		<property name="amortizacionCreditoDAO" ref="amortizacionCreditoDAOImpl"/>
+		<property name="castigosCarteraDAO" ref="castigosCarteraDAOImpl"/>
+		<property name="creditoDevGLDAO" ref="creditoDevGLDAOImpl"/>
+		<property name="usuarioDAO" ref="usuarioDAOImpl"/>
+		<property name="cuentasAhoDAO" ref="cuentasAhoDAOImpl"/>
+		<property name="arrendamientosDAO" ref="arrendamientosDAOImpl"/>
+		<property name="pslCobroSLDAO" ref="pslCobroSLDAOImpl"/>
+		<property name="comisionesSaldoPromedioDAO" ref="comisionesSaldoPromedioDAOImpl" />
+
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ingresosOperacionesServicioImpl" class="ventanilla.servicio.IngresosOperacionesServicio">
+	 	<dwr:remote javascript="ingresosOperacionesServicio">
+	    	<dwr:include method="consulta"/>
+	    	<dwr:include method="listaConsulta"/>
+	    	<dwr:include method="lista"/>
+	    	<dwr:include method="consultaProperties"/>
+	    </dwr:remote>
+		<property name="ingresosOperacionesDAO" ref="ingresosOperacionesDAOImpl"/>
+		<property name="cuentasAhoMovDAO" ref="cuentasAhoMovDAOmpl"/>
+		<property name="creditosDAO" ref="creditosDAOImpl"/>
+		<property name="sucursalesDAO" ref="sucursalesDAOImpl"/>
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+		<property name="cajasVentanillaDAO" ref="cajasVentanillaDAOImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAplicacionDAO" ref="parametrosAplicacionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="OpeEscalamientoInternoDAO" ref="opeEscalamientoInternoDAOImpl"/>
+		<property name="cuentasAhoDAO" ref="cuentasAhoDAOImpl"/>
+		<property name="smsEnvioMensajeDAO" ref="smsEnvioMensajeDAOImpl"/>
+		<property name="isotrxServicio" ref="isotrxServicioImpl" />
+	</bean>
+
+
+
+
+	<!-- Definicion de Controladores de tasas de ahorro-->
+	<bean name="/ingresosOperaciones.htm" class="ventanilla.controlador.IngresosOperacionesControlador">
+	      <property name="formView" value="ventanilla/ingresosOperacionesVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	      <property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket pago de Credito -->
+	<bean name="/RepTicketVentanillaPagCred.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoCredito.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket pago de Credito Grupal -->
+	<bean name="/RepTicketVentanillaPagCredGrupal.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoCreditoGrupal.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket Garantia Liquida-->
+	<bean name="/RepTicketVentanillaGarantiaLiq.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketGarantiaLiquida.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket Cargo a Cuenta-->
+	<bean name="/RepTicketVentanillaCargoCuenta.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketCargoCta.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket Abono a Cuenta-->
+	<bean name="/RepTicketVentanillaAbonoCuenta.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketAbonoCta.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket Abono a Cuenta-->
+	<bean name="/RepTicketVentanillaGLAdicional.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketGarantiaLiquidaAdi.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket pago de Arrendamiento -->
+	<bean name="/RepTicketVentanillaPagArrendamiento.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoArrendamiento.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de Ticket de pago de servicios en linea -->
+	<bean name="/RepTicketVentanillaPSL.htm" class="ventanilla.reporte.TicketReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporte" value="ventanilla/ticketPagoServiciosLinea.prpt" />
+		<property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!--  Bean para Cajas Ventanilla -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.CajasVentanillaBean" />
+	</dwr:configuration>
+
+	<bean id="cajasVentanillaDAOImpl" class="ventanilla.dao.CajasVentanillaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="cajasTransferDAO" ref="cajasTransferDAOImpl"/>
+	</bean>
+
+	<bean id="cajasVentanillaServicioImpl" class="ventanilla.servicio.CajasVentanillaServicio">
+	      <dwr:remote javascript="cajasVentanillaServicio">
+	          	<dwr:include method="listaCombo"/>
+	          	<dwr:include method="consulta"/>
+	          	<dwr:include method="listaConsulta"/>
+	          	<dwr:include method="listaConsultahis"/>
+	          	<dwr:include method="listaTicketVentanilla"/>
+	          	<dwr:include method="listacomboCajasSucursal"/>
+	          	<dwr:include method="actualizaProceso" />
+	      </dwr:remote>
+	      <property name="cajasVentanillaDAO" ref="cajasVentanillaDAOImpl"/>
+		  <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	  	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Tira Auditoria -->
+	<bean name="/tiraAuditoraVista.htm" class="ventanilla.controlador.CajasVentanillaControlador">
+	      <property name="formView" value="ventanilla/tiraAuditoraVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Grid Tira Auditora -->
+	<bean name="/tiraAuditoraGridVista.htm" class="ventanilla.controlador.TiraAuditoraGridControlador">
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Reporte de Comision por apertura-->
+	<bean name="/RepTicketVentanillaComApCre.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketComAperCred.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/listaCajaVentanilla.htm"
+		  class="ventanilla.controlador.CajasVentanillaListaControlador">
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!--  -->
+	<bean name="/listaHistorialBalance.htm"
+		  class="ventanilla.controlador.CajasVentHistListaControlador">
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<!-- Reporte Tira Auditora -->
+	<bean name="/ReporteTiraAuditora.htm" class="ventanilla.reporte.TiraAuditoraRepControlador">
+		<property name="nomReporte" value="ventanilla/ArqueoCaja.prpt" />
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<bean name="/ReporteTiraAuditoraHis.htm" class="ventanilla.reporte.TiraAuditoraRepControlador">
+		<property name="nomReporte" value="ventanilla/ArqueoCajaHis.prpt" />
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Reporte Detalle de Arqueo de Caja -->
+	<bean name="/RepDetalleArqueoCaja.htm" class="ventanilla.controlador.DetalleArqueoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/DetalleArqueoCaja.prpt" />
+	  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<bean name="/RepDetalleArqueoCajaHis.htm" class="ventanilla.controlador.DetalleArqueoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/DetalleArqueoCajaHis.prpt" />
+	  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<!-- Reporte Detalle de Arqueo Transferencia de Caja a Bancos -->
+	<bean name="/RepDetalleArqueoTransferCaja.htm" class="ventanilla.controlador.DetalleArqueoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/DetalleArqueoTransferCaja.prpt" />
+	  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<bean name="/RepDetalleArqueoTransferCajaHis.htm" class="ventanilla.controlador.DetalleArqueoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/DetalleArqueoTransferCajaHis.prpt" />
+	  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<!-- Controlador para Catalogo Cajas Ventanilla -->
+	<bean name="/cajasVentanillaVista.htm"
+		  class="ventanilla.controlador.CajasVentanillaCatalogoControlador">
+		  <property name="formView" value="ventanilla/cajasVentanillaVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Controlador para Administracion de Cajas Ventanilla -->
+	<bean name="/administraCajasVentanillaVista.htm"
+		  class="ventanilla.controlador.CajasVentanillaCatalogoControlador">
+		  <property name="formView" value="ventanilla/administraCajasVentanillaVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Controlador para Asignacion de Cajas Ventanilla -->
+	<bean name="/asignaCajasVentanillaVista.htm"
+		  class="ventanilla.controlador.CajasVentanillaCatalogoControlador">
+		  <property name="formView" value="ventanilla/asignaCajasVentanillaVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+	<!-- Controlador para Balanza de Efectivo -->
+	<bean name="/balanzaConsultaVista.htm"
+		  class="ventanilla.controlador.CajasVentanillaCatalogoControlador">
+		  <property name="formView" value="ventanilla/consultaBalanzaVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl"/>
+	</bean>
+
+
+	<!--  Bean para Transferencias entre Cajas-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.CajasTransferBean" />
+	</dwr:configuration>
+
+	<bean id="cajasTransferDAOImpl" class="ventanilla.dao.CajasTransferDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="ingresosOperacionesDAO" ref="ingresosOperacionesDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<bean id="cajasTransferServicioImpl" class="ventanilla.servicio.CajasTransferServicio">
+	      <dwr:remote javascript="cajasTransferServicio">
+	      </dwr:remote>
+	      <property name="cajasTransferDAO" ref="cajasTransferDAOImpl"/>
+	      <property name="sucursalesDAO" ref="sucursalesDAOImpl"/>
+		  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+		  <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Transferencia de Cajas -->
+	<bean name="/cajasTransferVista.htm" class="ventanilla.controlador.CajasTransferControlador">
+	      <property name="formView" value="ventanilla/cajasTransferVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasTransferServicio" ref="cajasTransferServicioImpl" />
+	</bean>
+
+	<!-- Definicion de Controladores Recepcion de Transferencias -->
+	<bean name="/recepcionTransferVista.htm" class="ventanilla.controlador.RecepcionTransferControlador">
+	      <property name="formView" value="ventanilla/recepcionTransferVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasTransferServicio" ref="cajasTransferServicioImpl" />
+	</bean>
+
+	<!-- Defincion del controlador para Ticket de Transferencia de Efectivo entre cajas -->
+	 <bean name="/RepTicketCajasTransfer.htm" class="ventanilla.reporte.TicketCajasTransferRepControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketTransferCajas.prpt" />
+	  <property name="cajasTransferServicio" ref="cajasTransferServicioImpl" />
+	</bean>
+
+
+	<!-- Reporte de Desembolso de credito-->
+	<bean name="/RepTicketVentanillaDesCred.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketDesCred.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Definicion para Transferencias de Efectivo a Bancos  -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.TransferBancoBean" />
+	</dwr:configuration>
+
+	<bean id="transferBancoDAOImpl" class="ventanilla.dao.TransferBancoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="ingresosOperacionesDAO" ref="ingresosOperacionesDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+
+	<bean id="transferBancoServicioImpl" class="ventanilla.servicio.TransferBancoServicio">
+	      <dwr:remote javascript="transferBancoServicio">
+	      </dwr:remote>
+	      <property name="transferBancoDAO" ref="transferBancoDAOImpl"/>
+		  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+		  <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Envio de Efectivo a Bancos -->
+	<bean name="/envioEfectivoBancoVista.htm"
+		  class="ventanilla.controlador.EnvioEfectivoBancoControlador">
+		  <property name="formView" value="ventanilla/envioEfectivoBancoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="transferBancoServicio" ref="transferBancoServicioImpl"/>
+	</bean>
+	<!-- Recepcion de Efectivo a Bancos -->
+	<bean name="/recepcionEfectivoBancoVista.htm"
+		  class="ventanilla.controlador.EnvioEfectivoBancoControlador">
+		  <property name="formView" value="ventanilla/recepcionEfectivoBancoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="transferBancoServicio" ref="transferBancoServicioImpl"/>
+	</bean>
+
+
+
+	<!-- Apertura de día de cajas  -->
+	<bean name="/aperturaOperaCaja.htm"
+		  class="ventanilla.controlador.CajasVentanillaControlador">
+		  <property name="formView" value="ventanilla/cajasVentanillaApertVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl"/>
+	</bean>
+
+
+	<bean name="/aperturaOperaPrincCaja.htm"
+		  class="ventanilla.controlador.CajasVentanillaControlador">
+		  <property name="formView" value="ventanilla/cajasVentanillaApertPrincVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl"/>
+	</bean>
+	<!-- Cierre de día de cajas  -->
+	<bean name="/cierreDiaOperaCaja.htm"
+		  class="ventanilla.controlador.CajasVentanillaControlador">
+		  <property name="formView" value="ventanilla/cajasVentanillaCierreVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl"/>
+	</bean>
+
+	<!-- Beans para el Reporte Ticket del seguro de Vida -->
+	<bean name="/TicketVentanillaSegVida.htm" class="ventanilla.reporte.TicketPolizaSeguroVidaControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPolizaCobroSegVida.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReporteVentanillaSegVida.htm" class="ventanilla.reporte.RepSeguroVidaFalleciControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/PagoSeguroVidaPorFallecimiento.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- Reversa Ingresos Operaciones-->
+	<bean name="/reversasOperaciones.htm"  class="ventanilla.controlador.ReversasIngresosOperacionesControlador">
+		  <property name="formView" value="ventanilla/reversaIngresosOperacionesVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl"/>
+	</bean>
+	<bean name="/listaCajasMovs.htm" class="ventanilla.controlador.CajasMovsListaControlador">
+		<property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/TicketReversaVenSegVida.htm" class="ventanilla.reporte.ReversaCobroPolizaSegVidaControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaCobroSegVidaTicket.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReversaAbonoCuentaTicket.htm" class="ventanilla.reporte.ReversaAbonoCuentaTicketControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaAbonoCta.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReversaCargoCta.htm" class="ventanilla.reporte.ReversaCargoCuentaControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaCargoCta.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/ReversaDepGarantiaLiquida.htm" class="ventanilla.reporte.ReversaDepGarLiquidaControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaGarantiaLiquida.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReversaDesembolsoCredito.htm" class="ventanilla.reporte.ReversaDesembolsoCreditoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaTicketDesCred.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReversaSegVidaSiniestro.htm" class="ventanilla.reporte.ReversaSegVidaSiniestroControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaPagoSeguroVidaPorFallecimiento.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/ReversaComisionApertura.htm" class="ventanilla.reporte.ReversasTicketControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/reversaComAperCred.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+<!-- //pantalla de Reporte de denominaciones de ventanilla	 -->
+	<bean name="/denominacionMovsRep.htm" class="ventanilla.controlador.DenominacionMovsControlador">
+      <property name="formView" value="ventanilla/DenominacionMovsVista" />
+    </bean>
+<!-- Bean de reporte de deniminaciones -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.DenominacionMovsBean" />
+	</dwr:configuration>
+
+	<!-- 	Dao de reporte de denominaciones -->
+	<bean id="denominacionMovsDAOImpl" class="ventanilla.dao.DenominacionMovsDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+<!-- Servicio de reporte de denominaciones -->
+	<bean id="denominacionMovsServicioImpl" class="ventanilla.servicio.DenominacionMovsServicio">
+      <dwr:remote javascript="denominacionMovsServicio">
+          	<dwr:include method="consulta"/>
+      </dwr:remote>
+      <property name="denominacionMovsDAO" ref="denominacionMovsDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+<!-- Reporte de Denominaciones -->
+	<bean name="/repDenoMovs.htm" class="ventanilla.reporte.RepDenoMovsControlador">
+		<property name="nomReporte" value="ventanilla/denominacionMovimientos.prpt" />
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Beans para las opciones por caja -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.OpcionesPorCajaBean" />
+	</dwr:configuration>
+
+	<bean id="opcionesPorCajaDAOImpl" class="ventanilla.dao.OpcionesPorCajaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="opcionesPorCajaServicioImpl" class="ventanilla.servicio.OpcionesPorCajaServicio">
+		<dwr:remote javascript="opcionesPorCajaServicio">
+			<dwr:include method="listaCombo" />
+			 <dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="opcionesPorCajaDAO" ref="opcionesPorCajaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/RepTicketAportacionSocio.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketAportacionSocio.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/RepTicketDevAportaSocio.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketDevAportSocio.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/RepTicketCobroSegAyudaSocio.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketCobroSegAyuda.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/RepTicketPagoSeguroAyuda.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoSeguroAyuda.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<bean name="/RepTicketPagoRemesas.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoRemesa.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/RepTicketPagoOportunidades.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoOportunidades.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+		<bean name="/RepTicketRecepChequeSBC.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketCobroChequeSBC.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/RepTicketAplicaChequeSBC.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketAplicaChequeSBC.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+		<!-- Reporte de Ticket Gastos Anticipos-->
+	<bean name="/RepTicketVentanillaGastos.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketGastos.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+			<!-- Reporte de Ticket Gastos Anticipos-->
+	<bean name="/RepTicketVentanillaDevGastos.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketDevolucionGastos.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+			<!-- Reporte de Ticket Entrega Haberes ExMenor-->
+	<bean name="/RepTicketVentanillaHaberesExMenor.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketEntHaberesExMenor.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<!-- Beans para las opciones por caja -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.AbonoChequeSBCBean" />
+	</dwr:configuration>
+
+	<bean id="abonoChequeSBCDAOImpl" class="ventanilla.dao.AbonoChequeSBCDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="abonoChequeSBCServicioImpl" class="ventanilla.servicio.AbonoChequeSBCServicio">
+		<dwr:remote javascript="abonoChequeSBCServicio">
+			<dwr:include method="listaCombo" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="abonoChequeSBCDAO" ref="abonoChequeSBCDAOImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!--  Beans para el catalogo de Servicios -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.CatalogoServBean" />
+	</dwr:configuration>
+	<bean id="catalogoServDAOImpl" class="ventanilla.dao.CatalogoServDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="catalogoServServicioImpl" class="ventanilla.servicio.CatalogoServServicio">
+		<dwr:remote javascript="catalogoServicios">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catalogoServDAO" ref="catalogoServDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/catalogoServicios.htm"  class="ventanilla.controlador.CatalogoServControlador">
+		  <property name="formView" value="ventanilla/catalogoServiciosVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="catalogoServServicio" ref="catalogoServServicioImpl"/>
+	</bean>
+	<bean name="/listaCatalogoServicios.htm"  class="ventanilla.controlador.CatalogoServListaControlador">
+		<property name="catalogoServServicio" ref="catalogoServServicioImpl" />
+	</bean>
+
+
+<!-- reporte de servicios pantalla RepPagServControlador RepPagosServicios-->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="ventanilla.bean.RepPagServBean"/>
+	</dwr:configuration>
+
+	<bean id="repPagoSeviciosDAOimpl" class="ventanilla.dao.RepPagoSeviciosDAO">
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="repPagoServiciosServicioImpl" class="ventanilla.servicio.RepPagoServiciosServicio">
+	      <dwr:remote javascript="repPagoServiciosServicio">
+		</dwr:remote>
+	      <property name="repPagoSeviciosDAO" ref="repPagoSeviciosDAOimpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/pagServicios.htm"  class="ventanilla.controlador.RepPagServVistaControlador">
+		  <property name="formView" value="ventanilla/repPagoServicios" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<!-- cheques emitidos -->
+	<bean name="/chequesEmitidos.htm"  class="ventanilla.controlador.ChequeEmitidosControlador">
+		  <property name="formView" value="ventanilla/chequesEmitidosVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+
+	<bean name="/exportaReporteCheques.htm" class="ventanilla.reporte.RepChequesEmitidosControlador">
+		<property name="nombreReporte" value="ventanilla/ChequesSBC.prpt" />
+		<property name="chequesServicio" ref="abonoChequeSBCServicioImpl" />
+	</bean>
+
+	<bean name="/listaChequeSBC.htm"
+		class="ventanilla.reporte.ChequeSbcListaControlador">
+		<property name="chequesSBC" ref="abonoChequeSBCServicioImpl" />
+	</bean>
+
+
+
+	<bean name="/repPagoServicios.htm" class="ventanilla.reporte.RepPagServControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nomReporte" value="ventanilla/repPagoServicios.prpt" />
+      <property name="repPagoServiciosServicio" ref="repPagoServiciosServicioImpl" />
+	  <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/TicketPagoServifun.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoServifun.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/TicketPagoApoyoEscolar.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoApoyoEscolar.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/AnualidadTD.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketComisionAnualTD.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+	<bean name="/ticketPagoCancelacionSocio.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketPagoCancelSocio.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+	<!-- 	catalogo de remesas -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.CatalogoRemesasBean" />
+	</dwr:configuration>
+	<bean id="catalogoRemesasDAOImpl" class="ventanilla.dao.CatalogoRemesasDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="catalogoRemesasServicioImpl" class="ventanilla.servicio.CatalogoRemesasServicio">
+		<dwr:remote javascript="catalogoRemesasServicio">
+			<dwr:include method="listaCombo" />
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="catalogoRemesasDAO" ref="catalogoRemesasDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/catalogoRemesadora.htm"
+		  class="ventanilla.controlador.CatalogoRemesasControlador">
+		  <property name="formView" value="ventanilla/catalogoRemesasVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="catalogoRemesasServicio" ref="catalogoRemesasServicioImpl"/>
+	</bean>
+	<bean name="/listaCatalogoRemesadora.htm"
+		  class="ventanilla.controlador.CatalogoRemesadoraListaControlador">
+		<property name="catalogoRemesasServicio" ref="catalogoRemesasServicioImpl" />
+	</bean>
+
+
+	<!--  Beans de la Transferencia a Cajeros ATM -->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="ventanilla.bean.CajeroATMTransfBean"/>
+	</dwr:configuration>
+
+	<bean id="cajeroATMTransfDAOImpl" class="ventanilla.dao.CajeroATMTransfDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="ingresosOperacionesDAO" ref="ingresosOperacionesDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+	</bean>
+	<bean id="cajeroATMTransfServicioImpl" class="ventanilla.servicio.CajeroATMTransfServicio">
+		<dwr:remote javascript="cajeroATMTransfServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="cajeroATMTransfDAO" ref="cajeroATMTransfDAOImpl"/>
+		  <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+		  <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	  		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/envioTransferCajeroATM.htm" class="ventanilla.controlador.CajeroATMEnvioTransfControlador">
+		  <property name="formView" value="ventanilla/cajeroATMEnvioTransferVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajeroATMTransfServicio" ref="cajeroATMTransfServicioImpl"/>
+	</bean>
+	<bean name="/ticketTransfATM.htm" class="ventanilla.reporte.ComprobanteTransfATMControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketTransferATM.prpt" />
+	  <property name="cajeroATMTransfServicio" ref="cajeroATMTransfServicioImpl" />
+	</bean>
+
+	<bean name="/RepTicketCredCastigado.htm" class="ventanilla.reporte.TicketReporteControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketRecCreditoCastigado.prpt" />
+	  <property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl" />
+	</bean>
+
+		<!-- Reporte de Envio Efectivo a Banco-->
+
+	<!-- Defincion del controlador para Ticket de Transferencia de Efectivo entre cajas -->
+	<bean name="/RepTicketVentanillaEnvioEfectBanc.htm" class="ventanilla.reporte.TicketCajasTransferRepControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketTransferBanc.prpt" />
+	  <property name="cajasTransferServicio" ref="cajasTransferServicioImpl" />
+	</bean>
+
+
+<!-- reporte de Opciones ventanilla-->
+	<bean name="/repOpVentanillaVista.htm" class="ventanilla.controlador.RepOpVentanillaControlador">
+		<property name="formView" value="ventanilla/repOpVentanillaVista" />
+	    <property name="successView" value="resultadoTransaccionVista" />
+	    <property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	</bean>
+
+	<bean name="/repOpVentanilla.htm" class="ventanilla.reporte.OpVentanillaRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporteVen" value="ventanilla/repOpVentanilla.prpt" />
+	 	<property name="nombreReporteComer" value="ventanilla/repOpVentanillaComer.prpt" />
+	   	<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+	   	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+
+	</bean>
+
+	<!-- Beans de Faltantes y Sobrantes -->
+
+    <dwr:configuration>
+	     <dwr:convert type="bean" class="ventanilla.bean.ParamFaltaSobraBean"/>
+	</dwr:configuration>
+
+	<bean id="paramFaltaSobraDAOImpl" class="ventanilla.dao.ParamFaltaSobraDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="paramFaltaSobraServicioImpl" class="ventanilla.servicio.ParamFaltaSobraServicio">
+		<dwr:remote javascript="paramFaltaSobraServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="paramFaltaSobraDAO" ref="paramFaltaSobraDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/parametrosFaltaSobra.htm"  class="ventanilla.controlador.ParamFaltaSobraControlador">
+		  <property name="formView" value="ventanilla/parametrosFaltaSobraVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="paramFaltaSobraServicio" ref="paramFaltaSobraServicioImpl"/>
+	</bean>
+
+	<!-- Bean para Tesoreria/AsignaChequesCajas -->
+	<bean name="/asignarChequeSucurGrid.htm" class="ventanilla.controlador.AsignarChequeSucurGridControlador">
+		<property name="cajasVentanillaServicio" ref="cajasVentanillaServicioImpl" />
+		<property name="asignarChequeSucurServicio" ref="asignarChequeSucurServicioImpl" />
+	</bean>
+
+	<!-- Cheques Emitidos -->
+	<dwr:configuration>
+	     <dwr:convert type="bean" class="ventanilla.bean.ChequesEmitidosBean"/>
+	</dwr:configuration>
+
+	<bean id="chequesEmitidosDAOImpl" class="ventanilla.dao.ChequesEmitidosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="chequesEmitidosServicioImpl" class="ventanilla.servicio.ChequesEmitidosServicio">
+		<dwr:remote javascript="chequesEmitidosServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="chequesEmitidosDAO" ref="chequesEmitidosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+
+	<!--## Beans para el Catalogo de Gastos y Anticipos de Ventanilla ## OW4R-->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.CatalogoGastosAntBean" />
+	</dwr:configuration>
+	<bean id="catalogoGastosAntDAOImpl" class="ventanilla.dao.CatalogoGastosAntDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	<bean id="catalogoGastosAntServicioImpl" class="ventanilla.servicio.CatalogoGastosAntServicio">
+		<dwr:remote javascript="catalogoGastosAntServicios">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="catalogoGastosAntDAO" ref="catalogoGastosAntDAOImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/catalogoAnticiposGastos.htm"  class="ventanilla.controlador.CatalogoGastosAntControlador">
+		  <property name="formView" value="ventanilla/catalogoGastosAntVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="catalogoGastosAntServicio" ref="catalogoGastosAntServicioImpl"/>
+	</bean>
+
+	<bean name="/listaTiposGastos.htm" class="ventanilla.controlador.CatalogoGastosAntListaControlador">
+		<property name="catalogoGastosAntServicio" ref="catalogoGastosAntServicioImpl" />
+	</bean>
+
+	<bean name="/repMovGastosAnticipos.htm"  class="ventanilla.controlador.RepMovimientosGastosAntControlador">
+		  <property name="formView" value="ventanilla/reporteGastosAntVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="catalogoGastosAntServicio" ref="catalogoGastosAntServicioImpl"/>
+	</bean>
+
+	<bean name="/repGastosAnticipos.htm" class="ventanilla.reporte.MovGastosAntRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="nombreReporte" value="ventanilla/RepGastosAnticipos.prpt" />
+	   <property name="catalogoGastosAntServicio" ref="catalogoGastosAntServicioImpl" />
+	</bean>
+
+
+	<!--## Beans para Pantalla de Reporte de Reversas -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.ReversasOperCajaBean" />
+	</dwr:configuration>
+	<bean id="reversasOperCajaDAOImpl" class="ventanilla.dao.ReversasOperCajaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	<bean id="reversasOperCajaServicioImpl" class="ventanilla.servicio.ReversasOperCajaServicio">
+		<dwr:remote javascript="reversasOperCajaServicios">
+			<dwr:include method="consulta" />
+			<!-- <dwr:include method="lista" />
+			<dwr:include method="listaCombo" />	-->
+		</dwr:remote>
+		<property name="reversasOperCajaDAO" ref="reversasOperCajaDAOImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/reversasOperCaja.htm"  class="ventanilla.controlador.ReversasOperCajaControlador">
+		  <property name="formView" value="ventanilla/reporteReversasVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="reversasOperCajaServicio" ref="reversasOperCajaServicioImpl"/>
+	</bean>
+	<!--
+	<bean name="/listaTiposGastos.htm" class="ventanilla.controlador.CatalogoGastosAntListaControlador">
+		<property name="catalogoGastosAntServicio" ref="catalogoGastosAntServicioImpl" />
+	</bean>-->
+
+	<bean name="/repReversasOperCaja.htm"  class="ventanilla.reporte.ReversasOperCajaRepControlador">
+	     <property name="successView" value="resultadoTransaccionVista" />
+		  <property name="nombreReporte" value="ventanilla/RepReversasCaja.prpt" />
+	      <property name="reversasOperCajaServicio" ref="reversasOperCajaServicioImpl"/>
+	</bean>
+	<!-- Moviemientos de Caja -->
+	<dwr:configuration>
+      <dwr:convert type="bean" class="ventanilla.bean.CajasMovsBean" />
+	</dwr:configuration>
+	<bean id="cajasMovsDAOImpl" class="ventanilla.dao.CajasMovsDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+
+	</bean>
+	<bean id="cajasMovsServicioImpl" class="ventanilla.servicio.CajasMovsServicio">
+		<dwr:remote javascript="cajasMovsServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="cajasMovsDAO" ref="cajasMovsDAOImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<bean name="/reporteMovCajaPrincipal.htm"  class="ventanilla.controlador.RepMovCajaPrincipalControlador">
+		  <property name="formView" value="ventanilla/reporteMovCajaPrincipal" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cajasMovsServicio" ref="cajasMovsServicioImpl"/>
+	</bean>
+	<bean name="/reporteCajaPrincipal.htm"  class="ventanilla.reporte.ReporteCajaPrincipalControlador">
+	     <property name="successView" value="resultadoTransaccionVista" />
+		  <property name="nombreReporte" value="ventanilla/OperacionesCajaPrincipal.prpt" />
+	      <property name="cajasMovsServicio" ref="cajasMovsServicioImpl"/>
+	  		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Beans para Pantalla Reimpresion de Cheques -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.ReimpresionChequeBean" />
+	</dwr:configuration>
+
+	<bean id="reimpresionChequeDAODAOImpl" class="ventanilla.dao.ReimpresionChequeDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+   	 	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="reimpresionChequeServicioImpl" class="ventanilla.servicio.ReimpresionChequeServicio">
+		<dwr:remote javascript="reimpresionChequeServicio">
+		<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="reimpresionChequeDAO" ref="reimpresionChequeDAODAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/reimpresionCheque.htm"
+		  class="ventanilla.controlador.ReimpresionChequeControlador">
+		  <property name="formView" value="ventanilla/reimpresionChequeVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="reimpresionChequeServicio" ref="reimpresionChequeServicioImpl" />
+	</bean>
+
+	<!-- lista de cheques emitidos Para Reimpresion de Cheques-->
+	<bean name="/listaReimpresionCheques.htm"
+		  class="ventanilla.controlador.ReimpresionChequesListaControlador">
+		<property name="reimpresionChequeServicio" ref="reimpresionChequeServicioImpl" />
+	</bean>
+	<!-- Fin de Beans para Pantalla Reimpresion de Cheques -->
+
+	<!-- Inicio de Beans para pantalla de Reimpresion de Tickets -->
+	<bean name="/reimpresionTickets.htm" class="ventanilla.controlador.ReimpresionTicketControlador">
+		<property name="formView" value="ventanilla/reimpresionTicketVista"/>
+		<property name="successView" value="resultadoTransaccionVista"/>
+		<property name="reimpresionTicketServicio" ref="reimpresionTicketServicioImpl"/>
+	</bean>
+	<bean name="/reimpresionTicketLista.htm" class="ventanilla.controlador.ReimpTicketListaControlador">
+		<property name="reimpresionTicketServicio" ref="reimpresionTicketServicioImpl"/>
+	</bean>
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.ReimpresionTicketBean" />
+	</dwr:configuration>
+
+	<bean id="reimpresionTicketServicioImpl" class="ventanilla.servicio.ReimpresionTicketServicio">
+		<dwr:remote javascript="reimpresionTicketServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="reimpresionTicketDAO" ref="reimpresionTicketDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Beans para Cancelación de Cheques emitidos-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.CancelacionChequesBean" />
+	</dwr:configuration>
+
+	<bean id="cancelacionChequesDAOImpl" class="ventanilla.dao.CancelacionChequesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cancelacionChequesServicioImpl" class="ventanilla.servicio.CancelacionChequesServicio">
+		<dwr:remote javascript="cancelacionChequesServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="cancelacionChequesDAO" ref="cancelacionChequesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/cancelacionCheques.htm"
+		  class="ventanilla.controlador.CancelacionChequesControlador">
+		  <property name="formView" value="ventanilla/cancelacionChequesVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cancelacionChequesServicio" ref="cancelacionChequesServicioImpl" />
+	</bean>
+	<!--  Fin de Beans para Cancelación de Cheques Emitidos -->
+	<!-- lista de cheques emitidos-->
+	<bean name="/listaChequesEmitidos.htm"
+		  class="ventanilla.controlador.ChequesEmitidosListaControlador">
+		<property name="chequesEmitidosServicio" ref="chequesEmitidosServicioImpl" />
+	</bean>
+	<!-- fin lista de cheques emitidos-->
+
+	<bean id="reimpresionTicketDAOImpl" class="ventanilla.dao.ReimpresionTicketDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<bean name="/gridReimpresionTicket.htm" class="ventanilla.controlador.ReimpresionTicketGridControlador">
+		<property name="reimpresionTicketServicio" ref="reimpresionTicketServicioImpl"/>
+	</bean>
+	<!-- Fin de Beans para pantalla de Reimpresion de Tickets -->
+
+	<!-- Bean para Pantalla de Opciones Por Caja -->
+	<bean name="/opcionesporCaja.htm"
+		  class="ventanilla.controlador.OpcionesPorCajaControlador">
+		  <property name="formView" value="ventanilla/opcionesPorCajaVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="opcionesPorCajaServicio" ref="opcionesPorCajaServicioImpl" />
+	</bean>
+	<!-- Fin de Beans Pantalla Opciones Por Caja -->
+
+
+	<!-- BEAN REVERSA OPERACIONES -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.ReversasOperBean" />
+	</dwr:configuration>
+
+
+
+		<!-- BEAN PARA LA PANTALLA TRANSFERENCIA SPEI -->
+
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.SpeiEnvioBean" />
+	</dwr:configuration>
+
+	<bean id="speiEnvioDAOImpl" class="ventanilla.dao.SpeiEnvioDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="speiEnvioServicioImpl" class="ventanilla.servicio.SpeiEnvioServicio">
+		<dwr:remote javascript="speiEnvioServicio">
+ 			<dwr:include method="consulta" />
+		</dwr:remote>
+		<property name="speiEnvioDAO" ref="speiEnvioDAOImpl" />
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+		<property name="smsEnvioMensajeDAO" ref="smsEnvioMensajeDAOImpl"/>
+	</bean>
+
+	<bean name="/speiEnvio.htm" class="ventanilla.controlador.SpeiEnvioControlador">
+		  <property name="formView" value="ventanilla/speiEnvioVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="speiEnvioServicio" ref="speiEnvioServicioImpl" />
+	</bean>
+
+
+		<bean name="/ReporteAutorizaSpei.htm" class="ventanilla.reporte.RepAutorizaSpeiControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/AutorizacionSpei.prpt" />
+	 <property name="speiEnvioServicio" ref="speiEnvioServicioImpl" />
+
+	</bean>
+
+
+		<bean name="/TransferenciaSpeiTicket.htm" class="ventanilla.reporte.TransferenciaSpeiTicketControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="ventanilla/ticketTransferSpei.prpt" />
+	  <property name="speiEnvioServicio" ref="speiEnvioServicioImpl" />
+	</bean>
+
+
+	<!-- Beans de Usuarios Servicio-->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.UsuarioServiciosBean" />
+	</dwr:configuration>
+
+	<bean id="usuarioServiciosDAOImpl" class="ventanilla.dao.UsuarioServiciosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="usuarioServiciosServicioImpl" class="ventanilla.servicio.UsuarioServiciosServicio">
+	    <dwr:remote javascript="usuarioServicios">
+	    	<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+	    	<dwr:include method="listaCombo" />
+	    </dwr:remote>
+		<property name="usuarioServiciosDAO" ref="usuarioServiciosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>
+
+	 <!-- Definición de Controladores Usuarios Servicio -->
+	<bean name="/usuarioServiciosCatalogo.htm" class="ventanilla.controlador.UsuarioServiciosControlador">
+		<property  name="formView" value="ventanilla/usuarioServiciosCatalogoVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property  name="usuarioServiciosServicio" ref="usuarioServiciosServicioImpl" />
+		<property name="correoServicio" ref="correoServicioImpl" />
+	</bean>
+
+	<bean name="/listaUsuario.htm" class="ventanilla.controlador.UsuarioServiciosListaControlador">
+		<property name="usuarioServiciosServicio" ref="usuarioServiciosServicioImpl" />
+	</bean>
+
+	<!-- Definición controlador pantalla unificación de usuarios de servicios -->
+	<bean name="/unificarUsuarioServicios.htm" class="ventanilla.controlador.UnificarUsuarioServiciosControlador">
+		<property name="commandClass" value="ventanilla.bean.UsuarioServiciosBean"/>
+		<property  name="formView" value="ventanilla/unificarUsuarioServiciosVista"/>
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property  name="usuarioServiciosServicio" ref="usuarioServiciosServicioImpl" />
+	</bean>
+
+	<!-- DEFINICIÓN DE BEANS PARA SUBIR ARCHIVOS  -->
+
+	<bean id="usuarioArchivosDAOImpl" class="ventanilla.dao.UsuarioArchivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="usuarioArchivosServicioImpl" class="ventanilla.servicio.UsuarioArchivosServicio">
+		<dwr:remote javascript="usuarioArchivosServicio">
+		</dwr:remote>
+		<property name="usuarioArchivosDAO" ref="usuarioArchivosDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+    <bean name="/usuarioFileUploadVista.htm" class="ventanilla.controlador.UsuarioArchivosControlador">
+        <property name="commandClass" value="ventanilla.bean.UsuarioServiciosBean"/>
+        <property name="formView" value="ventanilla/usuarioArchivosVista"/>
+        <property name="successView" value="resultadoTransaccionArchivoVista"/>
+		<property name="usuarioArchivosServicio" ref="usuarioArchivosServicioImpl" />
+    </bean>
+
+     <bean name="/gridUsuarioFileUpload.htm" class="ventanilla.controlador.UsuarioArchivosGridControlador">
+		<property name="usuarioArchivosServicio" ref="usuarioArchivosServicioImpl" />
+	</bean>
+
+	<!-- Controlador para ver archivos del Usuario -->
+	<bean name="/usuariosVerArchivos.htm" class="ventanilla.controlador.UsuarioArchivosVerControlador">
+		<property name="usuarioArchivosServicio" ref="usuarioArchivosServicioImpl" />
+	</bean>
+
+	<!-- Controlador Pantalla del Reporte de usuario servicio-->
+	<bean name="/usuarioServicioRepVista.htm" class="ventanilla.controlador.UsuarioServicioRepControlador">
+		 <property name="commandClass" value="ventanilla.bean.UsuarioServiciosBean"/>
+		<property name="formView" value="ventanilla/usuarioServicioRep" />
+	    <property name="successView" value="resultadoTransaccionVista" />
+	    <property  name="usuarioServiciosServicio" ref="usuarioServiciosServicioImpl" />
+	</bean>
+
+	<!-- Controlador Reporte -->
+
+	<bean name="/usuarioServicioRep.htm" class="ventanilla.reporte.RepUsuarioServicioControlador">
+     <property name="successView" value="resultadoTransaccionReporteVista" />
+     <property name="nomReporte" value="ventanilla/UsuariosServicios.prpt" />
+     <property  name="usuarioServiciosServicio" ref="usuarioServiciosServicioImpl" />
+     <property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<!--  =============== Fin del Reporte de usuario servicio ================== -->
+
+
+	<!-- =================Solicitud de Saldos por Sucursal====================== -->
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.SolSaldoSucursalBean" />
+	</dwr:configuration>
+
+	<bean id="solSaldoSucursalDAOImpl" class="ventanilla.dao.SolSaldoSucursalDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="solSaldoSucursalServicioImpl" class="ventanilla.servicio.SolSaldoSucursalServicio">
+	      <dwr:remote javascript="solSaldoSucursalServicio">
+	      <dwr:include method="consulta" />
+
+	      </dwr:remote>
+	      <property name="solSaldoSucursalDAO" ref="solSaldoSucursalDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+
+	</bean>
+
+	<bean name="/solSaldoSucursal.htm"
+		  class="ventanilla.controlador.SolSaldoSucursalControlador">
+		  <property name="formView" value="ventanilla/solSaldoSucursalVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="solSaldoSucursalServicio" ref="solSaldoSucursalServicioImpl"/>
+	</bean>
+
+	<!-- =================Reporte de Solicitud de Saldos por Sucursal====================== -->
+	<bean name="/solSaldoSucursalRep.htm"  class="ventanilla.controlador.RepSolSaldoSucursalControlador">
+		  <property name="formView" value="ventanilla/repSolSaldosSucVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="solSaldoSucursalServicio" ref="solSaldoSucursalServicioImpl"/>
+	</bean>
+
+	<bean name="/reporteSolSaldoSucursal.htm" class="ventanilla.reporte.ReporteSolSaldoSucursalControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		 	<property name="nombreReporte" value="ventanilla/SolSaldSucRep.prpt" />
+		<property name="solSaldoSucursalServicio" ref="solSaldoSucursalServicioImpl" />
+	</bean>
+
+	<!-- remesas pagadas -->
+	<!-- bean -->
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.RemesasPagadasBean" />
+	</dwr:configuration>
+
+	<!-- dao -->
+	<bean id="remesasPagadasDAOImpl" class="ventanilla.dao.RemesasPagadasDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- servicio -->
+	<bean id="remesasPagadasServicioImpl" class="ventanilla.servicio.RemesasPagadasServicio">
+		<dwr:remote javascript="remesasPagadasServicio">
+			<dwr:include method="consulta" />
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="remesasPagadasDAO" ref="remesasPagadasDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- controlador -->
+	<bean name="/remesasPagadasVista.htm" class="ventanilla.controlador.RemesasPagadasControlador">
+		<property name="formView" value="ventanilla/remesasPagadasVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="remesasPagadasServicio" ref="remesasPagadasServicioImpl" />
+	</bean>
+
+	<!-- controlador lista -->
+	<bean name="/remesasPagadasLista.htm" class="ventanilla.controlador.RemesasPagadasListaControlador">
+		<property name="remesasPagadasServicio" ref="remesasPagadasServicioImpl" />
+	</bean>
+
+	<!-- fin remesas pagadas -->
+
+	<!-- Beans de Reporte Pago de Remesas -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="ventanilla.bean.RemesasPagadasRepBean" />
+	</dwr:configuration>
+
+	<!-- dao -->
+	<bean id="remesasPagadasRepDAOImpl" class="ventanilla.dao.RemesasPagadasRepDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- servicio -->
+	<bean id="remesasPagadasRepServicioImpl" class="ventanilla.servicio.RemesasPagadasRepServicio">
+		<dwr:remote javascript="remesasPagadasRepServicio">
+			<dwr:include method="listaReporte" />
+			<dwr:include method="listaReporteExcel" />
+		</dwr:remote>
+		<property name="remesasPagadasDAO" ref="remesasPagadasRepDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+
+	<!-- controlador -->
+	<bean name="/remesasPagadasRepVista.htm" class="ventanilla.controlador.RemesasPagadasRepControlador">
+		<property name="formView" value="ventanilla/remesasPagadasRepVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="remesasPagadasRepServicio" ref="remesasPagadasRepServicioImpl" />
+	</bean>
+
+	<bean name="/repRemesasPagadas.htm" class="ventanilla.reporte.RemesasPagadasRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="remesasPagadasRepServicio" ref="remesasPagadasRepServicioImpl" />
+	</bean>
+
+	<dwr:configuration>
+	      <dwr:convert type="bean" class="ventanilla.bean.ImpresionTicketResumenBean" />
+	</dwr:configuration>
+
+	<bean id="impresionTicketResumenDAOImpl" class="ventanilla.dao.ImpresionTicketResumenDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="impresionTicketResumenServicioImpl" class="ventanilla.servicio.ImpresionTicketResumenServicio">
+	 	<dwr:remote javascript="impresionTicketResumenServicio">
+	    	<dwr:include method="consulta"/>
+	    	<dwr:include method="resumenCliente"/>
+	    </dwr:remote>
+	    <property name="aportacionesServicio" ref="aportacionesServicioImpl" />
+	    <property name="cedesServicio" ref="cedesServicioImpl" />
+	    <property name="clienteServicio" ref="clienteServicioImpl" />
+	    <property name="creditosServicio" ref="creditosServicioImpl" />
+	    <property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl" />
+		<property name="impresionTicketResumenDAO" ref="impresionTicketResumenDAOImpl"/>
+		<property name="inversionServicio" ref="inversionServicioImpl" />
+	</bean>
+	<!--  ============Reporte de Coincidencias de Remesas Funcionalidad 2===============-->
+
+	<!-- Definición para la vista del Reporte de Coincidencias -->
+	<bean name="/reporteCoincidenciasUsuarios.htm" class="ventanilla.controlador.ReporteCoincidenciasRemesasControlador">
+	    <property name="formView" value="ventanilla/reporteCoincidenciasRemesas" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+
+	<!-- Definición para el Bean del Reporte de Coincidencias -->
+	<dwr:configuration>
+ 		<dwr:convert type="bean" class="ventanilla.bean.ReporteCoincidenciasRemesasBean" />
+ 	</dwr:configuration>
+
+     <!--  Definicion de DAO Para el Reporte de Coincidencias -->
+	<bean id="reporteCoincidenciasRemesasDAOImpl" class="ventanilla.dao.ReporteCoincidenciasRemesasDAO">
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+ 			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+ 			</bean>
+ 		</property>
+	</bean>
+
+	<!--  Definicion del Servicio para el Reporte de Coincidencias -->
+	<bean id="reporteCoincidenciasRemesasServicioImpl" class="ventanilla.servicio.ReporteCoincidenciasRemesasServicio">
+		<property name="reporteCoincidenciasRemesasDAO" ref="reporteCoincidenciasRemesasDAOImpl" />
+	</bean>
+
+	<!-- Definición del Controlador para el Reporte de Coincidencias  -->
+    <bean name="/repCoincidenciasUsuarios.htm" class="ventanilla.reporte.RepCoincidenciasRemesasControlador">
+		<property name="reporteCoincidenciasRemesasServicio" ref="reporteCoincidenciasRemesasServicioImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- ============ Termina Reporte de Coincidencias de Remesas Funcionalidad 2============ -->
+
+	<!--  ============Reporte de Remitentes por Usuario Funcionalidad 17===============-->
+
+	<!-- Definición para la vista del Reporte de Remitentes por Usuario -->
+	<bean name="/reporteRemitentesUsuario.htm" class="ventanilla.controlador.ReporteRemitentesUsuarioControlador">
+	    <property name="formView" value="ventanilla/reporteRemitentesUsuario" />
+		<property name="successView" value="resultadoTransaccionVista"/>
+	</bean>
+
+	<!-- Definición para el Bean del Reporte de Remitentes por Usuario -->
+	<dwr:configuration>
+ 		<dwr:convert type="bean" class="ventanilla.bean.ReporteRemitentesUsuarioBean" />
+ 	</dwr:configuration>
+
+     <!--  Definicion de DAO Para el Reporte de Remitentes por Usuario -->
+	<bean id="reporteRemitentesUsuarioDAOImpl" class="ventanilla.dao.ReporteRemitentesUsuarioDAO">
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+ 			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+ 			</bean>
+ 		</property>
+	</bean>
+
+	<!--  Definicion del Servicio para el Reporte de Remitentes por Usuario -->
+	<bean id="reporteRemitentesUsuarioServicioImpl" class="ventanilla.servicio.ReporteRemitentesUsuarioServicio">
+		<property name="reporteRemitentesUsuarioDAO" ref="reporteRemitentesUsuarioDAOImpl" />
+	</bean>
+
+	<!-- Definición del Controlador para el Reporte de Remitentes por Usuario  -->
+    <bean name="/repRemitentesUsuario.htm" class="ventanilla.reporte.RepRemitentesUsuarioControlador">
+		<property name="reporteRemitentesUsuarioServicio" ref="reporteRemitentesUsuarioServicioImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- ============ Termina Reporte de Remitentes por Usuario Funcionalidad 17============ -->
+
+</beans>

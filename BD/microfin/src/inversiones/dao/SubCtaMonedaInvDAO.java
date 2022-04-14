@@ -1,0 +1,199 @@
+package inversiones.dao;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.support.TransactionTemplate;
+import general.bean.MensajeTransaccionBean;
+import general.dao.BaseDAO;
+import herramientas.Constantes;
+import herramientas.Utileria;
+ 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+import javax.sql.DataSource;
+
+import inversiones.bean.SubCtaMonedaInvBean;
+public class SubCtaMonedaInvDAO  extends BaseDAO  {
+
+	public SubCtaMonedaInvDAO() {
+		super();
+	}
+
+	public MensajeTransaccionBean alta(final SubCtaMonedaInvBean subCtaMonedaInv) {
+		MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+		transaccionDAO.generaNumeroTransaccion();
+		mensaje = (MensajeTransaccionBean) ((TransactionTemplate)conexionOrigenDatosBean.getManejadorTransaccionesMapa().get(parametrosAuditoriaBean.getOrigenDatos())).execute(new TransactionCallback<Object>() {
+			public Object doInTransaction(TransactionStatus transaction) {
+				MensajeTransaccionBean mensajeBean = new MensajeTransaccionBean();
+				try {
+					String query = "call SUBCTAMONEDAINVALT(?,?,? ,?,?,?,?,?,?,?);";
+					Object[] parametros = {
+							subCtaMonedaInv.getConceptoInvID(),
+							subCtaMonedaInv.getMonedaID(),
+							subCtaMonedaInv.getSubCuenta(),
+							
+							parametrosAuditoriaBean.getEmpresaID(),
+							parametrosAuditoriaBean.getUsuario(),
+							parametrosAuditoriaBean.getFecha(),
+							parametrosAuditoriaBean.getDireccionIP(),
+							"SubCtaMonedaInvDAO.alta",
+							parametrosAuditoriaBean.getSucursal(),
+							parametrosAuditoriaBean.getNumeroTransaccion()	
+							};
+					loggerSAFI.info(parametrosAuditoriaBean.getOrigenDatos()+"-"+"call SUBCTAMONEDAINVALT(" + Arrays.toString(parametros) + ")");
+		List matches= ((JdbcTemplate)conexionOrigenDatosBean.getOrigenDatosMapa().get(parametrosAuditoriaBean.getOrigenDatos())).query(query,parametros  ,new RowMapper() {
+						public Object mapRow(ResultSet resultSet, int rowNum)
+								throws SQLException {
+							MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+							mensaje.setNumero(Integer.valueOf(resultSet.getString(1)).intValue());
+							mensaje.setDescripcion(resultSet.getString(2));
+							mensaje.setNombreControl(resultSet.getString(3));
+							return mensaje;
+						}
+					});
+					return matches.size() > 0 ? (MensajeTransaccionBean) matches.get(0) : null;
+				} catch (Exception e) {
+					if(mensajeBean.getNumero()==0){
+						mensajeBean.setNumero(999);
+					}
+					mensajeBean.setDescripcion(e.getMessage());
+					transaction.setRollbackOnly();
+					e.printStackTrace();
+					loggerSAFI.error(parametrosAuditoriaBean.getOrigenDatos()+"-"+"error en alta de subcuenta de moneda de inversion", e);
+				}
+				return mensajeBean;
+			}
+		});
+		return mensaje;
+	}
+	
+	public MensajeTransaccionBean modifica(final SubCtaMonedaInvBean subCtaMonedaInv){
+		MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+		transaccionDAO.generaNumeroTransaccion();
+		mensaje = (MensajeTransaccionBean) ((TransactionTemplate)conexionOrigenDatosBean.getManejadorTransaccionesMapa().get(parametrosAuditoriaBean.getOrigenDatos())).execute(new TransactionCallback<Object>() {
+			public Object doInTransaction(TransactionStatus transaction) {
+				MensajeTransaccionBean mensajeBean = new MensajeTransaccionBean();
+				try {
+					String query = "call SUBCTAMONEDAINVMOD(?,?,? ,?,?,?,?,?,?,?);";
+					Object[] parametros = {
+							subCtaMonedaInv.getConceptoInvID(),
+							subCtaMonedaInv.getMonedaID(),
+							subCtaMonedaInv.getSubCuenta(),
+							
+							parametrosAuditoriaBean.getEmpresaID(),
+							parametrosAuditoriaBean.getUsuario(),
+							parametrosAuditoriaBean.getFecha(),
+							parametrosAuditoriaBean.getDireccionIP(),
+							"SubCtaMonedaInvDAO.modifica",
+							parametrosAuditoriaBean.getSucursal(),
+							parametrosAuditoriaBean.getNumeroTransaccion()	
+							};
+					loggerSAFI.info(parametrosAuditoriaBean.getOrigenDatos()+"-"+"call SUBCTAMONEDAINVMOD(" + Arrays.toString(parametros) + ")");
+		List matches= ((JdbcTemplate)conexionOrigenDatosBean.getOrigenDatosMapa().get(parametrosAuditoriaBean.getOrigenDatos())).query(query,parametros  ,new RowMapper() {
+						public Object mapRow(ResultSet resultSet, int rowNum)
+								throws SQLException {
+							MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+							mensaje.setNumero(Integer.valueOf(resultSet.getString(1)).intValue());
+							mensaje.setDescripcion(resultSet.getString(2));
+							mensaje.setNombreControl(resultSet.getString(3));
+							return mensaje;
+						}
+					});
+					return matches.size() > 0 ? (MensajeTransaccionBean) matches.get(0) : null;
+				} catch (Exception e) {
+					if(mensajeBean.getNumero()==0){
+						mensajeBean.setNumero(999);
+					}
+					mensajeBean.setDescripcion(e.getMessage());
+					transaction.setRollbackOnly();
+					e.printStackTrace();
+					loggerSAFI.error(parametrosAuditoriaBean.getOrigenDatos()+"-"+"error al modificar subcuenta de moneda de inversion ", e);
+				}
+				return mensajeBean;
+			}
+		});
+		return mensaje;
+	}
+	
+	public MensajeTransaccionBean baja(final SubCtaMonedaInvBean subCtaMonedaInv){
+		MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+		transaccionDAO.generaNumeroTransaccion();
+		mensaje = (MensajeTransaccionBean) ((TransactionTemplate)conexionOrigenDatosBean.getManejadorTransaccionesMapa().get(parametrosAuditoriaBean.getOrigenDatos())).execute(new TransactionCallback<Object>() {
+			public Object doInTransaction(TransactionStatus transaction) {
+				MensajeTransaccionBean mensajeBean = new MensajeTransaccionBean();
+				try {
+					String query = "call SUBCTAMONEDAINVBAJ(?,? ,?,?,?,?,?,?,?);";
+					Object[] parametros = {
+							subCtaMonedaInv.getConceptoInvID(),
+							subCtaMonedaInv.getMonedaID(),
+							
+							parametrosAuditoriaBean.getEmpresaID(),
+							parametrosAuditoriaBean.getUsuario(),
+							parametrosAuditoriaBean.getFecha(),
+							parametrosAuditoriaBean.getDireccionIP(),
+							"SubCtaMonedaInvDAO.baja",
+							parametrosAuditoriaBean.getSucursal(),
+							parametrosAuditoriaBean.getNumeroTransaccion()	
+							};
+					loggerSAFI.info(parametrosAuditoriaBean.getOrigenDatos()+"-"+"call SUBCTAMONEDAINVBAJ(" + Arrays.toString(parametros) + ")");
+		List matches= ((JdbcTemplate)conexionOrigenDatosBean.getOrigenDatosMapa().get(parametrosAuditoriaBean.getOrigenDatos())).query(query,parametros  ,new RowMapper() {
+						public Object mapRow(ResultSet resultSet, int rowNum)
+								throws SQLException {
+							MensajeTransaccionBean mensaje = new MensajeTransaccionBean();
+							mensaje.setNumero(Integer.valueOf(resultSet.getString(1)).intValue());
+							mensaje.setDescripcion(resultSet.getString(2));
+							mensaje.setNombreControl(resultSet.getString(3));
+							return mensaje;
+						}
+					});
+					return matches.size() > 0 ? (MensajeTransaccionBean) matches.get(0) : null;
+				} catch (Exception e) {
+					if(mensajeBean.getNumero()==0){
+						mensajeBean.setNumero(999);
+					}
+					mensajeBean.setDescripcion(e.getMessage());
+					transaction.setRollbackOnly();
+					e.printStackTrace();
+					loggerSAFI.error(parametrosAuditoriaBean.getOrigenDatos()+"-"+"error en baja de subcuenta de moneda de inversion", e);
+				}
+				return mensajeBean;
+			}
+		});
+		return mensaje;
+	}
+
+	
+	public SubCtaMonedaInvBean consultaPrincipal(SubCtaMonedaInvBean subCtaMonedaInv, int tipoConsulta){
+		String query = "call SUBCTAMONEDAINVCON(?,?,? ,?,?,?,?,?,?,?);";
+		Object[] parametros = { 
+				subCtaMonedaInv.getConceptoInvID(),
+				subCtaMonedaInv.getMonedaID(),
+				tipoConsulta,
+				
+				Constantes.ENTERO_CERO,
+				Constantes.ENTERO_CERO,
+				Constantes.FECHA_VACIA,
+				Constantes.STRING_VACIO,
+				"SubCtaMonedaInvDAO.consultaPrincipal",
+				Constantes.ENTERO_CERO,
+				Constantes.ENTERO_CERO
+				};
+		loggerSAFI.info(parametrosAuditoriaBean.getOrigenDatos()+"-"+"call SUBCTAMONEDAINVCON(" + Arrays.toString(parametros) + ")");
+		List matches= ((JdbcTemplate)conexionOrigenDatosBean.getOrigenDatosMapa().get(parametrosAuditoriaBean.getOrigenDatos())).query(query,parametros  ,new RowMapper() {
+			public Object mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+				SubCtaMonedaInvBean subCtaMonedaInv = new SubCtaMonedaInvBean();
+				subCtaMonedaInv.setConceptoInvID(resultSet.getString(1));
+				subCtaMonedaInv.setMonedaID(resultSet.getString(2));
+				subCtaMonedaInv.setSubCuenta(resultSet.getString(3));
+				return subCtaMonedaInv;
+			}
+		});
+		return matches.size() > 0 ? (SubCtaMonedaInvBean) matches.get(0) : null;
+	}
+
+}

@@ -1,0 +1,49 @@
+#contenedorMsg {	
+	margin: 0px 0px 0px 0px;						
+	background-color: #FFFFFF;
+	position:absolute;
+	z-index:10;	
+}
+
+#contenedorMsg table{
+	width:100%;
+}
+
+#contenedorMsgArchivo table{
+	width:200px;
+}
+
+#cerrarMsg{
+	width:15px;
+	font-style: normal;
+	color: #fff;
+	text-decoration:underline;
+}
+
+.cerrarMsghover{
+	color:#494949;
+	cursor: default;
+}
+
+.cerrarMsgOut{
+	width:15px;
+	font-style: normal;
+	color: #fff;
+	text-decoration:underline;
+	cursor: default;
+}
+	
+#encabezadoMsg {
+	background-color: #659CD8;			
+	color: #fff;
+	font-style: italic;
+	font-weight: bold;
+	text-align: left;
+	width:100%;
+}
+
+#cuerpoMsg td {
+	padding: 10px 5px 10px 5px;
+	border-top:1px dotted #a3a4a;
+	text-align: left;
+}

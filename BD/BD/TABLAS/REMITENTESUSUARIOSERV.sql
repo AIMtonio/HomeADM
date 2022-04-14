@@ -1,0 +1,56 @@
+-- Creacion de la tabla REMITENTESUSUARIOSERV
+DELIMITER ;
+
+DROP TABLE IF EXISTS `REMITENTESUSUARIOSERV`;
+
+DELIMITER $$
+
+CREATE TABLE `REMITENTESUSUARIOSERV` (
+	`UsuarioServicioID`		INT(11)			NOT NULL COMMENT 'Numero del Usuario de Servicio',
+	`Fecha`					DATE 			NOT NULL DEFAULT '1900-01-01' COMMENT 'Fecha en la que se registra el Remitente del Usuario de Servicio',
+	`RemitenteID`			BIGINT(12)		NOT NULL COMMENT 'Numero del Remitente',
+	`Titulo`				VARCHAR(10)		NOT NULL DEFAULT '' COMMENT 'Titulo del Remitente\nTitulo del Remitente, Ej. Sr., Sra, Srita, Lic, Dr. Ing, Prof.,CP, etc',
+	`TipoPersona`			CHAR(2)			NOT NULL DEFAULT '' COMMENT 'Tipo de Persona del Remitente, corresponde a la tabla CATTIPOSPERSONA',
+	`NombreCompleto`		VARCHAR(200)	NOT NULL DEFAULT '' COMMENT 'Nombre Completo del Remitente',
+	`FechaNacimiento`		DATE			DEFAULT NULL COMMENT 'Fecha de Nacimiento del Remitente',
+	`PaisNacimiento` 		INT(11)			NOT NULL DEFAULT '999' COMMENT 'Pais de Nacimiento del Remitente, corresponde a la tabla PAISES',
+	`EdoNacimiento`			INT(11) 		NOT NULL DEFAULT '0' COMMENT 'Estado de nacimiento del Remitente,corresponde a la tabla ESTADOSREPUB',
+	`EstadoCivil`			CHAR(2)			NOT NULL DEFAULT '' COMMENT 'Clave Estado Civil:\nS = Soltero\nC  = Casado\nV = Viudo\nD = Divorciado\nSE  = Separado\nU = Union Libre',
+	`Sexo`					CHAR(1)			NOT NULL DEFAULT '' COMMENT 'Codigo de sexo del Remitente\nClave Sexo:\nM = Masculino\nF  = Femenino',
+	`CURP`					CHAR(18)		NOT NULL DEFAULT ''	COMMENT 'Clave Unica de Registro de Poblacion',
+	`RFC`					CHAR(13)		NOT NULL DEFAULT ''	COMMENT 'Registro Federal de Contribuyente',
+	`FEA`					VARCHAR(250)	NOT NULL DEFAULT '' COMMENT 'Firma Electrónica Avanzada, en caso de contar con ella',
+	`PaisFEA`				INT(11)			NOT NULL DEFAULT '999' COMMENT 'Pais que Asigna la Firma Electrónica Avanzada',
+    `OcupacionID`			INT(11)			NOT NULL DEFAULT '9999' COMMENT 'Ocupacion del Remitente, corrresponde a la tabla OCUPACIONES',
+	`Puesto`				VARCHAR(100)	NOT NULL DEFAULT '' COMMENT 'Puesto del Remitente',
+	`SectorID`				INT(11)			NOT NULL DEFAULT '998' COMMENT 'Sector General del Remitente, corresponde a la tabla SECTORES',
+	`ActividadBMXID`		VARCHAR(15)		NOT NULL DEFAULT '9999999999' COMMENT 'Actividad Principal del Remitente, segun Banco de Mexico, corresponde a la tabla ACTIVIDADESBMX',
+	`ActividadINEGIID`		INT(11)			NOT NULL DEFAULT '99999' COMMENT 'Actividad Principal del Remitente, segun INEGI, corresponde a la tabla ACTIVIDADESINEGI',
+	`SectorEcoID`			INT(11)			NOT NULL DEFAULT '0' COMMENT 'Sector Economico Segun INEGI,Llave Foranea Hacia tabla SECTORESECONOM',
+	`TipoIdentiID`			INT(11)			DEFAULT NULL COMMENT 'Tipo de identificacion que usa el Remitente, corresponde a la tabla TIPOSIDENTI',
+	`NumIdentific`			VARCHAR(20) 	NOT NULL DEFAULT '' COMMENT 'Numero de Identificacion del Remitente',
+	`FecExIden`				DATE			DEFAULT NULL COMMENT 'Fecha de expedicion de la identificacion',
+	`FecVenIden`			DATE			DEFAULT NULL COMMENT 'Fecha de vencimiento de la identificacion',
+	`TelefonoCasa`			VARCHAR(20)		NOT NULL DEFAULT '' COMMENT 'Telefono de casa del Remitente',
+	`ExtTelefonoPart`		VARCHAR(6) 		NOT NULL DEFAULT '' COMMENT 'Contiene el número de extensión del teléfono',
+	`TelefonoCelular`		VARCHAR(20)		NOT NULL DEFAULT '' COMMENT 'Telefono de celular del Remitente',
+	`Correo`				VARCHAR(50)		NOT NULL DEFAULT '' COMMENT 'Correo electronico de Remitente',
+	`Domicilio`				VARCHAR(200) 	NOT NULL DEFAULT '' COMMENT 'Domicilio del Remitente',
+	`Nacionalidad`			CHAR(1)			NOT NULL DEFAULT '' COMMENT 'Nacionalidad del Remitente\nN = Nacional\nE = Extranjero',
+	`PaisResidencia`		INT(11)			NOT NULL DEFAULT '999' COMMENT 'Pais de Nacimiento del Remitente, corresponde a la tabla PAISES',
+	`EmpresaID`             INT(11)         NOT NULL DEFAULT '0' COMMENT 'Parametro de Auditoria ID de la Empresa',
+	`Usuario`               INT(11)         NOT NULL DEFAULT '0' COMMENT 'Parametro de Auditoria ID del Usuario',
+	`FechaActual`           DATETIME        NOT NULL DEFAULT '1900-01-01' COMMENT 'Parametro de Auditoria Fecha Actual',
+	`DireccionIP`           VARCHAR(15)     NOT NULL DEFAULT '' COMMENT 'Parametro de Auditoria Direccion IP ',
+	`ProgramaID`            VARCHAR(50)     NOT NULL DEFAULT '' COMMENT 'Parametro de Auditoria Programa ',
+	`Sucursal`              INT(11)         NOT NULL DEFAULT '0' COMMENT 'Parametro de Auditoria ID de la Sucursal',
+	`NumTransaccion`        BIGINT(20)      NOT NULL DEFAULT '0' COMMENT 'Parametro de Auditoria Numero de la Transaccion',
+  PRIMARY KEY (`UsuarioServicioID`,`RemitenteID`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_1` (`Fecha`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_2` (`SectorID`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_3` (`ActividadBMXID`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_4` (`ActividadINEGIID`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_5` (`SectorEcoID`),
+  KEY `INDEX_REMITENTESUSUARIOSERV_6` (`TipoIdentiID`),
+  CONSTRAINT `FK_REMITENTESUSUARIOSERV_1` FOREIGN KEY (`UsuarioServicioID`) REFERENCES `USUARIOSERVICIO` (`UsuarioServicioID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tab: Tabla de Remitentes de Usuarios de Servicios.'$$

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+		  
+		
+    <dwr:configuration>
+		<dwr:convert type="bean" class="general.bean.MensajeTransaccionBean" />
+	</dwr:configuration>
+	
+	<!-- Definicion de Beans de Session, Parametros del Usuario y de Aplicacion -->	
+	<bean id="parametrosAuditoriaBeanImpl"
+			class="general.bean.ParametrosAuditoriaBean"
+			scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<bean id="parametrosSesionBeanImpl"
+			class="general.bean.ParametrosSesionBean"
+			scope="session">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="parametrosAplicacionBeanImpl"
+			class="general.bean.ParametrosAplicacionBean"/>
+
+	<!--  Beans de Parametros de la Aplicacion -->	
+	<bean id="parametrosAplicacionDAOImpl" class="general.dao.ParametrosAplicacionDAO"> 
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="general.bean.ParametrosSesionBean" /> 
+	</dwr:configuration>
+
+
+	
+	<bean id="parametrosAplicacionServicioImpl" class="general.servicio.ParametrosAplicacionServicio">
+		<dwr:remote javascript="parametrosAplicacionServicio">
+		</dwr:remote>	
+		<property name="parametrosAplicacionDAO" ref="parametrosAplicacionDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+
+	<!-- Consulta Parametros de Session -->
+	<bean name="/consultaSession.htm"
+		  class="general.controlador.ParametrosSessionControlador">
+		<property name="successView" value="general/xmlConsultaSession" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+
+	<bean id="transaccionDAOImpl" class="general.dao.TransaccionDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="taskExecutorImpl" class="org.springframework.core.task.SimpleAsyncTaskExecutor"/>
+	
+	<!-- Controlador para ver archivos del cliente --> 
+	<bean name="/logoClientePantalla.htm" class="general.controlador.VerLogoControlador">
+	</bean>	
+</beans>

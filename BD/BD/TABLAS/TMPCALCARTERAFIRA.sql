@@ -1,0 +1,71 @@
+-- ---------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- ---------------------------------------------------------------------------------
+-- TMPCALCARTERAFIRA
+DELIMITER ;
+DROP TABLE IF EXISTS `TMPCALCARTERAFIRA`;DELIMITER $$
+
+CREATE TABLE `TMPCALCARTERAFIRA` (
+  `TransaccionID` bigint(20) DEFAULT NULL COMMENT 'Numero de Transaccion',
+  `CreditoID` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `NombreAcreditado` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `FechaOperacion` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `TipoPersona` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `RFC` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `CURP` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `MonedaOrigen` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldoInsolutoFiraIf` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `GtiaFEGASinFondeo` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PorcGtiaEfectivaFEGA` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PorcGtiaNominalFEGA` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `CredEstructConFira` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `CadenaProductiva` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `EntidadFederativa` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PorcGtiaLiquida` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `TratamientoCredcio` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DescTratamiento` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `TipoCred` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ClaveFonaga` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `TipoPortafolio` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `MontoBolsaFonaga` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `NoCredBanco` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldoInsolutoIfAcred` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `MetodologiaCalif` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DiasMaximoIncump` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `NCValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `A1ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `A2ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `B1ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `B2ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `B3ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `C1ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `C2ValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `EValorAjustGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `CalifIniPorcExpDeudor` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `LimiteEstimaciones` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PagoSostenido` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DiasCumpPostRestruc` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DiasIncumpPrevioRest` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DiasIncumpDespuesRest` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `DiasAmortOriginal` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PI` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SP` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `EI` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `PorcReservPerfEsp` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `NivelRiesgoPerfEsp` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldInicCubFonaga` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservFonaga` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ProporCredPortafolio` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `MontoGtiaCred` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldFinCubFonaga` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldoExpuesto` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldoGtiaFEGA` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `SaldoExpuestoFinal` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservGtiaLiq` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservBFEGA` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservBOtrasGtias` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservSaldoExpFinal` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA',
+  `ReservTotales` varchar(200) DEFAULT NULL COMMENT 'Campo con la Informacion cargada del Archivo de Calificacion Cartera FIRA'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='TMP:Tabla temporal para el calculo de cartera fira'$$

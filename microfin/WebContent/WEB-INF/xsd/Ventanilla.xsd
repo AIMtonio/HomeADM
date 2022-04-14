@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- DEfinicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos --> 
+    <xs:element name="consultaListaServRequest">    					 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tipoLista" type="xs:string" />                
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+  
+    <xs:element name="consultaListaServResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="listaServicio" type="xs:string" />                            						
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaMontoServRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="catalogoServID" type="xs:string" />                						
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="consultaMontoServResponse">
+        <xs:complexType>
+            <xs:sequence>
+                 <xs:element name="montoComision" type="xs:string" />
+                 <xs:element name="montoServicio" type="xs:string" />    
+                 <xs:element name="origen" type="xs:string" />                              
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="pagoServicioRequest">
+        <xs:complexType>
+            <xs:sequence>
+                 <xs:element name="catalogoServID" type="xs:string" />
+                 <xs:element name="sucursalID" type="xs:string" />
+                 <xs:element name="referencia" type="xs:string" /> 
+                 <xs:element name="segundaRefe" type="xs:string" /> 
+                 <xs:element name="montoServicio" type="xs:string" /> 
+                 <xs:element name="ivaServicio" type="xs:string" /> 
+                 <xs:element name="comision" type="xs:string" /> 
+                 <xs:element name="ivaComision" type="xs:string" /> 
+                 <xs:element name="total" type="xs:string" /> 
+                 <xs:element name="clienteID" type="xs:string" /> 
+                 <xs:element name="cuentasAhoID" type="xs:string" />                                   
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="pagoServicioResponse">
+        <xs:complexType>
+            <xs:sequence>
+                 <xs:element name="codigoRespuesta" type="xs:string" />
+                 <xs:element name="mensajeRespuesta" type="xs:string" />
+                 <xs:element name="consecutivo" type="xs:string" />                   
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    </xs:schema>

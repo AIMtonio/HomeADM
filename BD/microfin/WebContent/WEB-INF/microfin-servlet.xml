@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr  
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">  
+	 
+	<import resource="microfin-servlet-sistema.xml"/>
+	<import resource="microfin-servlet-general.xml"/>
+	<import resource="microfin-servlet-inversiones.xml"/>
+	<import resource="microfin-servlet-seguridad.xml"/>
+	<import resource="microfin-servlet-clientes.xml"/>
+	<import resource="microfin-servlet-soporte.xml"/>
+	<import resource="microfin-servlet-cuentas.xml"/>
+	<import resource="microfin-servlet-credito.xml"/> 
+	<import resource="microfin-servlet-contabilidad.xml"/>
+	<import resource="microfin-servlet-tesoreria.xml"/>
+	<import resource="microfin-servlet-originacion.xml"/>
+	<import resource="microfin-servlet-gestionComercial.xml"/>
+	<import resource="microfin-servlet-ventanilla.xml"/>
+	<import resource="microfin-servlet-pld.xml"/>
+	<import resource="safisat-servlet-buroCredito.xml"/>
+	<import resource="safisat-servlet-sms.xml"/>
+	<import resource="microfin-servlet-tarjetas.xml"/> 
+	<import resource="microfin-servlet-fondeador.xml"/>
+	<import resource="microfin-servlet-seguimiento.xml"/>
+    <import resource="microfin-servlet-bancaEnLinea.xml"/>
+	<import resource="microfin-servlet-nomina.xml"/> 
+	<import resource="microfin-servlet-operacionesPDA.xml"/>
+	<import resource="microfin-servlet-operacionesPDM.xml"/>
+	<import resource="microfin-servlet-riesgos.xml"/>
+	<import resource="microfin-servlet-spei.xml"/>
+	<import resource="microfin-servlet-regulatorios.xml"/>
+	<import resource="microfin-servlet-cobranza.xml"/>
+	<import resource="microfin-servlet-operacionesVBC.xml"/>
+	<import resource="microfin-servlet-bancaMovil.xml"/>
+	<import resource="microfin-servlet-formularioWeb.xml"/>
+	<import resource="microfin-servlet-arrendamiento.xml"/>
+	<import resource="microfin-servlet-operacionesCRCB.xml"/>
+	<import resource="microfin-servlet-cedes.xml"/>
+	<import resource="microfin-servlet-fira.xml"/>
+	<import resource="microfin-servlet-activos.xml"/>
+	<import resource="microfin-servlet-psl.xml"/>
+	<import resource="microfin-servlet-aportaciones.xml"/>
+	<import resource="microfin-servlet-guardaValores.xml"/>
+	<import resource="microfin-servlet-contratos.xml"/>
+	<import resource="microfin-servlet-crowdfunding.xml"/>
+</beans>

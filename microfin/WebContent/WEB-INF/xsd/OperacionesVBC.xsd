@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+  
+	<!-- WS SIMULADOR DE CREDITOS VBC  --> 
+   	<xs:element name="VbcSimuladorCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            <xs:element name="Monto" type="xs:string" />
+            <xs:element name="Tasa" type="xs:string" />
+            <xs:element name="Frecuencia" type="xs:string" />
+            <xs:element name="Periodicidad" type="xs:string" />
+            <xs:element name="FechaInicio" type="xs:string" />
+            
+            <xs:element name="NumeroCuotas" type="xs:string" />
+            <xs:element name="ProductoCreditoID" type="xs:string" />
+            <xs:element name="ClienteID" type="xs:string" />
+            <xs:element name="ComisionApertura" type="xs:string" />
+            <xs:element name="Usuario" type="xs:string" />
+            
+            <xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="VbcSimuladorCreditoResponse">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="CodigoRespuesta" type="xs:string" />
+	            <xs:element name="MensajeRespuesta" type="xs:string" />
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:DetalleSimulador" />                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="DetalleSimulador">  
+    <xs:complexType>  
+      <xs:sequence>         	 
+         <xs:element name="AmortizacionID" type="xs:string" />
+         <xs:element name="FechaInicio" type="xs:string" />
+         <xs:element name="FechaVencim" type="xs:string" />
+         <xs:element name="FechaExigible" type="xs:string" />
+         <xs:element name="Capital" type="xs:string" />
+         
+         <xs:element name="Interes" type="xs:string" />
+         <xs:element name="IvaInteres" type="xs:string" />
+         <xs:element name="TotalPago" type="xs:string" />
+         <xs:element name="SaldoInsoluto" type="xs:string" />
+         <xs:element name="Dias" type="xs:string" />
+         
+         <xs:element name="CuotasCapital" type="xs:string" />
+         <xs:element name="NumTransaccion" type="xs:string" />
+         <xs:element name="Cat" type="xs:string" />
+         <xs:element name="FecUltAmor" type="xs:string" />
+         <xs:element name="FecInicioAmor" type="xs:string" />
+         
+         <xs:element name="MontoCuota" type="xs:string" />
+         <xs:element name="TotalCap" type="xs:string" />
+         <xs:element name="TotalInteres" type="xs:string" />
+         <xs:element name="TotalIva" type="xs:string" />
+         <xs:element name="CobraSeguroCuota" type="xs:string" />
+         
+         <xs:element name="MontoSeguroCuota" type="xs:string" />
+         <xs:element name="IvaSeguroCuota" type="xs:string" />
+         <xs:element name="TotalSeguroCuota" type="xs:string" />
+         <xs:element name="TotalIVASeguroCuota" type="xs:string" />
+      </xs:sequence>  
+    </xs:complexType>  
+  </xs:element>  
+   
+  	
+  	<!-- WS Genera CURP -->
+  	<xs:element name="VbcGeneraCurpRequest">    						 
+        <xs:complexType>
+            <xs:sequence>            
+				<xs:element name="PrimerNombre" type="xs:string" />
+				<xs:element name="SegundoNombre" type="xs:string" />
+				<xs:element name="TercerNombre" type="xs:string" />
+				<xs:element name="ApellidoPaterno" type="xs:string" />
+				<xs:element name="ApellidoMaterno" type="xs:string" />
+				<xs:element name="Genero" type="xs:string" />
+				<xs:element name="FechaNacimiento" type="xs:string" />
+				<xs:element name="Nacionalidad" type="xs:string" />
+				<xs:element name="Estado" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcGeneraCurpResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="Curp" type="xs:string" />   
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   
+    
+    <!-- WS Genera RFC -->
+  	<xs:element name="VbcGeneraRFCRequest">    						 
+        <xs:complexType>
+            <xs:sequence>            
+				<xs:element name="Nombre" type="xs:string" />
+				<xs:element name="ApellidoPaterno" type="xs:string" />
+				<xs:element name="ApellidoMaterno" type="xs:string" />
+				<xs:element name="FechaNacimiento" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcGeneraRFCResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="Rfc" type="xs:string" />   
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>     
+  	
+  	<!-- ** Consulta Catalogos  Descarga--> 
+    <xs:element name="ConsultaCatalogoGenericoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="NomCatalogo" type="xs:string" />
+            	<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsultaCatalogoGenericoResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" /> 
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:Catalogo" />                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Catalogo">  
+    <xs:complexType>  
+      <xs:sequence>  
+       	 <xs:element name="Id_Campo" type="xs:string" />
+       	 <xs:element name="Id_Padre" type="xs:string" />       	 
+         <xs:element name="NombreCampo" type="xs:string" />
+      </xs:sequence>  
+    </xs:complexType>  
+  </xs:element> 
+  	
+  	<!-- WS Alta Cliente  -->
+  	<xs:element name="VbcAltaClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>            
+				<xs:element name="OperacionID" type="xs:string" />
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="PrimerNombre" type="xs:string" />
+				<xs:element name="SegundoNombre" type="xs:string" />
+				<xs:element name="TercerNombre" type="xs:string" />
+				<xs:element name="ApPaterno" type="xs:string" />
+				<xs:element name="ApMaterno" type="xs:string" />
+				<xs:element name="FechaNacimiento" type="xs:string" />
+				<xs:element name="Curp" type="xs:string" />
+				<xs:element name="EstadoID" type="xs:string" />				
+				<xs:element name="Sexo" type="xs:string" />
+				<xs:element name="Telefono" type="xs:string" />
+				<xs:element name="Clasificacion" type="xs:string" />
+				<xs:element name="TelefonoCelular" type="xs:string" />
+				<xs:element name="Correo" type="xs:string" />				
+				<xs:element name="Rfc" type="xs:string" />
+				<xs:element name="OcupacionID" type="xs:string" />
+				<xs:element name="LugardeTrabajo" type="xs:string" />
+				<xs:element name="Puesto" type="xs:string" />
+				<xs:element name="TelTrabajo" type="xs:string" />				
+				<xs:element name="NoEmpleado" type="xs:string" />
+				<xs:element name="AntiguedadTra" type="xs:string" />
+				<xs:element name="ExtTelefonoTrab" type="xs:string" />
+				<xs:element name="TipoEmpleado" type="xs:string" />
+				<xs:element name="TipoPuesto" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcAltaClienteResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="ClienteID" type="xs:string" />   
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- WS Alta Cliente  -->
+  	<xs:element name="VbcAltaDirecClienteRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="OperacionID" type="xs:string" />
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="DireccionID" type="xs:string" />
+				<xs:element name="EstadoID" type="xs:string" />
+				<xs:element name="MunicipioID" type="xs:string" />
+				<xs:element name="LocalidadID" type="xs:string" />
+				<xs:element name="ColoniaID" type="xs:string" />
+				<xs:element name="Calle" type="xs:string" />
+				<xs:element name="NumeroCasa" type="xs:string" />
+				<xs:element name="Cp" type="xs:string" />
+				<xs:element name="Oficial" type="xs:string" />
+				<xs:element name="Fiscal" type="xs:string" />
+				<xs:element name="NumInterior" type="xs:string" />				
+				<xs:element name="Lote" type="xs:string" />
+				<xs:element name="Manzana" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcAltaDirecClienteResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="DireccionID" type="xs:string" />
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- WS Alta Identificacion  -->
+  	<xs:element name="VbcAltaIdentificaCteRequest">
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="OperacionID" type="xs:string" />
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="IdentificaID" type="xs:string" />
+				<xs:element name="TipoIdentiID" type="xs:string" />
+				<xs:element name="NumIdentifica" type="xs:string" />
+				<xs:element name="FecExIden" type="xs:string" />
+				<xs:element name="FecVenIden" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcAltaIdentificaCteResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="IdentificaID" type="xs:string" />
+            	<xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+  	
+	<!-- WS Alta Referencia  -->
+  	<xs:element name="VbcAltaReferenciaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="OperacionID" type="xs:string" />
+				<xs:element name="ReferenciaID" type="xs:string" />
+				<xs:element name="SolicitudCreditoID" type="xs:string" />
+				<xs:element name="Consecutivo" type="xs:string" />
+				<xs:element name="PrimerNombre" type="xs:string" />
+			
+				<xs:element name="SegundoNombre" type="xs:string" />
+				<xs:element name="TercerNombre" type="xs:string" />
+				<xs:element name="ApellidoPaterno" type="xs:string" />
+				<xs:element name="ApellidoMaterno" type="xs:string" />
+				<xs:element name="Telefono" type="xs:string" />
+			
+				<xs:element name="ExtTelefonoPart" type="xs:string" />
+				<xs:element name="TipoRelacionID" type="xs:string" />
+				<xs:element name="EstadoID" type="xs:string" />
+				<xs:element name="MunicipioID" type="xs:string" />
+				<xs:element name="LocalidadID" type="xs:string" />
+			
+				<xs:element name="ColoniaID" type="xs:string" />
+				<xs:element name="Calle" type="xs:string" />
+				<xs:element name="NumeroCasa" type="xs:string" />
+				<xs:element name="NumInterior" type="xs:string" />
+				<xs:element name="Piso" type="xs:string" />
+			
+				<xs:element name="Cp" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+            	<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcAltaReferenciaResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+    
+    
+    <!-- WS Alta Solicitud de Credito  -->
+  	<xs:element name="VbcAltaSolicitudCreditoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="OperacionID" type="xs:string" />
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="SolicitudCreditoID" type="xs:string" />
+				<xs:element name="ProductoCreditoID" type="xs:string" />
+				<xs:element name="FechaRegistro" type="xs:string" />
+				
+				<xs:element name="InstitucionNominaID" type="xs:string" />
+				<xs:element name="FolioCtrl" type="xs:string" />
+				<xs:element name="MontoSolici" type="xs:string" />
+				<xs:element name="TasaActiva" type="xs:string" />
+				<xs:element name="Periodicidad" type="xs:string" />
+				
+				<xs:element name="PlazoID" type="xs:string" />
+				<xs:element name="Usuario" type="xs:string" />
+            	<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VbcAltaSolicitudCreditoResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="SolicitudCreditoID" type="xs:string" />
+            	<xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+  	
+	<!-- WS Alta Avales   -->
+  	<xs:element name="VbcAltaAvalRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="AvalID" type="xs:string" />
+				<xs:element name="TipoPersona" type="xs:string" />
+				<xs:element name="PrimerNombre" type="xs:string" />
+				<xs:element name="SegundoNombre" type="xs:string" />
+				<xs:element name="TercerNombre" type="xs:string" />
+				
+				<xs:element name="ApellidoPaterno" type="xs:string" />
+				<xs:element name="ApellidoMaterno" type="xs:string" />
+				<xs:element name="FechaNac" type="xs:string" />
+				<xs:element name="Rfc" type="xs:string" />
+				<xs:element name="Telefono" type="xs:string" />
+				
+				<xs:element name="TelefonoCel" type="xs:string" />
+				<xs:element name="Calle" type="xs:string" />
+				<xs:element name="NumExterior" type="xs:string" />
+				<xs:element name="NumInterior" type="xs:string" />
+				<xs:element name="MunicipioID" type="xs:string" />
+				
+				<xs:element name="EstadoID" type="xs:string" />
+				<xs:element name="Cp" type="xs:string" />
+				<xs:element name="LocalidadID" type="xs:string" />
+				<xs:element name="ColoniaID" type="xs:string" />
+				<xs:element name="Sexo" type="xs:string" />
+	
+
+				<xs:element name="Usuario" type="xs:string" />
+            	<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="VbcAltaAvalResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="AvalID" type="xs:string" />
+            	<xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+    
+	<!-- WS Asignar Avales   -->
+  	<xs:element name="VbcAsignaAvalRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="SolicitudCreditoID" type="xs:string" />
+				<xs:element name="AvalID" type="xs:string" />
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="FechaRegistro" type="xs:string" />
+
+				<xs:element name="Usuario" type="xs:string" />
+            	<xs:element name="Clave" type="xs:string" />
+			</xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="VbcAsignaAvalResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>	
+    
+    <!-- WS CONSULTA DE AMORTIZACIONES --> 
+   	<xs:element name="VbcConsultaAmortizaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            <xs:element name="CreditoID" type="xs:string" />
+            <xs:element name="Usuario" type="xs:string" />
+            <xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="VbcConsultaAmortizaResponse">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="CodigoRespuesta" type="xs:string" />
+	            <xs:element name="MensajeRespuesta" type="xs:string" />
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:DetalleAmortizaciones" />                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="DetalleAmortizaciones">  
+    <xs:complexType>  
+      <xs:sequence>         	 
+         <xs:element name="CreditoID" 		type="xs:string" />
+         <xs:element name="AmortizacionID" 	type="xs:string" />
+         <xs:element name="ClienteID" 		type="xs:string" />
+         <xs:element name="FechaExigible" 	type="xs:string" />
+         <xs:element name="TotalExigible" 	type="xs:string" />
+         
+         <xs:element name="Capital" 		type="xs:string" />
+         <xs:element name="Interes" 		type="xs:string" />
+         <xs:element name="IvaInteres" 		type="xs:string" />
+         <xs:element name="InteresMora" 	type="xs:string" />
+         <xs:element name="IvaInteresMora" 	type="xs:string" />
+         
+         <xs:element name="Estatus" 		type="xs:string" />
+      </xs:sequence>  
+    </xs:complexType>  
+  	</xs:element>  
+
+   	<!-- WS CONSULTA DE PAGOS DE AMORTIZACIONES --> 
+	<xs:element name="VbcConsultaAmorPagRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            <xs:element name="CreditoID" type="xs:string" />
+            <xs:element name="Usuario" type="xs:string" />
+            <xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="VbcConsultaAmorPagResponse">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="CodigoRespuesta" type="xs:string" />
+	            <xs:element name="MensajeRespuesta" type="xs:string" />
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:DetallePagoAmortizaciones" />                 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<xs:element name="DetallePagoAmortizaciones">  
+    <xs:complexType>  
+      <xs:sequence>         	 
+         <xs:element name="CreditoID" 		type="xs:string" />
+         <xs:element name="AmortizacionID" 	type="xs:string" />
+         <xs:element name="ClienteID" 		type="xs:string" />
+         <xs:element name="FechaExigible" 	type="xs:string" />
+         <xs:element name="TotalExigible" 	type="xs:string" />
+         
+         <xs:element name="CapitalPagado"	type="xs:string" />
+         <xs:element name="Interes" 		type="xs:string" />
+         <xs:element name="IvaInteres" 		type="xs:string" />
+         <xs:element name="InteresMora" 	type="xs:string" />
+         <xs:element name="IvaInteresMora" 	type="xs:string" />
+         
+         <xs:element name="FechaPago" 		type="xs:string" />
+         <xs:element name="DiasAtraso" 		type="xs:string" />
+         <xs:element name="Estatus" 		type="xs:string" />
+      </xs:sequence>  
+    </xs:complexType>  
+  </xs:element>    
+  
+</xs:schema>

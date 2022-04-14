@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+	 		
+	<!-- Beans de Poliza Contable -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.PolizaBean" />
+	</dwr:configuration>	  
+	
+	<bean id="polizaDAOImpl" class="contabilidad.dao.PolizaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="detallePolizaDAO" ref="detallePolizaDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+    	   
+	<bean id="polizaServicioImpl" class="contabilidad.servicio.PolizaServicio">
+		<dwr:remote javascript="polizaServicio">
+		<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Frecuencias Timbrado Producto -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.FrecTimbradoProducBean" />
+	</dwr:configuration>
+		  
+	<!-- DAO de Frecuencias Timbrado Producto -->
+	<bean id="frecTimbradoProducDAOImpl" class="contabilidad.dao.FrecTimbradoProducDAO">
+		<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	<!-- Servicio de Frecuencias Timbrado Producto -->
+	<bean id="frecTimbradoProducServicioImpl" class="contabilidad.servicio.FrecTimbradoProducServicio">
+		<dwr:remote javascript="frecTimbradoProducServicio">
+		<dwr:include method="lista" /> 
+		<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="frecTimbradoProducDAO" ref="frecTimbradoProducDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<!-- Definicion de Controladores de Poliza Contable-->
+	<bean name="/catalogoPolizaContable.htm" class="contabilidad.controlador.PolizaControlador">
+	      <property name="formView" value="contabilidad/polizaContableCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>	
+	
+	<bean name="/catalogoPolizaPlantilla.htm" class="contabilidad.controlador.PolizaControlador">
+	      <property name="formView" value="contabilidad/plantillaPolizaCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>	
+	
+	<!-- Definicion de Controladores de Poliza Contable-->
+	<bean name="/listaPolizaPlantilla.htm"
+		  class="contabilidad.controlador.PolizaPlantillaListaControlador">
+		<property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>
+
+	
+	<!-- Controlador Reporte de Poliza Contable con Pantalla -->
+	<bean name="/PantallaRepPoliza.htm" class="contabilidad.reporte.PantallaPolizaRepControlador">
+      <property name="formView" value="contabilidad/repPolizaVista" />
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="contabilidad/PolizaContable.prpt" />
+      <property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Reporte de Poliza Contable -->
+	<bean name="/RepPoliza.htm" class="contabilidad.reporte.PolizaRepControlador">
+      <property name="nombreReporte" value="contabilidad/PolizaDiario.prpt" />
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>
+	
+	<bean name="/polizaContListaVista.htm" 
+			class="contabilidad.controlador.PolizaContListaControlador">
+		<property name="polizaServicio" ref="polizaServicioImpl" />
+	</bean>
+	
+	<!-- Beans de cuentas Contables --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="contabilidad.bean.CuentasContablesBean" />
+	</dwr:configuration>
+	
+	<bean id="cuentasContablesDAOImpl" class="contabilidad.dao.CuentasContablesDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="saldosContablesDAOImpl" class="contabilidad.dao.SaldosContablesDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+	   <property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentasContablesServicioImpl" class="contabilidad.servicio.CuentasContablesServicio">
+	      <dwr:remote javascript="cuentasContablesServicio"> 
+	      <dwr:include method="consulta" />
+	      <dwr:include method="lista" />
+		   </dwr:remote>		
+	      <property name="cuentasContablesDAO" ref="cuentasContablesDAOImpl"/>
+	      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean id="saldosContablesServicioImpl" class="contabilidad.servicio.SaldosContablesServicio">
+	      <dwr:remote javascript="saldosContablesServicio"> 
+	      <dwr:include method="consulta" />
+		   </dwr:remote>		
+	      <property name="saldosContablesDAO" ref="saldosContablesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+
+	</bean> 
+	
+	<!-- Definicion de Controladores de Guia Contable de Cuentas de ahorro-->
+	<bean name="/catalogoCuentasContables.htm" class="contabilidad.controlador.CuentasContablesControlador">
+	      <property name="formView" value="contabilidad/cuentasContablesCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	 
+	<!-- Definicion de controladores de cuentas Contables -->
+	<bean name="/listaCuentasContables.htm"
+		  class="contabilidad.controlador.CuentasContablesListaControlador">
+		<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean> 
+	<!-- Beans de Centro de Costos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.CentroCostosBean" />
+	</dwr:configuration>	  
+	
+	<!-- Beans de Concepto Contable -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ConceptoContableBean" />
+	</dwr:configuration>	  
+	
+	<bean id="conceptoContableDAOImpl" class="contabilidad.dao.ConceptoContableDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+    	   
+	<bean id="conceptoContableServicioImpl" class="contabilidad.servicio.ConceptoContableServicio">
+		<dwr:remote javascript="conceptoContableServicio"> 
+		<dwr:include method="consulta" />
+		</dwr:remote>		
+		<property name="conceptoContableDAO" ref="conceptoContableDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean id="centroCostosDAOImpl" class="contabilidad.dao.CentroCostosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="centroCostosServicioImpl" class="contabilidad.servicio.CentroCostosServicio">
+		<dwr:remote javascript="centroServicio"> 
+			<dwr:include method="consulta"/>
+			<dwr:include method="lista"/>
+		</dwr:remote>
+		<property name="centroCostosDAO" ref="centroCostosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>  
+	</bean>
+	<!-- Definicion de Controladores de Plazas -->
+	<bean name="/catalogoCentroCostos.htm"
+		  class="contabilidad.controlador.CentroCostosControlador">
+		<property name="formView" value="contabilidad/centroCostosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="centroCostosServicio" ref="centroCostosServicioImpl" />  
+	</bean>
+	<bean name="/listaCentroCostos.htm"
+		  class="contabilidad.controlador.CentroCostosListaControlador">
+		<property name="centroCostosServicio" ref="centroCostosServicioImpl" /> 
+	</bean>
+ 
+
+	<!-- Beans de Detalle Poliza contable --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="contabilidad.bean.DetallePolizaBean" />
+	</dwr:configuration>
+	
+	<bean id="detallePolizaDAOImpl" class="contabilidad.dao.DetallePolizaDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="detallePolizaServicioImpl" class="contabilidad.servicio.DetallePolizaServicio">
+	      <dwr:remote javascript="detallePolizaServicio"> 
+
+			</dwr:remote>		
+	      <property name="detallePolizaDAO" ref="detallePolizaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Controladores de Detalle Poliza contable --> 
+	<bean name="/gridPolizaContable.htm"
+			  class="contabilidad.controlador.DetallePolizaGridControlador">
+			<property name="detallePolizaServicio" ref="detallePolizaServicioImpl" />
+	</bean>		
+	
+	<!-- Controladores de Detalle Poliza contable --> 
+	<bean name="/gridPolizaContablePlantilla.htm"
+			  class="contabilidad.controlador.DetallePolizaPlantillaGridControlador">
+			<property name="detallePolizaServicio" ref="detallePolizaServicioImpl" />
+	</bean>		
+
+	<bean name="/catalogoConceptosConta.htm"
+		  class="contabilidad.controlador.ConceptoContableControlador">
+		<property name="formView" value="contabilidad/conceptoContableVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="conceptoContableServicio" ref="conceptoContableServicioImpl" />
+	</bean>
+	 
+	<bean name="/listaConceptosConta.htm"
+		  class="contabilidad.controlador.ConceptoContaListaControlador">
+		<property name="conceptoContableServicio" ref="conceptoContableServicioImpl" />
+	</bean>
+
+	<!-- Beans de Periodo y Ejercicio -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.EjercicioContableBean" />
+	</dwr:configuration>
+		  
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.PeriodoContableBean" />
+	</dwr:configuration>
+
+	<bean id="periodoContableDAOImpl" class="contabilidad.dao.PeriodoContableDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="ejercicioContableDAOImpl" class="contabilidad.dao.EjercicioContableDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="periodoContableDAO" ref="periodoContableDAOImpl"/>
+		<property name="transactionTemplate">		
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+    	   
+	<bean id="ejercicioContableServicioImpl" class="contabilidad.servicio.EjercicioContableServicio">
+		<dwr:remote javascript="ejercicioContableServicio"> 
+		<dwr:include method="consulta" />
+		<dwr:include method="listaCombo" />
+		</dwr:remote>		
+		<property name="ejercicioContableDAO" ref="ejercicioContableDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+  	   
+  
+	<bean id="periodoContableServicioImpl" class="contabilidad.servicio.PeriodoContableServicio">
+		<dwr:remote javascript="periodoContableServicio"/> 
+		<property name="periodoContableDAO" ref="periodoContableDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/periodosContables.htm"
+			class="contabilidad.controlador.EjercicioContableControlador">
+		<property name="formView" value="contabilidad/periodoContableVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="ejercicioContableServicio" ref="ejercicioContableServicioImpl" />
+	</bean>
+	
+	<bean name="/periodosContablesCierre.htm"
+			class="contabilidad.controlador.PeriodoContableControlador">
+		<property name="formView" value="contabilidad/periodoContableCierreVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="periodoContableServicio" ref="periodoContableServicioImpl" />	
+	</bean>
+	
+	<bean name="/RepBalanzaContableVista.htm"
+			class="contabilidad.controlador.PeriodoContableControlador">
+      <property name="formView" value="contabilidad/repBalanzaContableVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="periodoContableServicio" ref="periodoContableServicioImpl" />	
+	</bean>
+	
+	<!-- Definicion de controladores de cuentas Contables -->
+	<bean name="/listaPeriodosContablesVista.htm"
+		  class="contabilidad.controlador.PeriodoContableListaControlador">
+		<property name="periodoContableServicio" ref="periodoContableServicioImpl" />
+	</bean> 
+	
+	<!-- Controlador Reporte del Catalogo de Cuentas Contables -->
+	<bean name="/MaestroContableRep.htm" class="contabilidad.reporte.MaestroCuentasRepControlador">
+      <property name="formView" value="contabilidad/repMaestroContable" />
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="contabilidad/MaestroCuentas.prpt" />      
+		<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Reporte del Catalogo de Cuentas Contables PDF-->
+	<bean name="/MaestroContableRepPDF.htm" class="contabilidad.reporte.PDFMaestroCuentasRepControlador">
+      <property name="nombreReporte" value="contabilidad/MaestroCuentas.prpt" />      
+	<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	
+	<!-- Definicion de controladores de Lista Grid de Periodos Contables -->
+			
+	<bean name="/listaPeriodosContables.htm"
+		  class="contabilidad.controlador.PeriodoContableGridControlador">
+		<property name="periodoContableServicio" ref="periodoContableServicioImpl" />
+	</bean>
+	
+	<bean name="/listaPeriodosContablesCie.htm"
+		  class="contabilidad.controlador.PeriodoContableCieGridControlador">
+		<property name="periodoContableServicio" ref="periodoContableServicioImpl" />
+	</bean>
+	
+	
+	<!-- Beans de conceptoBalanza --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="contabilidad.bean.ConceptoBalanzaBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptoBalanzaDAOImpl" class="contabilidad.dao.ConceptoBalanzaDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="conceptoBalanzaServicioImpl" class="contabilidad.servicio.ConceptoBalanzaServicio">
+	      <dwr:remote javascript="conceptoBalanzaServicio"> 
+	      <dwr:include method="consulta" />
+			</dwr:remote>	
+	      <property name="conceptoBalanzaDAO" ref="conceptoBalanzaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Controladores de conceptoBalanza --> 
+	<bean name="/listaConceptoBalanza.htm"
+		  class="contabilidad.controlador.ConceptoBalanzaListaControlador">
+		<property name="conceptoBalanzaServicio" ref="conceptoBalanzaServicioImpl" />
+	</bean>
+	
+	<bean name="/conceptoBalanzaCatalogo.htm" class="contabilidad.controlador.ConceptoBalanzaControlador"> 
+		<property name="formView" value="contabilidad/conceptoBalanzaCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="conceptoBalanzaServicio" ref="conceptoBalanzaServicioImpl" />
+	</bean>
+	
+	<!-- Beans de cuenta Balanza --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="contabilidad.bean.CuentasBalanzaBean" />
+	</dwr:configuration>
+	
+	<bean id="cuentasBalanzaDAOImpl" class="contabilidad.dao.CuentasBalanzaDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentasBalanzaServicioImpl" class="contabilidad.servicio.CuentasBalanzaServicio">
+	      <dwr:remote javascript="cuentasBalanzaServicio"> 
+	      <dwr:include method="consulta" />
+			</dwr:remote>	
+	      <property name="cuentasBalanzaDAO" ref="cuentasBalanzaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Beans de Permisos Contables --> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="contabilidad.bean.PermisosContablesBean"/> 
+	</dwr:configuration>
+	
+	<bean id="permisosContablesDAOImpl" class="contabilidad.dao.PermisosContablesDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="permisosContablesServicioImpl" class="contabilidad.servicio.PermisosContablesServicio">
+	      <dwr:remote javascript="permisosContablesServicio"> 
+	      <dwr:include method="consulta" />
+			</dwr:remote>	
+	      <property name="permisosContablesDAO" ref="permisosContablesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<bean name="/permisosContables.htm"
+			class="contabilidad.controlador.PermisosContablesControlador">
+		<property name="formView" value="contabilidad/permisosContablesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="permisosContablesServicio" ref="permisosContablesServicioImpl" />
+	</bean>
+	
+	<!-- Beans de reportes Contables --> 
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="contabilidad.bean.ReportesContablesBean"/> 
+	</dwr:configuration>
+	
+	
+	<dwr:configuration> 
+	     <dwr:convert type="bean" class="contabilidad.bean.ReporteBalanzaContableBean"/> 
+	</dwr:configuration>
+	
+	<bean id="reportesContablesDAOImpl" class="contabilidad.dao.ReportesContablesDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="reportesContablesServicioImpl" class="contabilidad.servicio.ReportesContablesServicio">
+	    <dwr:remote javascript="reportesContablesServicio"> 
+	    </dwr:remote>	
+	    <property name="reportesContablesDAO" ref="reportesContablesDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean> 
+		
+	 <bean name="/RepMovCuentaContable.htm" 
+	     class="contabilidad.reporte.MovCuentaContableControlador">
+      <property name="formView" value="contabilidad/repMovCuentaContableVista" />
+      <property name="successView" value="resultadoTransaccionReporteVista" />   
+	  <property name="reportesContablesServicio" ref="reportesContablesServicioImpl" />
+	</bean>
+	
+	<!-- Reporte por Cuenta Contable -->
+	<bean name="/MovCuentaContable.htm" class="contabilidad.reporte.PantallaMovCuentaContableRepControlador">
+		<property name="nombreReporte" value="contabilidad/MovimientosCuentasContables.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="reportesContablesServicio" ref="reportesContablesServicioImpl" />
+	</bean>
+
+	<!-- Reporte de la Balanza -->
+	<bean name="/RepBalanzaContable.htm" class="contabilidad.reporte.PantallaBalanzasContaRepControlador">
+		<property name="nombreReporte" value="contabilidad/BalanzaContable.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="reportesContablesServicio" ref="reportesContablesServicioImpl" />
+	</bean>
+	
+	<!-- Beans de digitalización de archivos de la Poliza -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.PolizaArchivosBean" /> 
+	</dwr:configuration>	   
+	
+	<bean id="polizaArchivosDAOImpl" class="contabilidad.dao.PolizaArchivosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>	
+		<property name="centroCostosDAO" ref="centroCostosDAOImpl"/>
+		<property name="cuentasContablesDAO" ref="cuentasContablesDAOImpl"/>
+		<property name="procesosETLDAO" ref="procesosETLDAOImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="polizaArchivosServicioImpl" class="contabilidad.servicio.PolizaArchivosServicio">
+		<dwr:remote javascript="polizaArchivosServicio">
+			<!-- <dwr:include method="consulta" />-->
+			<dwr:include method="listaCargaArchivos" />
+		<dwr:include method="bajaArchivosPoliza" />
+		</dwr:remote>
+		<property name="polizaArchivosDAO" ref="polizaArchivosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/> 
+	</bean>	
+	
+	<bean name="/polizaFileUploadVista.htm" class="contabilidad.controlador.PolizaArchivosControlador">
+        <property name="commandClass" value="contabilidad.bean.PolizaArchivosBean"/>
+        <property name="formView" value="contabilidad/polizaArchivosAdjuntaVista"/>
+        <property name="successView" value="resultadoTransaccionArchivoVista"/> 
+		<property name="polizaArchivosServicio" ref="polizaArchivosServicioImpl" /> 		
+    </bean>	
+	
+	 <bean name="/polizaArchivosGridVista.htm" class="contabilidad.controlador.PolizaArchivosGridControlador">
+		<property name="polizaArchivosServicio" ref="polizaArchivosServicioImpl" /> 
+	</bean>
+	
+	 <!-- controlador para ver los Archivos de la poliza -->
+	<bean name="/polizaArchivosVer.htm" class="contabilidad.controlador.PolizaArchivosVerControlador">
+		<property name="polizaArchivosServicio" ref="polizaArchivosServicioImpl" /> 
+	</bean>
+	
+	<!-- Controlador Reporte del Catalogo de Poliza Contables PDF-->
+	<bean name="/PolizaContableRepPDF.htm" class="contabilidad.reporte.PDFPolizaRepControlador">
+      <property name="nombreReporte" value="contabilidad/PolizaContable.prpt" />      
+	<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="polizaServicio" ref="polizaServicioImpl" />
+	<property name="usuarioServicio" ref="usuarioServicioImpl" />
+	</bean>
+	
+	<!--  Bean para los reportes Financieros -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ReporteFinancierosBean" /> 
+	</dwr:configuration>
+
+	
+	<!-- DAO de reportes financieros -->
+	<bean id="reportesFinancierosDAOImpl" class="contabilidad.dao.ReportesFinancierosDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="reporteFinancierosServicioImpl" class="contabilidad.servicio.ReporteFinancierosServicio">
+		<dwr:remote javascript="reporteFinancierosServicio">
+		</dwr:remote>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="reporteFinancierosDAO" ref="reportesFinancierosDAOImpl"/>	
+		<property name="parametrosAplicacionDAO" ref="parametrosAplicacionDAOImpl"/>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="paramGeneralesServicio" ref="paramGeneralesServicioImpl" />
+	</bean>		
+	
+	<bean name="/repFinanciero.htm" class="contabilidad.controlador.ReporteFinancierosControlador">
+		 <property name="formView" value="contabilidad/reportesFinancierosVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="reporteFinancierosServicio" ref="reporteFinancierosServicioImpl" />
+    </bean> 
+	<bean name="/repFinancieroPDF.htm" class="contabilidad.reporte.PDFReporteFinancierosControlador">
+      <property name="nombreReporte" value="contabilidad/BalanceContable.prpt" />      
+		<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="reporteFinancierosServicio" ref="reporteFinancierosServicioImpl" />
+	</bean>
+	
+	<bean name="/repEstadoResulFinancieroPDF.htm" class="contabilidad.reporte.PDFReporteFinancierosControlador">
+      <property name="nombreReporte" value="contabilidad/EstadoDeResultados.prpt" />      
+		<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="reporteFinancierosServicio" ref="reporteFinancierosServicioImpl" />
+	</bean>
+	
+	<bean name="/repFlujosEfectivoPDF.htm" class="contabilidad.reporte.PDFReporteFinancierosControlador">
+      <property name="nombreReporte" value="contabilidad/EstadoFlujosEfectivo.prpt" />      
+		<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="reporteFinancierosServicio" ref="reporteFinancierosServicioImpl" />
+	</bean>
+	
+	<bean name="/repEstadoVariacionesPDF.htm" class="contabilidad.reporte.PDFReporteFinancierosControlador">
+      <property name="nombreReporte" value="contabilidad/EstadoVariaciones.prpt" />      
+		<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="reporteFinancierosServicio" ref="reporteFinancierosServicioImpl" />
+	</bean>
+	
+	<!--  Fin del Bean, servicio y controlador de los reportes Financieros -->
+	
+	<!-- Beans de TipoEstadosFinancieros -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.TipoEstaFinancieroBean" />
+	</dwr:configuration>
+	
+	<bean id="tipoEstaFinancieroDAOImpl" class="contabilidad.dao.TipoEstaFinancieroDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="tipoEstaFinancierosServicioImpl" class="contabilidad.servicio.TipoEstaFinancierosServicio">
+		<dwr:remote javascript="tipoEstaFinancierosServicio"/> 
+		<property name="tipoEstaFinancieroDAO" ref="tipoEstaFinancieroDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Fin Beans de TipoEstadosFinancieros -->
+	
+	
+	<!--INICIO de Beans para Metodos de Pro-Rateo Contable -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ProrrateoContableBean" />
+	</dwr:configuration>
+	
+	<bean name="/prorrateoContable.htm" class="contabilidad.controlador.ProrrateoContableControlador">
+	   <property name="formView" value="contabilidad/prorrateoContableVista" />
+       <property name="successView" value="resultadoTransaccionVista" />
+       <property name="prorrateoContableServicio" ref="prorrateoContableServicioImpl" />
+    </bean>
+     	
+	<bean id="prorrateoContableServicioImpl" class="contabilidad.servicio.ProrrateoContableServicio">
+		<dwr:remote javascript="prorrateoContableServicio">
+			<dwr:include method="consulta"/>			
+			<dwr:include method="lista"/>
+		</dwr:remote>
+	  	<property name="prorrateoContableDAO" ref="prorrateoContableDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>	
+	
+	<bean id="prorrateoContableDAOImpl" class="contabilidad.dao.ProrrateoContableDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Bean para grid de prorrateContable -->
+	<bean name="/prorrateoContableGrid.htm" class="contabilidad.controlador.ProrrateoContableGridControlador">
+		<property name="centroCostosServicio" ref="centroCostosServicioImpl"/>
+	</bean>
+	
+	<bean name="/prorrateoConsultaGrid.htm" class="contabilidad.controlador.ProrrateoConGridControlador">
+		<property name="centroCostosServicio" ref="centroCostosServicioImpl"/>
+	</bean>
+	
+	<bean name="/prorrateoContableLista.htm" class="contabilidad.controlador.ProrrateoContableListaControlador">
+		<property name="prorrateoContableServicio" ref="prorrateoContableServicioImpl"/>
+	</bean>
+	<!--FIN de Beans para Metodos de Pro-Rateo Contable -->
+
+<!-- Beans de tipo de instrumentos-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.TipoInstrumentosBean" />
+	</dwr:configuration>
+	
+	<bean id="tipoInstrumentosDAOImpl" class="contabilidad.dao.TipoInstrumentosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>			
+	</bean> 
+        
+	 <bean id="tipoInstrumentosServicioImpl" class="contabilidad.servicio.TipoInstrumentosServicio">
+		<dwr:remote javascript="tipoInstrumentosServicio">
+		 <dwr:include method="consulta" /> 
+		 <dwr:include method="listaCombo" />
+		 <dwr:include method="lista" />
+	   	</dwr:remote>		
+		<property name="tipoInstrumentosDAO" ref="tipoInstrumentosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/listaInstrumento.htm" class="contabilidad.controlador.TipoInstrumentosControlador">
+		<property name="tipoInstrumentosServicio" ref="tipoInstrumentosServicioImpl" />
+	</bean>
+	
+<!--  Beans Pantalla Reporte de Polizas Intersucursales -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.RepPolizasIntersucBean" />
+	</dwr:configuration>	  
+	
+	<bean id="repPolizasIntersucDAOImpl" class="contabilidad.dao.RepPolizasIntersucDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="repPolizasIntersucServicioImpl" class="contabilidad.servicio.RepPolizasIntersucServicio">
+		<dwr:remote javascript="repPolizasIntersuc">
+		<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="reportePolizasIntersucDAO" ref="repPolizasIntersucDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+
+	<bean name="/repPolizasIntersuc.htm" class="contabilidad.controlador.RepPolizasIntersucControlador">
+	      <property name="formView" value="contabilidad/repPolizasIntersucVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="repPolizasIntersuc" ref="repPolizasIntersucServicioImpl" />
+	      
+	</bean>	
+		<!-- 	Fin de Beans Reporte de polizas intersucursales -->
+		<!-- Bean para reportes de Polizas Intersucursales -->				 
+	<bean name="/reportePolizasIntersuc.htm" class="contabilidad.reporte.ReporteTransCtasBanControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="reportePolizasIntersucServicio" ref="repPolizasIntersucServicioImpl"/>
+	</bean>	
+				 
+	<bean name="/reportePolizasIntersucursales.htm" class="contabilidad.reporte.ReportePolizasIntersucControlador">
+       	<property name="successView" value="resultadoTransaccionReporteVista" />
+       	<property name="reportePolizasIntersucServicio" ref="repPolizasIntersucServicioImpl"/>
+	</bean>	
+	
+	<bean name="/reporteFacturasProv.htm" class="contabilidad.reporte.ReporteFacturasProvControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="reportePolizasIntersucServicio" ref="repPolizasIntersucServicioImpl"/>
+	</bean>
+	
+	<bean name="/reporteGastosAnticipos.htm" class="contabilidad.reporte.ReporteGastosAntiControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="reportePolizasIntersucServicio" ref="repPolizasIntersucServicioImpl"/>
+	</bean>
+	
+	<bean name="/reporteOperacionesVen.htm" class="contabilidad.reporte.ReporteOperacionesVenControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="reportePolizasIntersucServicio" ref="repPolizasIntersucServicioImpl"/>
+	</bean>
+	<!-- fin de beans para reportes de polizas Intersucursales -->
+	
+	
+	<!---Auxiliar para Carga Masiva de Polizas -->
+	
+	<bean name="/polizasFileUploadVista.htm" class="contabilidad.controlador.CargaMasivaPolizaControlador">
+		<property name="commandClass" value="contabilidad.bean.PolizaArchivosBean"/>
+		<property name="polizaArchivosServicio" ref="polizaArchivosServicioImpl" /> 	
+		<property name="formView" value="contabilidad/polizasFileUploadVista"/> 
+		<property name="successView" value="resultadoTransaccionCarMasivaPolizaVista"/>
+	</bean> 
+<!-- Beans de tipo de ReporteISR -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ReporteISRRetenidoBean" />
+	</dwr:configuration>	  
+	
+	<bean id="reporteISRRetenidoDAOImpl" class="contabilidad.dao.ReporteISRRetenidoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    
+	<bean id="reporteISRRetenidoServicioImpl" class="contabilidad.servicio.ReporteISRRetenidoServicio">
+		<dwr:remote javascript="reporteISRRetenidoServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>	 		
+		<property name="reporteISRRetenidoDAO" ref="reporteISRRetenidoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>  
+
+	
+	<!-- Definicion de Controladores de Reporte ISRRetenido-->  	
+	<bean name="/reporteISRRetenido.htm" class="contabilidad.controlador.ReporteISRRetenidoControlador">
+	      <property name="formView" value="contabilidad/ReporteISRRetenidoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+ 
+		<bean name="/repISRRetenido.htm" class="contabilidad.reporte.ReporteISRRetenidoRepControlador">
+		<property name="reporteISRRetenidoServicio" ref="reporteISRRetenidoServicioImpl"/>
+	</bean>  
+	
+	<!-- Definicion de Controladores del catalogo INGRESOS-EGRESOS -->
+	<!-- BEAN -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.CatIngresosEgresosBean" />
+	</dwr:configuration>
+	
+	<!-- DAO -->
+	<bean id="catIngresosEgresosDAOImpl" class="contabilidad.dao.CatIngresosEgresosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- SERVICIO -->
+	<bean id="catIngresosEgresosServicioImpl" class="contabilidad.servicio.CatIngresosEgresosServicio">
+		<dwr:remote javascript="catIngresosEgresosServicio"> 
+			<dwr:include method="consulta"/>
+			<dwr:include method="lista"/>
+			<dwr:include method="listaCombo"/>
+		</dwr:remote>	
+		<property name="catIngresosEgresosDAO" ref="catIngresosEgresosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />	  
+	</bean>	
+	
+	<!-- CONTROLADOR -->
+	<bean name="/catalogoIngresosEgresos.htm" class="contabilidad.controlador.CatIngresosEgresosControlador">
+		<property name="formView" value="contabilidad/catIngresosEgresosCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catIngresosEgresosServicio" ref="catIngresosEgresosServicioImpl" />  
+	</bean>
+	
+	<!-- Lista -->
+	<bean name="/catListaIngresosEgresosLista.htm" class="contabilidad.controlador.CatIngresosEgresosListaControlador">
+	<property name="catIngresosEgresosServicio" ref="catIngresosEgresosServicioImpl" />
+	</bean>
+	
+	<!-- FIN  Definicion de Controladores del catalogo INGRESOS-EGRESOS -->
+	
+	<!-- Definicion de Controladores del catalogo METODOS DE PAGO -->
+	<!-- BEAN -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.CatMetodosPagoBean" />
+	</dwr:configuration>
+	
+	<!-- DAO -->
+	<bean id="catMetodosPagoDAOImpl" class="contabilidad.dao.CatMetodosPagoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>		
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- SERVICIO -->
+	<bean id="catMetodosPagoServicioImpl" class="contabilidad.servicio.CatMetodosPagoServicio">
+		<dwr:remote javascript="catMetodosPagoServicio"> 
+			<dwr:include method="consulta"/>
+			<dwr:include method="lista"/>
+			<dwr:include method="listaCombo"/>
+		</dwr:remote>	
+		<property name="catMetodosPagoDAO" ref="catMetodosPagoDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />	  
+	</bean>	
+	
+	<!-- CONTROLADOR -->
+	<bean name="/catalogoMetodosPago.htm" class="contabilidad.controlador.CatMetodosPagoControlador">
+		<property name="formView" value="contabilidad/catMetodosPagoCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="catMetodosPagoServicio" ref="catMetodosPagoServicioImpl" />  
+	</bean>
+	<!-- Lista -->
+	<bean name="/catMetodosPagoLista.htm" class="contabilidad.controlador.CatMetodosPagoListaControlador">
+	<property name="catMetodosPagoServicio" ref="catMetodosPagoServicioImpl" />
+	</bean>
+	
+	<!-- FIN Definicion de Controladores del catalogo METODOS DE PAGO -->
+	
+	<!-- ====== DEFINICION DE BEANS PARA REPORTE ANEXO Y FAP =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ReporteAnexoYFapBean" />
+	</dwr:configuration>
+
+	<bean id="reporteAnexoYFapDAOImpl" class="contabilidad.dao.ReporteAnexoYFapDAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="reporteAnexoYFapServicioImpl" class="contabilidad.servicio.ReporteAnexoYFapServicio">
+		<dwr:remote javascript="reporteAnexoYFapServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="reporteAnexoYFapDAO" ref="reporteAnexoYFapDAOImpl"/>	
+	</bean>
+	
+	<bean name="/reporteAnexoYFapVista.htm" class="contabilidad.controlador.ReporteAnexoYFapVistaControlador">
+		<property name="formView" value="contabilidad/reporteAnexoYFapVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>	
+	
+	
+	<bean name="/reporteAnexoYFap.htm" class="contabilidad.reporte.ReporteAnexoYFapReporteControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="reporteAnexoYFapServicio" ref="reporteAnexoYFapServicioImpl" />
+	</bean>
+	
+	<!-- ====== DEFINICION DE BEANS PARA REPORTE CATALOGO MINIMO FAP =============================================== -->
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ReporteCatMinFapBean" />
+	</dwr:configuration>
+
+	<bean id="reporteCatMinFapImpl" class="contabilidad.dao.ReporteCatMinFapDAO">
+	  	<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean>
+    	   
+	<bean id="reporteCatMinFapServicioImpl" class="contabilidad.servicio.ReporteCatMinFapServicio">
+		<dwr:remote javascript="reporteCatMinFapServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="reporteCatMinFapDAO" ref="reporteCatMinFapImpl"/>	
+	</bean>
+	
+	<!-- ********************* Catalogo minimo FAP ***************************-->
+	<bean name="/reporteCatMinFapVista.htm" class="contabilidad.controlador.ReporteCatMinFapVistaControlador">
+		<property name="formView" value="contabilidad/reporteCatMinFapVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+	</bean>
+	
+	<bean name="/reporteCatMinFap.htm" class="contabilidad.reporte.ReporteCatMinFapRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="reporteCatMinFapServicio" ref="reporteCatMinFapServicioImpl" />
+	</bean>
+	
+	<!-- ================= CONCEPTOS ESTADOS FINANCIEROS PARA REPORTES =================== -->
+	<!-- Bean -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.ConceptosEdosFinancierosBean" />
+	</dwr:configuration>
+
+	<!-- DAO -->
+	<bean id="conceptosEdosFinancierosDAOImpl" class="contabilidad.dao.ConceptosEdosFinancierosDAO">
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="dataSource" ref="dataSource" />	
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Servicio -->
+	<bean id="conceptosEdosFinancierosServicioImpl" class="contabilidad.servicio.ConceptosEdosFinancierosServicio">
+		<dwr:remote javascript="conceptosEdosFinancierosServicio">
+ 			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="conceptosEdosFinancierosDAO" ref="conceptosEdosFinancierosDAOImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- =============== FIN CONCEPTOS ESTADOS FINANCIEROS PARA REPORTES ================= -->
+	<!-- Recurso para la pantalla "Frecuencia Timbrado Producto" -->
+	
+	<bean name="/frecTimbradoProduc.htm" class="contabilidad.controlador.FrecTimbradoProducControlador">
+	      <property name="formView" value="contabilidad/frecTimbradoProducVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="frecTimbradoProducServicio" ref="frecTimbradoProducServicioImpl" />
+	</bean>	
+	<bean name="/gridfrecTimbradoProduc.htm" class="contabilidad.controlador.FrecTimbradoProducGridControlador">
+	      <property name="frecTimbradoProducServicio" ref="frecTimbradoProducServicioImpl" />
+	</bean>
+	
+	 <bean name="/listaTimbradoProduc.htm" class="contabilidad.controlador.FrecTimbradoProducListaControlador">
+		   <property name="frecTimbradoProducServicio" ref="frecTimbradoProducServicioImpl" />
+	</bean>
+	
+	
+	<!-- BEANS TIMBRADO DE CUENTAS POR PRODUCTO -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.TimbradoPorProductoBean" />
+	</dwr:configuration>	  
+	
+	<bean id="timbradoPorProductoDAOImpl" class="contabilidad.dao.TimbradoPorProductoDAO">
+		<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>
+	
+	<bean id="timbradoPorProductoServicioImpl" class="contabilidad.servicio.TimbradoPorProductoServicio">
+		<dwr:remote javascript="timbradoPorProductoServicio">
+			<dwr:include method="consulta" /> 
+		</dwr:remote>		
+		<property name="timbradoPorProductoDAO" ref="timbradoPorProductoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/timbradoPorProducto.htm" class="contabilidad.controlador.TimbradoPorProductoControlador">
+	      <property name="formView" value="contabilidad/timbradoPorProductoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="timbradoPorProductoServicio" ref="timbradoPorProductoServicioImpl" />
+	</bean>	
+	
+	<!-- FIN BEANS TIMBRADO DE CUENTAS POR PRODUCTO -->
+	
+	
+	<!--BEANS ESTATUS DE TIMBRADO DE CUENTAS POR PRODUCTO -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="contabilidad.bean.EstatusTimbradoProdBean" />
+	</dwr:configuration>	  
+	
+	<bean id="estatusTimbradoProdDAOImpl" class="contabilidad.dao.EstatusTimbradoProdDAO">
+		<property name="dataSource" ref="dataSource"/>
+	  	<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>		
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+	</bean>
+	
+	<bean id="estatusTimbradoProdServicioImpl" class="contabilidad.servicio.EstatusTimbradoProdServicio">
+		<dwr:remote javascript="estatusTimbradoProdServicio">
+			<dwr:include method="lista" />
+		</dwr:remote>		
+		<property name="estatusTimbradoProdDAO" ref="estatusTimbradoProdDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/estatusTimbrado.htm" class="contabilidad.controlador.EstatusTimbradoProdControlador">
+	   <property name="formView" value="contabilidad/estatusTimbradoProdVista" />   
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+       <property name="estatusTimbradoProdServicio" ref="estatusTimbradoProdServicioImpl" />
+	</bean>	
+	
+	<!--GRID DE ESTATUS DE TIMBRADO POR PRODUCTO-->
+	<bean name="/estatusTimbradoGrid.htm" class="contabilidad.controlador.EstatusTimbradoProdGridControlador">
+	   <property name="estatusTimbradoProdServicio" ref="estatusTimbradoProdServicioImpl" />
+	</bean>
+
+	<!--REPORTE DE ESTATUS DE TIMBRADO POR PRODUCTO-->	
+	<bean name="/reporteEstatusTimRep.htm" class="contabilidad.reporte.EstatusTimRepControlador">
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="estatusTimbradoProdServicio" ref="estatusTimbradoProdServicioImpl" />
+		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+	</bean>	
+
+	<!-- Controlador pantalla Reporte SAT -->
+	<bean name="/repSAT.htm" class="contabilidad.controlador.RepSATControlador">
+      <property name="formView" value="contabilidad/repSATVista" />
+      <property name="successView" value="resultadoTransaccionVista" />
+	  <property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Reporte del Catalogo de Cuentas Contables Excel-->
+	<bean name="/repSATExcel.htm" class="contabilidad.reporte.RepSATExcelControlador">    
+	<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Reporte  Estados de Cuenta  -->
+	<bean name="/repEstadosCuenta.htm" class="contabilidad.controlador.RepEstadosCControlador">
+      <property name="formView" value="contabilidad/repEstadosCVista" />
+      <property name="successView" value="resultadoTransaccionVista" />
+	  <property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+	
+	<!-- Controlador Reporte del Catalogo de Cuentas Contables Excel-->
+	<bean name="/repEstadoCExcel.htm" class="contabilidad.reporte.RepEstadosCExcelControlador">    
+	<property name="successView" value="resultadoTransaccionReporteVista" />		
+	<property name="cuentasContablesServicio" ref="cuentasContablesServicioImpl" />
+	</bean>
+
+	
+</beans>

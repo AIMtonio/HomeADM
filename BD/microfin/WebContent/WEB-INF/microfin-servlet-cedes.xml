@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		 
+
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.CedesBean" />
+	</dwr:configuration>	  
+	
+	<bean id="cedesDAOImpl" class="cedes.dao.CedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>
+		<property name="operacionesCapitalNetoDAO" ref="operacionesCapitalNetoDAOImpl" />	
+	</bean> 
+        
+	<bean id="cedesServicioImpl" class="cedes.servicio.CedesServicio">
+		<dwr:remote javascript="cedesServicio">
+			<dwr:include method="consulta" />
+		</dwr:remote>		
+		<property name="cedesDAO" ref="cedesDAOImpl"/>			
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+		<property name="isotrxServicio" ref="isotrxServicioImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	
+	<bean name="/altaCEDES.htm" class="cedes.controlador.CedesControlador">
+		<property name="formView" value="cedes/altaCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	<!--VENCIMIENTO MASIVO CEDES-->
+	<bean name="/cedesVencimientoMasivo.htm" class="cedes.controlador.VencimientoMasivoCedesControlador">
+		<property name="formView" value="cedes/vencimientoMasivoCedesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	<!--VENCIMIENTO MASIVO CEDES-->
+	
+	<bean name="/simuladorPagosCedes.htm" class="cedes.controlador.SimuladorPagoCedeGridControlador">
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>	
+	
+	<!-- Bean para Plazos Por Productos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.PlazosPorProductosBean"/>
+	</dwr:configuration>
+	
+	<bean id="plazosPorProductosDAOImpl" class="cedes.dao.PlazosPorProductosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="plazosPorProductosServicioImpl" class="cedes.servicio.PlazosPorProductosServicio">
+		<dwr:remote javascript="plazosPorProductosServicio">
+			<dwr:include method="lista"/>		
+		</dwr:remote>
+		<property name="plazosPorProductosDAO" ref="plazosPorProductosDAOImpl"/>
+	</bean>
+	
+	<!-- Montos CEDES -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.MontosCedesBean" />
+	</dwr:configuration>	  
+	
+	<bean id="montosCedesDAOImpl" class="cedes.dao.MontosCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+		<property name="tasasCedesDAO" ref="tasasCedesDAOImpl"/>	
+	</bean> 
+        
+	<bean id="montosCedesServicioImpl" class="cedes.servicio.MontosCedesServicio">
+		<dwr:remote javascript="montosCedesServicio">
+		 <dwr:include method="consulta" />
+		 <dwr:include method="lista" />		 
+		 <dwr:include method="listaCombo" />
+		</dwr:remote>		
+		<property name="montosCedesDAO" ref="montosCedesDAOImpl"/>	
+	</bean>
+	
+	
+	
+	<!-- Plazos CEDES -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.PlazosCedesBean" />
+	</dwr:configuration>	  
+	
+	<bean id="plazosCedesDAOImpl" class="cedes.dao.PlazosCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+			<property name="tasasCedesDAO" ref="tasasCedesDAOImpl"/>	
+	</bean> 
+        
+	<bean id="plazosCedesServicioImpl" class="cedes.servicio.PlazosCedesServicio">
+		<dwr:remote javascript="plazosCedesServicio">
+		 <dwr:include method="consulta" />
+		  <dwr:include method="lista" />
+		  	  <dwr:include method="listaCombo" />
+		</dwr:remote>		
+		<property name="plazosCedesDAO" ref="plazosCedesDAOImpl"/>	
+	</bean>
+	
+	
+	
+	<!-- Tipos CEDES -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.TiposCedesBean" />
+	</dwr:configuration>	  
+	
+	<bean id="tiposCedesDAOImpl" class="cedes.dao.TiposCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+        
+	<bean id="tiposCedesServicioImpl" class="cedes.servicio.TiposCedesServicio">
+		<dwr:remote javascript="tiposCedesServicio">
+		 <dwr:include method="consulta" />
+		 <dwr:include method="listaCombo" />	
+		</dwr:remote>		
+		<property name="tiposCedesDAO" ref="tiposCedesDAOImpl"/>	
+	</bean>
+	
+	
+		<!-- Controlador para las Listas de CEDES -->
+	<bean name="/listaTiposCedes.htm" class="cedes.controlador.TiposCedesListaControlador">
+		<property name="tiposCedesServicio" ref="tiposCedesServicioImpl" />
+	</bean>
+	
+	
+	
+	<!-- Tasas CEDES -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.TasasCedesBean" />
+	</dwr:configuration>	  
+	
+	<bean id="tasasCedesDAOImpl" class="cedes.dao.TasasCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+        
+	<bean id="tasasCedesServicioImpl" class="cedes.servicio.TasasCedesServicio">
+		<dwr:remote javascript="tasasCedesServicio">
+		 <dwr:include method="consulta" />
+		 <dwr:include method="listaCombo" />
+		</dwr:remote>		
+		<property name="tasasCedesDAO" ref="tasasCedesDAOImpl"/>	
+	</bean>
+	
+	<!-- Autorizacion  CEDES -->
+	<bean name="/autorizarCede.htm" class="cedes.controlador.CedesControlador">
+		<property name="formView" value="cedes/autorizaCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	<!-- Controlador para las Listas de CEDES -->
+	<bean name="/listaCedes.htm" class="cedes.controlador.CedesListaControlador">
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+		
+	<bean name="/cedesVigentes.htm" class="cedes.controlador.CedesVigentesControlador">
+		<property name="formView" value="cedes/cedesVigentesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	
+	<!-- Reporte de Cedes Vigentes --> 
+	<bean name="/reporteCedesVigentes.htm" class="cedes.reporte.CedesVigentesRepControlador">
+      	<property name="nombreReporte" value="cedes/CedesVigentes.prpt" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	 
+	<!-- Controlador para imprimir el Pagare de Cedes Tasas Variable -->	
+	<bean name="/pagareCedeRep.htm" class="cedes.reporte.PagareCedeRepControlador">
+		<property name="nombreReporte" value="cedes/PagareCedeTasaVariable.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	
+	<!-- Controlador para imprimir el Pagare de Cedes Tasas Fijas -->
+	<bean name="/pagareFijoCedeRep.htm" class="cedes.reporte.PagareFijoCedeRepControlador">
+		<property name="nombreReporte" value="cedes/PagareCedeTasaFija.prpt" />
+	   <property name="successView" value="resultadoTransaccionReporteVista" />
+	   <property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+
+	
+	<!-- Anclaje de CEDES -->
+	
+		
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.CedesAnclajeBean" />
+	</dwr:configuration>	  
+	
+	<bean id="cedesAnclajeDAOImpl" class="cedes.dao.CedesAnclajeDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />		
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+        
+	<bean id="cedesAnclajeServicioImpl" class="cedes.servicio.CedesAnclajeServicio">
+		<dwr:remote javascript="cedesAnclajeServicio">
+		 <dwr:include method="consulta" />
+		 <dwr:include method="lista" />	
+		</dwr:remote>		
+		<property name="cedesAnclajeDAO" ref="cedesAnclajeDAOImpl"/>	
+		<property name="monedasServicio" ref="monedasServicioImpl" />
+	</bean>
+	
+	
+	<bean name="/anclajeCedesVista.htm" class="cedes.controlador.CedesAnclajeControlador">
+		<property name="formView" value="cedes/cedesAnclajeCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesAnclajeServicio" ref="cedesAnclajeServicioImpl" />
+	</bean>
+	
+		<!-- Controlador para las Listas de CEDES ANCLAJE-->
+ 	<bean name="/anclajeCedesLista.htm" class="cedes.controlador.CedesAnclajeListaControlador">
+		<property name="cedesAnclajeServicio" ref="cedesAnclajeServicioImpl" />
+	</bean>
+	
+	<bean name="/reimpresionPagCedes.htm" class="cedes.controlador.ReimpPagareCedesControlador">
+		<property name="formView" value="cedes/repReimpresionPagareCedesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl"/>
+		
+	</bean>
+	
+	<!-- ===================== TIPOS DE CUENTA POR SUCURSAL ============================-->
+	<!-- Definicion de Bean Tipos de Cede por Sucursal -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.TipoCuentaSucursalBean" />
+	</dwr:configuration>
+
+	<!-- Definicion de Dao Tipos de Cuenta por Sucursal -->
+	<bean id="tipoCuentaSucursalDAOImpl" class="cedes.dao.TipoCuentaSucursalDAO">
+		<property name="dataSource" ref="dataSource" />
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl" />
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+		<property name="transaccionDAO" ref="transaccionDAOImpl" />
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Definicion de Servicio Tipos de Cuenta por Sucursal -->
+	<bean id="tipoCuentaSucursalServicioImpl" class="cedes.servicio.TipoCuentaSucursalServicio">
+		<dwr:remote javascript="tipoCuentaSucursalServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="tipoCuentaSucursalDAO" ref="tipoCuentaSucursalDAOImpl" />
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl" />
+	</bean>
+	
+	<!-- Definicion de Controlador Tipos de CEDES por Sucursal -->
+	<bean name="/tipoCedesSuc.htm" class="cedes.controlador.TipoCuentaSucursalControlador">
+		<property name="formView" value="cedes/tipoCedesSucursalVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tipoCuentaSucursalServicio" ref="tipoCuentaSucursalServicioImpl" />
+	</bean> 
+	
+	<!-- muestra el grid de sucursales filtradas -->
+	<bean name="/gridTipoCuentaSucursalVista.htm" class="cedes.controlador.TipoCuentaSucursalGridControlador">
+		<property name="tipoCuentaSucursalServicio" ref="tipoCuentaSucursalServicioImpl" />
+	</bean>
+	
+	<!-- Controlador para reporte pdf -->
+	<bean name="/reporteTipoCuentaSucursal.htm" class="cedes.reporte.RepTipoCuentaSucursalControlador">
+		<property name="nombreReporte" value="cedes/TipoCuentaSucursal.prpt" />
+		<property name="successView" value="resultadoTransaccionReporteVista" />
+		<property name="tipoCuentaSucursalServicio" ref="tipoCuentaSucursalServicioImpl" />
+	</bean>
+	
+	<!-- ===================== FIN DE TIPOS DE CUENTA POR SUCURSAL ============================-->
+	
+	<!-- Beans de Plazos de CEDES -->
+	<bean name="/rangoPlazosCedes.htm" class="cedes.controlador.PlazosCedesControlador">
+		<property name="formView" value="cedes/plazosCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="plazosCedesServicio" ref="plazosCedesServicioImpl" />
+	</bean>
+	
+	
+	  <!-- Beans  de Montos -->
+	<bean name="/rangoMontoCedes.htm" class="cedes.controlador.MontosCedesControlador">
+		<property name="formView" value="cedes/montoCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="montosCedesServicio" ref="montosCedesServicioImpl" />
+	</bean>
+	
+	<bean name="/gridMontosCedes.htm" class="cedes.controlador.MontoCedesGridControlador">
+		<property name="montosCedesServicio" ref="montosCedesServicioImpl" />
+	</bean>
+		
+	<bean name="/gridPlazosCedes.htm" class="cedes.controlador.PlazosCedesGridControlador">
+		<property name="plazosCedesServicio" ref="plazosCedesServicioImpl" />
+	</bean>
+	
+		<!-- Alta de Tasas CEDES -->
+	<bean name="/tasaCedes.htm" class="cedes.controlador.TasasCedesControlador">
+		<property name="formView" value="cedes/tasasCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tasasCedesServicio" ref="tasasCedesServicioImpl" />
+	</bean>
+	
+		<!-- Controlador para las Listas de TASAS DE CEDES -->
+ 	<bean name="/tasasCedesLista.htm" class="cedes.controlador.TasasCedesListaControlador">
+		<property name="tasasCedesServicio" ref="tasasCedesServicioImpl" />
+	</bean>
+	 			
+	<bean name="/gridTasasCedes.htm" class="cedes.controlador.TasasCedesGridControlador">
+		<property name="tasasCedesServicio" ref="tasasCedesServicioImpl" />
+	</bean>
+	
+	<!-- Beans de Pantalla Tipos CEDES -->
+	<bean name="/tiposCedes.htm" class="cedes.controlador.TiposCedesControlador">
+		<property name="formView" value="cedes/tiposCedesVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="tiposCedesServicio" ref="tiposCedesServicioImpl" />
+	</bean>
+	
+		<bean name="/resumenCteCedeGrid.htm" 
+			class="cedes.controlador.ResumenCteCedeGridControlador">
+		<property name="cedesServicio" ref="cedesServicioImpl" /> 
+	</bean>  
+	
+	
+	<!-- Reinversiones de CEDES -->
+	
+	<bean name="/reinversionCEDE.htm" class="cedes.controlador.CedesControlador">
+		<property name="formView" value="cedes/reinvierteCede" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	
+				
+	<!-- Definicion de Controladores de pantalla  Tipos Documento de CEDES -->
+	
+	<dwr:configuration>
+		 <dwr:convert type="bean" class="cedes.bean.DocPorTipoCedesBean" />  
+	</dwr:configuration>	  
+	
+	<bean id="docPorTipoCedesDAOImpl" class="cedes.dao.DocPorTipoCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="docPorTipoCedesServicioImpl" class="cedes.servicio.DocPorTipoCedesServicio">
+		<dwr:remote javascript="docPorTipoCedesServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+		</dwr:remote>
+		<property name="docPorTipoCedesDAO" ref="docPorTipoCedesDAOImpl"/>
+	</bean>
+	
+	<bean name="/docPorTipoCedes.htm" class="cedes.controlador.DocPorTipoCedesControlador">
+		<property name="formView" value="cedes/docPorTipoCedesCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="docPorTipoCedesServicio" ref="docPorTipoCedesServicioImpl" />
+		
+	</bean>	
+	
+	<bean name="/docPorTipoCedesGrid.htm" class="cedes.controlador.DocPorTipoCedesGridControlador">   		
+   		<property name="docPorTipoCedesServicio" ref="docPorTipoCedesServicioImpl" />
+   	</bean> 
+   	
+   	
+   	
+   	<!-- Definicion de Controladores de pantalla CheckList de Documento de Cedes -->
+   	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.CheckListCedesBean" />  
+	</dwr:configuration>
+		
+	<bean id="checkListCedesDAOImpl" class="cedes.dao.CheckListCedesDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+		
+	<bean id="checkListCedesServicioImpl" class="cedes.servicio.CheckListCedesServicio">
+		<dwr:remote javascript="checkListCedesServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="checkListCedesDAO" ref="checkListCedesDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+		
+	<bean name="/checkListCEDES.htm" class="cedes.controlador.CheckListCedesControlador">
+   		<property name="formView" value="cedes/checkListCedesCatalogoVista" />
+   		<property name="successView" value="resultadoTransaccionVista"/>
+   		<property name="checkListCedesServicio" ref="checkListCedesServicioImpl" />
+   	</bean> 
+		 
+		
+	<bean name="/checkListCedesGrid.htm" 
+			class="cedes.controlador.CheckListCedesGridControlador">
+		<property name="checkListCedesServicio" ref="checkListCedesServicioImpl" />
+	</bean>	
+		
+		
+		
+			<!-- Definicion de Controladores de pantalla de Digitalizacion de Documento de CEDES -->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="cedes.bean.CedesArchivosBean" /> 
+	</dwr:configuration>	
+
+	<bean id="cedesFileUploadDAOImpl" class="cedes.dao.CedesFileUploadDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cedesFileUploadServicioImpl" class="cedes.servicio.CedesFileUploadServicio">
+		<dwr:remote javascript="cedesFileServicio">
+			<dwr:include method="consultaArCliente" />
+			<dwr:include method="consultaArCuenta" />
+			<dwr:include method="bajaArchivosCta" />
+		</dwr:remote>
+		<property name="cedesFileUploadDAO" ref="cedesFileUploadDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>	 
+	</bean>	
+	
+	<bean name="/cedesFileUpload.htm" class="cedes.controlador.CedesFileUploadControlador">
+        <property name="commandClass" value="cedes.bean.CedesArchivosBean"/>
+        <property name="formView" value="cedes/cedesFileuploadform"/>
+        <property name="successView" value="resultadoTransaccionArchivoCtaFirmaVista"/> 
+		<property name="cedesFileUploadServicio" ref="cedesFileUploadServicioImpl" /> 
+		<property name="tiposDocumentosServicio" ref="tiposDocumentosServicioImpl" /> 
+    </bean>
+    
+		
+	<bean name="/cedesFileUploadVista.htm" class="cedes.controlador.CedesFileUploadControlador">
+        <property name="commandClass" value="cedes.bean.CedesArchivosBean"/>
+        <property name="formView" value="cedes/cedesFileuploadVista"/>
+        <property name="successView" value="resultadoTransaccionArchivoCtaFirmaVista"/> 
+		<property name="cedesFileUploadServicio" ref="cedesFileUploadServicioImpl" /> 
+		<property name="tiposDocumentosServicio" ref="tiposDocumentosServicioImpl" /> 
+    </bean>
+
+    <!-- Controlador para ver archivos de la inversion --> 
+	<bean name="/cedesVerArchivos.htm" class="cedes.controlador.CedesFileVerArchivoControlador">
+    	<property name="cedesFileUploadServicio" ref="cedesFileUploadServicioImpl" /> 
+    	
+	</bean>
+
+		<!-- Reporte de Archivos de cedes para pruebas con PDF --> 
+		
+ 	<bean name="/cedesFilePDF.htm" class="cedes.reporte.PDFCedesFileRepControlador"> 
+       <property name="nombreReporte" value="Cedes/CedeFile.prpt"/> 
+		<property name="cedesFileUploadServicio" ref="cedesFileUploadServicioImpl" />  
+	</bean> 
+	
+
+     <bean name="/gridCedesFileUpload.htm"
+			  class="cedes.controlador.CedesFileUploadGridControlador">
+			<property name="cedesFileUploadServicio" ref="cedesFileUploadServicioImpl" /> 
+	</bean>
+
+
+		<!-- Reporte de Archivos de Inversiones para pruebas con PDF --> 
+	<bean name="/listaDocsCedesPDF.htm" class="cedes.reporte.ListaDocsCedesPDFControlador">
+      <property name="nombreReporte" value="Cedes/ListaDocsCedes.prpt" />
+		<property name="checkListCedesServicio" ref="checkListCedesServicioImpl" /> 
+	</bean>
+	
+		<!-- ========================== Reporte de Vencimientos de Cedes ================================== -->
+		<!-- Bean -->
+			
+	<bean name="/repVencimientoDiaCed.htm" class="cedes.controlador.VencimientoCedeControlador">
+		 <property name="formView" value="cedes/repVencimientosDiaCedeVista" />      
+         <property name="successView" value="resultadoTransaccionReporteVista" />
+         <property name="cedesServicio" ref="cedesServicioImpl" />
+    </bean>
+    
+    <bean name="/VencimientoCedesPDF.htm" class="cedes.reporte.RepVencimientoCedeControlador">
+     	<property name="successView" value="resultadoTransaccionVista" />
+      	<property name="nombreReporte" value="cedes/VencimientoCedes.prpt" />
+	  	<property name="cedesServicio" ref="cedesServicioImpl" />
+	  	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	  	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+    
+     
+    
+	<!-- ========================== FIN Reporte de Vencimientos de Cedes ================================== -->
+	
+	<!-- Cancelacion de CEDES--> 
+	
+	<bean name="/cancelacionCEDE.htm" class="cedes.controlador.CedesControlador">
+		<property name="formView" value="cedes/cancelaCedeVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	
+		<!-- Cancelacion de CEDES--> 
+	
+	<bean name="/vencimientoAntCEDE.htm" class="cedes.controlador.CedesControlador">
+		<property name="formView" value="cedes/vencimAnticipadoCedeVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="cedesServicio" ref="cedesServicioImpl" />
+	</bean>
+	
+	<!-- ========================= Reporte de CEDES por Autorizar ============================= -->
+	<!-- Controlador Pantalla -->
+	<bean name="/cedesPorAutorizarRep.htm" class="cedes.controlador.CedesPorAutorizarControlador">
+		<property name="formView" value="cedes/cedesPorAutorizarVista" />  
+		<property name="successView" value="resultadoTransaccionVista" /> 
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	
+	<!-- Controlador del Reporte -->
+    <bean name="/cedesPorAutorizarReporte.htm" class="cedes.reporte.RepCedesPorAutorizarControlador">
+     	<property name="successView" value="resultadoTransaccionVista" />
+      	<property name="nombreReporte" value="cedes/CedesPorAutorizar.prpt" />
+	  	<property name="cedesServicio" ref="cedesServicioImpl" />
+	  	<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean>
+	<!-- ======================= FIN Reporte de CEDES por Autorizar =========================== -->
+	
+	<!-- ======================= Beans para Guia contable de CEDES =========================== -->
+	
+		<!-- Beans de Subcuentas por Tipo de Producto  --> 
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="cedes.bean.SubCtaTiProCedeBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiProCedeDAOImpl" class="cedes.dao.SubCtaTiProCedeDAO"> 
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaTiProCedeServicioImpl" class="cedes.servicio.SubCtaTiProCedeServicio">
+		<dwr:remote javascript="subCtaTiProCedeServicio"> 
+	    <dwr:include method="consulta" />
+	    </dwr:remote>
+	    <property name="subCtaTiProCedeDAO" ref="subCtaTiProCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+			
+	<!-- Beans de Subcuentas por Plazo--> 
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="cedes.bean.SubCtaPlazoCedeBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaPlazoCedeDAOImpl" class="cedes.dao.SubCtaPlazoCedeDAO"> 
+   		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaPlazoCedeServicioImpl" class="cedes.servicio.SubCtaPlazoCedeServicio">
+		<dwr:remote javascript="subCtaPlazoCedeServicio"> 
+	    <dwr:include method="consulta" />
+	    </dwr:remote>
+	    <property name="subCtaPlazoCedeDAO" ref="subCtaPlazoCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Subcuentas por Tipo de Persona --> 
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="cedes.bean.SubCtaTiPerCedeBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiPerCedeDAOImpl" class="cedes.dao.SubCtaTiPerCedeDAO"> 
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaTiPerCedeServicioImpl" class="cedes.servicio.SubCtaTiPerCedeServicio">
+		<dwr:remote javascript="subCtaTiPerCedeServicio"> 
+	    <dwr:include method="consulta" />
+	    </dwr:remote>
+	    <property name="subCtaTiPerCedeDAO" ref="subCtaTiPerCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Subcuentas por Tipo de Moneda--> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="cedes.bean.SubCtaMonedaCedeBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaMonedaCedeDAOImpl" class="cedes.dao.SubCtaMonedaCedeDAO"> 
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="subCtaMonedaCedeServicioImpl" class="cedes.servicio.SubCtaMonedaCedeServicio">
+		<dwr:remote javascript="subCtaMonedaCedeServicio"> 
+		<dwr:include method="consulta" />
+	    </dwr:remote>
+	    <property name="subCtaMonedaCedeDAO" ref="subCtaMonedaCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+		
+		<!-- Beans de Cuentas de Mayor  --> 
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="cedes.bean.CuentasMayorCedeBean" />
+	</dwr:configuration>
+
+	<bean id="cuentasMayorCedeDAOImpl" class="cedes.dao.CuentasMayorCedeDAO"> 
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	<bean id="cuentasMayorCedeServicioImpl" class="cedes.servicio.CuentasMayorCedeServicio">
+		<dwr:remote javascript="cuentasMayorCedeServicio"> 
+	    <dwr:include method="consulta" />
+	    </dwr:remote>
+	    <property name="cuentasMayorCedeDAO" ref="cuentasMayorCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Definicion de Beans de Guia Contable de CEDES-->
+	<bean id="guiaContableCedeServicioImpl" class="cedes.servicio.GuiaContableCedeServicio">
+		<dwr:remote javascript="guiaContableCedeServicio"/> 
+	    <property name="subCtaPlazoCedeDAO" ref="subCtaPlazoCedeDAOImpl"/>
+	    <property name="subCtaTiProCedeDAO" ref="subCtaTiProCedeDAOImpl"/>
+	    <property name="subCtaTiPerCedeDAO" ref="subCtaTiPerCedeDAOImpl"/>
+	    <property name="subCtaMonedaCedeDAO" ref="subCtaMonedaCedeDAOImpl"/>
+	    <property name="cuentasMayorCedeDAO" ref="cuentasMayorCedeDAOImpl"/>
+	    <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	
+	<!-- Definicion de Controladores de Guia Contable de CEDES-->
+	<bean name="/guiaContableCEDES.htm" class="cedes.controlador.GuiaContableCedeControlador">
+		<property name="formView" value="cedes/guiaContaCedeCatalogoVista" />
+		<property name="successView" value="resultadoTransaccionVista" />
+	    <property name="guiaContableCedeServicio" ref="guiaContableCedeServicioImpl" />
+	</bean>
+		
+ 	<!-- Beans de Conceptos de CEDES --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="cedes.bean.ConceptosCedeBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptosCedeDAOImpl" class="cedes.dao.ConceptosCedeDAO"> 
+    	<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      	<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="conceptosCedeServicioImpl" class="cedes.servicio.ConceptosCedeServicio">
+	 	<dwr:remote javascript="conceptosCedeServicio"> 
+	    	<dwr:include method="listaCombo" />
+	    </dwr:remote>
+	    <property name="conceptosCedeDAO" ref="conceptosCedeDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- ======================= Fin Beans para Guia contable de CEDES =========================== -->
+	
+</beans>

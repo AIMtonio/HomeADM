@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://safisrv/ws/schemas"
+    xmlns:schemas="http://safisrv/ws/schemas">
+
+    <!-- Definicion de Operacion tiene que tener REQUEST y RESPONSE y mapeo de datos -->    
+    <!-- SP_PDM_Ahorros_ConsultaCtaDestino --> 
+    <xs:element name="ConsultaCtaDestinoRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="IdUsuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsultaCtaDestinoResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="EsValido" type="xs:string" />   
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:conCtaDestino" />               	              
+                <xs:element name="codigoRespuesta" type="xs:string" />
+                <xs:element name="mensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>     
+    
+    <xs:element name="conCtaDestino">
+         <xs:complexType>
+           <xs:sequence>            	       
+           	<xs:element name="IdCuentaDestino" type="xs:int" />
+           	<xs:element name="Alias" type="xs:string" />
+           	<xs:element name="Benificiario" type="xs:string" />
+           	<xs:element name="RFCBenificiario" type="xs:string" />               
+           	<xs:element name="TipoCuenta" type="xs:int" />                 
+           	<xs:element name="CuentaDestino" type="xs:string" />
+           	<xs:element name="NombreInstitucion" type="xs:string" />
+           	<xs:element name="IdInstitucion" type="xs:int" />           
+           </xs:sequence>  
+         </xs:complexType>   
+	</xs:element>
+    <!-- SP_PDM_Ahorros_ConsultaCtaDestino --> 
+    
+    <!-- SP_PDM_Ahorros_OrdenPagoSpei --> 
+    <xs:element name="OrdenPagoSpeiRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="ClienteID" type="xs:string" />  
+				<xs:element name="CuentaID" type="xs:string" />  
+				<xs:element name="Monto" type="xs:string" />
+				<xs:element name="ConceptoPago" type="xs:string" />
+				<xs:element name="IdInstitucion" type="xs:string" />
+				<xs:element name="TipoCuenta" type="xs:string" />
+				<xs:element name="CuentaBeneficiario" type="xs:string" />
+				<xs:element name="NombreBeneficiario" type="xs:string" />
+				<xs:element name="ReferenciaNumerica" type="xs:string" />
+				<xs:element name="RFCBeneficiario" type="xs:string" />
+				<xs:element name="IvaXpagar" type="xs:string" />
+				<xs:element name="IdUsuario" type="xs:string" />	
+				<xs:element name="Clave" type="xs:string" />				
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="OrdenPagoSpeiResponse">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="EsValido" type="xs:string" />			                
+				<xs:element name="AutFecha" type="xs:string" />
+				<xs:element name="FolioAut" type="xs:string" />
+				<xs:element name="FolioSpei" type="xs:string" />
+				<xs:element name="ClaveRastreo" type="xs:string" />
+				<xs:element name="FechaOperacion" type="xs:string" />	
+				<xs:element name="CodigoRespuesta" type="xs:int" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />  							
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- SP_PDM_Ahorros_OrdenPagoSpei --> 
+    
+    <!-- SP_PDM_Ahorros_ConsultaEstatusSpei --> 
+    <xs:element name="ConsultaEstatusSpeiRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="ClienteID" type="xs:string" />
+				<xs:element name="FechaInicial" type="xs:string" />
+				<xs:element name="FechaFinal" type="xs:string" />
+				<xs:element name="IdUsuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="ConsultaEstatusSpeiResponse">
+        <xs:complexType>
+            <xs:sequence> 	
+            	<xs:element name="EsValido" type="xs:string" />   
+            	<xs:element minOccurs="0" maxOccurs="unbounded" ref="schemas:conEstatusSpei" />               	              
+                <xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />       			  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>  
+    
+     <xs:element name="conEstatusSpei">
+         <xs:complexType>
+           <xs:sequence>            	       
+           	<xs:element name="CuentaOrdenante" type="xs:string" />
+           	<xs:element name="ClaveRastreo" type="xs:string" />
+           	<xs:element name="FechaEnvio" type="xs:string" />
+           	<xs:element name="Monto" type="xs:decimal" />               
+           	<xs:element name="NombreBeneficiario" type="xs:string" />                 
+           	<xs:element name="BancoDestino" type="xs:string" />
+           	<xs:element name="Estatus" type="xs:string" />           	      
+           </xs:sequence>  
+         </xs:complexType>   
+	</xs:element>
+    <!-- SP_PDM_Ahorros_ConsultaEstatusSpei --> 
+    
+    <!-- SP_PDM_Ahorros_AbonoCta -->     
+    <xs:element name="AbonoCtaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="Num_Socio" type="xs:string" />
+                <xs:element name="Num_Cta" type="xs:string" />
+                <xs:element name="Monto" type="xs:decimal" default='0.00'/>
+                <xs:element name="Fecha_Mov" type="xs:dateTime"/>
+                <xs:element name="Folio_Pda" type="xs:string" />
+                <xs:element name="Id_Usuario" type="xs:string" />
+                <xs:element name="Clave" type="xs:string" />
+                <xs:element name="Dispositivo" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   
+    
+    <xs:element name="AbonoCtaResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="EsValido" type="xs:boolean" />
+                <xs:element name="AutFecha" type="xs:dateTime" />                
+                <xs:element name="FolioAut" type="xs:string" />
+                <xs:element name="SaldoDisp" type="xs:decimal" />
+                <xs:element name="SaldoTot" type="xs:decimal" />               
+                <xs:element name="CodigoResp" type="xs:int" />
+                <xs:element name="CodigoDesc" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>   
+    <!-- SP_PDM_Ahorros_AbonoCta -->  
+    
+    <!-- SP_PDM_Ahorros_Retiro --> 
+    <xs:element name="RetiroCtaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Num_Socio" type="xs:string" />
+                <xs:element name="Num_Cta" type="xs:string" />
+                <xs:element name="Monto" type="xs:decimal" default='0.00'/>
+                <xs:element name="Fecha_Mov" type="xs:dateTime"/>
+                <xs:element name="Folio_Pda" type="xs:string" />
+                <xs:element name="Id_Usuario" type="xs:string" />
+                <xs:element name="Clave" type="xs:string" />
+                <xs:element name="Dispositivo" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="RetiroCtaResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="EsValido" type="xs:boolean" />                
+                <xs:element name="AutFecha" type="xs:dateTime" />
+                <xs:element name="FolioAut" type="xs:string" />
+                <xs:element name="SaldoTot" type="xs:decimal" />
+                <xs:element name="SaldoDisp" type="xs:decimal" />
+                <xs:element name="CodigoResp" type="xs:int" />
+                <xs:element name="CodigoDesc" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- SP_PDM_Ahorros_Retiro --> 
+    
+    <!-- SP_PDM_Usuario_Validar --> 
+    <xs:element name="ValidarUsuarioPDMRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="Id_Usuario" type="xs:string" />
+				<xs:element name="Clave" type="xs:string" />				
+				<xs:element name="Id_Sucursal" type="xs:string" />
+				<xs:element name="Dispositivo" type="xs:string" />				
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ValidarUsuarioPDMResponse">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="EsValido" type="xs:boolean" />
+            	<xs:element name="CodigoResp" type="xs:int" />
+                <xs:element name="CodigoDesc" type="xs:string" />               
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- SP_PDM_Usuario_Validar --> 
+    
+    <!-- SP_PDM_Server_FechaHoraRequest  --> 
+    <xs:element name="FechaHoraServerRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="FechaHoraServerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="FechaHora" type="xs:dateTime" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- SP_PDM_Server_FechaHoraRequest  --> 
+    
+    <!-- SP_PDM_Ahorros_ConsultaSaldo --> 
+    <xs:element name="ConsultaSaldoCtaRequest">    						 
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element name="CuentaID" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ConsultaSaldoCtaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Etiqueta" type="xs:string" />
+                <xs:element name="SaldoDisponible" type="xs:decimal" />
+                <xs:element name="Celular" type="xs:string" />               
+                <xs:element name="CodigoRespuesta" type="xs:string" />
+                <xs:element name="MensajeRespuesta" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- SP_PDM_Ahorros_ConsultaSaldo --> 
+    
+</xs:schema>

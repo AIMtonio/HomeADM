@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"	
+	xmlns:jee="http://www.springframework.org/schema/jee"			 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		 http://www.springframework.org/schema/aop
+		 http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		 
+		 http://www.directwebremoting.org/schema/spring-dwr 
+		 http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd"> 
+		  
+	<!-- Beans de Amortizador de Arrendamientos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.ArrendaAmortiBean" />
+	</dwr:configuration>
+	
+	<bean id="arrendaAmortiDAOImpl" class="arrendamiento.dao.ArrendaAmortiDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="arrendaAmortiServicioImpl" class="arrendamiento.servicio.ArrendaAmortiServicio">
+		<dwr:remote javascript="arrendaAmortiServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="lista" />		
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="arrendaAmortiDAO" ref="arrendaAmortiDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	<!-- Beans de Arrendamientos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.ArrendamientosBean" />
+	</dwr:configuration>
+	
+	<bean id="arrendamientosDAOImpl" class="arrendamiento.dao.ArrendamientosDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+		  
+	<bean id="arrendamientosServicioImpl" class="arrendamiento.servicio.ArrendamientosServicio">
+		<dwr:remote javascript="arrendamientoServicio">
+		<dwr:include method="consulta" />
+		<dwr:include method="calculos" />
+		<dwr:include method="consultaDetalleProducto" />
+		<dwr:include method="consultaDetallePagoArrenda"/>
+		<dwr:include method="consultaEntregaArrendamiento" />
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	
+	    <dwr:include method="lista"/>
+		</dwr:remote>
+		<property name="arrendamientosDAO" ref="arrendamientosDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/catalogoArrendamiento.htm" class="arrendamiento.controlador.ArrendamientosControlador">
+		<property name="formView" value="arrendamiento/arrendamientosCatalogoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<!-- Bean para los detalles del pago del arrendamiento -->
+	<dwr:configuration> 
+		<dwr:convert type="bean" class="arrendamiento.bean.DetallePagoArrendaBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.MesaControlArrendamientoBean" />
+	</dwr:configuration>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.EntregaArrendamientoBean" />
+	</dwr:configuration>
+	
+	<bean name="/arrendamientosLista.htm" class="arrendamiento.controlador.ArrendamientosListaControlador">
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+
+	<!-- Pagare de Arrendamiento -->
+	<!-- Vista de Pagare de Arrendamiento -->
+	<bean name="/pagareArrendamiento.htm" class="arrendamiento.controlador.PagareArrendamientoControlador">
+		<property name="formView" value="arrendamiento/pagareArrendamientoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+		
+	<!-- Vista del Grid de Amortizaciones -->
+	<bean name="/amortizacionesGrid.htm" class="arrendamiento.controlador.AmortizacionesGridControlador">
+		<property name="arrendaAmortiServicio" ref="arrendaAmortiServicioImpl" />
+	</bean>
+	
+	<!-- Reporte de Contrato de pagare -->
+	<bean name="/Contrato.htm" class="arrendamiento.reporte.ContratoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="arrendamiento/ContratoMaestroArrenda.prpt" />
+	  <property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<!-- Reporte de Anexo de Contrato -->
+	<bean name="/AnexosContrato.htm" class="arrendamiento.reporte.CaratulaContratoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="arrendamiento/Anexos.prpt" />
+	  <property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<!-- Reporte de pagare -->
+	<bean name="/PagareTasaFija.htm" class="arrendamiento.reporte.PagareArrendamientoControlador">
+      <property name="successView" value="resultadoTransaccionReporteVista" />
+      <property name="nombreReporte" value="arrendamiento/PagareTF.prpt" />
+	  <property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	<!-- Fin de Pagare de Arrendamiento -->
+
+	<bean name="/mesaControlArrendamiento.htm" class="arrendamiento.controlador.MesaControlArrendamientoControlador">
+		<property name="formView" value="arrendamiento/mesaControlArrendamiento" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<bean name="/entregaArrendamiento.htm" class="arrendamiento.controlador.EntregaArrendamientoControlador">
+		<property name="formView" value="arrendamiento/entregaArrendamiento" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+
+	<bean name="/listaArrendamientos.htm"	 class="arrendamiento.controlador.MesaControlArrendamientoListaControlador">
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<bean name="/listaArrendamientosAutorizados.htm"	 class="arrendamiento.controlador.EntregaArrendamientoListaControlador">
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	<bean name="/listaActivosVinculacion.htm"	 class="arrendamiento.controlador.VinculacionActivosListaControlador">
+		<property name="activoArrendaServicio" ref="activoArrendaServicioImpl" />
+	</bean>
+
+	<!-- bean para el simulador de pagos  -->
+	<bean name="/simPagArrenda.htm"
+		  class="arrendamiento.controlador.SimPagosArrendaListaControlador">
+		<property name="arrendamientosServicio" ref="arrendamientosServicioImpl" />
+	</bean>
+	
+	
+	<!-- bean PRODUCTOS DE ARRENDAMIENTO  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.ProductoArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="productoArrendaDAOImpl" class="arrendamiento.dao.ProductoArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="productoArrendaServicioImpl" class="arrendamiento.servicio.ProductoArrendaServicio">
+		<dwr:remote javascript="productoArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="productoArrendaDAO" ref="productoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/productoArrendaLista.htm" class="arrendamiento.controlador.ProductoArrendaListaControlador">
+		<property name="productoArrendaServicio" ref="productoArrendaServicioImpl" />
+	</bean>
+	
+
+	<!-- bean PRODUCTOS DE SEGUROS  -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SegurosArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="segurosArrendaDAOImpl" class="arrendamiento.dao.SegurosArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="segurosArrendaServicioImpl" class="arrendamiento.servicio.SegurosArrendaServicio">
+		<dwr:remote javascript="segurosArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="segurosArrendaDAO" ref="segurosArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/segurosArrendaLista.htm" class="arrendamiento.controlador.SegurosArrendaListaControlador">
+		<property name="segurosArrendaServicio" ref="segurosArrendaServicioImpl" />
+	</bean>
+	<!-- bean PRODUCTOS DE SEGUROS  de vida-->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SegurosVidaArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="segurosVidaArrendaDAOImpl" class="arrendamiento.dao.SegurosVidaArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="segurosVidaArrendaServicioImpl" class="arrendamiento.servicio.SegurosVidaArrendaServicio">
+		<dwr:remote javascript="segurosVidaArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="segurosVidaArrendaDAO" ref="segurosVidaArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<bean name="/segurosVidaArrendaLista.htm" class="arrendamiento.controlador.SegurosVidaArrendaListaControlador">
+		<property name="segurosVidaArrendaServicio" ref="segurosVidaArrendaServicioImpl" />
+	</bean>
+	
+	<!-- bean GUIA CONTABLE ARRENDAMIENTO ***************************************************-->
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.CuentasMayorArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="cuentasMayorArrendaDAOImpl" class="arrendamiento.dao.CuentasMayorArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="cuentasMayorArrendaServicioImpl" class="arrendamiento.servicio.CuentasMayorArrendaServicio">
+		<dwr:remote javascript="cuentasMayorArrendaServicio">
+			<dwr:include method="consulta" />	    	
+		</dwr:remote>
+		<property name="cuentasMayorArrendaDAO" ref="cuentasMayorArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubCtaMonedaArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaMonedaArrendaDAOImpl" class="arrendamiento.dao.SubCtaMonedaArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="subCtaMonedaArrendaServicioImpl" class="arrendamiento.servicio.SubCtaMonedaArrendaServicio">
+		<dwr:remote javascript="subCtaMonedaArrendaServicio">
+		<dwr:include method="consulta" />		    	
+		</dwr:remote>
+		<property name="subCtaMonedaArrendaDAO" ref="subCtaMonedaArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubCtaTipoArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTipoArrendaDAOImpl" class="arrendamiento.dao.SubCtaTipoArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="subCtaTipoArrendaServicioImpl" class="arrendamiento.servicio.SubCtaTipoArrendaServicio">
+		<dwr:remote javascript="subCtaTipoArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="subCtaTipoArrendaDAO" ref="subCtaTipoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubCtaTiProArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaTiProArrendaDAOImpl" class="arrendamiento.dao.SubCtaTiProArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="subCtaTiProArrendaServicioImpl" class="arrendamiento.servicio.SubCtaTiProArrendaServicio">
+		<dwr:remote javascript="subCtaTiProArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="subCtaTiProArrendaDAO" ref="subCtaTiProArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubCtaSucurArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaSucurArrendaDAOImpl" class="arrendamiento.dao.SubCtaSucurArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="subCtaSucurArrendaServicioImpl" class="arrendamiento.servicio.SubCtaSucurArrendaServicio">
+		<dwr:remote javascript="subCtaSucurArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="subCtaSucurArrendaDAO" ref="subCtaSucurArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubCtaPlazoArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="subCtaPlazoArrendaDAOImpl" class="arrendamiento.dao.SubCtaPlazoArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+    	  
+	<bean id="subCtaPlazoArrendaServicioImpl" class="arrendamiento.servicio.SubCtaPlazoArrendaServicio">
+		<dwr:remote javascript="subCtaPlazoArrendaServicio">
+		<dwr:include method="consulta" />	
+		<dwr:include method="calculos" />	
+	    <dwr:include method="listaCombo" />
+	    <dwr:include method="listaConsulta" />	    	
+		</dwr:remote>
+		<property name="subCtaPlazoArrendaDAO" ref="subCtaPlazoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Beans de Conceptos de Arrendamiento --> 
+	<dwr:configuration> 
+	      <dwr:convert type="bean" class="arrendamiento.bean.ConceptosArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="conceptosArrendaDAOImpl" class="arrendamiento.dao.ConceptosArrendaDAO"> 
+	   <property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+      <property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>		
+	</bean> 
+	
+	 <bean id="conceptosArrendaServicioImpl" class="arrendamiento.servicio.ConceptosArrendaServicio">
+	      <dwr:remote javascript="conceptosArrendaServicio" >
+	      <dwr:include method="listaCombo" />	
+	      </dwr:remote> 
+	      <property name="conceptosArrendaDAO" ref="conceptosArrendaDAOImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+	<bean id="guiaContableArrendaServicioImpl" class="arrendamiento.servicio.GuiaContableArrendaServicio">	
+		<dwr:remote javascript="guiaContableArrendaServicio"/> 
+	    <property name="cuentasMayorArrendaDAO" 	ref="cuentasMayorArrendaDAOImpl"/>
+	    <property name="subCtaMonedaArrendaDAO" 	ref="subCtaMonedaArrendaDAOImpl"/>
+	    <property name="subCtaTipoArrendaDAO" 		ref="subCtaTipoArrendaDAOImpl"/>
+      	<property name="subCtaTiProArrendaDAO" 		ref="subCtaTiProArrendaDAOImpl"/>
+		<property name="subCtaSucurArrendaDAO" 		ref="subCtaSucurArrendaDAOImpl"/>	
+		<property name="subCtaPlazoArrendaDAO" 		ref="subCtaPlazoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" 	ref="parametrosAuditoriaBeanImpl"/>
+	</bean> 
+
+	
+	<!-- Definicion de Controladores de Guia Contable-->
+	<bean name="/catalogoGuiaContaArrenda.htm" class="arrendamiento.controlador.GuiaContableArrendaControlador">
+	      <property name="formView" value="arrendamiento/guiaContaArrendaCatalogoVista" />
+	      <property name="successView" value="resultadoTransaccionVista" />
+	      <property name="guiaContableArrendaServicio" ref="guiaContableArrendaServicioImpl" />
+	</bean>		
+
+	<!-- Beans de DEPOSITO REFERENCIADO DE Arrendamientos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.DepositoRefereArrendaBean" />
+	</dwr:configuration>
+	
+	<bean id="depositoRefereArrendaDAOImpl" class="arrendamiento.dao.DepositoRefereArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="polizaDAO" ref="polizaDAOImpl"/>	
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>	
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+		  
+	<bean id="depositoRefereArrendaServicioImpl" class="arrendamiento.servicio.DepositoRefereArrendaServicio">
+		<dwr:remote javascript="depositoRefereArrendaServicio">
+		<dwr:include method="consulta" />
+	    <dwr:include method="listaCombo" />
+		</dwr:remote>
+		<property name="depositoRefereArrendaDAO" ref="depositoRefereArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+		
+	   <!-- Definicion de Controladores de Carga de Archivo Movimientos-->
+	<bean name="/cargaDepositoArrendaVista.htm" class="arrendamiento.controlador.DepositoRefereArrendaControlador">
+	    <property name="commandClass" value="arrendamiento.bean.DepositoRefereArrendaBean"/>
+		<property name="commandName"><value>depRefereArrenda</value></property> 
+		<property name="formView" value="arrendamiento/cargaDepositoArrendaVista" />
+		<property name="successView" value="resultadoTransaccionArchivoVista"/>  
+		<property name="depositoRefereArrendaServicio" ref="depositoRefereArrendaServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+
+	<bean name="/aplicaDepositoArrendaVista.htm" class="arrendamiento.controlador.AplicaDepositoArrendaControlador">
+		<property name="formView" value="arrendamiento/aplicaDepositoArrendaVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="depositoRefereArrendaServicio" ref="depositoRefereArrendaServicioImpl" />
+	</bean>	
+	
+	<bean name="/depRefereSubArcArrenda.htm" class="arrendamiento.controlador.DepositoRefereArrendaControlador">
+	    <property name="commandClass" value="arrendamiento.bean.DepositoRefereArrendaBean"/>
+		<property name="commandName"><value>depRefereArrenda</value></property> 
+		<property name="formView" value="arrendamiento/depReferenSubirArcArrendaVista" />
+		<property name="successView" value="resultadoTransaccionArchivoVista"/>  
+		<property name="depositoRefereArrendaServicio" ref="depositoRefereArrendaServicioImpl" />
+		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl" />
+	</bean>
+		
+	<bean name="/depRefereArrendaLista.htm" class="arrendamiento.controlador.DepositoRefeArrendaListaControlador">
+		<property name="depositoRefereArrendaServicio" ref="depositoRefereArrendaServicioImpl" />
+	</bean>
+
+	<bean name="/depositosRefereArrendaLista.htm" class="arrendamiento.controlador.DepReferenArrendaGridControlador">
+		<property name="depositoRefereArrendaServicio" ref="depositoRefereArrendaServicioImpl" />
+	</bean>
+	
+	<!-- FASE 2 -->
+	<!-- Vista Catalogo de Activos -->
+	<bean name="/catalogoActivos.htm" class="arrendamiento.controlador.CatalogoActivosControlador">
+		<property name="formView" value="arrendamiento/catalogoActivosVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="activoArrendaServicio" ref="activoArrendaServicioImpl" />
+	</bean>
+	
+	<!-- Vista Lista de Catalogo de Activos -->
+	<bean name="/listaActivos.htm"	 class="arrendamiento.controlador.CatalogoActivosListaControlador">
+		<property name="activoArrendaServicio" ref="activoArrendaServicioImpl" />
+	</bean>
+	
+	
+	<!-- Vista Vinculacion de Activos -->
+	<bean name="/vinculacionActivos.htm" class="arrendamiento.controlador.VinculacionActivosControlador">
+		<property name="formView" value="arrendamiento/vinculacionActivosVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="activoArrendaServicio" ref="activoArrendaServicioImpl" /> 
+	</bean>
+	
+	<!-- Vista del Grid de activos ligados -->
+	<bean name="/activosLigadosGrid.htm" class="arrendamiento.controlador.ActivosLigadosGridControlador">
+		<property name="activoArrendaServicio" ref="activoArrendaServicioImpl" />
+	</bean>
+	
+	<!-- Vista Cargos de arrendamiento -->
+	<bean name="/cargosArrendamiento.htm" class="arrendamiento.controlador.CargosArrendamientoControlador">
+		<property name="formView" value="arrendamiento/cargosArrendamientoVista" /> 
+		<property name="successView" value="resultadoTransaccionVista" />
+		<property name="movimientosCargoAbonoArrendaServicio" ref="movimientosCargoAbonoArrendaServicioImpl" />		
+	</bean>
+	
+	<!-- Bean de Activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.ActivoArrendaBean" />
+	</dwr:configuration>
+	
+	<!-- Dao de Activos -->
+	<bean id="activoArrendaDAOImpl" class="arrendamiento.dao.ActivoArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+    
+    <!-- Servicio de Activos -->
+	<bean id="activoArrendaServicioImpl" class="arrendamiento.servicio.ActivoArrendaServicio">
+		<dwr:remote javascript="activoArrendaServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />    	
+		</dwr:remote>
+		<property name="activoArrendaDAO" ref="activoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Bean de subtipos de activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.SubtipoActivoBean" />
+	</dwr:configuration>
+	
+	<!-- Dao de subtipos de activos -->
+	<bean id="subtipoActivoDAOImpl" class="arrendamiento.dao.SubtipoActivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+	
+	<!-- Servicio de Subtipos de Activos -->
+	<bean id="subtipoActivoServicioImpl" class="arrendamiento.servicio.SubtipoActivoServicio">
+		<dwr:remote javascript="subtipoActivoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />    	
+		</dwr:remote>
+		<property name="subtipoActivoDAO" ref="subtipoActivoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Vista Lista de Subtipos -->
+	<bean name="/subtiposActivoLista.htm"	 class="arrendamiento.controlador.SubtipoActivoListaControlador">
+		<property name="subtipoActivoServicio" ref="subtipoActivoServicioImpl" />
+	</bean>	
+	
+	<!-- Bean de marcas de activos -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.MarcaActivoBean" />
+	</dwr:configuration>
+	
+	<!-- Dao de marcas de activos -->
+	<bean id="marcaActivoDAOImpl" class="arrendamiento.dao.MarcaActivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+	
+	<!-- Servicio de marcas de Activos -->
+	<bean id="marcaActivoServicioImpl" class="arrendamiento.servicio.MarcaActivoServicio">
+		<dwr:remote javascript="marcaActivoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />    	
+		</dwr:remote>
+		<property name="marcaActivoDAO" ref="marcaActivoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Vista Lista de marcas de activos -->
+	<bean name="/marcasActivo.htm"	 class="arrendamiento.controlador.MarcaActivoListaControlador">
+		<property name="marcaActivoServicio" ref="marcaActivoServicioImpl" />
+	</bean>
+	
+	<!-- Bean de Aseguradoras -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.AseguradoraActivoBean" />
+	</dwr:configuration>
+	
+	<!-- Dao de Aseguradoras -->
+	<bean id="aseguradoraActivoDAOImpl" class="arrendamiento.dao.AseguradoraActivoDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+	
+	<!-- Servicio de Aseguradoras -->
+	<bean id="aseguradoraActivoServicioImpl" class="arrendamiento.servicio.AseguradoraActivoServicio">
+		<dwr:remote javascript="aseguradoraActivoServicio">
+			<dwr:include method="consulta" />
+			<dwr:include method="lista" />    	
+		</dwr:remote>
+		<property name="aseguradoraActivoDAO" ref="aseguradoraActivoDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+	
+	<!-- Vista Lista de Aseguradoras -->
+	<bean name="/aseguradorasActivo.htm"	 class="arrendamiento.controlador.AseguradoraActivoListaVistaControlador">
+		<property name="aseguradoraActivoServicio" ref="aseguradoraActivoServicioImpl" />
+	</bean>
+	
+	<!-- Bean de Cargo y Abons -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.CargoAbonoArrendaBean" />
+	</dwr:configuration>
+	
+	<!-- Vista del Grid de Amortizaciones -->
+	<bean name="/movimientosCargoAbono.htm" class="arrendamiento.controlador.MovimientosCAGridControlador">
+		<property name="movimientosCargoAbonoArrendaServicio" ref="movimientosCargoAbonoArrendaServicioImpl"/>
+	</bean>	
+		
+	<!-- Bean de Tipos de movimientos de Cargo y Abons -->
+	<dwr:configuration>
+		<dwr:convert type="bean" class="arrendamiento.bean.TipoMovsCargoAbonoArrendaBean" />
+	</dwr:configuration>
+	
+	<!-- Dao de Movimientos de Cargo y Abono -->
+	<bean id="movimientosCargoAbonoArrendaDAOImpl" class="arrendamiento.dao.MovimientosCargoAbonoArrendaDAO">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="conexionOrigenDatosBean" ref="conexionOrigenDatosBeanImpl"/>
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+		<property name="transaccionDAO" ref="transaccionDAOImpl"/>
+		<property name="transactionTemplate">
+			<bean class="org.springframework.transaction.support.TransactionTemplate">
+				<property name="transactionManager" ref="transactionManager" />
+			</bean>
+		</property>
+		<property name="parametrosSesionBean" ref="parametrosSesionBeanImpl"/>
+	</bean> 
+	
+	<!-- Servicio movimientos de cargo y abono -->
+	<bean id="movimientosCargoAbonoArrendaServicioImpl" class="arrendamiento.servicio.MovimientosCargoAbonoArrendaServicio">
+		<dwr:remote javascript="movimientosCargoAbonoArrendaServicio">
+			<dwr:include method="lista" />
+			<dwr:include method="listaCombo" />    	
+		</dwr:remote>
+		<property name="movimientosCargoAbonoArrendaDAO" ref="movimientosCargoAbonoArrendaDAOImpl"/>	
+		<property name="parametrosAuditoriaBean" ref="parametrosAuditoriaBeanImpl"/>
+	</bean>
+</beans>

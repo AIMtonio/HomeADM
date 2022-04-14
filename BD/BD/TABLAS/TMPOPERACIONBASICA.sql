@@ -1,0 +1,37 @@
+DELIMITER ;
+DROP TABLE IF EXISTS TMPOPERACIONBASICA;
+DELIMITER $$
+CREATE TABLE TMPOPERACIONBASICA(
+	RegistroID				BIGINT(20)		NOT NULL	COMMENT 'Consecutivo general de la tabla',
+	PromotorID				INT(11)			NOT NULL	COMMENT 'Identificador del promotor',
+	NombrePromotor			VARCHAR(250)	NOT NULL	COMMENT 'Nombre del promotor(Asesor de Credito)',
+	FechaInicio				VARCHAR(20)		NOT NULL	COMMENT 'Fecha en que se inicia la operacion',
+	FechaFin				VARCHAR(20)		NOT NULL	COMMENT 'Fecha en que termina la operacion la operacion',
+	TotalClientes			INT(11)			NOT NULL	COMMENT 'Numero de clientes con credito exigible al dia de la consulta',
+	TotalCtesNuevos			INT(11)			NOT NULL	COMMENT 'Clientes nuevos aquellos clientes que se desembolse su primer credito a la fecha en la que se esta realizando el reporte',
+	TotalCtesRenovacion		INT(11)			NOT NULL	COMMENT 'Clientes de creditos renovados',
+	TotalCtesCorte			INT(11)			NOT NULL	COMMENT 'Campo que indica el total de clientes visitado al corte',
+	TotalCtesPagos			INT(11)			NOT NULL	COMMENT 'Campo que indica el total de clientes con pagos realizados',
+	TotalCtesNoPagos		INT(11)			NOT NULL	COMMENT 'Campo que indica el total de clientes con pagos no realizados',
+	TotalCtesPrepagos		INT(11)			NOT NULL	COMMENT 'Campo que indica el total de clientes que realizaron un prepago',
+	SaldoInicialCaja		DECIMAL(16,2)	NOT NULL	COMMENT 'Saldo con el que inicia la caja en el dia, en caso de ser caja de atencion a publico es el monto de la primer transferencia recibida.',
+	SaldoEsperadoCartera	DECIMAL(16,2)	NOT NULL	COMMENT 'Saldo con el que se espera recuperar, es la suma de los montos exigibles de los clientes del campo TotalClientes',
+	SaldoCartera			DECIMAL(16,2)	NOT NULL	COMMENT 'Saldo total recuperado, es la suma de los pagos realizados de los clientes del campo TotalCtesPagos',
+	SaldoRecaudoPrepago		DECIMAL(16,2)	NOT NULL	COMMENT 'Saldo total de los montos que realizaron prepago, es la suma de los pagos realizados de los clientes del campo TotalCtesPrepagos',
+	PorcentajeRecaudo		DECIMAL(16,2)	NOT NULL	COMMENT 'Es el resultado de dividir los campos SaldoCartera/SaldoEsperadoCartera',
+	PorcentajePretendido	DECIMAL(16,2)	NOT NULL	COMMENT 'Es el resultado de dividir los campos TotalCtesPagos/TotalClientes',
+	SaldoTotalCreditos		DECIMAL(16,2)	NOT NULL	COMMENT 'Es la suma del monto de los creditos otorgados a la fecha',
+	SaldoGastosDia			DECIMAL(16,2)	NOT NULL	COMMENT 'Es el monto de salidas de efectivo como gasto y anticipo con relacion a la caja del usuario del promotor(Asesor)',
+	CreditoID				BIGINT(12)		NOT NULL	COMMENT 'Identificador del numero de credito',
+	TipoUsuario				CHAR(1)			NOT NULL	COMMENT 'Bandera que indica cuando el registro de la tabla es un promotor o coordinador P.-Promotor,C.-Coordinador',
+	TotalCteCreditos		INT(11)			NOT NULL	COMMENT 'Total de clientes con creditos renovados y nuevos',
+	NumTransaccion			BIGINT(20)		NOT NULL	COMMENT 'Numero de la transaccion',
+	EmpresaID				INT(11)			NOT NULL	COMMENT 'Parametro de auditoria ID de la empresa',
+	Usuario					INT(11)			NOT NULL	COMMENT 'Parametro de auditoria ID del usuario',
+	FechaActual				DATETIME		NOT NULL	COMMENT 'Parametro de auditoria Fecha actual',
+	DireccionIP				VARCHAR(15)		NOT NULL	COMMENT 'Parametro de auditoria Direccion IP',
+	ProgramaID				VARCHAR(50)		NOT NULL	COMMENT 'Parametro de auditoria Programa',
+	Sucursal				INT(11)			NOT NULL	COMMENT 'Parametro de auditoria ID de la sucursal',
+PRIMARY KEY(RegistroID),
+KEY INDEX_TMPOPERACIONBASICA_1(NumTransaccion)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tmp:Tabla Auxiliar para guardar la informacion de cada promotor de credito usado en el reporte de OPERACION BASICA DE UNIDAD'$$

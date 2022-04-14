@@ -1,0 +1,1251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+    
+    <!-- Castor -->
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" >
+            <property name="mappingLocation" value="/WEB-INF/castor.xml" />  
+    </bean>
+    <!-- Fin Castor -->
+
+    <!-- Implementacion de los servicios. Se indica que clase JAVA realiza la operacion. -->
+    <bean id="clienteWSImpl" class="cliente.servicioweb.ClienteWS">
+        <constructor-arg ref="castorMarshaller" />
+	<property name="clienteServicio" ref="clienteServicioImpl"/>
+    </bean>
+
+    <bean id="direccionesclienteWSImpl" class="cliente.servicioweb.DireccionesClienteWS">
+        <constructor-arg ref="castorMarshaller" />
+	<property name="direccionesclienteServicio" ref="direccionesClienteServicioImpl"/>
+    </bean>
+    
+    <!-- Configuracion Del Servicio de Consulta de Cliente -->
+	<bean id="listaClientesWSImpl" class="cliente.servicioweb.ListaClientesWS">
+    <constructor-arg ref="castorMarshaller" />
+    <property name="clienteServicio" ref="clienteServicioImpl"/>
+    </bean>
+    
+    <!-- Configuracion Del Servicio de alta de PROSPECTO -->
+	<bean id="altaProspectoWSImpl" class="credito.servicioweb.AltaProspectoWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="prospectosServicio" ref="prospectosServicioImpl"/>
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   </bean>
+     
+  <!-- Configuracion Del Servicio de consulta de Cuentas por Cliente -->
+	<bean id="consultaCuentasPorClienteWSImpl" class="cuentas.servicioweb.ConsultaCuentasPorClienteWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   </bean>
+   
+	<!-- Configuracion Del Servicio de alta de cuentas -->
+	<bean id="altaCuentaWSImpl" class="cuentas.servicioweb.AltaCuentaWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   </bean>
+   
+   <!-- Configuracion Del Servicio de consulta actividad de credito -->
+   <bean id="consultaActividadCreditoWSImpl" class="credito.servicioweb.ConsultaActividadCreditoWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+   </bean>
+   
+   <!-- Configuracion Del Servicio de consulta actividad de credito -->
+   <bean id="consultaDetallePagosWSImpl" class="credito.servicioweb.ConsultaDetallePagosWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="amortizacionCreditoServicio" ref="amortizacionCreditoServicioImpl" />
+   </bean>
+   
+	<!-- Configuracion Del Servicio de alta de Conocimiento de Cuenta -->
+   	<bean id="altaConocimientoCtaWSImpl" class="cuentas.servicioweb.AltaConocimientoCtaWS">
+    	<constructor-arg ref="castorMarshaller" />
+	    <property name="conocimientoCtaServicio" ref="conocimientoCtaServicioImpl" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   	</bean>
+   
+   	<!-- Configuracion Del Servicio de alta de Conocimiento de Cliente -->
+   	<bean id="altaConocimientoCteWSImpl" class="cliente.servicioweb.AltaConocimientoCteWS">
+    	<constructor-arg ref="castorMarshaller" />
+	    <property name="conocimientoCteServicio" ref="conocimientoCteServicioImpl" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   	</bean>
+   	
+   	<!-- Configuracion Del Servicio de operaciones tarjeta -->
+   	<bean id="operacionesTarjetaWSImpl" class="tarjetas.servicioweb.OperacionesTarjetaWS">
+    	<constructor-arg ref="castorMarshaller" />
+	    <property name="operacionesTarjetaServicio" ref="operacionesTarjetaServicioImpl" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   	</bean>
+   	
+   	<!-- Configuracion Del Servicio de modificacion de la Identificacion del cliente  -->
+   	<bean id="modificaIdentificacionWSImpl" class="cliente.servicioweb.ModificaIdentificacionWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="identifiClienteServicio" ref="identifiClienteServicioImpl" />
+   	</bean>
+   	
+    <!-- Configuracion del servicio para envio de mensajes SMS -->
+	<bean id="enviaSMSCampaniaWSImpl" class="sms.servicioweb.EnviaSMSCampaniaWS">
+    	<constructor-arg ref="castorMarshaller" />
+        <property name="smsEnvioMensajeServicio" ref="smsEnvioMensajeServicioImpl"/>
+        <property name="parametrosSMSServicio" ref="parametrosSMSServicioImpl"/>        
+    </bean>
+    
+    	<!-- Configuracion Del Servicio de alta de simulador de cuotas de credito -->
+	<bean id="simuladorCuotaCreditoWSImpl" class="credito.servicioweb.SimuladorCuotaCreditoWS">
+      	<constructor-arg ref="castorMarshaller" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl"/>
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+	</bean>
+    
+ 
+ <!-- *************************************** Configuracion de los Servicios para BANCA EN LINEA *************************** -->
+
+	<!-- Configuracion Del Servicio de Actualizacion de Dirección del Cliente -->
+	<bean id="actualizaDireccionClienteWSImpl" class="cliente.servicioweb.ActualizaDireccionClienteWS">
+		<constructor-arg ref="castorMarshaller" />
+  		<property name="direccionesclienteServicio" ref="direccionesClienteServicioImpl"/>
+   	</bean>
+    
+	 <!-- Configuracion Del Servicio de Lista de Dirección del Cliente -->
+	<bean id="listaDireccionClienteWSImpl" class="cliente.servicioweb.ListaDireccionClienteWS">
+		 <constructor-arg ref="castorMarshaller" />
+		<property name="direccionesclienteServicio" ref="direccionesClienteServicioImpl"/>
+	</bean>
+    
+	<!-- Configuracion Del Servicio de Consulta de Direccion del Cliente -->
+	<bean id="consultaDireccionClientesWSImpl" class="cliente.servicioweb.ConsultaDireccionClientesWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="direccionesclienteServicio" ref="direccionesClienteServicioImpl"/>
+	</bean>
+    
+	<!-- Configuracion Del Servicio de consulta de PROSPECTO -->
+	<bean id="consultaProspectoWSImpl" class="credito.servicioweb.ConsultaProspectoWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="prospectosServicio" ref="prospectosServicioImpl"/>
+	</bean>
+   
+	<!-- Configuracion Del Servicio de lista de PROSPECTO -->
+	<bean id="listaProspectoWSImpl" class="credito.servicioweb.ListaProspectoWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="prospectosServicio" ref="prospectosServicioImpl"/>
+	</bean>
+	  
+    <!-- Configuracion Del Servicio de registro de PROSPECTO -->
+	<bean id="registroProspectoWSImpl" class="credito.servicioweb.RegistroProspectoWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="prospectosServicio" ref="prospectosServicioImpl"/>
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+	</bean>
+    
+    <!-- Configuracion Del Servicio de forma RFC -->
+	<bean id="formaRFCWSImpl" class="cliente.servicioweb.FormaRFCWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="clienteServicio" ref="clienteServicioImpl"/>
+	</bean>
+    
+	<!-- Configuracion Del Servicio de Registro de Solicitud de Credito BE -->
+	<bean id="registroSolicitudCreditoBEWSImpl" class="originacion.servicioweb.RegistroSolicitudCreditoBEWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl" />
+	</bean>
+   
+	<!-- Configuracion Del Servicio de Consulta Promotor BE -->
+	<bean id="consultaPromotorBEWSImpl" class="cliente.servicioweb.ConsultaPromotorBEWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="institucionNominaServicio" ref="institucionNominaServicioImpl" />
+		<property name="negocioAfiliadoServicio" ref="negocioAfiliadoServicioImpl" />
+	</bean>
+  
+    <!-- Configuracion Del Servicio de alta de usuario de banca en linea -->
+ 	<bean id="altaUsuarioBEWSImpl" class="bancaEnLinea.servicioweb.AltaUsuarioBEWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="bEUsuariosServicio" ref="bEUsuariosServicioImpl" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   	</bean>
+
+	<!-- ======= Configuracion Del Servicio de consulta de usuario de BE =======-->
+   	<bean id="consultaUsuarioBEWSImpl" class="bancaEnLinea.servicioweb.ConsultaUsuarioBEWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="bEUsuariosServicio" ref="bEUsuariosServicioImpl" />
+		<property name="usuarioServicio" ref="usuarioServicioImpl" />
+   	</bean>	
+   	
+   	<!-- Configuracion Del Servicio transferencia entre cuentas BE-->
+	<bean id="trasnsCuentasWSImpl" class="cuentas.servicioweb.TransCuentasWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   	</bean>
+   	
+   	<!-- Configuracion Del Servicio Consulta Institucion Nomina BE-->
+	<bean id="consultaInsitucionNominaWSImpl" class="cliente.servicioweb.ConsultaInstitucionNominaWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="institucionNominaServicio" ref="institucionNominaServicioImpl"/>
+	</bean>
+   	
+   	<!-- Configuracion Del Servicio Consulta Estatus Empleado Nomina BE-->
+	<bean id="consultaEstatusEmpWSImpl" class="cliente.servicioweb.ConsultaEstatusEmpWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="empleadoNominaServicio" ref="empleadoNominaServicioImpl"/>
+	</bean>
+   	
+   	<!-- Configuracion Del Servicio Actualiza Estatus Empleado Nomina BE-->
+	<bean id="actualizaEstatusEmpWSImpl" class="cliente.servicioweb.ActualizaEstatusEmpWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="empleadoNominaServicio" ref="empleadoNominaServicioImpl"/>
+ 		<property name="correoServicio" ref="correoServicioImpl"/>
+  	</bean>
+   	
+   	<!-- Configuracion Del Servicio de Lista Empleado Nomina BE-->
+	<bean id="listaEmpleadoNomWSImpl" class="cliente.servicioweb.ListaEmpleadoNomWS">
+		<constructor-arg ref="castorMarshaller" />
+	<property name="empleadoNominaServicio" ref="empleadoNominaServicioImpl"/>
+    	</bean>
+   	
+    <!-- Configuracion Del Servicio de Lista de Descuentos Nomina BE-->
+	<bean id="consultaDescuentosNominaWSImpl" class="credito.servicioweb.ConsultaDescuentosNominaWS">
+	<constructor-arg ref="castorMarshaller" />
+	 		<property name="creditosServicio" ref="creditosServicioImpl" />
+	</bean>
+  
+
+    <!-- Configuracion del Servicio de Consulta de Clientes para carga de archivos -->
+	<bean id="consultaClientesWSImpl" class="cliente.servicioweb.ConsultaClientesWS">
+	<constructor-arg ref="castorMarshaller" />
+	<property name="clienteServicio" ref="clienteServicioImpl"/>
+	</bean>
+
+    
+    <!-- Configuracion Del Servicio de consulta de Creditos para carga de archivos -->
+	<bean id="consultaCreditoWSImpl" class="credito.servicioweb.ConsultaCreditoWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="creditosServicio" ref="creditosServicioImpl" />
+    </bean>
+   
+    <!-- Configuracion Del Servicio de Registros de Pagos de Credito -->
+    <bean id="registroPagosNominaWSImpl" class="nomina.servicioweb.RegistroPagosNominaWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="pagoNominaServicio" ref="pagoNominaServicioImpl" />
+ 		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl" />
+   </bean>
+   
+    <!-- Configuracion Del Servicio de Registros de Pagos de Credito -->
+  <bean id="registroCargaPagoNominaWSImpl" class="nomina.servicioweb.RegistroCargaPagoNominaWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="bitacoraPagoNominaServicio" ref="bitacoraPagoNominaServicioImpl" />
+    </bean>
+
+   <!-- Configuracion Del Servicio de Simulador Credito Banca En Linea -->
+	<bean id="simuladorCreditoWSImpl" class="credito.servicioweb.SimuladorCreditoWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="creditosServicio" ref="creditosServicioImpl" />
+   </bean>
+   
+   <!-- Configuracion Del Servicio Consulta Ciclo Cliente -->
+    <bean id="consultaCicloClienteWSImpl" class="originacion.servicioweb.ConsultaCicloClienteWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 		<property name="solicitudCreditoServicio" ref="solicitudCreditoServicioImpl"/>
+    </bean>
+
+   <!-- Configuracion Del Servicio Consulta Tasa Fija -->
+    <bean id="consultaTasaFijaWSImpl" class="credito.servicioweb.ConsultaTasaFijaWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 		<property name="creditosServicio" ref="creditosServicioImpl"/>
+    </bean>
+   
+   <!-- Configuracion Del Servicio de consulta producto de credito  -->
+
+  	<bean id="consultaProductoCreditoWSImpl" class="credito.servicioweb.ConsultaProdCreditoWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 	    <property name="productosServicio" ref="productosCreditoServicioImpl" />
+    	</bean>
+
+	<!-- Configuracion del Servicio de consulta de producto de credito para ZAFY-->
+	<bean id="consultaProdCredWSImpl" class="credito.servicioweb.ConsultaProdCredWS">
+		<constructor-arg ref="castorMarshaller" />
+		<property name="productosServicio" ref="productosCreditoServicioImpl" />
+	</bean>
+	
+   	<!-- Configuracion Del Servicio de lista producto de credito  -->
+    	<bean id="listaProductoCreditoWSImpl" class="credito.servicioweb.ListaProdCreditoWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 	    <property name="productosServicio" ref="productosCreditoServicioImpl" />
+    	</bean>
+
+  
+    <!-- Configuracion Del Servicio de consulta de Cuentas por Cliente -->
+	<bean id="consultaDisponiblePorClienteWSImpl" class="cuentas.servicioweb.ConsultaDisponiblePorClienteWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   	</bean>
+   	
+ <!-- Configuracion Del Servicio de Lista Bitacora Estatus Empleado Nomina BE-->
+	<bean id="listaReporteEstatusBitEmpleadoNomWSImpl" class="cliente.servicioweb.ListaReporteEstatusBitEmpleadoNomWS">
+   	<constructor-arg ref="castorMarshaller" />
+	<property name="empleadoNominaServicio" ref="empleadoNominaServicioImpl"/>
+    	</bean>
+
+   	<!-- Configuracion Del Servicio de consulta de Cuentas por Cliente -->
+	<bean id="consultaDisponibleCtaWSImpl" class="cuentas.servicioweb.ConsultaDisponibleCtaWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   	</bean>
+   	
+   	<!-- Configuracion Del Servicio de consulta de Cuentas -->
+ 	<bean id="consultaCuentaWSImpl" class="cuentas.servicioweb.ConsultaCuentaWS">
+    	<constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   	</bean>
+   	
+   	<!-- Configuracion Del Servicio de Pagos de Servicios -->
+
+  	<bean id="consultaListaServWSImpl" class="ventanilla.servicioweb.ConsultaListaServWS">
+   	<constructor-arg ref="castorMarshaller" />
+	<property name="catalogoServServicio" ref="catalogoServServicioImpl"/>
+  	</bean>
+  	<bean id="consultaMontoServWSImpl" class="ventanilla.servicioweb.ConsultaMontoServWS">
+   	<constructor-arg ref="castorMarshaller" />
+	<property name="catalogoServServicio" ref="catalogoServServicioImpl"/>
+  	</bean>   		 
+  	<bean id="pagoServicioWSImpl" class="ventanilla.servicioweb.PagoServicioWS">
+   	<constructor-arg ref="castorMarshaller" />
+	<property name="ingresosOperacionesServicio" ref="ingresosOperacionesServicioImpl"/>
+	<property name="usuarioServicio" ref="usuarioServicioImpl"/>
+  	</bean>
+
+   	
+    <!-- Configuracion Del Servicio de ConsultaSaldoAhorroBE -->
+	<bean id="consultaSaldoAhorroBEWSImpl" class="bancaEnLinea.servicioweb.ConsultaSaldoAhorroBEWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   </bean>
+   
+	 <!-- Configuracion Del Servicio de ConsultaSaldoAhorroHis -->
+<bean id="consultaSaldoAhorroHisWSImpl" class="cuentas.servicioweb.ConsultaSaldoAhorroHisWS">
+     <constructor-arg ref="castorMarshaller" />
+	<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+  </bean>
+
+<!-- Configuracion Del Servicio de ConsultaCargosPendientesBE -->
+<bean id="consultaCargosPendientesBEWSImpl" class="bancaEnLinea.servicioweb.ConsultaCargosPendientesBEWS">
+     <constructor-arg ref="castorMarshaller" />
+	<property name="cobrosPendServicio" ref="cobrosPendServicioImpl"/>
+  </bean>
+
+
+<!-- Configuracion Del Servicio de Consulta Saldo PendientesBE -->
+	<bean id="consultaSaldoDetalleBEWSImpl" class="bancaEnLinea.servicioweb.ConsultaSaldoDetalleBEWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="reporteMovimientosServicio" ref="reporteMovimientosServicioImpl"/>
+   </bean>
+
+<!-- Configuracion Del Servicio de ListaCreditosBE -->
+	<bean id="listaCreditosBEWSImpl" class="credito.servicioweb.ListaCreditosBEWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="creditosServicio" ref="creditosServicioImpl"/>
+   </bean>	 
+   
+		<!-- Configuracion Del Servicio de Consulta Creditos para pantalla de bancaEnLinea -->
+ 	<bean id="consultaCreditoBEWSImpl" class="credito.servicioweb.ConsultaCreditoBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="creditosServicio" ref="creditosServicioImpl"/>
+    </bean>	 
+
+	<!-- Configuracion Del Servicio de consultaAmortizaciones BE -->
+ 	<bean id="consultaAmortiCreditoBEWSImpl" class="credito.servicioweb.ConsultaAmortiCreditoBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="amortizacionCreditoServicio" ref="amortizacionCreditoServicioImpl"/>
+    </bean>	 
+
+	<!-- Configuracion Del Servicio de Lista de Creditos Fondeo BE -->
+ 	<bean id="listaCreditosFondeoBEWSImpl" class="fondeador.servicioweb.ListaCreditosFondeoBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl"/>
+    </bean>
+
+<!-- Configuracion Del Servicio de consulta de Creditos Fondeo BE -->
+ 	<bean id="consultaCreditosFondeoBEWSImpl" class="fondeador.servicioweb.ConsultaCreditoFondeoBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="creditoFondeoServicio" ref="creditoFondeoServicioImpl"/>
+    </bean>		 
+
+<!-- Configuracion Del Servicio de consulta de Creditos Fondeo BE -->
+ 	<bean id="consultaAmortiFondeoBEWSImpl" class="fondeador.servicioweb.ConsultaAmortiFondeoBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="amortizaFondeoServicio" ref="amortizaFondeoServicioImpl"/>
+    </bean>		 
+   
+   <!-- Configuracion Del Servicio de lista de pagos aplicados  -->
+ 	<bean id="consultaPagosAplicadosWSImpl" class="credito.servicioweb.ConsultaPagosAplicadosWS">
+  	<constructor-arg ref="castorMarshaller" />
+	    <property name="creditosServicio" ref="creditosServicioImpl" />
+ 	</bean>
+	
+
+<!-- Configuracion Del Servicio de ConsultaSaldoBloqueoBE -->
+	<bean id="consultaSaldoBloqueoBEWSImpl" class="bancaEnLinea.servicioweb.ConsultaSaldoBloqueoBEWS">
+      <constructor-arg ref="castorMarshaller" />
+		<property name="bloqueoServicio" ref="bloqueoServicioImpl"/>
+   </bean>	 
+
+<!-- Configuracion Del Servicio de consulta de Creditos Fondeo BE -->
+ 	<bean id="listaSolCreditoBEWSImpl" class="credito.servicioweb.ListaSolicitudCreditoWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="creditosServicio" ref="creditosServicioImpl"/>
+ 	  </bean>	 
+
+	<!-- Configuracion Del Servicio de consulta de Clientes de acuerdo el perfil IN o NA para pantalla de banca en linea -->
+ 	<bean id="listaClientesBEWSImpl" class="cliente.servicioweb.ListaClientesBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="clienteServicio" ref="clienteServicioImpl"/>
+ 	  </bean>	 
+	  
+	<!-- Configuracion Del Servicio de consulta Nombre de Prospecto -->
+ 	<bean id="conNombreComProspectoBEWSImpl" class="credito.servicioweb.ConNombreComProspectoBEWS">
+     	<constructor-arg ref="castorMarshaller" />
+ 		<property name="prospectosServicio" ref="prospectosServicioImpl"/>
+ 	</bean>	 
+
+<!-- Configuracion Del Servicio de consulta Nombre de Cliente -->
+ 	<bean id="consultaNomClienteBEWSImpl" class="cliente.servicioweb.ConsultaNomClienteBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="clienteServicio" ref="clienteServicioImpl"/>
+ 	  </bean>
+ <!-- Configuracion Del Servicio de lista ctas de cliente --> 
+ 	<bean id="listaCtaClienteBEWSImpl" class="cuentas.servicioweb.ListaCtaClienteBEWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+ 	  </bean>	 
+  
+<!-- Configuracion Del Servicio de consulta de Fecha del Sistema-->
+ 	<bean id="parametrosSistemaSafiWSImpl" class="soporte.servicioweb.ParametrosSistemaSafiWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+ 	  </bean>
+  
+	<!-- Configuracion Del Servicio de consulta de Negocio Afiliado-->
+ 	<bean id="consultaNegAfiliaWSImpl" class="cliente.servicioweb.ConsultaNegAfiliaWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="negocioAfiliadoServicio" ref="negocioAfiliadoServicioImpl"/>
+ 	  </bean>
+
+	<!-- Configuracion Del Servicio de consulta de Correo de Institucion -->
+ 	<bean id="consultaCorreoInstitWSImpl" class="nomina.servicioweb.ConsultaCorreoInstitWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="pagoNominaServicio" ref="pagoNominaServicioImpl"/>
+ 	  </bean>	 
+	  
+	  <!-- Configuracion Del Servicio de consulta de Cuentas por Cliente -->
+ 	<bean id="listaCuentaAhoWSImpl" class="cuentas.servicioweb.ListaCuentaAhoWS">
+       <constructor-arg ref="castorMarshaller" />
+ 		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+    </bean>
+
+<!--   Fin de Configuracion de Servicios de BANCA EN LINEA -->  	
+
+
+
+<!-- Configuracion Del Servicio de Operaciones PDA****************************************************************** -->
+   	<!-- Server_FechaHora ***-->
+   	<bean id="SP_PDA_Server_FechaHoraWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Server_FechaHoraWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+   	</bean>	
+    
+   	<!-- SP_PDA_Segmentos_Descarga  ***-->
+   	<bean id="SP_PDA_Segmentos_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Segmentos_DescargaWS">
+    	<property name="gruposNosolidariosServicio" ref="gruposNosolidariosServicioImpl"/>
+       	<property name="sp_PDA_Segmentos_Descarga3ReyesServicio" ref="sp_PDA_Segmentos_Descarga3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+	
+   	<!-- SP_PDA_Sucursales_Descarga  ***-->
+   	<bean id="SP_PDA_Sucursales_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Sucursales_DescargaWS">
+    	<property name="sucursalesServicio" ref="sucursalesServicioImpl"/>
+   	</bean>
+   	
+   	<!-- SP_PDA_Cuentas_DescargaWS ***-->
+   	<bean id="SP_PDA_Cuentas_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Cuentas_DescargaWS">
+   		<property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl"/>
+   		<property name="sP_PDA_Cuentas_Descarga3ReyesServicio" ref="sP_PDA_Cuentas_Descarga3ReyesServicioImpl"/>
+   		<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+   	
+   	<!-- SP_PDA_Ahorros_AbonoWS ***-->
+   	<bean id="SP_PDA_Ahorros_AbonoWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Ahorros_AbonoWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="sP_PDA_Ahorro_AbonoWSServicio" ref="sP_PDA_Ahorro_AbonoWSServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+   	
+   	<!-- SP_PDA_Ahorros_DescargaWS ***-->
+   	<bean id="SP_PDA_Ahorros_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Ahorros_DescargaWS">
+    	 <property name="cuentasAhoServicio" ref="cuentasAhoServicioImpl" /> 
+         <property name="sp_PDA_Ahorros_Descarga3ReyesServicio" ref="sp_PDA_Ahorros_Descarga3ReyesServicioImpl"/>
+   	   	 <property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+
+   	<!-- SP_PDA_Creditos_DescargaWS ***-->
+   	<bean id="SP_PDA_Creditos_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Creditos_DescargaWS">
+    	<property name="sp_PDA_CreditosServicio" ref="sp_PDA_CreditosServicioImpl"/>
+    	<property name="sP_PDA_Creditos_Descarga3ReyesServicio" ref="sP_PDA_Creditos_Descarga3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+   	
+   	<!-- SP_PDA_Creditos_PagoWS ***-->
+   	<bean id="SP_PDA_Creditos_PagoWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Creditos_PagoWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="sP_PDA_Creditos_PagoServicio" ref="sP_PDA_Creditos_PagoServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+    	
+   	</bean>	
+   	
+   	<!-- SP_PDA_Socios_DescargaWS ***-->
+   	<bean id="SP_PDA_Socios_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Socios_DescargaWS">
+    	<property name="gruposNosolidariosServicio" ref="gruposNosolidariosServicioImpl"/>
+     	<property name="sp_PDA_Socios_Descarga3ReyesServicio" ref="sp_PDA_Socios_Descarga3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>	
+
+   	<!-- SP_PDA_Usuario_ValidarWS ***-->
+   	<bean id="SP_PDA_Usuario_ValidarWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Usuario_ValidarWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="usuarioServicio" ref="usuarioServicioImpl"/>
+   	</bean>	
+
+   	<!-- SP_PDA_Creditos_DescargaWS ***-->
+   	<bean id="SP_SMSAP_Usuarios_DescargaWSImpl" class="operacionesPDA.servicioweb.SP_SMSAP_Usuarios_DescargaWS">
+    	 <property name="usuarioServicio" ref="usuarioServicioImpl"/>  	
+   	</bean>	
+   	
+   	 <!-- SP_PDA_Usuario_ValidaWS ***-->
+   	
+   	<bean id="SP_SMSAP_Usuario_ValidarWSImpl" class="operacionesPDA.servicioweb.SP_SMSAP_Usuario_ValidarWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="usuarioServicio" ref="usuarioServicioImpl"/>
+   	</bean>	
+   	
+   	
+   	 <!-- SP_PDA_OtrosCat_Descarga3ReyesWS ***-->
+   	
+   	<bean id="SP_PDA_OtrosCat_Descarga3ReyesWSImpl" class="operacionesPDA.servicioweb.SP_PDA_OtrosCat_Descarga3ReyesWS">
+    	<property name="sp_PDA_OtrosCat_Descarga3ReyesServicio" ref="sp_PDA_OtrosCat_Descarga3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>    	  	
+   	</bean>	
+
+   	<!-- SP_PDA_Socio_AltaWS ***-->
+   	<bean id="SP_PDA_Socio_Alta3ReyesWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Socio_Alta3ReyesWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="sp_PDA_Socio_Alta3ReyesServicio" ref="sp_PDA_Socio_Alta3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>    		
+   	</bean>	
+   	
+   	
+   	 <!-- SP_PDA_Ahorros_RetiroWS ***-->
+   	<bean id="SP_PDA_Ahorros_Retiro3ReyesWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Ahorros_Retiro3ReyesWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="sp_PDA_Ahorro_Retiro3ReyesServicio" ref="sp_PDA_Ahorro_Retiro3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl" />    	
+   	</bean>
+   	
+   	 <!-- SP_PDA_Creditos_SolicitudWS ***-->
+   	<bean id="SP_PDA_Creditos_Solicitud3ReyesWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Creditos_Solicitud3ReyesWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="sp_PDA_Creditos_Solicitud3ReyesServicio" ref="sp_PDA_Creditos_Solicitud3ReyesServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+    	
+   	</bean>
+   	
+   	<!-- ================== CONFIGURACION DE LOS SERVICIOS PARA SANA TUS FINANZAS ============================= -->
+	
+	<!-- SolAltaClienteWS PARA SANA TUS FINANZAS-->
+   	<bean id="SolAltaClienteWSImpl" class="operacionesPDA.servicioweb.SolAltaClienteWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="solAltaClienteServicio" ref="solAltaClienteServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+   	</bean>
+   	
+   	<!-- AltaSolicitudCreditoWS PARA SANA TUS FINANZAS-->
+   	<bean id="AltaSolicitudCreditoWSImpl" class="operacionesPDA.servicioweb.AltaSolicitudCreditoWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="altaSolicitudCreditoServicio" ref="altaSolicitudCreditoServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+    	
+   	</bean>	
+   	
+   	<!-- ConsultaSaldoCreditoWS PARA SANA TUS FINANZAS-->
+   	<bean id="ConsultaSaldoCreditoWSImpl" class="operacionesPDA.servicioweb.ConsultaSaldoCreditoWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="creditosServicio" ref="creditosServicioImpl" />
+        <property name="usuarioServicio" ref="usuarioServicioImpl" />
+        <property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+		<property name="amortizacionCreditoServicio" ref="amortizacionCreditoServicioImpl" />
+		<property name="productosCreditoServicio" ref="productosCreditoServicioImpl" />
+        <property name="gruposCreditoServicio" ref="gruposCreditoServicioImpl" />
+    </bean>
+   	
+   	<!-- PagoCreditoWS PARA SANA TUS FINANZAS-->
+   	<bean id="PagoCreditoWSImpl" class="operacionesPDA.servicioweb.PagoCreditoWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="pagoCreditoServicio" ref="pagoCreditoServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+        <property name="creditosServicio" ref="creditosServicioImpl" />
+    	
+   	</bean>	
+    
+    <!-- AltaGrupoWS PARA SANA TUS FINANZAS-->
+   	<bean id="AltaGrupoWSImpl" class="operacionesPDA.servicioweb.AltaGrupoWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="gruposCreditoServicio" ref="gruposCreditoServicioImpl" />
+        <property name="usuarioServicio" ref="usuarioServicioImpl" />
+        <property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+    </bean>
+    
+   	<!-- AltaSolicitudCreditoWS Grupal PARA SANA TUS FINANZAS-->
+   	<bean id="AltaSolicitudGrupalWSImpl" class="operacionesPDA.servicioweb.AltaSolicitudGrupalWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="altaSolicitudCreditoServicio" ref="altaSolicitudCreditoServicioImpl"/>
+    	<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>
+ 	    <property name="productosCreditoServicio" ref="productosCreditoServicioImpl"/>
+		<property name="clienteServicio" ref="clienteServicioImpl"/>
+        <property name="gruposCreditoServicio" ref="gruposCreditoServicioImpl" />
+		<property  name="prospectosServicio" ref="prospectosServicioImpl" />
+   	</bean>	
+   	<!-- ================= FIN CONFIGURACION DE LOS SERVICIOS PARA SANA TUS FINANZAS ========================== -->
+   	
+    <!-- ConsultaSaldoWS PARA WS CONSULTA SALDO Y TELEFONO CELULAR-->
+   	<bean id="ConsultaSaldoWSImpl" class="operacionesPDA.servicioweb.SP_PDA_Ahorros_ConsultaSaldoWS">
+        <constructor-arg ref="castorMarshaller" />
+           <property name="consultaSaldoServicio" ref="sP_PDA_Ahorros_ConsultaSaldoServicioImpl"/>
+    </bean>    
+    
+    
+    <!-- Configuracion Del Servicio de Operaciones PDM****************************************************************** -->   	
+    <!-- ConsultaCuentasDestinoWS -->
+   	<bean id="SP_PDM_Ahorros_ConsultaCtaDestinoWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_ConsultaCtaDestinoWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/>       		
+        	<property name="consultaCtaDestinoServicio" ref="sP_PDM_Ahorros_ConsultaCtaDestinoServicioImpl"/>
+    </bean>  
+    
+     <!-- Orden de Pago Spei desde Pademobile-->
+   	<bean id="SP_PDM_Ahorros_OrdenPagoSpeiWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_OrdenPagoSpeiWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/>
+       		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl"/>       		
+        	<property name="ordenPagoSpeiServicio" ref="sP_PDM_Ahorros_OrdenPagoSpeiServicioImpl"/>
+    </bean> 
+    
+    <!-- Consulta Estatus de los Spei Enviados -->
+   	<bean id="SP_PDM_Ahorros_ConsultaEstatusSpeiWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_ConsultaEstatusSpeiWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/>       		
+        	<property name="consultaEstatusSpeiServicio" ref="sP_PDM_Ahorros_ConsultaEstatusSpeiServicioImpl"/>
+    </bean>  
+    
+    <!-- Abono a Cuenta ws PADEMOBILE -->
+   	<bean id="SP_PDM_Ahorros_AbonoCtaWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_AbonoCtaWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/>     
+       		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl"/>   
+       		<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>   		
+        	<property name="abonoCtaServicio" ref="sP_PDM_Ahorros_AbonoCtaServicioImpl"/>
+    </bean> 
+    
+    <!-- Retiro a Cuenta ws PADEMOBILE -->
+   	<bean id="SP_PDM_Ahorros_RetiroCtaWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_RetiroCtaWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/> 
+       		<property name="parametrosAplicacionServicio" ref="parametrosAplicacionServicioImpl"/>   
+       		<property name="parametrosCajaServicio" ref="parametrosCajaServicioImpl"/>   		      		
+        	<property name="retiroCtaServicio" ref="sP_PDM_Ahorros_RetiroCtaServicioImpl"/>
+    </bean> 
+    
+     <!-- Valida Usuario ws PADEMOBILE -->
+   	<bean id="SP_PDM_Usuario_ValidarWS" class="operacionesPDM.servicioweb.SP_PDM_Usuario_ValidarWS">  
+   		<constructor-arg ref="castorMarshaller" />      
+       		<property name="usuarioServicio" ref="usuarioServicioImpl"/>            	
+    </bean> 
+    
+    <!-- Server_FechaHoraWS-->
+   	<bean id="SP_PDM_Server_FechaHoraWSImpl" class="operacionesPDM.servicioweb.SP_PDM_Server_FechaHoraWS">
+    	<constructor-arg ref="castorMarshaller" />
+    	<property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+   	</bean>	
+   	
+   	 <!-- Consulta Saldo para PADEMOBILE -->
+   	<bean id="SP_PDM_Ahorros_ConsultaSaldoWS" class="operacionesPDM.servicioweb.SP_PDM_Ahorros_ConsultaSaldoWS">
+        <constructor-arg ref="castorMarshaller" />
+           <property name="consultaSaldoCtaServicio" ref="sP_PDM_Ahorros_ConsultaSaldoServicioImpl"/>
+    </bean>    
+   	
+   	<!-- WS OPERACIONES VBC ********************************************************************************** -->
+   	<!-- WS Simulador -->
+      	
+   	<bean id="vbcSimuladorCreditoWSImpl" class="operacionesVBC.servicioweb.VbcSimuladorCreditoWS">
+    	<property name="vbcSimuladorCreditoServicio" ref="vbcSimuladorCreditoServicioImpl"/>
+        <property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+   	</bean>
+   	   	
+   	<!-- WS Genera Curp -->
+   	<bean id="vbcGeneraCurpWSImpl" class="operacionesVBC.servicioweb.VbcGeneraCurpWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcGeneraCurpServicio" ref="vbcGeneraCurpServicioImpl" />
+        <property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+    </bean>
+   	
+   	<!-- WS Genera RFC-->
+   	<bean id="vbcGeneraRFCWSImpl" class="operacionesVBC.servicioweb.VbcGeneraRFCWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcGeneraRFCServicio" ref="vbcGeneraRFCServicioImpl" />
+        <property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+    </bean>
+    
+    <!-- Consulta Catalogos  ***-->
+   	<bean id="vbcConsultaCatalogoWSImpl" class="operacionesVBC.servicioweb.VbcConsultaCatalogoWS">
+    	<property name="vbcConsultaCatalogoServicio" ref="vbcConsultaCatalogoServicioImpl"/>
+   	</bean>
+   	<!-- WS Alta Cliente -->
+   	<bean id="vbcAltaClienteWSImpl" class="operacionesVBC.servicioweb.VbcAltaClienteWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaClienteServicio" ref="vbcAltaClienteServicioImpl" />
+    </bean>
+  	
+   	<!-- WS Alta Direccion Cliente -->
+   	<bean id="vbcAltaDirecClienteWSImpl" class="operacionesVBC.servicioweb.VbcAltaDirecClienteWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaDirecClienteServicio" ref="vbcAltaDirecClienteServicioImpl" />
+    </bean>
+    
+    <!-- WS Alta Identifica Cte -->
+   	<bean id="vbcAltaIdentificaCteWSImpl" class="operacionesVBC.servicioweb.VbcAltaIdentificaCteWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaIdentificaCteServicio" ref="vbcAltaIdentificaCteServicioImpl" />
+	</bean>
+	
+	<!-- WS Alta Referencia -->
+   	<bean id="vbcAltaReferenciaWSImpl" class="operacionesVBC.servicioweb.VbcAltaReferenciaWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaReferenciaServicio" ref="vbcAltaReferenciaServicioImpl" />
+    </bean>
+    
+	<!-- WS Alta Solicitud -->
+   	<bean id="vbcAltaSolicitudCreditoWSImpl" class="operacionesVBC.servicioweb.VbcAltaSolicitudCreditoWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaSolicitudCreditoServicio" ref="vbcAltaSolicitudCreditoServicioImpl" />
+    </bean>
+    
+    
+	<!-- WS Alta AVAL -->
+   	<bean id="vbcAltaAvalWSImpl" class="operacionesVBC.servicioweb.VbcAltaAvalWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAltaAvalServicio" ref="vbcAltaAvalServicioImpl" />
+    </bean>
+    
+    
+	<!-- WS ASIGNA AVAL -->
+   	<bean id="vbcAsignaAvalWSImpl" class="operacionesVBC.servicioweb.VbcAsignaAvalWS">
+        <constructor-arg ref="castorMarshaller" />
+        <property name="vbcAsignaAvalServicio" ref="vbcAsignaAvalServicioImpl" />
+    </bean>
+  	
+  	<!-- WS LISTA DE AMORTIZACIONES -->
+	<bean id="vbcConsultaAmortizaWSImpl" class="operacionesVBC.servicioweb.VbcConsultaAmortizaWS">
+    	<property name="vbcConsultaAmortizaServicio" ref="vbcConsultaAmortizaServicioImpl"/>
+        <property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+   	</bean>
+   
+  	<!-- WS LISTA DE PAGOS AMORTIZACIONES -->
+	<bean id="vbcConsultaAmorPagWSImpl" class="operacionesVBC.servicioweb.VbcConsultaAmorPagWS">
+    	<property name="vbcConsultaAmorPagServicio" ref="vbcConsultaAmorPagServicioImpl"/>
+        <property name="parametrosSisServicio" ref="parametrosSisServicioImpl"/>
+   	</bean>
+   	<!-- FIN WS OPERACIONES VBC ********************************************************************************** -->
+    
+    <!--  WS OPERACIONES CRCB ********************************************************************************** -->
+    
+    	<!-- WS ALTA DE CLIENTE -->
+		<bean id="crcbAltaClienteWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaClienteWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="altaClienteServicio" ref="altaClienteServicioImpl"/>
+	   	</bean>
+	   	
+	   	<!-- WS ALTA DE CREDITO -->
+		<bean id="crcbAltaCreditoWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaCreditoWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="altaCreditoServicio" ref="altaCreditoServicioImpl"/>
+	   	</bean>
+    
+    	<!-- WS ALTA DE CUENTA AUTORIZADA -->
+		<bean id="crcbAltaCuentaAutorizadaWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaCuentaAutorizadaWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="cuentaAutorizadaServicio" ref="cuentaAutorizadaServicioImpl"/>
+			
+	   	</bean>
+    	
+    	<!-- WS ALTA DE GRUPO -->
+		<bean id="crcbAltaGrupoWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaGrupoWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="altaGrupoServicio" ref="altaGrupoServicioImpl"/>
+	   	</bean>
+	   	
+	   	<!-- WS ACTUALIZA DIRECCION -->
+		<bean id="crcbActualizaDireccionWSImpl" class="operacionesCRCB.servicioweb.CrcbActualizaDireccionWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="direccionesWSServicio" ref="direccionesWSServicioImpl"/>			
+	   	</bean>
+	   	
+	   	<!-- WS ACTUALIZA CUENTA DESTINO -->
+		<bean id="crcbActCuentaDestinoWSImpl" class="operacionesCRCB.servicioweb.CrcbActCuentaDestinoWS">
+			<constructor-arg ref="castorMarshaller" />			
+			<property name="cuentasDestinoServicio" ref="cuentasDestinoServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS ALTA CUENTA DESTINO -->
+		<bean id="crcbAltaCuentaDestinoWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaCuentaDestinoWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="cuentasDestinoServicio" ref="cuentasDestinoServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS DESEMBOLSO DE CREDITO -->
+		<bean id="crcbDesembolsoCreditoWSImpl" class="operacionesCRCB.servicioweb.CrcbDesembolsoCreditoWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="desembolsoCreditoServicio" ref="desembolsoCreditoServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS  ABONO A LA CUENTA -->
+		<bean id="crcbAbonoCuentaWSImpl" class="operacionesCRCB.servicioweb.CrcbAbonoCuentaWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="cargoAbonoCuentaServicio" ref="cargoAbonoCuentaServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS ACTUALIZA CLIENTE -->
+		<bean id="crcbActualizaClienteWSImpl" class="operacionesCRCB.servicioweb.CrcbActualizaClienteWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="actualizaClienteServicio" ref="actualizaClienteServicioImpl"/>
+	   	</bean>
+	   	
+	   	<!-- WS RETIRO DE CUENTA -->
+		<bean id="crcbRetiroCuentaWSImpl" class="operacionesCRCB.servicioweb.CrcbRetiroCuentaWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="cargoAbonoCuentaServicio" ref="cargoAbonoCuentaServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS CONSULTA AMORTIZACIONES -->
+		<bean id="crcbConsultaAmortizacionesWSImpl" class="operacionesCRCB.servicioweb.CrcbConsultaAmortizacionesWS">
+		
+			<property name="amortizacionesCreditoServicio" ref="amortizacionesCreditoServicioImpl"/>
+	   	</bean>
+	   	
+	   	<!-- WS CONSULTA DE MOVIMIENTOS DE LAS CUENTAS -->
+		<bean id="crcbConMovimientosCuentaWSImpl" class="operacionesCRCB.servicioweb.CrcbConMovimientosCuentaWS">
+			<property name="conMovimientosCuentaServicio" ref="conMovimientosCuentaServicioImpl"/>
+	   	</bean>
+	   	
+	   	<!-- WS ALTA DE INVERSION -->
+		<bean id="crcbAltaInversionWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaInversionWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="altaInversionesServicio" ref="altaInversionesServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS ALTA DE CEDE -->
+		<bean id="crcbAltaCedesWSImpl" class="operacionesCRCB.servicioweb.CrcbAltaCedesWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="altaCedesServicio" ref="altaCedesServicioImpl"/> 
+	   	</bean>
+	   	
+	   	<!-- WS CONSULTA AMORTIZACIONES DE CEDES -->
+		<bean id="crcbConsultaAmoCedesWSImpl" class="operacionesCRCB.servicioweb.CrcbConsultaAmoCedesWS">
+			<property name="consultaCedesServicio" ref="consultaCedesServicioImpl"/> 
+	   	</bean>
+	   	
+	   	 	<!-- WS CONSULTA AMORTIZACIONES DE CEDES -->
+		<bean id="crcbConsultaCedesWSImpl" class="operacionesCRCB.servicioweb.CrcbConsultaCedesWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="consultaCedesServicio" ref="consultaCedesServicioImpl"/> 
+	   	</bean>
+	   	
+	   		<!-- WS ABONO POR BONIFICACION -->
+		<bean id="crcbAbonoBonificacionWSImpl" class="operacionesCRCB.servicioweb.CrcbAbonoBonificacionWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="abonoBonificacionServicio" ref="abonoBonificacionServicioImpl"/>
+	   	</bean>
+	   	
+	   		<!-- WS ROMPIMIENTO DE GRUPO -->
+		<bean id="crcbRompimientoGrupoWSImpl" class="operacionesCRCB.servicioweb.CrcbRompimientoGrupoWS">
+			<constructor-arg ref="castorMarshaller" />
+			<property name="rompimientoGrupoWSServicio" ref="rompimientoGrupoWSServicioImpl"/>
+	   	</bean>
+	   	
+    
+    	
+    <!--  FIN  WS OPERACIONES CRCB ********************************************************************************** -->
+    
+    
+<!-- FIN Implementacion de los servicios. -->
+   	
+
+  <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory">
+   	<property name="soapVersion">
+      	<util:constant static-field="org.springframework.ws.soap.SoapVersion.SOAP_11"/>
+   	</property>
+  	</bean>
+  
+    <!-- Mapeo de datos del schema (xsd) contra la clase que implementa ese request y response IMPL--> 	
+	<bean id="payloadMapping" class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
+		<property name="mappings">
+			<props>
+                <prop key="{http://safisrv/ws/schemas}consultaClienteRequest">clienteWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaDirClienteRequest">direccionesclienteWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}altaProspectoRequest">altaProspectoWSImpl</prop>               
+                <prop key="{http://safisrv/ws/schemas}altaCuentaRequest">altaCuentaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}modificaIdentificacionRequest">modificaIdentificacionWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaClienteRequest">listaClientesWSImpl</prop>
+                
+                <prop key="{http://safisrv/ws/schemas}consultaCuentasPorClienteRequest">consultaCuentasPorClienteWSImpl</prop>	
+                <prop key="{http://safisrv/ws/schemas}consultaActividadCreditoRequest">consultaActividadCreditoWSImpl</prop> 	 
+            	<prop key="{http://safisrv/ws/schemas}consultaDetallePagosRequest">consultaDetallePagosWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}altaConocimientoCtaRequest">altaConocimientoCtaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}altaConocimientoCteRequest">altaConocimientoCteWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}operacionesTarjetaRequest">operacionesTarjetaWSImpl</prop>
+                
+                <prop key="{http://safisrv/ws/schemas}FechaServerRequest">SP_PDA_Server_FechaHoraWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}DescargarSegmentosRequest">SP_PDA_Segmentos_DescargaWSImpl</prop> 
+                <prop key="{http://safisrv/ws/schemas}DescargarSucursalesRequest">SP_PDA_Sucursales_DescargaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}DescargarCuentasRequest">SP_PDA_Cuentas_DescargaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}AhorroAbonoRequest">SP_PDA_Ahorros_AbonoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}DescargarAhorrosRequest">SP_PDA_Ahorros_DescargaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}DescargarCreditosRequest">SP_PDA_Creditos_DescargaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}CreditoPagoRequest">SP_PDA_Creditos_PagoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}DescargarSociosRequest">SP_PDA_Socios_DescargaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ValidarUsuarioRequest">SP_PDA_Usuario_ValidarWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}DescargarUsuariosSMSAPRequest">SP_SMSAP_Usuarios_DescargaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ValidarUsuarioSMSAPRequest">SP_SMSAP_Usuario_ValidarWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaReporteNomBitacoEstEmpRequest">listaReporteEstatusBitEmpleadoNomWSImpl</prop>
+				
+				<prop key="{http://safisrv/ws/schemas}DescargarCatalogoGenericoRequest">SP_PDA_OtrosCat_Descarga3ReyesWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}SocioAltaRequest">SP_PDA_Socio_Alta3ReyesWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}AhorroRetiroRequest">SP_PDA_Ahorros_Retiro3ReyesWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}CreditoSolicitudRequest">SP_PDA_Creditos_Solicitud3ReyesWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}simuladorCuotaCreditoRequest">simuladorCuotaCreditoWSImpl</prop>
+			    
+				<prop key="{http://safisrv/ws/schemas}SolAltaClienteRequest">SolAltaClienteWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}altaSolicitudCreditoRequest">AltaSolicitudCreditoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}ConsultaSaldoCreditoRequest">ConsultaSaldoCreditoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}PagoCreditoRequest">PagoCreditoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}AltaGrupoWSRequest">AltaGrupoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}ConsultaSaldoRequest">ConsultaSaldoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}AltaSolicitudGrupalWSRequest">AltaSolicitudGrupalWSImpl</prop>
+			    
+			    <!-- Inicio XSD PADEMOBILE  ********************************************************************************* -->
+			    <prop key="{http://safisrv/ws/schemas}ConsultaCtaDestinoRequest">SP_PDM_Ahorros_ConsultaCtaDestinoWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}OrdenPagoSpeiRequest">SP_PDM_Ahorros_OrdenPagoSpeiWSImpl</prop>	
+			    <prop key="{http://safisrv/ws/schemas}ConsultaEstatusSpeiRequest">SP_PDM_Ahorros_ConsultaEstatusSpeiWSImpl</prop>			    
+			    <prop key="{http://safisrv/ws/schemas}AbonoCtaRequest">SP_PDM_Ahorros_AbonoCtaWSImpl</prop>	
+			    <prop key="{http://safisrv/ws/schemas}RetiroCtaRequest">SP_PDM_Ahorros_RetiroCtaWSImpl</prop>	
+			    <prop key="{http://safisrv/ws/schemas}ValidarUsuarioPDMRequest">SP_PDM_Usuario_ValidarWS</prop>	
+			    <prop key="{http://safisrv/ws/schemas}FechaHoraServerRequest">SP_PDM_Server_FechaHoraWSImpl</prop>
+			    <prop key="{http://safisrv/ws/schemas}ConsultaSaldoCtaRequest">SP_PDM_Ahorros_ConsultaSaldoWS</prop>
+			    <!-- Fin de XSD PADEMOBILE  ********************************************************************************* -->
+			    
+				
+				<!-- XSD Banca en Linea  ********************************************************************************* -->		
+ 				<prop key="{http://safisrv/ws/schemas}listaCtaClienteRequest">listaCtaClienteBEWSImpl</prop>
+ 				<prop key="{http://safisrv/ws/schemas}consultaClientesRequest">consultaClientesWSImpl</prop>
+ 				<prop key="{http://safisrv/ws/schemas}consultaInstitucionNominaRequest">consultaInsitucionNominaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaEstatusEmpRequest">consultaEstatusEmpWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}actualizaEstatusEmpRequest"> actualizaEstatusEmpWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}listaEmpleadoNomRequest">listaEmpleadoNomWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}formaRFCRequest">formaRFCWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaPromotorBERequest"> consultaPromotorBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}altaUsuarioBERequest">altaUsuarioBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}actualizaDireccionClienteRequest">actualizaDireccionClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaDireccionClienteRequest">listaDireccionClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaDireccionClientesRequest">consultaDireccionClientesWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaProdCreditoRequest">consultaProductoCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaProdCredRequest">consultaProdCredWSImpl</prop>
+		 	    
+            	<prop key="{http://safisrv/ws/schemas}listaProdCreditoRequest">listaProductoCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaDisponiblePorClienteRequest">consultaDisponiblePorClienteWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaDisponibleCtaRequest">consultaDisponibleCtaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaCuentaRequest">consultaCuentaWSImpl</prop>    
+                <prop key="{http://safisrv/ws/schemas}transCuentasRequest">trasnsCuentasWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaDescuentosNominaRequest">consultaDescuentosNominaWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaCreditoRequest">consultaCreditoWSImpl</prop>
+                <prop key="{http://safisrv/ws/schemas}consultaCicloClienteRequest">consultaCicloClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}registroPagosNominaRequest">registroPagosNominaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}registroCargaPagoNominaRequest">registroCargaPagoNominaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}simuladorCreditoRequest">simuladorCreditoWSImpl</prop> 
+                
+				<prop key="{http://safisrv/ws/schemas}consultaTasaFijaRequest">consultaTasaFijaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}registroProspectoRequest">registroProspectoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaProspectoRequest">consultaProspectoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaProspectoRequest">listaProspectoWSImpl</prop>
+
+				<prop key="{http://safisrv/ws/schemas}registroSolCreditoBERequest">registroSolicitudCreditoBEWSImpl</prop> 
+				<prop key="{http://safisrv/ws/schemas}consultaUsuarioBERequest">consultaUsuarioBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaListaServRequest">consultaListaServWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaMontoServRequest">consultaMontoServWSImpl</prop>                              
+				<prop key="{http://safisrv/ws/schemas}listaCreditoFondeoBERequest">listaCreditosFondeoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaCreditoFondeoBERequest">consultaCreditosFondeoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaAmortiFondeoBERequest">consultaAmortiFondeoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaAmortiCreditoBERequest">consultaAmortiCreditoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaSaldoAhorroBERequest">consultaSaldoAhorroBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaSaldoAhorroHisRequest">consultaSaldoAhorroHisWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaSaldoBloqueoBERequest">consultaSaldoBloqueoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaCargosPendientesBERequest">consultaCargosPendientesBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaSaldoDetalleBERequest">consultaSaldoDetalleBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaCreditosBERequest">listaCreditosBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaCreditoBERequest">consultaCreditoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaPagosAplicadosRequest">consultaPagosAplicadosWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaSolicitudCreditoRequest">listaSolCreditoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaClientesBERequest">listaClientesBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}parametrosSistemaSafiRequest">parametrosSistemaSafiWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaCorreoInstitRequest">consultaCorreoInstitWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}conNombreComProspectoBERequest">conNombreComProspectoBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaNomClienteBERequest">consultaNomClienteBEWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}consultaNegAfiliaRequest">consultaNegAfiliaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}listaCuentaAhoRequest">listaCuentaAhoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}pagoServicioRequest">pagoServicioWSImpl</prop>
+				<!--   Fin de XSD Banca en Linea  ********************************************************************************* -->
+				
+				<!--   XSD  OPERACIONES VBC   ********************************************************************************* -->
+				<prop key="{http://safisrv/ws/schemas}VbcSimuladorCreditoRequest">vbcSimuladorCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcGeneraCurpRequest">vbcGeneraCurpWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcGeneraRFCRequest">vbcGeneraRFCWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ConsultaCatalogoGenericoRequest">vbcConsultaCatalogoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaClienteRequest">vbcAltaClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaDirecClienteRequest">vbcAltaDirecClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaIdentificaCteRequest">vbcAltaIdentificaCteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaReferenciaRequest">vbcAltaReferenciaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaSolicitudCreditoRequest">vbcAltaSolicitudCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAltaAvalRequest">vbcAltaAvalWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcAsignaAvalRequest">vbcAsignaAvalWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcConsultaAmortizaRequest">vbcConsultaAmortizaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}VbcConsultaAmorPagRequest">vbcConsultaAmorPagWSImpl</prop>
+					 
+				<!--  FIN DE   XSD  OPERACIONES VBC   ********************************************************************************* -->
+				
+				<!--   XSD  OPERACIONES CRCB   ********************************************************************************* -->
+				<prop key="{http://safisrv/ws/schemas}AltaClienteRequest">crcbAltaClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaCreditoRequest">crcbAltaCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaCuentaAutorizadaRequest">crcbAltaCuentaAutorizadaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaGrupoRequest">crcbAltaGrupoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ActualizaDireccionRequest">crcbActualizaDireccionWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ActCuentaDestinoRequest">crcbActCuentaDestinoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaCuentaDestinoRequest">crcbAltaCuentaDestinoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}DesembolsoCreditoRequest">crcbDesembolsoCreditoWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AbonoCuentaRequest">crcbAbonoCuentaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ActualizaClienteRequest">crcbActualizaClienteWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}RetiroCuentaRequest">crcbRetiroCuentaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ConsultaAmortizacionesRequest">crcbConsultaAmortizacionesWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ConMovimientosCuentaRequest">crcbConMovimientosCuentaWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaInversionRequest">crcbAltaInversionWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AltaCedesRequest">crcbAltaCedesWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ConsultaAmortizacionCedeRequest">crcbConsultaAmoCedesWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}ConsultaCedesRequest">crcbConsultaCedesWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}AbonoBonificacionRequest">crcbAbonoBonificacionWSImpl</prop>
+				<prop key="{http://safisrv/ws/schemas}RompimientoGrupoRequest">crcbRompimientoGrupoWSImpl</prop>				
+				<!--  FIN  XSD  OPERACIONES CRCB   ********************************************************************************* -->
+				
+			</props>
+		</property>
+		<property name="interceptors">
+            <list>
+            	<ref bean="validadorInterceptor"/>
+        	</list>
+		</property>
+	</bean>
+	<!-- FIN Mapeo de datos del schema --> 	
+
+    <!-- Definicion de Archivo de SCHEMA--> 	
+    <bean id="principalSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/schemaCollection.xsd"/>
+    </bean>
+    
+    <bean id="clienteSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Clientes.xsd"/>
+    </bean>
+     
+    <bean id="CreditosSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Creditos.xsd"/>
+    </bean>
+        
+    <bean id="CuentasSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Cuentas.xsd"/>
+    </bean>
+    
+    <bean id="TarjetasSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Tarjetas.xsd"/>
+    </bean>
+    
+	<bean id="BancaEnLIneaSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+		<property name="xsd" value="/WEB-INF/xsd/BancaEnLinea.xsd"/>
+	</bean>
+    
+    <bean id="NominaSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Nomina.xsd"/>
+    </bean>
+    
+	<bean id="OperacionesPDASchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/OperacionesPDA.xsd"/>
+    </bean>
+    
+    
+    <bean id="OperacionesPDMSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/OperacionesPDM.xsd"/>
+    </bean>
+    
+   
+    <bean id="EnvioSMSSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/EnvioSMS.xsd"/>
+    </bean>
+
+      <bean id="FondeadorSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Fondeador.xsd"/>
+    </bean>
+
+    <bean id="VentanillaSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Ventanilla.xsd"/>
+    </bean>
+    
+    <bean id="SoporteSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/Soporte.xsd"/>
+    </bean>
+    
+	<bean id="PDASchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/PDA.xsd"/>
+    </bean>
+    
+    <bean id="OperacionesVBCSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/OperacionesVBC.xsd"/>
+    </bean>
+    
+    <bean id="OperacionesCRCBSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/OperacionesCRCB.xsd"/>
+    </bean>
+    
+    <!-- FIN Definicion de Archivo de SCHEMA--> 	
+
+    <!-- Configfuracion del EndPoint y del WSDL. el bean id el es el servicio el porttypename es el nombre del Web Service--> 	
+    <bean id="ClientesServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="clienteSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="CreditosServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="CreditosSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+	<bean id="CuentasServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="CuentasSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="TarjetaOperacion" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="TarjetasSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+	<bean id="BancaEnLineaServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+		<property name="schema" ref="BancaEnLIneaSchema"/> 
+		<property name="portTypeName" value="SAFIServicios"/>
+		<property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+		<property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+	</bean>
+    
+    <bean id="OperacionesPDA" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="OperacionesPDASchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="OperacionesPDM" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="OperacionesPDMSchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    
+
+     <bean id="VentanillaServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="VentanillaSchema"/> 
+    	<property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="FondeadorServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="FondeadorSchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="SoporteServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="SoporteSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+     <bean id="NominaServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="NominaSchema"/>
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="CRMSimServicios" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="EnvioSMSSchema"/> 
+    	<property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="OperacionesVBC" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="OperacionesVBCSchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+    
+    <bean id="OperacionesCRCB" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="OperacionesCRCBSchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+
+  	<!-- Se Configura que esquema utilizara el interceptor--> 
+    <bean id="validadorInterceptor"
+        class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+        <property name="schema" value="/WEB-INF/xsd/schemaCollection.xsd"/>
+        <property name="validateRequest"  value="true"/>
+        <property name="validateResponse" value="true"/> 
+    </bean>
+    
+    <!-- Sana Tus Finanzas -->
+    <bean id="PDA" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="schema" ref="PDASchema"/> 
+        <property name="portTypeName" value="SAFIServicios"/>
+        <property name="locationUri" value="http://safisrv:8080/microfin/services/endPointSafi,"/>
+        <property name="targetNamespace" value="http://safisrv/ws/schemas"/>
+    </bean>
+</beans> 
